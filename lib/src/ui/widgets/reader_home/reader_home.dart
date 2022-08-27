@@ -6,6 +6,7 @@ import '../../../config/assets.dart';
 import '../../../models/change_notifiers/side_drawer_notifier.dart';
 import '../../../models/enums/screen_bucket_enum.dart';
 import '../../../widgets/side_drawer.dart';
+import '../../accommodation/accommodation_list.dart';
 
 class ReaderHome extends StatefulWidget {
   const ReaderHome({Key? key}) : super(key: key);
@@ -18,6 +19,7 @@ class _ReaderHomeState extends State<ReaderHome> {
   late final SideDrawerNotifier _sideDrawerNotifier;
   final PageStorageBucket screenBucket = PageStorageBucket();
   ScreenBuckets _selectedPageIndex = ScreenBuckets.home;
+  String _selectedPageTitle = ScreenBuckets.home.toDisplayString();
 
   @override
   void initState() {
@@ -27,6 +29,7 @@ class _ReaderHomeState extends State<ReaderHome> {
       if(mounted) {
         setState(() {
           _selectedPageIndex = _sideDrawerNotifier.selectedPageType ?? ScreenBuckets.home;
+          _selectedPageTitle = _sideDrawerNotifier.selectedPageTitle();
         });
       }
     });
@@ -67,7 +70,15 @@ class _ReaderHomeState extends State<ReaderHome> {
                       ),
                     ),
                     const SizedBox(height: 8.0),
-                    PageStorage(
+                    Text(
+                      _selectedPageTitle,
+                      style: const TextStyle(
+                        fontSize: 20.0,
+                        fontWeight: FontWeight.bold,
+                      ),
+                    ),
+                    const SizedBox(height: 8.0),
+                      PageStorage(
                         bucket: screenBucket,
                         child: buildPages(),
                       ),
@@ -117,6 +128,8 @@ class _ReaderHomeState extends State<ReaderHome> {
         return HomeContent();
       case ScreenBuckets.booking:
         return HomeContent();
+      case ScreenBuckets.accommodation:
+        return AccommodationList();
       default:
         return const SizedBox(width: 0, height: 0);
     }

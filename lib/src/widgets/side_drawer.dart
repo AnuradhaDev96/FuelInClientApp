@@ -1,7 +1,10 @@
 import 'package:flutter/material.dart';
+import 'package:get_it/get_it.dart';
 
 import '../config/app_colors.dart';
 import '../config/language_settings.dart' as lang_settings;
+import '../models/change_notifiers/side_drawer_notifier.dart';
+import '../models/enums/screen_bucket_enum.dart';
 
 class SideDrawer extends StatefulWidget {
   SideDrawer({Key? key}) : super(key: key);
@@ -12,7 +15,14 @@ class SideDrawer extends StatefulWidget {
 
 class _SideDrawerState extends State<SideDrawer> {
   final List<bool> _expansionPanelExpandStatus = <bool>[true];
+  late SideDrawerNotifier _sideDrawerNotifier;
 
+  @override
+  void initState() {
+    _sideDrawerNotifier = GetIt.I<SideDrawerNotifier>();
+
+    super.initState();
+  }
   @override
   Widget build(BuildContext context) {
     return Container(
@@ -38,15 +48,18 @@ class _SideDrawerState extends State<SideDrawer> {
                 )
               ),
             ),
-            const ListTile(
-              shape: RoundedRectangleBorder(
-                borderRadius: BorderRadius.only(topRight: Radius.circular(15.0), bottomRight: Radius.circular(15.0))
+            ListTile(
+              shape: const RoundedRectangleBorder(
+                borderRadius: BorderRadius.only(topRight: const Radius.circular(15.0), bottomRight: Radius.circular(15.0))
               ),
               // hoverColor: Colors.red,
               tileColor: AppColors.ashYellow,
-              title: Text(
+              title: const Text(
                 lang_settings.SettingsEnglish.homeText,
               ),
+              onTap: () {
+                _sideDrawerNotifier.selectedPageType = ScreenBuckets.home;
+              },
             ),
             const ListTile(
               shape: RoundedRectangleBorder(
@@ -86,7 +99,11 @@ class _SideDrawerState extends State<SideDrawer> {
                       mainAxisAlignment: MainAxisAlignment.center,
                       children: [
                         InkWell(
-                          onTap: () {},
+                          onTap: () {
+                            setState(() {
+                              _sideDrawerNotifier.selectedPageType = ScreenBuckets.accommodation;
+                            });
+                          },
                           child: const Text(
                             'Unawatuna'
                           ),

@@ -48,7 +48,7 @@ class HomeContent extends StatelessWidget {
       child: Column(
         children: [
           SizedBox(
-            height: 210.0,
+            height: 180.0,
             child: Image.asset(branch.img, fit: BoxFit.fill,),
           ),
           Padding(
