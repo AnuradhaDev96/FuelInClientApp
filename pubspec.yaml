@@ -31,6 +31,7 @@ dependencies:
     sdk: flutter
 
   get_it: ^7.2.0
+  provider: ^6.0.3
 
 
   # The following adds the Cupertino Icons font to your application.
@@ -95,4 +96,6 @@ flutter:
     - family: fm_abhay
       fonts:
         - asset: assets/fonts/fm_abhay.TTF
-
+    - family: Oswald
+      fonts:
+        - asset: assets/fonts/Oswald/Oswald-Regular.ttf

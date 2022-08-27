@@ -7,6 +7,7 @@ class AppColors {
 
   static const Color indigoMaroon = Color(0xFF4C113D);
   static const Color goldYellow = Color(0xFFF2C140);
+  static const Color ashYellow = Color(0xFFF5E3B7);
   static const Color lightGray = Color(0xFFEEEEEE);
   static const Color black = Color(0xFF000000);
   static const Color grayForPrimary = Color(0xFF929292);

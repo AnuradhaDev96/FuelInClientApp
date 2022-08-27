@@ -1,0 +1,4 @@
+enum ScreenBuckets {
+  home,
+  booking
+}
