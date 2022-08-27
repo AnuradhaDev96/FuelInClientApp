@@ -7,6 +7,8 @@ import '../../../models/change_notifiers/side_drawer_notifier.dart';
 import '../../../models/enums/screen_bucket_enum.dart';
 import '../../../widgets/side_drawer.dart';
 import '../../accommodation/accommodation_list.dart';
+import '../../gallery/gallery_grid_view.dart';
+import '../../hotel_service/hotel_services_list.dart';
 
 class ReaderHome extends StatefulWidget {
   const ReaderHome({Key? key}) : super(key: key);
@@ -64,7 +66,7 @@ class _ReaderHomeState extends State<ReaderHome> {
                       child: ClipRRect(
                         borderRadius: BorderRadius.circular(15.0),
                         child: Image.asset(
-                          Assets.hotelCoverPhoto,
+                          Assets.hotelCoverPhotoWithLogo,
                           fit: BoxFit.fitWidth,
                         ),
                       ),
@@ -130,6 +132,10 @@ class _ReaderHomeState extends State<ReaderHome> {
         return HomeContent();
       case ScreenBuckets.accommodation:
         return AccommodationList();
+      case ScreenBuckets.services:
+        return HotelServicesList();
+      case ScreenBuckets.galleryPage:
+        return GalleryGridView();
       default:
         return const SizedBox(width: 0, height: 0);
     }

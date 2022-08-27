@@ -1,10 +1,13 @@
 import 'package:flutter/material.dart';
 import 'package:get_it/get_it.dart';
+import 'package:rh_reader/src/utils/navigation_utils.dart';
 
 import '../config/app_colors.dart';
 import '../config/language_settings.dart' as lang_settings;
 import '../models/change_notifiers/side_drawer_notifier.dart';
 import '../models/enums/screen_bucket_enum.dart';
+import '../ui/authentication/signin_page.dart';
+import '../utils/web_router.dart';
 
 class SideDrawer extends StatefulWidget {
   SideDrawer({Key? key}) : super(key: key);
@@ -53,7 +56,7 @@ class _SideDrawerState extends State<SideDrawer> {
                 borderRadius: BorderRadius.only(topRight: const Radius.circular(15.0), bottomRight: Radius.circular(15.0))
               ),
               // hoverColor: Colors.red,
-              tileColor: AppColors.ashYellow,
+              tileColor: _sideDrawerNotifier.selectedPageType == ScreenBuckets.home ? AppColors.ashYellow : null,
               title: const Text(
                 lang_settings.SettingsEnglish.homeText,
               ),
@@ -125,22 +128,33 @@ class _SideDrawerState extends State<SideDrawer> {
                 ),
               ],
             ),
-
-            const ListTile(
-              shape: RoundedRectangleBorder(
+            ListTile(
+              shape: const RoundedRectangleBorder(
                   borderRadius: BorderRadius.only(topRight: Radius.circular(15.0), bottomRight: Radius.circular(15.0))
               ),
-              title: Text(
+              title: const Text(
                 "Gallery",
               ),
+              tileColor: _sideDrawerNotifier.selectedPageType == ScreenBuckets.galleryPage ? AppColors.ashYellow : null,
+              onTap: () {
+                setState(() {
+                  _sideDrawerNotifier.selectedPageType = ScreenBuckets.galleryPage;
+                });
+              },
             ),
-            const ListTile(
-              shape: RoundedRectangleBorder(
+            ListTile(
+              shape: const RoundedRectangleBorder(
                   borderRadius: BorderRadius.only(topRight: Radius.circular(15.0), bottomRight: Radius.circular(15.0))
               ),
-              title: Text(
+              title: const Text(
                 "Services",
               ),
+              tileColor: _sideDrawerNotifier.selectedPageType == ScreenBuckets.services ? AppColors.ashYellow : null,
+              onTap: () {
+                setState(() {
+                  _sideDrawerNotifier.selectedPageType = ScreenBuckets.services;
+                });
+              },
             ),
             const ListTile(
               shape: RoundedRectangleBorder(
@@ -170,7 +184,9 @@ class _SideDrawerState extends State<SideDrawer> {
                         color: AppColors.goldYellow
                       ),
                     ),
-                    onPressed: (){},
+                    onPressed: () {
+                      Navigator.push(context, MaterialPageRoute(builder: (context) => const SignInPage()));
+                    },
                   ),
                   const SizedBox(width: 25.0),
                   ElevatedButton(

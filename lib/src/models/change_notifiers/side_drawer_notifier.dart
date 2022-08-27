@@ -1,5 +1,4 @@
 import 'package:flutter/material.dart';
-import 'package:flutter/rendering.dart';
 import 'package:rh_reader/src/models/enums/screen_bucket_enum.dart';
 
 class SideDrawerNotifier extends ChangeNotifier {
@@ -7,7 +6,7 @@ class SideDrawerNotifier extends ChangeNotifier {
 
   GlobalKey<ScaffoldState> get mainScaffoldKey => _scaffoldKey;
 
-  ScreenBuckets? _selectedPageType;
+  ScreenBuckets? _selectedPageType = ScreenBuckets.home;
 
   ScreenBuckets? get selectedPageType => _selectedPageType;
 

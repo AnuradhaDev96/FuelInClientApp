@@ -58,7 +58,6 @@ class AccommodationList extends StatelessWidget {
     final accommodation = accommodationList[index];
 
     return Card(
-
       elevation: 5,
       color: AppColors.lightGray,
       shape: RoundedRectangleBorder(
