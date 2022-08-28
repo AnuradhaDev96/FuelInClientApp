@@ -233,7 +233,8 @@ class _SignInPageState extends State<SignInPage> {
 
   void loginWithCredentials() async {
     try {
-      final PasswordLoginResult? passwordLoginResult = await GetIt.I<AuthService>().passwordLogin(userNameController.text, passwordController.text);
+      final PasswordLoginResult? passwordLoginResult =
+          await GetIt.I<AuthService>().passwordLogin(userNameController.text, passwordController.text);
       if (passwordLoginResult != null) {
         switch (passwordLoginResult.type) {
           case "Rider":

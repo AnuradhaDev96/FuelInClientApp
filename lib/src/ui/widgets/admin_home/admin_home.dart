@@ -1,11 +1,12 @@
 import 'package:flutter/material.dart';
 import 'package:get_it/get_it.dart';
+import 'package:rh_reader/src/ui/admin_ui/employees/employee_management_page.dart';
 import 'package:rh_reader/src/ui/reservation/reservation_page.dart';
 import 'package:rh_reader/src/ui/widgets/reader_home/home_content.dart';
 
 import '../../../config/assets.dart';
 import '../../../models/change_notifiers/side_drawer_notifier.dart';
-import '../../../models/enums/screen_bucket_enum.dart';
+import '../../../models/enums/admin_screen_buckets.dart';
 import '../../../widgets/admin_side_drawer.dart';
 import '../../../widgets/side_drawer.dart';
 import '../../accommodation/accommodation_list.dart';
@@ -24,8 +25,8 @@ class AdminHome extends StatefulWidget {
 class _AdminHomeState extends State<AdminHome> {
   late final SideDrawerNotifier _sideDrawerNotifier;
   final PageStorageBucket screenBucket = PageStorageBucket();
-  ScreenBuckets _selectedPageIndex = ScreenBuckets.home;
-  String _selectedPageTitle = ScreenBuckets.home.toDisplayString();
+  AdminScreenBuckets _selectedPageIndex = AdminScreenBuckets.employeeManagement;
+  String _selectedPageTitle = AdminScreenBuckets.employeeManagement.toDisplayString();
 
   @override
   void initState() {
@@ -34,8 +35,8 @@ class _AdminHomeState extends State<AdminHome> {
     _sideDrawerNotifier.addListener(() {
       if(mounted) {
         setState(() {
-          _selectedPageIndex = _sideDrawerNotifier.selectedPageType ?? ScreenBuckets.home;
-          _selectedPageTitle = _sideDrawerNotifier.selectedPageTitle();
+          _selectedPageIndex = _sideDrawerNotifier.selectedPageTypeByAdmin ?? AdminScreenBuckets.employeeManagement;
+          _selectedPageTitle = _sideDrawerNotifier.selectedPageTitleByAdmin();
         });
       }
     });
@@ -64,18 +65,18 @@ class _AdminHomeState extends State<AdminHome> {
                   child: Column(
                     crossAxisAlignment: CrossAxisAlignment.center,
                     children: [
-                      SizedBox(
-                        height: MediaQuery.of(context).size.height * 0.3,
-                        width: MediaQuery.of(context).size.width * 0.7,
-                        child: ClipRRect(
-                          borderRadius: BorderRadius.circular(15.0),
-                          child: Image.asset(
-                            Assets.hotelCoverPhotoWithLogo,
-                            fit: BoxFit.fitWidth,
-                          ),
-                        ),
-                      ),
-                      const SizedBox(height: 8.0),
+                      // SizedBox(
+                      //   height: MediaQuery.of(context).size.height * 0.3,
+                      //   width: MediaQuery.of(context).size.width * 0.7,
+                      //   child: ClipRRect(
+                      //     borderRadius: BorderRadius.circular(15.0),
+                      //     child: Image.asset(
+                      //       Assets.hotelCoverPhotoWithLogo,
+                      //       fit: BoxFit.fitWidth,
+                      //     ),
+                      //   ),
+                      // ),
+                      // const SizedBox(height: 8.0),
                       Text(
                         _selectedPageTitle,
                         style: const TextStyle(
@@ -84,9 +85,11 @@ class _AdminHomeState extends State<AdminHome> {
                         ),
                       ),
                       const SizedBox(height: 8.0),
-                      PageStorage(
-                        bucket: screenBucket,
-                        child: buildPages(),
+                      Expanded(
+                        child: PageStorage(
+                          bucket: screenBucket,
+                          child: buildPages(),
+                        ),
                       ),
                       // Padding(
                       //   padding: const EdgeInsets.only(top: 10.0, left: 8.0, right: 8.0),
@@ -130,20 +133,8 @@ class _AdminHomeState extends State<AdminHome> {
 
   Widget buildPages() {
     switch (_selectedPageIndex) {
-      case ScreenBuckets.home:
-        return HomeContent();
-      case ScreenBuckets.booking:
-        return const ReservationPage();
-      case ScreenBuckets.accommodation:
-        return AccommodationList();
-      case ScreenBuckets.services:
-        return HotelServicesList();
-      case ScreenBuckets.galleryPage:
-        return GalleryGridView();
-      case ScreenBuckets.dining:
-        return DiningPage();
-      case ScreenBuckets.reservationHistory:
-        return ReservationHistory();
+      case AdminScreenBuckets.employeeManagement:
+        return const EmployeeManagementPage();
       default:
         return const SizedBox(width: 0, height: 0);
     }

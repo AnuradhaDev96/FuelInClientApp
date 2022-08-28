@@ -20,10 +20,13 @@ class AuthService {
         token: loggedUser.credential?.token,
       );
 
-      final QuerySnapshot result =
-      await _firebaseFirestore.collection(FirestoreCollections.userCollection).where('email', isEqualTo: passwordLoginResult.email).limit(1).get();
+      final QuerySnapshot result = await _firebaseFirestore
+        .collection(FirestoreCollections.userCollection)
+        .where('email', isEqualTo: passwordLoginResult.email)
+        .limit(1)
+        .get();
 
-      final List<DocumentSnapshot> documents = result.docs;
+    final List<DocumentSnapshot> documents = result.docs;
 
       if (documents.length == 1){
         SystemUser element = SystemUser.fromSnapshot(documents[0]);

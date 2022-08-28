@@ -19,4 +19,20 @@ class MessageUtils {
       leftBarIndicatorColor: Colors.red,
     ).show(context);
   }
+
+  static void showSuccessInFlushBar(BuildContext context, String? message, {int? duration, bool appearFromTop = true}) {
+    Flushbar(
+      message: message,
+      flushbarPosition: appearFromTop ? FlushbarPosition.TOP : FlushbarPosition.BOTTOM,
+      margin: const EdgeInsets.all(8),
+      backgroundColor: AppColors.darkGrey,
+      icon: const Icon(
+        Icons.check_circle,
+        size: 28.0,
+        color: Colors.green,
+      ),
+      duration: Duration(seconds: duration ?? 3),
+      leftBarIndicatorColor: Colors.green,
+    ).show(context);
+  }
 }
