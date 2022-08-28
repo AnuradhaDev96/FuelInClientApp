@@ -26,13 +26,12 @@ class EmployeeModel {
   EmployeeModel.fromSnapshot(DocumentSnapshot snapshot)
       : this.fromMap(snapshot.data() as Map<String, dynamic>, reference: snapshot.reference);
 
-// toJson(){
-//   return {
-//     'fullName': fullName,
-//     'email': email,
-//     'password': password,
-//     'type': type,
-//     'profileImageUrl': profileImageUrl
-//   };
-// }
+  toJson(){
+    return {
+      'fullName': fullName,
+      'salary': salary,
+      'designation': designation,
+      'reference': reference,
+    };
+  }
 }

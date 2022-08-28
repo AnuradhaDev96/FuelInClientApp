@@ -23,6 +23,19 @@ class EmployeeService {
     }
   }
 
+  Future<bool> updateEmployee(EmployeeModel employeeModel) async {
+    try{
+      _firebaseFirestore.runTransaction(
+              (Transaction transaction) async {
+            transaction.update(employeeModel.reference!, employeeModel.toMap());
+          }
+      );
+      return true;
+    }catch(e){
+      return false;
+    }
+  }
+
   Future<bool> deleteEmployee(EmployeeModel employeeModel) async {
     try{
       _firebaseFirestore.runTransaction((Transaction transaction) async {
@@ -49,8 +62,6 @@ class EmployeeService {
     } else {
       return <EmployeeModel>[];
     }
-    print(result);
-    // return result;
   }
 
   Stream<QuerySnapshot<Map<String, dynamic>>> getEmployeesStream() {

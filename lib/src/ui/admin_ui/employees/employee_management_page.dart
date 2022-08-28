@@ -125,7 +125,6 @@ class _EmployeeManagementPageState extends State<EmployeeManagementPage> {
               return Text("Error: ${snapshot.error}");
             } else if (snapshot.hasData) {
               // employeeList = snapshot.data ?? <EmployeeModel>[];
-              print("daata: ${snapshot.data?.docs}");
               return ListView(
                 shrinkWrap: true,
                 children: snapshot.data!.docs.map((data) => employeeItemBuilder(context, data)).toList(),
@@ -374,7 +373,6 @@ class _EmployeeManagementPageState extends State<EmployeeManagementPage> {
   void registerEmployee() async {
     if (_formStateKey.currentState!.validate()){
       _formStateKey.currentState!.save();
-      print("sds");
       EmployeeModel employeeModel = EmployeeModel(
         fullName: _fullNameController.text,
         salary: _salaryController.text,
@@ -392,12 +390,35 @@ class _EmployeeManagementPageState extends State<EmployeeManagementPage> {
       setState(() {
 
       });
-      print("emmplouee: $result");
     }
   }
 
   void editEmployee() async {
+    if (_formStateKey.currentState!.validate()){
+      _formStateKey.currentState!.save();
 
+      EmployeeModel employeeModel = EmployeeModel(
+        fullName: _fullNameController.text,
+        salary: _salaryController.text,
+        designation: _designationController.text,
+        reference: _elementToBeEdited?.reference,
+      );
+      if (_elementToBeEdited == null) return;
+
+      final bool result = await _employeeService.updateEmployee(employeeModel);
+      if (result) {
+        setState(() {
+          _isUpdateMode = false;
+          _elementToBeEdited = null;
+          _fullNameController.clear();
+          _salaryController.clear();
+          _designationController.clear();
+        });
+        showUpdateMessage(true);
+      } else {
+        showUpdateMessage(false);
+      }
+    }
   }
 
   void showCreateMessage(bool statusOfRequest) {
@@ -406,10 +427,16 @@ class _EmployeeManagementPageState extends State<EmployeeManagementPage> {
         : MessageUtils.showErrorInFlushBar(context, "Save failed.", appearFromTop: false, duration: 4);
   }
 
+  void showUpdateMessage(bool statusOfRequest) {
+    statusOfRequest
+        ? MessageUtils.showSuccessInFlushBar(context, "Employee updated successfully.", appearFromTop: false, duration: 4)
+        : MessageUtils.showErrorInFlushBar(context, "Update failed.", appearFromTop: false, duration: 4);
+  }
+
   void showDeleteMessage(bool statusOfRequest) {
     statusOfRequest
         ? MessageUtils.showSuccessInFlushBar(context, "Employee deleted successfully.", appearFromTop: false, duration: 4)
-        : MessageUtils.showErrorInFlushBar(context, "IDelete failed.", appearFromTop: false, duration: 4);
+        : MessageUtils.showErrorInFlushBar(context, "Delete failed.", appearFromTop: false, duration: 4);
   }
 
   void switchToUpdateMode(EmployeeModel employeeModel) {
@@ -595,7 +622,5 @@ class _EmployeeManagementPageState extends State<EmployeeManagementPage> {
       showDeleteMessage(false);
     }
     setState(() {});
-    print("emmplouee: $result");
-
   }
 }
