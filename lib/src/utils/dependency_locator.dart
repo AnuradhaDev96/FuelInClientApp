@@ -1,5 +1,6 @@
 import 'package:get_it/get_it.dart';
 import '../models/change_notifiers/side_drawer_notifier.dart';
+import '../services/auth_service.dart';
 import 'navigation_utils.dart';
 
 void injectAppDependencies() {
@@ -8,4 +9,7 @@ void injectAppDependencies() {
 
   // Utils
   GetIt.I.registerLazySingleton(() => NavigationUtils());
+
+  // Singleton services
+  GetIt.I.registerLazySingleton(() => AuthService());
 }

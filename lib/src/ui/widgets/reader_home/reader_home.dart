@@ -1,5 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:get_it/get_it.dart';
+import 'package:rh_reader/src/ui/reservation/reservation_page.dart';
 import 'package:rh_reader/src/ui/widgets/reader_home/home_content.dart';
 
 import '../../../config/assets.dart';
@@ -7,8 +8,10 @@ import '../../../models/change_notifiers/side_drawer_notifier.dart';
 import '../../../models/enums/screen_bucket_enum.dart';
 import '../../../widgets/side_drawer.dart';
 import '../../accommodation/accommodation_list.dart';
+import '../../dining/dining_page.dart';
 import '../../gallery/gallery_grid_view.dart';
 import '../../hotel_service/hotel_services_list.dart';
+import '../../reservation/reservation_history.dart';
 
 class ReaderHome extends StatefulWidget {
   const ReaderHome({Key? key}) : super(key: key);
@@ -129,13 +132,17 @@ class _ReaderHomeState extends State<ReaderHome> {
       case ScreenBuckets.home:
         return HomeContent();
       case ScreenBuckets.booking:
-        return HomeContent();
+        return const ReservationPage();
       case ScreenBuckets.accommodation:
         return AccommodationList();
       case ScreenBuckets.services:
         return HotelServicesList();
       case ScreenBuckets.galleryPage:
         return GalleryGridView();
+      case ScreenBuckets.dining:
+        return DiningPage();
+      case ScreenBuckets.reservationHistory:
+        return ReservationHistory();
       default:
         return const SizedBox(width: 0, height: 0);
     }

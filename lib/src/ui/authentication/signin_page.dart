@@ -1,4 +1,9 @@
 import 'package:flutter/material.dart';
+import 'package:get_it/get_it.dart';
+import 'package:rh_reader/src/models/authentication/password_login_result.dart';
+import 'package:rh_reader/src/services/auth_service.dart';
+import 'package:rh_reader/src/ui/widgets/admin_home/admin_home.dart';
+import 'package:rh_reader/src/utils/message_utils.dart';
 
 import '../../config/app_colors.dart';
 import '../widgets/custom_input_field.dart';
@@ -17,6 +22,9 @@ class _SignInPageState extends State<SignInPage> {
 
   @override
   Widget build(BuildContext context) {
+    userNameController.text = "anuradhass@gmail.com";
+    passwordController.text = "admin_z";
+
     var screenSize = MediaQuery.of(context).size;
     return Container(
       constraints: const BoxConstraints(maxWidth: 1440),
@@ -208,9 +216,7 @@ class _SignInPageState extends State<SignInPage> {
                                 fontSize: 12,
                                 fontWeight: FontWeight.bold,
                                 fontColor: AppColors.indigoMaroon,
-                                onPressedAction: () {
-                                  // signInWithCredentials();
-                                },
+                                onPressedAction: loginWithCredentials,
                               ),
                             ],
                           ),
@@ -222,6 +228,31 @@ class _SignInPageState extends State<SignInPage> {
           ),
         ],
       ),
+    );
+  }
+
+  void loginWithCredentials() async {
+    try {
+      final PasswordLoginResult? passwordLoginResult = await GetIt.I<AuthService>().passwordLogin(userNameController.text, passwordController.text);
+      if (passwordLoginResult != null) {
+        switch (passwordLoginResult.type) {
+          case "Rider":
+            navigateToAdminHomePage();
+            break;
+          default:
+            break;
+        }
+      }
+    } catch (e) {
+      MessageUtils.showErrorInFlushBar(context, "Invalid username or password.", appearFromTop: false, duration: 4);
+    }
+  }
+
+  void navigateToAdminHomePage() {
+    Navigator.pushAndRemoveUntil(
+      context,
+      MaterialPageRoute(builder: (context) => const AdminHome()),
+      (_) => false,
     );
   }
 }

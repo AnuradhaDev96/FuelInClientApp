@@ -1,7 +1,12 @@
+import 'dart:async';
+
+import 'package:firebase_core/firebase_core.dart';
+import 'package:flutter/foundation.dart';
 import 'package:flutter/material.dart';
 import 'package:provider/provider.dart';
 
 
+import 'firebase_options.dart';
 import 'src/config/app_colors.dart';
 import 'src/models/change_notifiers/side_drawer_notifier.dart';
 import 'src/ui/widgets/reader_home/reader_home.dart';
@@ -9,10 +14,27 @@ import 'src/utils/dependency_locator.dart';
 
 
 void main() {
-  injectAppDependencies();
 
-  runApp(const MyApp());
+  runZonedGuarded<Future<void>>(()  async {
+    WidgetsFlutterBinding.ensureInitialized();
+
+    FirebaseApp firebaseApp = await Firebase.initializeApp(options: DefaultFirebaseOptions.currentPlatform);
+    if (kDebugMode) {
+      print("FirebaseApp initialized $firebaseApp");
+    }
+    injectAppDependencies();
+
+    runApp(const MyApp());
+  }, (error, stack) {
+    print("cError: $error");
+    print("StackTrace: $stack");
+  });
+
 }
+
+// Future<void> initializeData() {
+//
+// }
 
 class MyApp extends StatelessWidget {
   const MyApp({Key? key}) : super(key: key);

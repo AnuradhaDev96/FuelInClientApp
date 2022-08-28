@@ -41,139 +41,168 @@ class _SideDrawerState extends State<SideDrawer> {
       child: Drawer(
       backgroundColor: AppColors.goldYellow,
         child: Column(
+          mainAxisAlignment: MainAxisAlignment.spaceBetween,
           children: [
-            const Padding(
-              padding: EdgeInsets.symmetric(vertical: 20.0),
-              child: Text(
-                lang_settings.SettingsEnglish.hotelNameText,
-                style: TextStyle(
-                  fontSize: 20.0
-                )
-              ),
-            ),
-            ListTile(
-              shape: const RoundedRectangleBorder(
-                borderRadius: BorderRadius.only(topRight: const Radius.circular(15.0), bottomRight: Radius.circular(15.0))
-              ),
-              // hoverColor: Colors.red,
-              tileColor: _sideDrawerNotifier.selectedPageType == ScreenBuckets.home ? AppColors.ashYellow : null,
-              title: const Text(
-                lang_settings.SettingsEnglish.homeText,
-              ),
-              onTap: () {
-                _sideDrawerNotifier.selectedPageType = ScreenBuckets.home;
-              },
-            ),
-            const ListTile(
-              shape: RoundedRectangleBorder(
-                  borderRadius: BorderRadius.only(topRight: Radius.circular(15.0), bottomRight: Radius.circular(15.0))
-              ),
-              title: Text(
-                lang_settings.SettingsEnglish.bookingText,
-              ),
-            ),
-            ExpansionPanelList(
-              elevation: 0,
-              expandedHeaderPadding: const EdgeInsets.symmetric(vertical: 0.0, horizontal: 0.0),
-              dividerColor: AppColors.black,
-              expansionCallback: (int panelIndex, bool isExpanded) {
-                setState(() {
-                  _expansionPanelExpandStatus[panelIndex] = !_expansionPanelExpandStatus[panelIndex];
-                });
-              },
+            Column(
               children: [
-                ExpansionPanel(
-                    backgroundColor: AppColors.goldYellow,
-                    canTapOnHeader: true,
-                    isExpanded: _expansionPanelExpandStatus[0],
-                    headerBuilder: (BuildContext context, bool isExpanded) {
-                      return const ListTile(
-                        dense: true,
-                        shape: RoundedRectangleBorder(
-                            borderRadius: BorderRadius.only(topRight: Radius.circular(15.0), bottomRight: Radius.circular(15.0))
-                        ),
-                        title: Text(
-                          "Accommodation",
-                        ),
-                      );
-                    },
-                    body: Column(
-                      crossAxisAlignment: CrossAxisAlignment.center,
-                      mainAxisAlignment: MainAxisAlignment.center,
-                      children: [
-                        InkWell(
-                          onTap: () {
-                            setState(() {
-                              _sideDrawerNotifier.selectedPageType = ScreenBuckets.accommodation;
-                            });
-                          },
-                          child: const Text(
-                            'Unawatuna'
-                          ),
-                        ),
-                        InkWell(
-                          onTap: () {},
-                          child: const Text(
-                              'Bentota'
-                          ),
-                        ),
-                        InkWell(
-                          onTap: () {},
-                          child: const Text(
-                              'Negombo'
-                          ),
-                        )
-                      ],
+                const Padding(
+                  padding: EdgeInsets.symmetric(vertical: 20.0),
+                  child: Text(
+                    lang_settings.SettingsEnglish.hotelNameText,
+                    style: TextStyle(
+                      fontSize: 20.0
                     )
+                  ),
+                ),
+                ListTile(
+                  shape: const RoundedRectangleBorder(
+                    borderRadius: BorderRadius.only(topRight: const Radius.circular(15.0), bottomRight: Radius.circular(15.0))
+                  ),
+                  // hoverColor: Colors.red,
+                  tileColor: _sideDrawerNotifier.selectedPageType == ScreenBuckets.home ? AppColors.ashYellow : null,
+                  title: const Text(
+                    lang_settings.SettingsEnglish.homeText,
+                  ),
+                  onTap: () {
+                    _sideDrawerNotifier.selectedPageType = ScreenBuckets.home;
+                  },
+                ),
+                ListTile(
+                  shape: const RoundedRectangleBorder(
+                      borderRadius: BorderRadius.only(topRight: Radius.circular(15.0), bottomRight: Radius.circular(15.0))
+                  ),
+                  tileColor: _sideDrawerNotifier.selectedPageType == ScreenBuckets.booking ? AppColors.ashYellow : null,
+                  title: const Text(
+                    lang_settings.SettingsEnglish.bookingText,
+                  ),
+                  onTap: () {
+                    _sideDrawerNotifier.selectedPageType = ScreenBuckets.booking;
+                  },
+                ),
+                ExpansionPanelList(
+                  elevation: 0,
+                  expandedHeaderPadding: const EdgeInsets.symmetric(vertical: 0.0, horizontal: 0.0),
+                  dividerColor: AppColors.black,
+                  expansionCallback: (int panelIndex, bool isExpanded) {
+                    setState(() {
+                      _expansionPanelExpandStatus[panelIndex] = !_expansionPanelExpandStatus[panelIndex];
+                    });
+                  },
+                  children: [
+                    ExpansionPanel(
+                        backgroundColor: AppColors.goldYellow,
+                        canTapOnHeader: true,
+                        isExpanded: _expansionPanelExpandStatus[0],
+                        headerBuilder: (BuildContext context, bool isExpanded) {
+                          return const ListTile(
+                            dense: true,
+                            shape: RoundedRectangleBorder(
+                                borderRadius: BorderRadius.only(topRight: Radius.circular(15.0), bottomRight: Radius.circular(15.0))
+                            ),
+                            title: Text(
+                              "Accommodation",
+                            ),
+                          );
+                        },
+                        body: Column(
+                          crossAxisAlignment: CrossAxisAlignment.center,
+                          mainAxisAlignment: MainAxisAlignment.center,
+                          children: [
+                            InkWell(
+                              onTap: () {
+                                setState(() {
+                                  _sideDrawerNotifier.selectedPageType = ScreenBuckets.accommodation;
+                                });
+                              },
+                              child: const Text(
+                                'Unawatuna'
+                              ),
+                            ),
+                            InkWell(
+                              onTap: () {},
+                              child: const Text(
+                                  'Bentota'
+                              ),
+                            ),
+                            InkWell(
+                              onTap: () {},
+                              child: const Text(
+                                  'Negombo'
+                              ),
+                            )
+                          ],
+                        )
+                    ),
+                  ],
+                ),
+                ListTile(
+                  shape: const RoundedRectangleBorder(
+                      borderRadius: BorderRadius.only(topRight: Radius.circular(15.0), bottomRight: Radius.circular(15.0))
+                  ),
+                  title: const Text(
+                    "Dining",
+                  ),
+                  tileColor: _sideDrawerNotifier.selectedPageType == ScreenBuckets.dining ? AppColors.ashYellow : null,
+                  onTap: () {
+                    setState(() {
+                      _sideDrawerNotifier.selectedPageType = ScreenBuckets.dining;
+                    });
+                  },
+                ),
+                ListTile(
+                  shape: const RoundedRectangleBorder(
+                      borderRadius: BorderRadius.only(topRight: Radius.circular(15.0), bottomRight: Radius.circular(15.0))
+                  ),
+                  title: const Text(
+                    "Gallery",
+                  ),
+                  tileColor: _sideDrawerNotifier.selectedPageType == ScreenBuckets.galleryPage ? AppColors.ashYellow : null,
+                  onTap: () {
+                    setState(() {
+                      _sideDrawerNotifier.selectedPageType = ScreenBuckets.galleryPage;
+                    });
+                  },
+                ),
+                ListTile(
+                  shape: const RoundedRectangleBorder(
+                      borderRadius: BorderRadius.only(topRight: Radius.circular(15.0), bottomRight: Radius.circular(15.0))
+                  ),
+                  title: const Text(
+                    "Services",
+                  ),
+                  tileColor: _sideDrawerNotifier.selectedPageType == ScreenBuckets.services ? AppColors.ashYellow : null,
+                  onTap: () {
+                    setState(() {
+                      _sideDrawerNotifier.selectedPageType = ScreenBuckets.services;
+                    });
+                  },
+                ),
+                ListTile(
+                  shape: const RoundedRectangleBorder(
+                      borderRadius: const BorderRadius.only(topRight: const Radius.circular(15.0), bottomRight: const Radius.circular(15.0))
+                  ),
+                  title: const Text(
+                    "Booking History",
+                  ),
+                  tileColor: _sideDrawerNotifier.selectedPageType == ScreenBuckets.reservationHistory ? AppColors.ashYellow : null,
+                  onTap: () {
+                    setState(() {
+                      _sideDrawerNotifier.selectedPageType = ScreenBuckets.reservationHistory;
+                    });
+                  },
+                ),
+                const ListTile(
+                  shape: RoundedRectangleBorder(
+                      borderRadius: BorderRadius.only(topRight: Radius.circular(15.0), bottomRight: Radius.circular(15.0))
+                  ),
+                  title: Text(
+                    "Contact Us",
+                  ),
                 ),
               ],
             ),
-            ListTile(
-              shape: const RoundedRectangleBorder(
-                  borderRadius: BorderRadius.only(topRight: Radius.circular(15.0), bottomRight: Radius.circular(15.0))
-              ),
-              title: const Text(
-                "Gallery",
-              ),
-              tileColor: _sideDrawerNotifier.selectedPageType == ScreenBuckets.galleryPage ? AppColors.ashYellow : null,
-              onTap: () {
-                setState(() {
-                  _sideDrawerNotifier.selectedPageType = ScreenBuckets.galleryPage;
-                });
-              },
-            ),
-            ListTile(
-              shape: const RoundedRectangleBorder(
-                  borderRadius: BorderRadius.only(topRight: Radius.circular(15.0), bottomRight: Radius.circular(15.0))
-              ),
-              title: const Text(
-                "Services",
-              ),
-              tileColor: _sideDrawerNotifier.selectedPageType == ScreenBuckets.services ? AppColors.ashYellow : null,
-              onTap: () {
-                setState(() {
-                  _sideDrawerNotifier.selectedPageType = ScreenBuckets.services;
-                });
-              },
-            ),
-            const ListTile(
-              shape: RoundedRectangleBorder(
-                  borderRadius: BorderRadius.only(topRight: Radius.circular(15.0), bottomRight: Radius.circular(15.0))
-              ),
-              title: Text(
-                "Booking History",
-              ),
-            ),
-            const ListTile(
-              shape: RoundedRectangleBorder(
-                  borderRadius: BorderRadius.only(topRight: Radius.circular(15.0), bottomRight: Radius.circular(15.0))
-              ),
-              title: Text(
-                "Contact Us",
-              ),
-            ),
             Padding(
-              padding: const EdgeInsets.only(top: 80.0, left: 10.0, right: 10.0),
+              padding: const EdgeInsets.only(top: 40.0, left: 10.0, right: 10.0, bottom: 10.0),
               child: Row(
                 mainAxisAlignment: MainAxisAlignment.center,
                 children: [

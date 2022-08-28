@@ -3,7 +3,9 @@ enum ScreenBuckets {
   booking,
   accommodation,
   services,
-  galleryPage
+  galleryPage,
+  dining,
+  reservationHistory
 }
 
 extension ToString on ScreenBuckets {
@@ -19,6 +21,10 @@ extension ToString on ScreenBuckets {
         return "Services";
       case ScreenBuckets.galleryPage:
         return "Gallery";
+      case ScreenBuckets.dining:
+        return "Dining";
+      case ScreenBuckets.reservationHistory:
+        return "Booking History";
     }
   }
 }
