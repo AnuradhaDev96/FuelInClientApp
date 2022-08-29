@@ -28,163 +28,159 @@ class _ReservationPageState extends State<ReservationPage> {
 
   @override
   Widget build(BuildContext context) {
-    return SizedBox(
-      width: MediaQuery.of(context).size.width * 0.74,
-      height: MediaQuery.of(context).size.height * 0.5,
-      child: Column(
-        // mainAxisSize: MainAxisSize.min,
-        children: [
-          Padding(
-              padding: const EdgeInsets.symmetric(horizontal: 3.0, vertical: 5.0),
-            child: Container(
-              color: AppColors.shiftGray,
-              padding: const EdgeInsets.all(8.0),
-              child: Row(
-                mainAxisAlignment: MainAxisAlignment.spaceAround,
-                crossAxisAlignment: CrossAxisAlignment.center,
-                children: [
-                  Column(
-                    crossAxisAlignment: CrossAxisAlignment.start,
-                    children: [
-                      const Text(
-                        "Hotel",
-                        style: TextStyle(
-                          fontSize: 12.0,
-                        ),
-                      ),
-                      DropdownButton(
-                        value: selectedHotel,
-                        isExpanded: false,
-                        hint: const Text(
-                            'Select hotel'
-                        ),
-                        items: hotelBranches.map((branch) => DropdownMenuItem(
-                          value: branch,
-                          child: Text(
-                            branch,
-                          ),
-                        )).toList(),
-                        onChanged: (selectedValue){
-                          setState(() {
-                            selectedHotel = selectedValue.toString();
-                            print(selectedHotel);
-                          });
-                        },
-                      )
-                    ],
-                  ),
-                  const SizedBox(width: 8.0),
-                  Column(
-                    crossAxisAlignment: CrossAxisAlignment.start,
-                    children: [
-                      const Text(
-                        "Check In Date",
-                        style: TextStyle(
-                          fontSize: 12.0,
-                        ),
-                      ),
-                      Material(
-                        child: CustomInputField(
-                          borderRadius: 14.0,
-                          borderColor: AppColors.lightGray,
-                          width: 0.12,
-                          height: 0.05,
-                          icon: Icons.calendar_month,
-                          iconColor: AppColors.indigoMaroon,
-                          hintText: DateFormat('yyyy-MM-dd').format(DateTime.now()),
-                          hintColor: AppColors.indigoMaroon,
-                          fontSize: 15,
-                          obsecureText: false,
-                          textEditingController: checkInDateController,
-                          onPressedAction: onTapCheckInDateField,
-                        ),
-                      ),
-                    ],
-                  ),
-                  const SizedBox(width: 8.0),
-                  Column(
-                    crossAxisAlignment: CrossAxisAlignment.start,
-                    children: [
-                      const Text(
-                        "Check Out Date",
-                        style: TextStyle(
-                          fontSize: 12.0,
-                        ),
-                      ),
-                      Material(
-                        child: CustomInputField(
-                          borderRadius: 14.0,
-                          borderColor: AppColors.lightGray,
-                          width: 0.12,
-                          height: 0.05,
-                          icon: Icons.calendar_month,
-                          iconColor: AppColors.indigoMaroon,
-                          hintText: DateFormat('yyyy-MM-dd').format(DateTime.now().add(const Duration(days: 1))),
-                          hintColor: AppColors.indigoMaroon,
-                          fontSize: 15,
-                          obsecureText: false,
-                          textEditingController: checkOutDateController,
-                          onPressedAction: onTapCheckOutDateField,
-                        ),
-                      ),
-                    ],
-                  ),
-                  const SizedBox(width: 8.0),
-                  SizedBox(
-                    width: 100.0,
-                    height: 40.0,
-                    child: ElevatedButton(
-                      style: Theme.of(context).elevatedButtonTheme.style!.copyWith(
-                        shape: MaterialStateProperty.all(
-                          RoundedRectangleBorder(
-                            borderRadius: BorderRadius.circular(4.0),
-                          ),
-                        )
-                      ),
-                      child: const Text(
-                        "Search",
-                        style: TextStyle(
-                            color: AppColors.lightGray
-                        ),
-                      ),
-                      onPressed: () {
-                        // Navigator.push(context, MaterialPageRoute(builder: (context) => const SignInPage()));
-                      },
-                    ),
-                  ),
-                ],
-              ),
-            ),
-          ),
-          Row(
-            children: [
-              SizedBox(
-                width: MediaQuery.of(context).size.width * 0.28,
-                height: MediaQuery.of(context).size.height * 0.345,
-                child: Column(
-                  mainAxisSize: MainAxisSize.min,
+    return Column(
+      // mainAxisSize: MainAxisSize.min,
+      children: [
+        Padding(
+            padding: const EdgeInsets.symmetric(horizontal: 3.0, vertical: 5.0),
+          child: Container(
+            color: AppColors.shiftGray,
+            padding: const EdgeInsets.all(8.0),
+            child: Row(
+              mainAxisAlignment: MainAxisAlignment.spaceAround,
+              crossAxisAlignment: CrossAxisAlignment.center,
+              children: [
+                Column(
+                  crossAxisAlignment: CrossAxisAlignment.start,
                   children: [
                     const Text(
-                      "Available Rooms",
+                      "Hotel",
                       style: TextStyle(
-                        fontSize: 14.0,
+                        fontSize: 12.0,
                       ),
                     ),
-                    Container(color: AppColors.indigoMaroon,height: 2.0,),
-                    Expanded(
-                      child: ListView.builder(
-                        shrinkWrap: true,
-                        itemCount: availableAccommodationsList.length,
-                        itemBuilder: searchItemBuilder
-                      )
+                    DropdownButton(
+                      value: selectedHotel,
+                      isExpanded: false,
+                      hint: const Text(
+                          'Select hotel'
+                      ),
+                      items: hotelBranches.map((branch) => DropdownMenuItem(
+                        value: branch,
+                        child: Text(
+                          branch,
+                        ),
+                      )).toList(),
+                      onChanged: (selectedValue){
+                        setState(() {
+                          selectedHotel = selectedValue.toString();
+                          print(selectedHotel);
+                        });
+                      },
                     )
                   ],
                 ),
-              )
-            ],
+                const SizedBox(width: 8.0),
+                Column(
+                  crossAxisAlignment: CrossAxisAlignment.start,
+                  children: [
+                    const Text(
+                      "Check In Date",
+                      style: TextStyle(
+                        fontSize: 12.0,
+                      ),
+                    ),
+                    Material(
+                      child: CustomInputField(
+                        borderRadius: 14.0,
+                        borderColor: AppColors.lightGray,
+                        width: 0.12,
+                        height: 0.05,
+                        icon: Icons.calendar_month,
+                        iconColor: AppColors.indigoMaroon,
+                        hintText: DateFormat('yyyy-MM-dd').format(DateTime.now()),
+                        hintColor: AppColors.indigoMaroon,
+                        fontSize: 15,
+                        obsecureText: false,
+                        textEditingController: checkInDateController,
+                        onPressedAction: onTapCheckInDateField,
+                      ),
+                    ),
+                  ],
+                ),
+                const SizedBox(width: 8.0),
+                Column(
+                  crossAxisAlignment: CrossAxisAlignment.start,
+                  children: [
+                    const Text(
+                      "Check Out Date",
+                      style: TextStyle(
+                        fontSize: 12.0,
+                      ),
+                    ),
+                    Material(
+                      child: CustomInputField(
+                        borderRadius: 14.0,
+                        borderColor: AppColors.lightGray,
+                        width: 0.12,
+                        height: 0.05,
+                        icon: Icons.calendar_month,
+                        iconColor: AppColors.indigoMaroon,
+                        hintText: DateFormat('yyyy-MM-dd').format(DateTime.now().add(const Duration(days: 1))),
+                        hintColor: AppColors.indigoMaroon,
+                        fontSize: 15,
+                        obsecureText: false,
+                        textEditingController: checkOutDateController,
+                        onPressedAction: onTapCheckOutDateField,
+                      ),
+                    ),
+                  ],
+                ),
+                const SizedBox(width: 8.0),
+                SizedBox(
+                  width: 100.0,
+                  height: 40.0,
+                  child: ElevatedButton(
+                    style: Theme.of(context).elevatedButtonTheme.style!.copyWith(
+                      shape: MaterialStateProperty.all(
+                        RoundedRectangleBorder(
+                          borderRadius: BorderRadius.circular(4.0),
+                        ),
+                      )
+                    ),
+                    child: const Text(
+                      "Search",
+                      style: TextStyle(
+                          color: AppColors.lightGray
+                      ),
+                    ),
+                    onPressed: () {
+                      // Navigator.push(context, MaterialPageRoute(builder: (context) => const SignInPage()));
+                    },
+                  ),
+                ),
+              ],
+            ),
           ),
-        ],
-      ),
+        ),
+        Row(
+          children: [
+            SizedBox(
+              width: MediaQuery.of(context).size.width * 0.28,
+              height: MediaQuery.of(context).size.height * 0.345,
+              child: Column(
+                mainAxisSize: MainAxisSize.min,
+                children: [
+                  const Text(
+                    "Available Rooms",
+                    style: TextStyle(
+                      fontSize: 14.0,
+                    ),
+                  ),
+                  Container(color: AppColors.indigoMaroon,height: 2.0,),
+                  Expanded(
+                    child: ListView.builder(
+                      shrinkWrap: true,
+                      itemCount: availableAccommodationsList.length,
+                      itemBuilder: searchItemBuilder
+                    )
+                  )
+                ],
+              ),
+            )
+          ],
+        ),
+      ],
     );
   }
 

@@ -83,9 +83,11 @@ class _ReaderHomeState extends State<ReaderHome> {
                       ),
                     ),
                     const SizedBox(height: 8.0),
-                      PageStorage(
-                        bucket: screenBucket,
-                        child: buildPages(),
+                      Expanded(
+                        child: PageStorage(
+                          bucket: screenBucket,
+                          child: buildPages(),
+                        ),
                       ),
                       // Padding(
                     //   padding: const EdgeInsets.only(top: 10.0, left: 8.0, right: 8.0),

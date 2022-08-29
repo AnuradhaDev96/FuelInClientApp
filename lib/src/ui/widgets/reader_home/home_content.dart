@@ -28,12 +28,10 @@ class HomeContent extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    return Expanded(
-      child: ListView.builder(
-        scrollDirection: Axis.horizontal,
-        itemCount: branchesList.length,
-        itemBuilder: hotelBranchesBuilder,
-      ),
+    return ListView.builder(
+      scrollDirection: Axis.horizontal,
+      itemCount: branchesList.length,
+      itemBuilder: hotelBranchesBuilder,
     );
   }
 

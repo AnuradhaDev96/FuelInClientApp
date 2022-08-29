@@ -23,13 +23,11 @@ class DiningPage extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    return Expanded(
-      child: Padding(
-        padding: const EdgeInsets.symmetric(horizontal: 30.0),
-        child: ListView.builder(
-          itemCount: servicesList.length,
-          itemBuilder: serviceItemBuilder,
-        ),
+    return Padding(
+      padding: const EdgeInsets.symmetric(horizontal: 30.0),
+      child: ListView.builder(
+        itemCount: servicesList.length,
+        itemBuilder: serviceItemBuilder,
       ),
     );
   }
