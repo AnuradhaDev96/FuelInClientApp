@@ -12,6 +12,7 @@ class CustomInputField extends StatelessWidget {
       this.onlyBorder,
       this.textColor,
       this.textEditingController,
+      this.onPressedAction,
       required this.icon,
       required this.hintText,
       required this.obsecureText,
@@ -25,6 +26,7 @@ class CustomInputField extends StatelessWidget {
   final IconData icon;
   final String hintText;
   final bool obsecureText;
+  final VoidCallback? onPressedAction;
 
   @override
   Widget build(BuildContext context) {
@@ -37,6 +39,7 @@ class CustomInputField extends StatelessWidget {
       width: MediaQuery.of(context).size.width * width,
       height: MediaQuery.of(context).size.height * height,
       child: TextField(
+        onTap: onPressedAction,
         controller: textEditingController,
         decoration: InputDecoration(
             contentPadding: const EdgeInsets.all(15),

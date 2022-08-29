@@ -15,7 +15,11 @@ class ReservationPage extends StatefulWidget {
 class _ReservationPageState extends State<ReservationPage> {
   final List<Accommodation> availableAccommodationsList = Accommodation.systemRoomList;
   TextEditingController checkInDateController = TextEditingController();
+  TextEditingController checkOutDateController = TextEditingController();
+  // TextEditingController checkOutDateController = TextEditingController();
+
   String selectedHotel = 'Unawatuna';
+  DateTime? selectedCheckInDate;
   List<String> hotelBranches = <String>[
     'Unawatuna',
     'Bentota',
@@ -92,6 +96,7 @@ class _ReservationPageState extends State<ReservationPage> {
                           fontSize: 15,
                           obsecureText: false,
                           textEditingController: checkInDateController,
+                          onPressedAction: onTapCheckInDateField,
                         ),
                       ),
                     ],
@@ -118,7 +123,8 @@ class _ReservationPageState extends State<ReservationPage> {
                           hintColor: AppColors.indigoMaroon,
                           fontSize: 15,
                           obsecureText: false,
-                          textEditingController: checkInDateController,
+                          textEditingController: checkOutDateController,
+                          onPressedAction: onTapCheckOutDateField,
                         ),
                       ),
                     ],
@@ -285,4 +291,40 @@ class _ReservationPageState extends State<ReservationPage> {
       ),
     );
   }
+
+  void onTapCheckInDateField() async {
+    DateTime? checkInDate = await showDatePicker(
+      context: context,
+      initialDate: DateTime.now(),
+      firstDate: DateTime.now(),
+      lastDate: DateTime(2030),
+        // selectableDayPredicate: (DateTime val) =>
+        // val.compareTo(DateTime.now()) > 0 ? true : false
+    );
+
+    if (checkInDate != null) {
+      checkInDateController.text = DateFormat('yyyy-MM-dd').format(checkInDate);
+      checkOutDateController.text = DateFormat('yyyy-MM-dd').format(checkInDate.add(const Duration(days: 1)));
+      selectedCheckInDate = checkInDate;
+    }
+  }
+
+  void onTapCheckOutDateField() async {
+    DateTime? checkOutDate = await showDatePicker(
+      context: context,
+      initialDate: selectedCheckInDate != null
+          ? selectedCheckInDate!.add(const Duration(days: 1))
+          : DateTime.now().add(const Duration(days: 1)),
+      firstDate: selectedCheckInDate != null ? selectedCheckInDate!.add(const Duration(days: 1)) : DateTime.now(),
+      lastDate: DateTime(2030),
+    );
+
+    if (checkOutDate != null) {
+      // checkInDateController.text = DateFormat('yyyy-MM-dd').format(checkInDate);
+      checkOutDateController.text = DateFormat('yyyy-MM-dd').format(checkOutDate);
+      // selectedCheckInDate = checkInDate;
+    }
+
+  }
+
 }
