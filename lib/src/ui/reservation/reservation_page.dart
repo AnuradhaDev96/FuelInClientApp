@@ -28,11 +28,11 @@ class _ReservationPageState extends State<ReservationPage> {
 
   @override
   Widget build(BuildContext context) {
-    return Column(
+    return ListView(
       // mainAxisSize: MainAxisSize.min,
       children: [
         Padding(
-            padding: const EdgeInsets.symmetric(horizontal: 3.0, vertical: 5.0),
+          padding: const EdgeInsets.symmetric(horizontal: 10.0),
           child: Container(
             color: AppColors.shiftGray,
             padding: const EdgeInsets.all(8.0),
@@ -157,7 +157,7 @@ class _ReservationPageState extends State<ReservationPage> {
           children: [
             SizedBox(
               width: MediaQuery.of(context).size.width * 0.28,
-              height: MediaQuery.of(context).size.height * 0.345,
+              // height: MediaQuery.of(context).size.height * 0.345,
               child: Column(
                 mainAxisSize: MainAxisSize.min,
                 children: [
@@ -168,12 +168,10 @@ class _ReservationPageState extends State<ReservationPage> {
                     ),
                   ),
                   Container(color: AppColors.indigoMaroon,height: 2.0,),
-                  Expanded(
-                    child: ListView.builder(
-                      shrinkWrap: true,
-                      itemCount: availableAccommodationsList.length,
-                      itemBuilder: searchItemBuilder
-                    )
+                  ListView.builder(
+                    shrinkWrap: true,
+                    itemCount: availableAccommodationsList.length,
+                    itemBuilder: searchItemBuilder
                   )
                 ],
               ),
