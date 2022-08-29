@@ -84,8 +84,8 @@ class MyApp extends StatelessWidget {
           scaffoldBackgroundColor: AppColors.lightGray,
 
         ),
-        // home: const ReaderHome(),
-        home: const AdminHome(),
+        home: const ReaderHome(),
+        // home: const AdminHome(),
       ),
     );
   }

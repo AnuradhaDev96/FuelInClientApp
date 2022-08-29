@@ -78,6 +78,19 @@ class _AdminSideDrawerState extends State<AdminSideDrawer> {
                     _sideDrawerNotifier.selectedPageTypeByAdmin = AdminScreenBuckets.employeeManagement;
                   },
                 ),
+                ListTile(
+                  shape: const RoundedRectangleBorder(
+                      borderRadius: BorderRadius.only(topRight: Radius.circular(15.0), bottomRight: Radius.circular(15.0))
+                  ),
+                  // hoverColor: Colors.red,
+                  tileColor: _sideDrawerNotifier.selectedPageTypeByAdmin == AdminScreenBuckets.roomManagement ? AppColors.white : null,
+                  title: const Text(
+                      "Accommodation Management"
+                  ),
+                  onTap: () {
+                    _sideDrawerNotifier.selectedPageTypeByAdmin = AdminScreenBuckets.roomManagement;
+                  },
+                ),
                 const ListTile(
                   shape: RoundedRectangleBorder(
                       borderRadius: BorderRadius.only(topRight: Radius.circular(15.0), bottomRight: Radius.circular(15.0))

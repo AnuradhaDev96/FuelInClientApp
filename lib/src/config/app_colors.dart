@@ -5,6 +5,7 @@ class AppColors {
 
   static const Color primaryColor = Colors.grey;
 
+  //
   static const Color indigoMaroon = Color(0xFF4C113D);
   static const Color goldYellow = Color(0xFFF2C140);
   static const Color ashYellow = Color(0xFFF5E3B7);
@@ -18,4 +19,7 @@ class AppColors {
   static const Color grayForPrimaryDark = Color(0xFF2F2F2F);
   static const Color white = Color(0xFFFFFFFF);
   static const Color ashRed = Color(0xFFF85656);
+
+  // additional colors
+  static const Color ashBlue = Color(0xFF1C4AA1);
 }

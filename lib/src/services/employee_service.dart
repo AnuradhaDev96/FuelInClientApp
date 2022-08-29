@@ -1,12 +1,7 @@
-import 'package:firebase_auth/firebase_auth.dart';
-import 'package:firebase_core/firebase_core.dart';
-import 'package:firebase_auth_web/firebase_auth_web.dart';
 import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:rh_reader/src/config/firestore_collections.dart';
 
 import '../models/employee/employee_model.dart';
-import '../models/authentication/password_login_result.dart';
-import '../models/authentication/system_user.dart';
 class EmployeeService {
   final FirebaseFirestore _firebaseFirestore = FirebaseFirestore.instance;
 

@@ -74,7 +74,7 @@ class AccommodationList extends StatelessWidget {
               height: 25.0,
               padding: const EdgeInsets.only(left: 8.0),
               child: Text(
-                accommodation.roomName,
+                accommodation.roomName ?? "-",
                 style: const TextStyle(
                     color: AppColors.goldYellow
                 ),

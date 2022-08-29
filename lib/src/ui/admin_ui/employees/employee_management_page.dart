@@ -129,7 +129,7 @@ class _EmployeeManagementPageState extends State<EmployeeManagementPage> {
                 shrinkWrap: true,
                 children: snapshot.data!.docs.map((data) => employeeItemBuilder(context, data)).toList(),
               );
-              return Text("Error: ${snapshot.error}");
+              // return Text("Error: ${snapshot.error}");
             }
             return const Text("No employees available");
           },
@@ -614,6 +614,8 @@ class _EmployeeManagementPageState extends State<EmployeeManagementPage> {
   void deleteEmployee(EmployeeModel employeeModel) async {
     final bool result = await _employeeService.deleteEmployee(employeeModel);
     if (result) {
+      _isUpdateMode = false;
+      _elementToBeEdited = null;
       _fullNameController.clear();
       _salaryController.clear();
       _designationController.clear();

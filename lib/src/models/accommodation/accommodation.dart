@@ -1,10 +1,14 @@
+import 'package:cloud_firestore/cloud_firestore.dart';
+
 class Accommodation {
-  String id, roomName, refBranch, description;
-  int noOfRooms, floorNo, size;
-  int reservedRoomCount;
+  String? roomName, refBranch, description;
+  int? noOfRooms, floorNo, size;
+  int? reservedRoomCount;
+  DocumentReference? reference;
+  String? id;
 
   Accommodation({
-    required this.id,
+    this.id,
     required this.roomName,
     required this.refBranch,
     required this.description,
@@ -12,6 +16,7 @@ class Accommodation {
     required this.floorNo,
     required this.size,
     this.reservedRoomCount = 0,
+    this.reference,
   });
 
   static final List<Accommodation> _systemRoomList = [
@@ -55,4 +60,27 @@ class Accommodation {
     }
   }
 
+  Accommodation.fromMap(Map<String, dynamic> map, {required this.reference}):
+    floorNo = map["floorNo"],
+    size = map["size"],
+    noOfRooms = map["noOfRooms"],
+    description = map["description"],
+    refBranch = map["refBranch"],
+    roomName = map["roomName"],
+    reservedRoomCount = map["reservedRoomCount"];
+
+  Map<String, dynamic> toMap(){
+    return {
+      'floorNo': floorNo,
+      'size': size,
+      'noOfRooms': noOfRooms,
+      'description': description,
+      'refBranch': refBranch,
+      'roomName': roomName,
+      'reservedRoomCount': reservedRoomCount,
+    };
+  }
+
+  Accommodation.fromSnapshot(DocumentSnapshot snapshot)
+      : this.fromMap(snapshot.data() as Map<String, dynamic>, reference: snapshot.reference);
 }
