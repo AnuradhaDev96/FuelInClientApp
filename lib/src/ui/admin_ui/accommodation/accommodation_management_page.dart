@@ -22,6 +22,7 @@ class _AccommodationManagementPageState extends State<AccommodationManagementPag
   final TextEditingController _descriptionController = TextEditingController();
   final TextEditingController _refBranchController = TextEditingController();
   final TextEditingController _roomNameController = TextEditingController();
+  final TextEditingController _rateController = TextEditingController();
 
   // final TextEditingController _assigned = TextEditingController();
   final GlobalKey<FormState> _formStateKey = GlobalKey<FormState>();
@@ -86,6 +87,7 @@ class _AccommodationManagementPageState extends State<AccommodationManagementPag
                           children: [
                             Expanded(child: buildFloorNoField()),
                             Expanded(child: buildRoomSizeField()),
+                            Expanded(child: buildRateInLkrField()),
                             // Expanded(
                             //   child: Column(
                             //     children: [
@@ -395,6 +397,58 @@ class _AccommodationManagementPageState extends State<AccommodationManagementPag
     );
   }
 
+  Widget buildRateInLkrField() {
+    return Padding(
+      padding: const EdgeInsets.all(8.0),
+      child: Column(
+        crossAxisAlignment: CrossAxisAlignment.start,
+        children: [
+          const Text(
+              "Rate of room in LKR:"
+          ),
+          SizedBox(
+            // width: 100.0,
+            height: 35.0,
+            child: TextFormField(
+              controller: _rateController,
+              validator: (value) {
+                if (value == null || value.isEmpty) {
+                  return 'Rate cannot be empty';
+                }
+                if (!value.isDouble) {
+                  return 'Enter numeric value';
+                }
+                return null;
+              },
+              autofocus: true,
+              onChanged: (String emailAddress) {
+                // _emailAddressBloc.onChangeEmail(emailAddress);
+              },
+              style: const TextStyle(fontSize: 12.0),
+              keyboardType: TextInputType.number,
+              textCapitalization: TextCapitalization.words,
+              decoration: InputDecoration(
+                border: OutlineInputBorder(
+                    borderRadius: BorderRadius.circular(12.0),
+                    borderSide: const BorderSide(width: 1, color: AppColors.darkGrey)),
+                focusedBorder: OutlineInputBorder(
+                  borderSide: const BorderSide(width: 1, color: AppColors.darkGrey),
+                  borderRadius: BorderRadius.circular(12.0),
+                ),
+                contentPadding: const EdgeInsets.all(8.0),
+                hintText: "LKR",
+                hintStyle: const TextStyle(fontSize: 12.0),
+                // helperText: ' ',
+                // errorText: snapshot.error as String?,
+
+              ),
+            ),
+          ),
+        ],
+      ),
+    );
+  }
+
   Widget buildFloorNoField() {
     return Padding(
       padding: const EdgeInsets.all(8.0),
@@ -539,6 +593,7 @@ class _AccommodationManagementPageState extends State<AccommodationManagementPag
             _floorNoController.clear();
             _sizeController.clear();
             _descriptionController.clear();
+            _rateController.clear();
           });
         },
         child: const Text(
@@ -559,6 +614,7 @@ class _AccommodationManagementPageState extends State<AccommodationManagementPag
         floorNo: int.tryParse(_floorNoController.text) ?? 0,
         size: int.tryParse(_sizeController.text) ?? 0,
         description: _descriptionController.text,
+        rateInLkr: double.tryParse(_rateController.text),
       );
       final bool result = await _accommodationService.registerAccommodation(accommodation);
       if (result) {
@@ -568,6 +624,7 @@ class _AccommodationManagementPageState extends State<AccommodationManagementPag
         _floorNoController.clear();
         _sizeController.clear();
         _descriptionController.clear();
+        _rateController.clear();
         showCreateMessage(true);
       } else {
         showCreateMessage(false);
@@ -589,6 +646,7 @@ class _AccommodationManagementPageState extends State<AccommodationManagementPag
         floorNo: int.tryParse(_floorNoController.text) ?? 0,
         size: int.tryParse(_sizeController.text) ?? 0,
         description: _descriptionController.text,
+        rateInLkr: double.tryParse(_rateController.text),
         reference: _elementToBeEdited?.reference,
       );
       if (_elementToBeEdited == null) return;
@@ -604,6 +662,7 @@ class _AccommodationManagementPageState extends State<AccommodationManagementPag
           _floorNoController.clear();
           _sizeController.clear();
           _descriptionController.clear();
+          _rateController.clear();
         });
         showUpdateMessage(true);
       } else {
@@ -640,6 +699,7 @@ class _AccommodationManagementPageState extends State<AccommodationManagementPag
       _floorNoController.text = accommodationModel.floorNo.toString();
       _sizeController.text = accommodationModel.size.toString();
       _descriptionController.text = accommodationModel.description ?? "";
+      _rateController.text = accommodationModel.rateInLkr.toString();
     });
 
   }
@@ -712,6 +772,21 @@ class _AccommodationManagementPageState extends State<AccommodationManagementPag
                               accommodation.roomName ?? "-",
                               style: const TextStyle(
                                 color: AppColors.black,
+                              ),
+                            ),
+                            const SizedBox(width: 10.0),
+                            Container(
+                              padding: const EdgeInsets.symmetric(vertical:5.0, horizontal: 8.0),
+                              decoration: BoxDecoration(
+                                borderRadius: BorderRadius.circular(15.0),
+                                color: AppColors.shiftGray,
+                              ),
+                              child: Text(
+                                "LKR ${accommodation.rateInLkr}",
+                                style: const TextStyle(
+                                  color: AppColors.indigoMaroon,
+                                  fontSize: 12.0,
+                                ),
                               ),
                             ),
                           ],
@@ -914,6 +989,7 @@ class _AccommodationManagementPageState extends State<AccommodationManagementPag
       _floorNoController.clear();
       _sizeController.clear();
       _descriptionController.clear();
+      _rateController.clear();
       showDeleteMessage(true);
     } else {
       showDeleteMessage(false);

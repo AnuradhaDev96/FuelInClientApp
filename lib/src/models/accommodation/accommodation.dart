@@ -6,6 +6,7 @@ class Accommodation {
   int? reservedRoomCount;
   DocumentReference? reference;
   String? id;
+  double? rateInLkr;
 
   Accommodation({
     this.id,
@@ -15,6 +16,7 @@ class Accommodation {
     required this.noOfRooms,
     required this.floorNo,
     required this.size,
+    required this.rateInLkr,
     this.reservedRoomCount = 0,
     this.reference,
   });
@@ -29,6 +31,7 @@ class Accommodation {
       "As the name implies, our presidential suite is the ultimate in luxury and our Bentota hotel’s most lavish room. Choose this suite for the perfect mix of luxury and residential-style features, such as a kitchenette, bar counter, dining room and lounge area, replete with all the amenities one could need for a truly pampered stay.",
       refBranch: "Unawatuna",
       roomName: "Presidential Suite",
+      rateInLkr: 54000.00,
     ),
     Accommodation(
       floorNo: 1,
@@ -39,6 +42,7 @@ class Accommodation {
       "Our standard Citrus rooms are far from ‘basic’. The superior rooms offer a king sized bed and private balcony with an incredible sea view and many amenities to make your stay a delightful one. Each room provides stylish, contemporary accommodation with the Citrus flare, making it the ideal place for a fun vacation when looking for hotels near Bentota beaches.",
       refBranch: "Bentota",
       roomName: "Superior Room",
+      rateInLkr: 44000.00,
     ),
     Accommodation(
       floorNo: 2,
@@ -49,6 +53,7 @@ class Accommodation {
       "Experience the next level of luxury at one of the best Kalutara beach hotels with our deluxe rooms. Including all the amenities featured in our superior room, deluxe rooms also come with a Jacuzzi bathtub for a truly indulgent vacation.",
       refBranch: "Bentota",
       roomName: "Deluxe Suite",
+      rateInLkr: 43000.00,
     ),
   ];
 
@@ -67,6 +72,7 @@ class Accommodation {
     description = map["description"],
     refBranch = map["refBranch"],
     roomName = map["roomName"],
+    rateInLkr = map["rateInLkr"],
     reservedRoomCount = map["reservedRoomCount"];
 
   Map<String, dynamic> toMap(){
@@ -77,6 +83,7 @@ class Accommodation {
       'description': description,
       'refBranch': refBranch,
       'roomName': roomName,
+      'rateInLkr': rateInLkr,
       'reservedRoomCount': reservedRoomCount,
     };
   }

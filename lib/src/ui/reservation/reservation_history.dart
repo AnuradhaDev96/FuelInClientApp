@@ -9,23 +9,15 @@ class ReservationHistory extends StatelessWidget {
   final List<Reservation> reservationHistoryList = [
     Reservation(
       refUserID: "User001",
-      noOfRooms: 2,
-      roomId: "R001",
-      roomName: "Presidential Suite",
       checkIn: "2022-06-20",
       checkOut: "2022-06-21",
       hotelName: BranchNames.bentota.toDisplayString(),
-      noOfGuests: 4
     ),
     Reservation(
-        refUserID: "User001",
-        noOfRooms: 1,
-        roomId: "R002",
-        roomName: "Superior Room",
-        checkIn: "2022-08-15",
-        checkOut: "2022-08-16",
-        hotelName: BranchNames.negombo.toDisplayString(),
-        noOfGuests: 4
+      refUserID: "User001",
+      checkIn: "2022-08-15",
+      checkOut: "2022-08-16",
+      hotelName: BranchNames.negombo.toDisplayString(),
     ),
   ];
 
@@ -106,60 +98,6 @@ class ReservationHistory extends StatelessWidget {
                     const SizedBox(width: 10.0),
                     Text(
                       reservation.checkOut,
-                      style: const TextStyle(
-                        color: AppColors.black,
-                      ),
-                    ),
-                  ],
-                ),
-                Row(
-                  children: [
-                    const Text(
-                      "Room Name: ",
-                      style: TextStyle(
-                        color: AppColors.black,
-                        fontWeight: FontWeight.bold,
-                      ),
-                    ),
-                    const SizedBox(width: 10.0),
-                    Text(
-                      reservation.roomName,
-                      style: const TextStyle(
-                        color: AppColors.black,
-                      ),
-                    ),
-                  ],
-                ),
-                Row(
-                  children: [
-                    const Text(
-                      "No of rooms: ",
-                      style: TextStyle(
-                        color: AppColors.black,
-                        fontWeight: FontWeight.bold,
-                      ),
-                    ),
-                    const SizedBox(width: 10.0),
-                    Text(
-                      "${reservation.noOfRooms}",
-                      style: const TextStyle(
-                        color: AppColors.black,
-                      ),
-                    ),
-                  ],
-                ),
-                Row(
-                  children: [
-                    const Text(
-                      "Guests count: ",
-                      style: TextStyle(
-                        color: AppColors.black,
-                        fontWeight: FontWeight.bold,
-                      ),
-                    ),
-                    const SizedBox(width: 10.0),
-                    Text(
-                      "${reservation.noOfGuests}",
                       style: const TextStyle(
                         color: AppColors.black,
                       ),

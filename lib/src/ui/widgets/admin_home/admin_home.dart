@@ -47,7 +47,7 @@ class _AdminHomeState extends State<AdminHome> {
   @override
   Widget build(BuildContext context) {
     return Scaffold(
-      key: _sideDrawerNotifier.mainScaffoldKey,
+      key: _sideDrawerNotifier.adminScaffoldKey,
       drawer: AdminSideDrawer(),
       body: Row(
         crossAxisAlignment: CrossAxisAlignment.start,

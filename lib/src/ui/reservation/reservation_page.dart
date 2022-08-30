@@ -1,8 +1,12 @@
+import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:flutter/material.dart';
+import 'package:get_it/get_it.dart';
 import 'package:intl/intl.dart';
 import 'package:rh_reader/src/models/accommodation/accommodation.dart';
+import 'package:rh_reader/src/models/reservation/reservation.dart';
 
 import '../../config/app_colors.dart';
+import '../../services/accommodation_service.dart';
 import '../widgets/custom_input_field.dart';
 
 class ReservationPage extends StatefulWidget {
@@ -17,6 +21,8 @@ class _ReservationPageState extends State<ReservationPage> {
   TextEditingController checkInDateController = TextEditingController();
   TextEditingController checkOutDateController = TextEditingController();
   // TextEditingController checkOutDateController = TextEditingController();
+  List<RoomForReservationModel>? _includedRoomsForReservation;
+  late final AccommodationService _accommodationService;
 
   String selectedHotel = 'Unawatuna';
   DateTime? selectedCheckInDate;
@@ -27,9 +33,14 @@ class _ReservationPageState extends State<ReservationPage> {
   ];
 
   @override
+  void initState() {
+    _accommodationService = GetIt.I<AccommodationService>();
+    super.initState();
+  }
+
+  @override
   Widget build(BuildContext context) {
     return ListView(
-      // mainAxisSize: MainAxisSize.min,
       children: [
         Padding(
           padding: const EdgeInsets.symmetric(horizontal: 10.0),
@@ -168,22 +179,76 @@ class _ReservationPageState extends State<ReservationPage> {
                     ),
                   ),
                   Container(color: AppColors.indigoMaroon,height: 2.0,),
-                  ListView.builder(
-                    shrinkWrap: true,
-                    itemCount: availableAccommodationsList.length,
-                    itemBuilder: searchItemBuilder
-                  )
+                  // TODO: Implement stream based on search giving branch params
+                  StreamBuilder(
+                    stream: _accommodationService.getAccommodationsStream(),
+                    builder: (context, AsyncSnapshot<QuerySnapshot<Map<String, dynamic>>> snapshot) {
+                      if (snapshot.connectionState == ConnectionState.waiting) {
+                        return const Center(
+                          child: Padding(
+                              padding: EdgeInsets.all(8.0),
+                              child: SizedBox(
+                                width: 40,
+                                height: 40,
+                                child: CircularProgressIndicator(
+                                  strokeWidth: 1,
+                                  color: AppColors.indigoMaroon,
+                                ),
+                              )),
+                        );
+                      } else if (snapshot.hasError) {
+                        return Text("Error: ${snapshot.error}");
+                      } else if (snapshot.hasData) {
+                        // employeeList = snapshot.data ?? <EmployeeModel>[];
+                        return ListView(
+                          shrinkWrap: true,
+                          children: snapshot.data!.docs.map((data) => searchItemBuilder(context, data)).toList(),
+                        );
+                        // return Text("Error: ${snapshot.error}");
+                      }
+                      return const Text("No rooms available");
+                    },
+                  ),
+                  // ListView.builder(
+                  //   shrinkWrap: true,
+                  //   itemCount: availableAccommodationsList.length,
+                  //   itemBuilder: searchItemBuilder
+                  // )
                 ],
               ),
-            )
+            ),
+            // SizedBox(
+            //   width: MediaQuery.of(context).size.width * 0.28,
+            //   // height: MediaQuery.of(context).size.height * 0.345,
+            //   child: Column(
+            //     mainAxisSize: MainAxisSize.min,
+            //     children: [
+            //       const Text(
+            //         "Available Rooms",
+            //         style: TextStyle(
+            //           fontSize: 14.0,
+            //         ),
+            //       ),
+            //       Container(color: AppColors.indigoMaroon,height: 2.0,),
+            //       ListView.builder(
+            //           shrinkWrap: true,
+            //           itemCount: availableAccommodationsList.length,
+            //           itemBuilder: searchItemBuilder
+            //       )
+            //     ],
+            //   ),
+            // )
           ],
         ),
       ],
     );
   }
 
-  Widget searchItemBuilder(BuildContext context, int index) {
-    final accommodation = availableAccommodationsList[index];
+  Widget searchItemBuilder(BuildContext context, DocumentSnapshot data) {
+    final accommodation = Accommodation.fromSnapshot(data);
+    int totalRooms = accommodation.noOfRooms ?? 0;
+    int reservedRoomCount = accommodation.reservedRoomCount ?? 0;
+    int availableRoomCount = totalRooms - reservedRoomCount;
 
     return Card(
       elevation: 5,
@@ -214,55 +279,84 @@ class _ReservationPageState extends State<ReservationPage> {
                 ),
                 const SizedBox(height: 5.0),
                 Row(
+                  mainAxisAlignment: MainAxisAlignment.start,
                   children: [
-                    const Text(
-                      "No of rooms:",
-                      style: TextStyle(
-                        color: AppColors.black,
-                        fontWeight: FontWeight.bold,
+                    Container(
+                      padding: const EdgeInsets.symmetric(vertical:5.0, horizontal: 8.0),
+                      decoration: BoxDecoration(
+                        borderRadius: BorderRadius.circular(15.0),
+                        color: AppColors.ashBlue,
+                      ),
+                      child: Text(
+                        "$availableRoomCount rooms available",
+                        style: const TextStyle(
+                          color: AppColors.goldYellow,
+                          fontSize: 12.0,
+                        ),
                       ),
                     ),
-                    const SizedBox(width: 10.0),
-                    Text(
-                      "${accommodation.noOfRooms}",
-                      style: const TextStyle(
-                        color: AppColors.black,
+                    const SizedBox(width: 5.0),
+                    Container(
+                      padding: const EdgeInsets.symmetric(vertical:5.0, horizontal: 8.0),
+                      decoration: BoxDecoration(
+                        borderRadius: BorderRadius.circular(15.0),
+                        color: AppColors.ashMaroon,
+                      ),
+                      child: Text(
+                        "$totalRooms total rooms",
+                        style: const TextStyle(
+                          color: AppColors.white,
+                          fontSize: 12.0,
+                        ),
                       ),
                     ),
                   ],
                 ),
+                const SizedBox(height: 5.0,),
                 Row(
                   children: [
-                    const Text(
-                      "Floor Number: ",
-                      style: TextStyle(
-                        color: AppColors.black,
-                        fontWeight: FontWeight.bold,
+                    Container(
+                      padding: const EdgeInsets.symmetric(vertical:5.0, horizontal: 8.0),
+                      decoration: BoxDecoration(
+                        borderRadius: BorderRadius.circular(15.0),
+                        color: AppColors.ashMaroon,
+                      ),
+                      child: Text(
+                        "Floor No: ${accommodation.floorNo}",
+                        style: const TextStyle(
+                          color: AppColors.white,
+                          fontSize: 12.0,
+                        ),
                       ),
                     ),
-                    const SizedBox(width: 10.0),
-                    Text(
-                      "${accommodation.floorNo}",
-                      style: const TextStyle(
-                        color: AppColors.black,
+                    const SizedBox(width: 5.0),
+                    Container(
+                      padding: const EdgeInsets.symmetric(vertical:5.0, horizontal: 8.0),
+                      decoration: BoxDecoration(
+                        borderRadius: BorderRadius.circular(15.0),
+                        color: AppColors.ashMaroon,
+                      ),
+                      child: Text(
+                        accommodation.size == null ? "Size: N/A" : "Size: ${accommodation.size} m²",
+                        style: const TextStyle(
+                          color: AppColors.white,
+                          fontSize: 12.0,
+                        ),
                       ),
                     ),
-                  ],
-                ),
-                Row(
-                  children: [
-                    const Text(
-                      "Size of room: ",
-                      style: TextStyle(
-                        color: AppColors.black,
-                        fontWeight: FontWeight.bold,
+                    const SizedBox(width: 5.0),
+                    Container(
+                      padding: const EdgeInsets.symmetric(vertical:5.0, horizontal: 8.0),
+                      decoration: BoxDecoration(
+                        borderRadius: BorderRadius.circular(15.0),
+                        color: AppColors.shiftGray,
                       ),
-                    ),
-                    const SizedBox(width: 10.0),
-                    Text(
-                      "${accommodation.size}",
-                      style: const TextStyle(
-                        color: AppColors.black,
+                      child: Text(
+                        "LKR ${accommodation.rateInLkr}",
+                        style: const TextStyle(
+                          color: AppColors.indigoMaroon,
+                          fontSize: 12.0,
+                        ),
                       ),
                     ),
                   ],

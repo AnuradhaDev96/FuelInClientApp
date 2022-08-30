@@ -5,8 +5,10 @@ import '../enums/admin_screen_buckets.dart';
 
 class SideDrawerNotifier extends ChangeNotifier {
   final GlobalKey<ScaffoldState> _scaffoldKey = GlobalKey<ScaffoldState>();
+  final GlobalKey<ScaffoldState> _scaffoldKeyForAdmin = GlobalKey<ScaffoldState>();
 
   GlobalKey<ScaffoldState> get mainScaffoldKey => _scaffoldKey;
+  GlobalKey<ScaffoldState> get adminScaffoldKey => _scaffoldKeyForAdmin;
 
   //general properties
   ScreenBuckets? _selectedPageType = ScreenBuckets.home;
@@ -47,5 +49,9 @@ class SideDrawerNotifier extends ChangeNotifier {
 
   void operateDrawer() {
     _scaffoldKey.currentState!.openDrawer();
+  }
+
+  void operateAdminDrawer() {
+    _scaffoldKeyForAdmin.currentState!.openDrawer();
   }
 }

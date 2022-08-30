@@ -22,4 +22,5 @@ class AppColors {
 
   // additional colors
   static const Color ashBlue = Color(0xFF1C4AA1);
+  static const Color ashMaroon = Color(0xFF988693);
 }
