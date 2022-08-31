@@ -1,7 +1,10 @@
+import 'package:cloud_firestore/cloud_firestore.dart';
+
 class Reservation {
   String hotelName, checkIn, checkOut, refUserID;
   double? totalCostInLkr;
   List<RoomForReservationModel>? includedRooms;
+  //TODO: add field to calculate total based on checkin and checkout
 
   Reservation({
     required this.refUserID,
@@ -17,6 +20,9 @@ class RoomForReservationModel {
   String? roomName;
   int? roomCountForOrder, noOfGuests;
   double? subTotal, rateInLkr;
+  DocumentReference? accommodationReference;
+  DocumentReference? reference;
+  int? availableRoomCount;
 
   RoomForReservationModel({
     required this.roomName,
@@ -24,5 +30,30 @@ class RoomForReservationModel {
     required this.noOfGuests,
     required this.subTotal,
     required this.rateInLkr,
+    required this.accommodationReference,
+    this.reference,
+    this.availableRoomCount,
   });
+
+  RoomForReservationModel.fromMap(Map<String, dynamic> map, {required this.reference}):
+    roomName = map["roomName"],
+    roomCountForOrder = map["roomCountForOrder"],
+    noOfGuests = map["noOfGuests"],
+    subTotal = map["subTotal"],
+    rateInLkr = map["refBranch"],
+    accommodationReference = map["accommodationReference"];
+
+  Map<String, dynamic> toMap(){
+    return {
+      'roomName': roomName,
+      'roomCountForOrder': roomCountForOrder,
+      'noOfGuests': noOfGuests,
+      'subTotal': subTotal,
+      'rateInLkr': rateInLkr,
+      'accommodationReference': accommodationReference,
+    };
+  }
+
+  RoomForReservationModel.fromSnapshot(DocumentSnapshot snapshot)
+      : this.fromMap(snapshot.data() as Map<String, dynamic>, reference: snapshot.reference);
 }

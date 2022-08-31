@@ -90,4 +90,18 @@ class Accommodation {
 
   Accommodation.fromSnapshot(DocumentSnapshot snapshot)
       : this.fromMap(snapshot.data() as Map<String, dynamic>, reference: snapshot.reference);
+
+  Map<String, dynamic> toJson(){
+    return {
+      'floorNo': floorNo,
+      'size': size,
+      'noOfRooms': noOfRooms,
+      'description': description,
+      'refBranch': refBranch,
+      'roomName': roomName,
+      'rateInLkr': rateInLkr,
+      'reservedRoomCount': reservedRoomCount,
+      'reference': reference,
+    };
+  }
 }

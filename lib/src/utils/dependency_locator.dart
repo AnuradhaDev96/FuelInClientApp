@@ -4,6 +4,7 @@ import '../models/change_notifiers/side_drawer_notifier.dart';
 import '../services/accommodation_service.dart';
 import '../services/auth_service.dart';
 import '../services/employee_service.dart';
+import '../services/reservation_service.dart';
 import 'navigation_utils.dart';
 
 void injectAppDependencies() {
@@ -17,4 +18,5 @@ void injectAppDependencies() {
   GetIt.I.registerLazySingleton(() => AuthService());
   GetIt.I.registerLazySingleton(() => EmployeeService());
   GetIt.I.registerLazySingleton(() => AccommodationService());
+  GetIt.I.registerLazySingleton(() => ReservationService());
 }

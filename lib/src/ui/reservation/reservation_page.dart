@@ -8,6 +8,7 @@ import 'package:rh_reader/src/models/reservation/reservation.dart';
 import '../../config/app_colors.dart';
 import '../../services/accommodation_service.dart';
 import '../widgets/custom_input_field.dart';
+import 'room_for_reservation_item_builder.dart';
 
 class ReservationPage extends StatefulWidget {
   const ReservationPage({Key? key}) : super(key: key);
@@ -21,7 +22,7 @@ class _ReservationPageState extends State<ReservationPage> {
   TextEditingController checkInDateController = TextEditingController();
   TextEditingController checkOutDateController = TextEditingController();
   // TextEditingController checkOutDateController = TextEditingController();
-  List<RoomForReservationModel>? _includedRoomsForReservation;
+  List<RoomForReservationModel>? _includedRoomsForReservationList;
   late final AccommodationService _accommodationService;
 
   String selectedHotel = 'Unawatuna';
@@ -75,7 +76,6 @@ class _ReservationPageState extends State<ReservationPage> {
                       onChanged: (selectedValue){
                         setState(() {
                           selectedHotel = selectedValue.toString();
-                          print(selectedHotel);
                         });
                       },
                     )
@@ -165,6 +165,7 @@ class _ReservationPageState extends State<ReservationPage> {
           ),
         ),
         Row(
+          crossAxisAlignment: CrossAxisAlignment.start,
           children: [
             SizedBox(
               width: MediaQuery.of(context).size.width * 0.28,
@@ -217,27 +218,56 @@ class _ReservationPageState extends State<ReservationPage> {
                 ],
               ),
             ),
-            // SizedBox(
-            //   width: MediaQuery.of(context).size.width * 0.28,
-            //   // height: MediaQuery.of(context).size.height * 0.345,
-            //   child: Column(
-            //     mainAxisSize: MainAxisSize.min,
-            //     children: [
-            //       const Text(
-            //         "Available Rooms",
-            //         style: TextStyle(
-            //           fontSize: 14.0,
-            //         ),
-            //       ),
-            //       Container(color: AppColors.indigoMaroon,height: 2.0,),
-            //       ListView.builder(
-            //           shrinkWrap: true,
-            //           itemCount: availableAccommodationsList.length,
-            //           itemBuilder: searchItemBuilder
-            //       )
-            //     ],
-            //   ),
-            // )
+            const SizedBox(width: 15.0),
+            (_includedRoomsForReservationList == null || _includedRoomsForReservationList!.isEmpty)
+              ? const SizedBox(
+                  width: 0,
+                  height: 0,
+                )
+              : Expanded(
+                child: Column(
+                  mainAxisAlignment: MainAxisAlignment.start,
+                  children: [
+                    const Text(
+                      "Selected Rooms",
+                      style: TextStyle(
+                        fontSize: 14.0,
+                      ),
+                    ),
+                    Container(color: AppColors.indigoMaroon,height: 2.0,),
+                    ListView.builder(
+                      key: Key(_includedRoomsForReservationList!.length.toString()),
+                      shrinkWrap: true,
+                      padding: const EdgeInsets.symmetric(horizontal: 10.0),
+                      itemCount: _includedRoomsForReservationList!.length,
+                      itemBuilder: (context, index) => RoomForReservationItemBuilder(
+                        roomForReservationModel: _includedRoomsForReservationList![index],
+                      ),
+                    ),
+                  ],
+                ),
+              ),
+            // const SizedBox(width: 15.0),
+            const SizedBox(width: 15.0),
+            (_includedRoomsForReservationList == null || _includedRoomsForReservationList!.isEmpty)
+              ? const SizedBox(
+            width: 0,
+            height: 0,
+          )
+              : Expanded(
+                  child: Column(
+                    mainAxisAlignment: MainAxisAlignment.start,
+                    children: [
+                      const Text(
+                        "Final Cost",
+                        style: TextStyle(
+                          fontSize: 14.0,
+                        ),
+                      ),
+                      Container(color: AppColors.indigoMaroon,height: 2.0,),
+                    ],
+                  ),
+               )
           ],
         ),
       ],
@@ -250,7 +280,22 @@ class _ReservationPageState extends State<ReservationPage> {
     int reservedRoomCount = accommodation.reservedRoomCount ?? 0;
     int availableRoomCount = totalRooms - reservedRoomCount;
 
+    bool isAccommodationIncludedInReservationList = false;
+
+    if (_includedRoomsForReservationList != null) {
+      if (_includedRoomsForReservationList!.isNotEmpty) {
+        var accommodationIncludedInReservationList = _includedRoomsForReservationList!
+            .where((element) => element.accommodationReference == accommodation.reference,);
+        if (accommodationIncludedInReservationList.isNotEmpty) {
+          isAccommodationIncludedInReservationList = true;
+        } else {
+          isAccommodationIncludedInReservationList = false;
+        }
+      }
+    }
+
     return Card(
+      key: ValueKey(accommodation.reference),
       elevation: 5,
       color: AppColors.lightGray,
       shape: RoundedRectangleBorder(
@@ -364,15 +409,15 @@ class _ReservationPageState extends State<ReservationPage> {
               ],
             ),
             ElevatedButton(
-              child: const Text(
-                "Add",
+              child: Text(
+                isAccommodationIncludedInReservationList ? "Remove" : "Add",
                 style: TextStyle(
-                    color: AppColors.lightGray
+                    color: isAccommodationIncludedInReservationList ? AppColors.ashRed : AppColors.lightGray
                 ),
               ),
-              onPressed: () {
-                // Navigator.push(context, MaterialPageRoute(builder: (context) => const SignInPage()));
-              },
+              onPressed: () => isAccommodationIncludedInReservationList
+                  ? removeRoomFromReservationClientList(accommodation)
+                  : addRoomForReservationClientList(accommodation),
             ),
           ],
         ),
@@ -415,4 +460,33 @@ class _ReservationPageState extends State<ReservationPage> {
 
   }
 
+  void addRoomForReservationClientList(Accommodation selectedAccommodation) {
+    int totalRooms = selectedAccommodation.noOfRooms ?? 0;
+    int reservedRoomCount = selectedAccommodation.reservedRoomCount ?? 0;
+    int availableRoomCount = totalRooms - reservedRoomCount;
+    _includedRoomsForReservationList ??= <RoomForReservationModel>[];
+
+    setState(() {
+      _includedRoomsForReservationList?.add(
+          RoomForReservationModel(roomName: selectedAccommodation.roomName,
+            roomCountForOrder: 1,
+            noOfGuests: 2,
+            subTotal: selectedAccommodation.rateInLkr,
+            rateInLkr: selectedAccommodation.rateInLkr,
+            accommodationReference: selectedAccommodation.reference,
+            availableRoomCount: availableRoomCount,
+          )
+      );
+    });
+  }
+
+  void removeRoomFromReservationClientList(Accommodation selectedAccommodation) {
+    _includedRoomsForReservationList ??= <RoomForReservationModel>[];
+
+      setState(() {
+        // print("showTheListLength: ${_includedRoomsForReservationList?.length}");
+        _includedRoomsForReservationList
+            ?.removeWhere((element) => element.accommodationReference == selectedAccommodation.reference);
+      });
+  }
 }
