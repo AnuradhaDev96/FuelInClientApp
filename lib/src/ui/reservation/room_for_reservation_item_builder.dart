@@ -1,14 +1,19 @@
 import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:flutter/material.dart';
 import 'package:get_it/get_it.dart';
+import 'package:provider/provider.dart';
 
+import '../../models/change_notifier/reservation_notifier.dart';
 import '../../models/reservation/reservation.dart';
 import '../../config/app_colors.dart';
 import '../../services/reservation_service.dart';
 
 class RoomForReservationItemBuilder extends StatefulWidget {
-  const RoomForReservationItemBuilder({Key? key, required this.roomForReservationModel}) : super(key: key);
+  const RoomForReservationItemBuilder(
+      {Key? key, required this.roomForReservationModel, required this.indexOfRoomForReservation})
+      : super(key: key);
   final RoomForReservationModel roomForReservationModel;
+  final int indexOfRoomForReservation;
 
   @override
   State<RoomForReservationItemBuilder> createState() => _RoomForReservationItemBuilderState();
@@ -19,6 +24,9 @@ class _RoomForReservationItemBuilderState extends State<RoomForReservationItemBu
   final TextEditingController _roomNameController = TextEditingController();
   late final List<int> _roomCountSelectList;
   late final ReservationService _reservationService;
+  late final ReservationNotifier _reservationNotifier;
+  bool _isTotalCostPanelVisible = false;
+
 
   // guest count list changes according to the room count selected by user (2 persons per room)
   late List<int> _dynamicGuestCountList;
@@ -27,6 +35,8 @@ class _RoomForReservationItemBuilderState extends State<RoomForReservationItemBu
   void initState() {
     _roomForReservationModel = widget.roomForReservationModel;
     _reservationService = GetIt.I<ReservationService>();
+    _reservationNotifier = GetIt.I<ReservationNotifier>();
+
     if (_roomForReservationModel.availableRoomCount == 0 || _roomForReservationModel.availableRoomCount == null) {
       _roomCountSelectList = <int>[];
     } else {
@@ -36,6 +46,7 @@ class _RoomForReservationItemBuilderState extends State<RoomForReservationItemBu
       }
     }
 
+    // change the no of guests for the reservation based on the room count (2 persons per room)
     if (_roomForReservationModel.noOfGuests == 0 || _roomForReservationModel.noOfGuests == null) {
       _dynamicGuestCountList = <int>[];
     } else {
@@ -44,6 +55,11 @@ class _RoomForReservationItemBuilderState extends State<RoomForReservationItemBu
         _dynamicGuestCountList.add(i);
       }
     }
+
+    // _reservationNotifier.addListener(() {
+    //   _isTotalCostPanelVisible = _reservationNotifier.isTotalCostEditedAfterCalculation;
+    // });
+
     super.initState();
   }
 
@@ -62,7 +78,14 @@ class _RoomForReservationItemBuilderState extends State<RoomForReservationItemBu
   }
 
   void calculateSubTotal() {
+    //TODO: update noOFGuests and rooms in provider list
+    print("checkSubTot before: ${_roomForReservationModel.subTotal}");
     _roomForReservationModel.subTotal = _reservationService.calculateSubTotalForSelectedRoom(_roomForReservationModel);
+    _reservationNotifier.updateSubTotalOfRoomByIndex(_roomForReservationModel, widget.indexOfRoomForReservation);
+    print("checkSubTot after: ${_reservationNotifier.includedRoomsForReservationList[0].subTotal}");
+    // setState(() {
+    //   _reservationNotifier.updateSubTotalOfRoomByIndex(_roomForReservationModel, widget.indexOfRoomForReservation);
+    // });
   }
 
   @override
@@ -138,9 +161,12 @@ class _RoomForReservationItemBuilderState extends State<RoomForReservationItemBu
                             onChanged: (selectedValue){
                               setState(() {
                                 _roomForReservationModel.roomCountForOrder = selectedValue as int?;
+                                _reservationNotifier.updateRoomCountForOrderOfRoomByIndex(
+                                      _roomForReservationModel, widget.indexOfRoomForReservation);
                                 reAssignDynamicGuestCountList();
                                 calculateSubTotal();
-                                print(_roomForReservationModel.roomCountForOrder);
+                                Provider.of<ReservationNotifier>(context, listen: false)
+                                    .notifyTotalCostPanelVisibilityChanged(visibility: false);
                               });
                             },
                           )
@@ -183,7 +209,10 @@ class _RoomForReservationItemBuilderState extends State<RoomForReservationItemBu
                               onChanged: (selectedValue){
                                 setState(() {
                                   _roomForReservationModel.noOfGuests = selectedValue as int?;
-                                  print(_roomForReservationModel.noOfGuests);
+                                  _reservationNotifier.updateNoOfGuestsOfRoomByIndex(
+                                      _roomForReservationModel, widget.indexOfRoomForReservation);
+                                  // Provider.of<ReservationNotifier>(context, listen: false)
+                                  //     .notifyTotalCostPanelVisibilityChanged(visibility: false);
                                 });
                               },
                             )

@@ -2,10 +2,13 @@ import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:flutter/material.dart';
 import 'package:get_it/get_it.dart';
 import 'package:intl/intl.dart';
+import 'package:provider/provider.dart';
 import 'package:rh_reader/src/models/accommodation/accommodation.dart';
 import 'package:rh_reader/src/models/reservation/reservation.dart';
+import 'package:rh_reader/src/services/reservation_service.dart';
 
 import '../../config/app_colors.dart';
+import '../../models/change_notifier/reservation_notifier.dart';
 import '../../services/accommodation_service.dart';
 import '../widgets/custom_input_field.dart';
 import 'room_for_reservation_item_builder.dart';
@@ -22,11 +25,17 @@ class _ReservationPageState extends State<ReservationPage> {
   TextEditingController checkInDateController = TextEditingController();
   TextEditingController checkOutDateController = TextEditingController();
   // TextEditingController checkOutDateController = TextEditingController();
-  List<RoomForReservationModel>? _includedRoomsForReservationList;
+  List<RoomForReservationModel> _includedRoomsForReservationList = [];
+  late final ReservationNotifier _reservationNotifier;
   late final AccommodationService _accommodationService;
+  late final ReservationService _reservationService;
 
   String selectedHotel = 'Unawatuna';
-  DateTime? selectedCheckInDate;
+  late DateTime _selectedCheckInDate, _selectedCheckoutDate;
+  double? _totalCostForReservation;
+  int? _noOfNightsForReservation;
+  // bool _isTotalCostPanelVisible = false;
+
   List<String> hotelBranches = <String>[
     'Unawatuna',
     'Bentota',
@@ -36,6 +45,17 @@ class _ReservationPageState extends State<ReservationPage> {
   @override
   void initState() {
     _accommodationService = GetIt.I<AccommodationService>();
+    _reservationNotifier = GetIt.I<ReservationNotifier>();
+    _reservationService = GetIt.I<ReservationService>();
+
+    _reservationNotifier.addListener(() {
+      _includedRoomsForReservationList = _reservationNotifier.includedRoomsForReservationList;
+      // _isTotalCostPanelVisible = _reservationNotifier.isTotalCostEditedAfterCalculation;
+    });
+
+    //initial checkInDate and checkOut are following until user changes
+    _selectedCheckInDate = DateTime.now();
+    _selectedCheckoutDate = DateTime.now().add(const Duration(days: 1));
     super.initState();
   }
 
@@ -219,37 +239,41 @@ class _ReservationPageState extends State<ReservationPage> {
               ),
             ),
             const SizedBox(width: 15.0),
-            (_includedRoomsForReservationList == null || _includedRoomsForReservationList!.isEmpty)
+            (_includedRoomsForReservationList.isEmpty)
               ? const SizedBox(
                   width: 0,
                   height: 0,
                 )
               : Expanded(
-                child: Column(
-                  mainAxisAlignment: MainAxisAlignment.start,
-                  children: [
-                    const Text(
-                      "Selected Rooms",
-                      style: TextStyle(
-                        fontSize: 14.0,
-                      ),
+                    child: Column(
+                      mainAxisAlignment: MainAxisAlignment.start,
+                      children: [
+                        const Text(
+                          "Selected Rooms",
+                          style: TextStyle(
+                            fontSize: 14.0,
+                          ),
+                        ),
+                        Container(
+                          color: AppColors.indigoMaroon,
+                          height: 2.0,
+                        ),
+                        ListView.builder(
+                          key: Key(_includedRoomsForReservationList.length.toString()),
+                          shrinkWrap: true,
+                          padding: const EdgeInsets.symmetric(horizontal: 10.0),
+                          itemCount: _includedRoomsForReservationList.length,
+                          itemBuilder: (context, index) => RoomForReservationItemBuilder(
+                            roomForReservationModel: _includedRoomsForReservationList[index],
+                            indexOfRoomForReservation: index,
+                          ),
+                        ),
+                      ],
                     ),
-                    Container(color: AppColors.indigoMaroon,height: 2.0,),
-                    ListView.builder(
-                      key: Key(_includedRoomsForReservationList!.length.toString()),
-                      shrinkWrap: true,
-                      padding: const EdgeInsets.symmetric(horizontal: 10.0),
-                      itemCount: _includedRoomsForReservationList!.length,
-                      itemBuilder: (context, index) => RoomForReservationItemBuilder(
-                        roomForReservationModel: _includedRoomsForReservationList![index],
-                      ),
-                    ),
-                  ],
-                ),
-              ),
+                  ),
             // const SizedBox(width: 15.0),
             const SizedBox(width: 15.0),
-            (_includedRoomsForReservationList == null || _includedRoomsForReservationList!.isEmpty)
+            (_includedRoomsForReservationList.isEmpty)
               ? const SizedBox(
             width: 0,
             height: 0,
@@ -265,7 +289,96 @@ class _ReservationPageState extends State<ReservationPage> {
                         ),
                       ),
                       Container(color: AppColors.indigoMaroon,height: 2.0,),
-                    ],
+                      Padding(
+                        padding: const EdgeInsets.all(10.0),
+                        child: ElevatedButton(
+                          child: const Text(
+                            "Calculate Total",
+                            style: TextStyle(
+                                color: AppColors.goldYellow
+                            ),
+                          ),
+                          onPressed: () => calculateTotalCost(),
+                        ),
+                      ),
+                      Consumer<ReservationNotifier>(
+                        builder: (BuildContext context, ReservationNotifier reservationNotifier, child) {
+                          return Visibility(
+                            visible: reservationNotifier.isTotalCostPanelVisible,
+                            child: Padding(
+                              padding: const EdgeInsets.all(4.0),
+                              child: Card(
+                                elevation: 5.0,
+                                color: AppColors.lightGray,
+                                shape: RoundedRectangleBorder(
+                                  borderRadius: BorderRadius.circular(15),
+                                ),
+                                child: Column(
+                                  crossAxisAlignment: CrossAxisAlignment.center,
+                                  mainAxisAlignment: MainAxisAlignment.start,
+                                  children: [
+                                    Padding(
+                                      padding: const EdgeInsets.all(10.0),
+                                      child: Column(
+                                        crossAxisAlignment: CrossAxisAlignment.start,
+                                        children: [
+                                          const Text(
+                                            "*dates and hotel are above choices",
+                                            style: TextStyle(fontSize: 10.0, fontStyle: FontStyle.italic),
+                                          ),
+                                          const Text(
+                                            "**total room cost X number of nights",
+                                            style: TextStyle(fontSize: 10.0, fontStyle: FontStyle.italic),
+                                          ),
+                                          Row(
+                                            mainAxisAlignment: MainAxisAlignment.start,
+                                            children: [
+                                              const Text(
+                                                "No of nights: ",
+                                                style: TextStyle(fontSize: 14.0, fontWeight: FontWeight.bold),
+                                              ),
+                                              Text(
+                                                "$_noOfNightsForReservation",
+                                                style: const TextStyle(fontSize: 14.0),
+                                              ),
+                                            ],
+                                          ),
+                                          Row(
+                                            mainAxisAlignment: MainAxisAlignment.start,
+                                            children: [
+                                              const Text(
+                                                "Total Cost: ",
+                                                style: TextStyle(fontSize: 16.0, fontWeight: FontWeight.bold),
+                                              ),
+                                              Text(
+                                                "$_totalCostForReservation",
+                                                style: const TextStyle(fontSize: 14.0),
+                                              ),
+                                            ],
+                                          ),
+                                          const SizedBox(height: 5.0),
+                                          ElevatedButton(
+                                            child: const Text(
+                                              "Proceed to checkout",
+                                              style: TextStyle(
+                                                  color: AppColors.goldYellow
+                                              ),
+                                            ),
+                                            onPressed: () {
+
+                                            },
+                                          ),
+                                        ],
+                                      ),
+                                    ),
+                                  ],
+                                ),
+                              ),
+                            ),
+                          );
+                        }
+                      ),
+                      ],
                   ),
                )
           ],
@@ -282,9 +395,9 @@ class _ReservationPageState extends State<ReservationPage> {
 
     bool isAccommodationIncludedInReservationList = false;
 
-    if (_includedRoomsForReservationList != null) {
-      if (_includedRoomsForReservationList!.isNotEmpty) {
-        var accommodationIncludedInReservationList = _includedRoomsForReservationList!
+    // if (_reservationNotifier.includedRoomsForReservationList != null) {
+      if (_includedRoomsForReservationList.isNotEmpty) {
+        var accommodationIncludedInReservationList = _includedRoomsForReservationList
             .where((element) => element.accommodationReference == accommodation.reference,);
         if (accommodationIncludedInReservationList.isNotEmpty) {
           isAccommodationIncludedInReservationList = true;
@@ -292,7 +405,7 @@ class _ReservationPageState extends State<ReservationPage> {
           isAccommodationIncludedInReservationList = false;
         }
       }
-    }
+    // }
 
     return Card(
       key: ValueKey(accommodation.reference),
@@ -428,8 +541,8 @@ class _ReservationPageState extends State<ReservationPage> {
   void onTapCheckInDateField() async {
     DateTime? checkInDate = await showDatePicker(
       context: context,
-      initialDate: DateTime.now(),
-      firstDate: DateTime.now(),
+      initialDate: _selectedCheckInDate,
+      firstDate: _selectedCheckInDate,
       lastDate: DateTime(2030),
         // selectableDayPredicate: (DateTime val) =>
         // val.compareTo(DateTime.now()) > 0 ? true : false
@@ -438,55 +551,59 @@ class _ReservationPageState extends State<ReservationPage> {
     if (checkInDate != null) {
       checkInDateController.text = DateFormat('yyyy-MM-dd').format(checkInDate);
       checkOutDateController.text = DateFormat('yyyy-MM-dd').format(checkInDate.add(const Duration(days: 1)));
-      selectedCheckInDate = checkInDate;
+      // _selectedCheckInDate = checkInDate;
     }
   }
 
   void onTapCheckOutDateField() async {
     DateTime? checkOutDate = await showDatePicker(
       context: context,
-      initialDate: selectedCheckInDate != null
-          ? selectedCheckInDate!.add(const Duration(days: 1))
-          : DateTime.now().add(const Duration(days: 1)),
-      firstDate: selectedCheckInDate != null ? selectedCheckInDate!.add(const Duration(days: 1)) : DateTime.now(),
+      initialDate: _selectedCheckInDate.add(const Duration(days: 1)),
+      firstDate: _selectedCheckInDate.add(const Duration(days: 1)),
       lastDate: DateTime(2030),
     );
 
     if (checkOutDate != null) {
       // checkInDateController.text = DateFormat('yyyy-MM-dd').format(checkInDate);
       checkOutDateController.text = DateFormat('yyyy-MM-dd').format(checkOutDate);
-      // selectedCheckInDate = checkInDate;
+      _selectedCheckoutDate = checkOutDate;
+      // _isTotalCostPanelVisible = false;
     }
-
   }
 
   void addRoomForReservationClientList(Accommodation selectedAccommodation) {
-    int totalRooms = selectedAccommodation.noOfRooms ?? 0;
-    int reservedRoomCount = selectedAccommodation.reservedRoomCount ?? 0;
-    int availableRoomCount = totalRooms - reservedRoomCount;
-    _includedRoomsForReservationList ??= <RoomForReservationModel>[];
-
+    print("before: ${_includedRoomsForReservationList.length}");
     setState(() {
-      _includedRoomsForReservationList?.add(
-          RoomForReservationModel(roomName: selectedAccommodation.roomName,
-            roomCountForOrder: 1,
-            noOfGuests: 2,
-            subTotal: selectedAccommodation.rateInLkr,
-            rateInLkr: selectedAccommodation.rateInLkr,
-            accommodationReference: selectedAccommodation.reference,
-            availableRoomCount: availableRoomCount,
-          )
-      );
+      _reservationNotifier.addRoomForReservationClientList(selectedAccommodation);
+      // _reservationNotifier.isTotalCostPanelVisible = false;
+      Provider.of<ReservationNotifier>(context, listen: false)
+          .notifyTotalCostPanelVisibilityChanged(visibility: false);
     });
+
+
+    // Provider.of<ReservationNotifier>(context, listen: false).addRoomForReservationClientList(selectedAccommodation);
+    print("after: ${_includedRoomsForReservationList.length}");
   }
 
   void removeRoomFromReservationClientList(Accommodation selectedAccommodation) {
-    _includedRoomsForReservationList ??= <RoomForReservationModel>[];
+    setState(() {
+      _reservationNotifier.removeRoomFromReservationClientList(selectedAccommodation);
+      // _reservationNotifier.isTotalCostPanelVisible = false;
+      Provider.of<ReservationNotifier>(context, listen: false)
+          .notifyTotalCostPanelVisibilityChanged(visibility: false);
+    });
+  }
 
-      setState(() {
-        // print("showTheListLength: ${_includedRoomsForReservationList?.length}");
-        _includedRoomsForReservationList
-            ?.removeWhere((element) => element.accommodationReference == selectedAccommodation.reference);
-      });
+  void calculateTotalCost() {
+    setState(() {
+      _totalCostForReservation =
+          _reservationService.calculateTotalCostOfOrder(_selectedCheckInDate, _selectedCheckoutDate, _includedRoomsForReservationList);
+      _noOfNightsForReservation =
+          _reservationService.calculateNoOfNightsForReservation(_selectedCheckInDate, _selectedCheckoutDate);
+      // _reservationNotifier.isTotalCostPanelVisible = true;
+      Provider.of<ReservationNotifier>(context, listen: false)
+          .notifyTotalCostPanelVisibilityChanged(visibility: true);
+    });
+
   }
 }

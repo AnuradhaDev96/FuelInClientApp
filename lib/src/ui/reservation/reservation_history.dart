@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import 'package:intl/intl.dart';
 
 import '../../config/app_colors.dart';
 import '../../models/enums/branch_name.dart';
@@ -9,14 +10,14 @@ class ReservationHistory extends StatelessWidget {
   final List<Reservation> reservationHistoryList = [
     Reservation(
       refUserID: "User001",
-      checkIn: "2022-06-20",
-      checkOut: "2022-06-21",
+      checkIn: DateTime(2022,6,20),
+      checkOut: DateTime(2022,6,21),
       hotelName: BranchNames.bentota.toDisplayString(),
     ),
     Reservation(
       refUserID: "User001",
-      checkIn: "2022-08-15",
-      checkOut: "2022-08-16",
+      checkIn: DateTime(2022,8,15),
+      checkOut: DateTime(2022,8,16),
       hotelName: BranchNames.negombo.toDisplayString(),
     ),
   ];
@@ -79,7 +80,7 @@ class ReservationHistory extends StatelessWidget {
                     ),
                     const SizedBox(width: 10.0),
                     Text(
-                      reservation.checkIn,
+                      DateFormat('yyyy-MM-dd').format(reservation.checkIn!) ,
                       style: const TextStyle(
                         color: AppColors.black,
                       ),
@@ -97,7 +98,7 @@ class ReservationHistory extends StatelessWidget {
                     ),
                     const SizedBox(width: 10.0),
                     Text(
-                      reservation.checkOut,
+                      DateFormat('yyyy-MM-dd').format(reservation.checkOut!),
                       style: const TextStyle(
                         color: AppColors.black,
                       ),

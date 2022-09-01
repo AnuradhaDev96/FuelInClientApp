@@ -9,6 +9,7 @@ import 'package:rh_reader/src/ui/widgets/admin_home/admin_home.dart';
 
 import 'firebase_options.dart';
 import 'src/config/app_colors.dart';
+import 'src/models/change_notifier/reservation_notifier.dart';
 import 'src/models/change_notifiers/side_drawer_notifier.dart';
 import 'src/ui/widgets/reader_home/reader_home.dart';
 import 'src/utils/dependency_locator.dart';
@@ -47,6 +48,9 @@ class MyApp extends StatelessWidget {
       providers: [
         ChangeNotifierProvider(
           create: (context) => SideDrawerNotifier(),
+        ),
+        ChangeNotifierProvider(
+          create: (context) => ReservationNotifier(),
         ),
       ],
       child: MaterialApp(

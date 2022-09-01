@@ -1,10 +1,13 @@
 import 'package:cloud_firestore/cloud_firestore.dart';
 
 class Reservation {
-  String hotelName, checkIn, checkOut, refUserID;
+  String hotelName, refUserID;
   double? totalCostInLkr;
   List<RoomForReservationModel>? includedRooms;
   //TODO: add field to calculate total based on checkin and checkout
+  DateTime? checkIn, checkOut;
+  int? noOfNightsReserved;
+  double? totalCostOfReservation;
 
   Reservation({
     required this.refUserID,
@@ -13,6 +16,8 @@ class Reservation {
     required this.checkOut,
     this.includedRooms,
     this.totalCostInLkr,
+    this.noOfNightsReserved,
+    this.totalCostOfReservation,
   });
 }
 
