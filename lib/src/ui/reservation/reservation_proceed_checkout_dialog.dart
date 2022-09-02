@@ -505,14 +505,18 @@ class _ReservationProceedCheckoutDialogState extends State<ReservationProceedChe
       // Reservation reservation = Reservation(hotelName: hotelName, checkIn: checkIn, checkOut: checkOut)
       final bool result = await _reservationService.createReservationByCustomer(widget.reservationToBeProceeded);
       if (result) {
-        await EmailJsUtil.sendPaymentConfirmedForGeneralReservation(widget.reservationToBeProceeded).then((int statusCode) {
-          if (statusCode == 200) {
-            dismissDialog(true);
-            showCreateReservationMessage(true);
-          } else {
-            showConfirmationEmailForReservationLaterMessage();
-          }
-        });
+        // await EmailJsUtil.sendPaymentConfirmedForGeneralReservation(widget.reservationToBeProceeded).then((int statusCode) {
+        //   if (statusCode == 200) {
+        //     dismissDialog(true);
+        //     showCreateReservationMessage(true);
+        //   } else {
+        //     showConfirmationEmailForReservationLaterMessage();
+        //   }
+        // });
+
+        //test
+        dismissDialog(true);
+        showCreateReservationMessage(true);
       } else {
         showCreateReservationMessage(false);
       }

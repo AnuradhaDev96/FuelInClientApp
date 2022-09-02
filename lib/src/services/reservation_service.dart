@@ -3,6 +3,7 @@ import 'package:get_it/get_it.dart';
 import 'package:rh_reader/src/models/change_notifiers/reservation_notifier.dart';
 
 import '../config/firestore_collections.dart';
+import '../models/accommodation/edit_accommodation_reserved_rooms_model.dart';
 import '../models/reservation/reservation.dart';
 
 class ReservationService {
@@ -48,12 +49,26 @@ class ReservationService {
   }
 
   Future<bool> createReservationByCustomer(Reservation reservation) async {
+    //UPDATE ACCOMMODATION TABLE
+    //accommodationReference
+    //checkIn
+    //roomName
+    //update reserved count
+
     try{
       _firebaseFirestore.runTransaction((Transaction transaction) async {
         await _firebaseFirestore
             .collection(FirestoreCollections.generalReservationCollection)
             .doc()
             .set(reservation.toMap());
+
+        reservation.includedRooms!.forEach((roomForReservation) async {
+          // element.
+          EditAccommodationReservedRoomsModel updateModel =  EditAccommodationReservedRoomsModel(reservedRoomCount: roomForReservation.roomCountForOrder!);
+          var accommodationRef = _firebaseFirestore.collection(FirestoreCollections.accommodationCollection).doc(roomForReservation.accommodationReference!.id);
+          // await transaction.update(roomForReservation.accommodationReference!, data)
+          accommodationRef.update(updateModel.toMap());
+        });
       });
       return true;
     } catch(e){
