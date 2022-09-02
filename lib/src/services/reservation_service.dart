@@ -1,10 +1,13 @@
+import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:get_it/get_it.dart';
 import 'package:rh_reader/src/models/change_notifiers/reservation_notifier.dart';
 
+import '../config/firestore_collections.dart';
 import '../models/reservation/reservation.dart';
 
 class ReservationService {
   // final ReservationNotifier _reservationNotifier = GetIt.I<ReservationNotifier>();
+  final FirebaseFirestore _firebaseFirestore = FirebaseFirestore.instance;
   
   double calculateSubTotalForSelectedRoom(RoomForReservationModel roomForReservationModel) {
     if (roomForReservationModel.roomCountForOrder != null && roomForReservationModel.rateInLkr != null) {
@@ -44,7 +47,17 @@ class ReservationService {
     return totalGuests;
   }
 
-  void createReservationByCustomer(Reservation reservation) {
-
+  Future<bool> createReservationByCustomer(Reservation reservation) async {
+    try{
+      _firebaseFirestore.runTransaction((Transaction transaction) async {
+        await _firebaseFirestore
+            .collection(FirestoreCollections.generalReservationCollection)
+            .doc()
+            .set(reservation.toMap());
+      });
+      return true;
+    } catch(e){
+      return false;
+    }
   }
 }

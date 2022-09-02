@@ -626,6 +626,7 @@ class _ReservationPageState extends State<ReservationPage> {
       child: ReservationProceedCheckoutDialog(reservationToBeProceeded: _reservationToBeProceeded),
       title: "Proceed Checkout",
     );
+
   }
 
   void searchAvailableRooms() {

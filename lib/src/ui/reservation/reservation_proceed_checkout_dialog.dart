@@ -2,13 +2,16 @@ import 'package:flutter/material.dart';
 import 'package:get_it/get_it.dart';
 import 'package:intl/intl.dart';
 import 'package:provider/provider.dart';
+import 'package:rh_reader/src/models/email_js/email_js_body.dart';
 import 'package:rh_reader/src/models/reservation/reservation.dart';
+import 'package:rh_reader/src/utils/email_js_util.dart';
 import 'package:rh_reader/src/utils/string_extention.dart';
 
 import '../../config/app_colors.dart';
 import '../../models/change_notifiers/credit_card_notifier.dart';
 import '../../models/change_notifiers/reservation_notifier.dart';
 import '../../services/reservation_service.dart';
+import '../../utils/message_utils.dart';
 
 class ReservationProceedCheckoutDialog extends StatefulWidget {
   const ReservationProceedCheckoutDialog({Key? key, required this.reservationToBeProceeded}) : super(key: key);
@@ -495,9 +498,44 @@ class _ReservationProceedCheckoutDialogState extends State<ReservationProceedChe
   }
 
   void proceedPaymentAction() async {
-    await Future.delayed(const Duration(seconds: 2), () {
-      Navigator.of(context).pop(true);
-    });
+    if (_formStateKey.currentState!.validate()) {
+      _formStateKey.currentState!.save();
+      widget.reservationToBeProceeded.customerName = _fullNameController.text;
+      widget.reservationToBeProceeded.customerEmail = _emailController.text;
+      // Reservation reservation = Reservation(hotelName: hotelName, checkIn: checkIn, checkOut: checkOut)
+      final bool result = await _reservationService.createReservationByCustomer(widget.reservationToBeProceeded);
+      if (result) {
+        await EmailJsUtil.sendPaymentConfirmedForGeneralReservation(widget.reservationToBeProceeded).then((int statusCode) {
+          if (statusCode == 200) {
+            dismissDialog(true);
+            showCreateReservationMessage(true);
+          } else {
+            showConfirmationEmailForReservationLaterMessage();
+          }
+        });
+      } else {
+        showCreateReservationMessage(false);
+      }
+    }
+
+  }
+
+  void dismissDialog(bool returnValue) {
+    Navigator.of(context).pop(returnValue);
+  }
+
+  void showConfirmationEmailForReservationLaterMessage() {
+    MessageUtils.showSuccessInFlushBar(context,
+        "Thank you! Reservation confirmed and email will be been sent to ${widget.reservationToBeProceeded.customerEmail} later.",
+        appearFromTop: false, duration: 4);
+  }
+
+  void showCreateReservationMessage(bool statusOfRequest) {
+    statusOfRequest
+        ? MessageUtils.showSuccessInFlushBar(context,
+            "Thank you! Confirmation email of reservation has been sent to ${widget.reservationToBeProceeded.customerEmail} ",
+            appearFromTop: false, duration: 4)
+        : MessageUtils.showErrorInFlushBar(context, "Reservation placement failed.", appearFromTop: false, duration: 4);
   }
 
   Widget _declinePaymentButton() {
