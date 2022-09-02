@@ -3,7 +3,7 @@ import 'package:flutter/material.dart';
 import 'package:get_it/get_it.dart';
 import 'package:provider/provider.dart';
 
-import '../../models/change_notifier/reservation_notifier.dart';
+import '../../models/change_notifiers/reservation_notifier.dart';
 import '../../models/reservation/reservation.dart';
 import '../../config/app_colors.dart';
 import '../../services/reservation_service.dart';

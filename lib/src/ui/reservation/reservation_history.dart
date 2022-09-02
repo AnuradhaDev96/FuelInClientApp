@@ -9,13 +9,13 @@ class ReservationHistory extends StatelessWidget {
   ReservationHistory({Key? key}) : super(key: key);
   final List<Reservation> reservationHistoryList = [
     Reservation(
-      refUserID: "User001",
+      customerName: "User001",
       checkIn: DateTime(2022,6,20),
       checkOut: DateTime(2022,6,21),
       hotelName: BranchNames.bentota.toDisplayString(),
     ),
     Reservation(
-      refUserID: "User001",
+      customerName: "User001",
       checkIn: DateTime(2022,8,15),
       checkOut: DateTime(2022,8,16),
       hotelName: BranchNames.negombo.toDisplayString(),

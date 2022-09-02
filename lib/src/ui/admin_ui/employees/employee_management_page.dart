@@ -66,7 +66,7 @@ class _EmployeeManagementPageState extends State<EmployeeManagementPage> {
                           mainAxisAlignment: MainAxisAlignment.start,
                           children: [
                             Expanded(child: buildFullName()),
-                            Expanded(child: buildAgeField()),
+                            Expanded(child: buildSalaryField()),
                             Expanded(child: buildDesignationField()),
                             // Expanded(
                             //   child: Column(
@@ -220,7 +220,7 @@ class _EmployeeManagementPageState extends State<EmployeeManagementPage> {
     );
   }
 
-  Widget buildAgeField() {
+  Widget buildSalaryField() {
     return Padding(
       padding: const EdgeInsets.all(8.0),
       child: Column(

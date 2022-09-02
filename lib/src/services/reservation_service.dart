@@ -1,5 +1,5 @@
 import 'package:get_it/get_it.dart';
-import 'package:rh_reader/src/models/change_notifier/reservation_notifier.dart';
+import 'package:rh_reader/src/models/change_notifiers/reservation_notifier.dart';
 
 import '../models/reservation/reservation.dart';
 
@@ -24,5 +24,27 @@ class ReservationService {
     });
     totalCost = totalCost * calculateNoOfNightsForReservation(checkInDate, checkoutDate);
     return totalCost;
+  }
+
+  int calculateTotalRoomsForReservation(List<RoomForReservationModel> selectedRoomList) {
+    int totalRooms = 0;
+    selectedRoomList.forEach((element) {
+      totalRooms += element.roomCountForOrder ?? 0;
+    });
+
+    return totalRooms;
+  }
+
+  int calculateTotalGuestsForReservation(List<RoomForReservationModel> selectedRoomList) {
+    int totalGuests = 0;
+    selectedRoomList.forEach((element) {
+      totalGuests += element.noOfGuests ?? 0;
+    });
+
+    return totalGuests;
+  }
+
+  void createReservationByCustomer(Reservation reservation) {
+
   }
 }

@@ -6,9 +6,11 @@ import 'package:provider/provider.dart';
 import 'package:rh_reader/src/models/accommodation/accommodation.dart';
 import 'package:rh_reader/src/models/reservation/reservation.dart';
 import 'package:rh_reader/src/services/reservation_service.dart';
+import 'package:rh_reader/src/ui/reservation/reservation_proceed_checkout_dialog.dart';
+import 'package:rh_reader/src/utils/general_dialog_utils.dart';
 
 import '../../config/app_colors.dart';
-import '../../models/change_notifier/reservation_notifier.dart';
+import '../../models/change_notifiers/reservation_notifier.dart';
 import '../../services/accommodation_service.dart';
 import '../widgets/custom_input_field.dart';
 import 'room_for_reservation_item_builder.dart';
@@ -34,6 +36,9 @@ class _ReservationPageState extends State<ReservationPage> {
   late DateTime _selectedCheckInDate, _selectedCheckoutDate;
   double? _totalCostForReservation;
   int? _noOfNightsForReservation;
+
+  //TODO: load initial accommodation list by giving checkin/out dates
+  late Reservation _reservationToBeProceeded;
   // bool _isTotalCostPanelVisible = false;
 
   List<String> hotelBranches = <String>[
@@ -56,6 +61,12 @@ class _ReservationPageState extends State<ReservationPage> {
     //initial checkInDate and checkOut are following until user changes
     _selectedCheckInDate = DateTime.now();
     _selectedCheckoutDate = DateTime.now().add(const Duration(days: 1));
+
+    _reservationToBeProceeded = Reservation(
+      hotelName: selectedHotel,
+      checkIn: _selectedCheckInDate,
+      checkOut: _selectedCheckoutDate,
+    );
     super.initState();
   }
 
@@ -344,10 +355,11 @@ class _ReservationPageState extends State<ReservationPage> {
                                             ],
                                           ),
                                           Row(
+                                            crossAxisAlignment: CrossAxisAlignment.end,
                                             mainAxisAlignment: MainAxisAlignment.start,
                                             children: [
                                               const Text(
-                                                "Total Cost: ",
+                                                "Total Cost:  LKR ",
                                                 style: TextStyle(fontSize: 16.0, fontWeight: FontWeight.bold),
                                               ),
                                               Text(
@@ -364,9 +376,7 @@ class _ReservationPageState extends State<ReservationPage> {
                                                   color: AppColors.goldYellow
                                               ),
                                             ),
-                                            onPressed: () {
-
-                                            },
+                                            onPressed: () => proceedToCheckoutReservation(),
                                           ),
                                         ],
                                       ),
@@ -551,7 +561,7 @@ class _ReservationPageState extends State<ReservationPage> {
     if (checkInDate != null) {
       checkInDateController.text = DateFormat('yyyy-MM-dd').format(checkInDate);
       checkOutDateController.text = DateFormat('yyyy-MM-dd').format(checkInDate.add(const Duration(days: 1)));
-      // _selectedCheckInDate = checkInDate;
+      _selectedCheckInDate = checkInDate;
     }
   }
 
@@ -597,13 +607,31 @@ class _ReservationPageState extends State<ReservationPage> {
   void calculateTotalCost() {
     setState(() {
       _totalCostForReservation =
-          _reservationService.calculateTotalCostOfOrder(_selectedCheckInDate, _selectedCheckoutDate, _includedRoomsForReservationList);
+          _reservationService.calculateTotalCostOfOrder(
+              _reservationToBeProceeded.checkIn!, _reservationToBeProceeded.checkOut!,
+              _includedRoomsForReservationList);
+
       _noOfNightsForReservation =
-          _reservationService.calculateNoOfNightsForReservation(_selectedCheckInDate, _selectedCheckoutDate);
+          _reservationService.calculateNoOfNightsForReservation(
+              _reservationToBeProceeded.checkIn!, _reservationToBeProceeded.checkOut!);
       // _reservationNotifier.isTotalCostPanelVisible = true;
       Provider.of<ReservationNotifier>(context, listen: false)
           .notifyTotalCostPanelVisibilityChanged(visibility: true);
     });
+  }
 
+  void proceedToCheckoutReservation() async {
+    bool isPaymentDone = await GeneralDialogUtils().showCustomGeneralDialog(
+      context: context,
+      child: ReservationProceedCheckoutDialog(reservationToBeProceeded: _reservationToBeProceeded),
+      title: "Proceed Checkout",
+    );
+  }
+
+  void searchAvailableRooms() {
+    _reservationToBeProceeded.hotelName = selectedHotel;
+    _reservationToBeProceeded.checkIn = _selectedCheckInDate;
+    _reservationToBeProceeded.checkOut = _selectedCheckoutDate;
+   //TODO: implement search
   }
 }
