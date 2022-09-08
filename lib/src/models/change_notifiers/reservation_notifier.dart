@@ -32,7 +32,7 @@ class ReservationNotifier extends ChangeNotifier {
 
   void addRoomForReservationClientList(Accommodation selectedAccommodation) {
     int totalRooms = selectedAccommodation.noOfRooms ?? 0;
-    int reservedRoomCount = selectedAccommodation.reservedRoomCount ?? 0;
+    int reservedRoomCount = selectedAccommodation.tempReservedRoomCountForResultSet ?? 0;
     int availableRoomCount = totalRooms - reservedRoomCount;
     _includedRoomsForReservationList ??= <RoomForReservationModel>[];
 

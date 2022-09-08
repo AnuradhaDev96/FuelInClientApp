@@ -3,7 +3,7 @@ import 'package:cloud_firestore/cloud_firestore.dart';
 class Accommodation {
   String? roomName, refBranch, description;
   int? noOfRooms, floorNo, size;
-  int? reservedRoomCount;
+  int? tempReservedRoomCountForResultSet; // removed from db and only for view purpose
   DocumentReference? reference;
   String? id;
   double? rateInLkr;
@@ -17,7 +17,7 @@ class Accommodation {
     required this.floorNo,
     required this.size,
     required this.rateInLkr,
-    this.reservedRoomCount = 0,
+    this.tempReservedRoomCountForResultSet,
     this.reference,
   });
 
@@ -72,8 +72,7 @@ class Accommodation {
     description = map["description"],
     refBranch = map["refBranch"],
     roomName = map["roomName"],
-    rateInLkr = map["rateInLkr"],
-    reservedRoomCount = map["reservedRoomCount"];
+    rateInLkr = map["rateInLkr"];
 
   Map<String, dynamic> toMap(){
     return {
@@ -84,7 +83,6 @@ class Accommodation {
       'refBranch': refBranch,
       'roomName': roomName,
       'rateInLkr': rateInLkr,
-      'reservedRoomCount': reservedRoomCount,
     };
   }
 
@@ -100,7 +98,6 @@ class Accommodation {
       'refBranch': refBranch,
       'roomName': roomName,
       'rateInLkr': rateInLkr,
-      'reservedRoomCount': reservedRoomCount,
       'reference': reference,
     };
   }

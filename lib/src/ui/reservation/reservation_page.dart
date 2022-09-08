@@ -10,6 +10,7 @@ import 'package:rh_reader/src/ui/reservation/reservation_proceed_checkout_dialog
 import 'package:rh_reader/src/utils/general_dialog_utils.dart';
 
 import '../../config/app_colors.dart';
+import '../../models/change_notifiers/accommodation_search_result_notifier.dart';
 import '../../models/change_notifiers/reservation_notifier.dart';
 import '../../services/accommodation_service.dart';
 import '../widgets/custom_input_field.dart';
@@ -23,7 +24,10 @@ class ReservationPage extends StatefulWidget {
 }
 
 class _ReservationPageState extends State<ReservationPage> {
-  final List<Accommodation> availableAccommodationsList = Accommodation.systemRoomList;
+  // main search results
+  List<Accommodation>? availableAccommodationsList;
+  bool _isAccommodationSearchLoading = false;
+
   TextEditingController checkInDateController = TextEditingController();
   TextEditingController checkOutDateController = TextEditingController();
   // TextEditingController checkOutDateController = TextEditingController();
@@ -31,6 +35,7 @@ class _ReservationPageState extends State<ReservationPage> {
   late final ReservationNotifier _reservationNotifier;
   late final AccommodationService _accommodationService;
   late final ReservationService _reservationService;
+  late final AccommodationSearchResultNotifier _accommodationSearchResultNotifier;
 
   String selectedHotel = 'Unawatuna';
   late DateTime _selectedCheckInDate, _selectedCheckoutDate;
@@ -52,6 +57,7 @@ class _ReservationPageState extends State<ReservationPage> {
     _accommodationService = GetIt.I<AccommodationService>();
     _reservationNotifier = GetIt.I<ReservationNotifier>();
     _reservationService = GetIt.I<ReservationService>();
+    _accommodationSearchResultNotifier = GetIt.I<AccommodationSearchResultNotifier>();
 
     _reservationNotifier.addListener(() {
       _includedRoomsForReservationList = _reservationNotifier.includedRoomsForReservationList;
@@ -61,13 +67,47 @@ class _ReservationPageState extends State<ReservationPage> {
     //initial checkInDate and checkOut are following until user changes
     _selectedCheckInDate = DateTime.now();
     _selectedCheckoutDate = DateTime.now().add(const Duration(days: 1));
+    // WidgetsBinding.instance.addPostFrameCallback((_){
+    //   _asyncMethod();
+    // });
 
     _reservationToBeProceeded = Reservation(
       hotelName: selectedHotel,
       checkIn: _selectedCheckInDate,
       checkOut: _selectedCheckoutDate,
     );
+
+    // WidgetsBinding.instance.addPostFrameCallback((_){
+    //   getData();
+    // });
     super.initState();
+
+  }
+
+  Future<void> _searchAccommodationsByHotelAndCheckIn() async {
+    setState(() {
+      _isAccommodationSearchLoading = true;
+
+    });
+    await _accommodationService.getAccommodationsListBasedOnReservations(selectedHotel, _selectedCheckInDate).then((accommodationResultsList) {
+      setState(() {
+        if (availableAccommodationsList != null) {
+          availableAccommodationsList!.clear();
+          availableAccommodationsList = List.from(accommodationResultsList);
+        } else {
+          availableAccommodationsList = <Accommodation>[];
+          availableAccommodationsList = List.from(accommodationResultsList);
+        }
+        _isAccommodationSearchLoading = false;
+      });
+    });
+
+  }
+
+  @override
+  void dispose() {
+    _includedRoomsForReservationList.clear();
+    super.dispose();
   }
 
   @override
@@ -180,15 +220,13 @@ class _ReservationPageState extends State<ReservationPage> {
                         ),
                       )
                     ),
+                    onPressed: _searchAccommodationsByHotelAndCheckIn,
                     child: const Text(
                       "Search",
                       style: TextStyle(
                           color: AppColors.lightGray
                       ),
                     ),
-                    onPressed: () {
-                      // Navigator.push(context, MaterialPageRoute(builder: (context) => const SignInPage()));
-                    },
                   ),
                 ),
               ],
@@ -212,11 +250,37 @@ class _ReservationPageState extends State<ReservationPage> {
                   ),
                   Container(color: AppColors.indigoMaroon,height: 2.0,),
                   // TODO: Implement stream based on search giving branch params
-                  StreamBuilder(
-                    stream: _accommodationService.getAccommodationsStream(),
-                    builder: (context, AsyncSnapshot<QuerySnapshot<Map<String, dynamic>>> snapshot) {
-                      if (snapshot.connectionState == ConnectionState.waiting) {
-                        return const Center(
+                  // StreamBuilder(
+                  //   stream: _accommodationService.getAccommodationsStream(),
+                  //   builder: (context, AsyncSnapshot<QuerySnapshot<Map<String, dynamic>>> snapshot) {
+                  //     if (snapshot.connectionState == ConnectionState.waiting) {
+                  //       return const Center(
+                  //         child: Padding(
+                  //             padding: EdgeInsets.all(8.0),
+                  //             child: SizedBox(
+                  //               width: 40,
+                  //               height: 40,
+                  //               child: CircularProgressIndicator(
+                  //                 strokeWidth: 1,
+                  //                 color: AppColors.indigoMaroon,
+                  //               ),
+                  //             )),
+                  //       );
+                  //     } else if (snapshot.hasError) {
+                  //       return Text("Error: ${snapshot.error}");
+                  //     } else if (snapshot.hasData) {
+                  //       // employeeList = snapshot.data ?? <EmployeeModel>[];
+                  //       return ListView(
+                  //         shrinkWrap: true,
+                  //         children: snapshot.data!.docs.map((data) => searchItemBuilder(context, data)).toList(),
+                  //       );
+                  //       // return Text("Error: ${snapshot.error}");
+                  //     }
+                  //     return const Text("No rooms available");
+                  //   },
+                  // ),
+                  _isAccommodationSearchLoading
+                      ? const Center(
                           child: Padding(
                               padding: EdgeInsets.all(8.0),
                               child: SizedBox(
@@ -227,25 +291,15 @@ class _ReservationPageState extends State<ReservationPage> {
                                   color: AppColors.indigoMaroon,
                                 ),
                               )),
-                        );
-                      } else if (snapshot.hasError) {
-                        return Text("Error: ${snapshot.error}");
-                      } else if (snapshot.hasData) {
-                        // employeeList = snapshot.data ?? <EmployeeModel>[];
-                        return ListView(
-                          shrinkWrap: true,
-                          children: snapshot.data!.docs.map((data) => searchItemBuilder(context, data)).toList(),
-                        );
-                        // return Text("Error: ${snapshot.error}");
-                      }
-                      return const Text("No rooms available");
-                    },
-                  ),
-                  // ListView.builder(
-                  //   shrinkWrap: true,
-                  //   itemCount: availableAccommodationsList.length,
-                  //   itemBuilder: searchItemBuilder
-                  // )
+                        )
+                      : availableAccommodationsList == null
+                          ? const Text("Please search for rooms.")
+                          : availableAccommodationsList!.isEmpty
+                              ? const Text("No rooms available for search")
+                              : ListView.builder(
+                                  shrinkWrap: true,
+                                  itemCount: availableAccommodationsList!.length,
+                                  itemBuilder: searchItemBuilder),
                 ],
               ),
             ),
@@ -397,10 +451,13 @@ class _ReservationPageState extends State<ReservationPage> {
     );
   }
 
-  Widget searchItemBuilder(BuildContext context, DocumentSnapshot data) {
-    final accommodation = Accommodation.fromSnapshot(data);
+  // Widget searchItemBuilder(BuildContext context, Accommodation data) {
+  Widget searchItemBuilder(BuildContext context, int index) {
+
+    // print("render item stat: ${data.roomName}");
+    final accommodation = availableAccommodationsList![index];
     int totalRooms = accommodation.noOfRooms ?? 0;
-    int reservedRoomCount = accommodation.reservedRoomCount ?? 0;
+    int reservedRoomCount = accommodation.tempReservedRoomCountForResultSet ?? 0;
     int availableRoomCount = totalRooms - reservedRoomCount;
 
     bool isAccommodationIncludedInReservationList = false;

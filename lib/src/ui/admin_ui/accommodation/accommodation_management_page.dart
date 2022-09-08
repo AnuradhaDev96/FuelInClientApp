@@ -715,7 +715,7 @@ class _AccommodationManagementPageState extends State<AccommodationManagementPag
   Widget accommodationItemBuilder(BuildContext context, DocumentSnapshot data) {
     final accommodation = Accommodation.fromSnapshot(data);
     int totalRooms = accommodation.noOfRooms ?? 0;
-    int reservedRoomCount = accommodation.reservedRoomCount ?? 0;
+    int reservedRoomCount = accommodation.tempReservedRoomCountForResultSet ?? 0;
     int availableRoomCount = totalRooms - reservedRoomCount;
 
     return Card(
