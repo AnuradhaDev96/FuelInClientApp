@@ -1,13 +1,11 @@
 import 'package:flutter/material.dart';
 import 'package:get_it/get_it.dart';
-import 'package:rh_reader/src/utils/navigation_utils.dart';
 
 import '../config/app_colors.dart';
 import '../config/language_settings.dart' as lang_settings;
 import '../models/change_notifiers/side_drawer_notifier.dart';
 import '../models/enums/screen_bucket_enum.dart';
 import '../ui/authentication/signin_page.dart';
-import '../utils/web_router.dart';
 
 class SideDrawer extends StatefulWidget {
   SideDrawer({Key? key}) : super(key: key);
@@ -77,6 +75,18 @@ class _SideDrawerState extends State<SideDrawer> {
                   ),
                   onTap: () {
                     _sideDrawerNotifier.selectedPageType = ScreenBuckets.booking;
+                  },
+                ),
+                ListTile(
+                  shape: const RoundedRectangleBorder(
+                      borderRadius: BorderRadius.only(topRight: Radius.circular(15.0), bottomRight: Radius.circular(15.0))
+                  ),
+                  tileColor: _sideDrawerNotifier.selectedPageType == ScreenBuckets.reservationSuits ? AppColors.ashYellow : null,
+                  title: Text(
+                    ScreenBuckets.reservationSuits.toDisplayString(),
+                  ),
+                  onTap: () {
+                    _sideDrawerNotifier.selectedPageType = ScreenBuckets.reservationSuits;
                   },
                 ),
                 ExpansionPanelList(
@@ -177,20 +187,20 @@ class _SideDrawerState extends State<SideDrawer> {
                     });
                   },
                 ),
-                ListTile(
-                  shape: const RoundedRectangleBorder(
-                      borderRadius: const BorderRadius.only(topRight: const Radius.circular(15.0), bottomRight: const Radius.circular(15.0))
-                  ),
-                  title: const Text(
-                    "Booking History",
-                  ),
-                  tileColor: _sideDrawerNotifier.selectedPageType == ScreenBuckets.reservationHistory ? AppColors.ashYellow : null,
-                  onTap: () {
-                    setState(() {
-                      _sideDrawerNotifier.selectedPageType = ScreenBuckets.reservationHistory;
-                    });
-                  },
-                ),
+                // ListTile(
+                //   shape: const RoundedRectangleBorder(
+                //       borderRadius: const BorderRadius.only(topRight: const Radius.circular(15.0), bottomRight: const Radius.circular(15.0))
+                //   ),
+                //   title: const Text(
+                //     "Booking History",
+                //   ),
+                //   tileColor: _sideDrawerNotifier.selectedPageType == ScreenBuckets.reservationHistory ? AppColors.ashYellow : null,
+                //   onTap: () {
+                //     setState(() {
+                //       _sideDrawerNotifier.selectedPageType = ScreenBuckets.reservationHistory;
+                //     });
+                //   },
+                // ),
                 const ListTile(
                   shape: RoundedRectangleBorder(
                       borderRadius: BorderRadius.only(topRight: Radius.circular(15.0), bottomRight: Radius.circular(15.0))

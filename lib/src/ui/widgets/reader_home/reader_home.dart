@@ -1,6 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:get_it/get_it.dart';
 import 'package:rh_reader/src/ui/reservation/reservation_page.dart';
+import 'package:rh_reader/src/ui/reservation/reservation_suit_page.dart';
 import 'package:rh_reader/src/ui/widgets/reader_home/home_content.dart';
 
 import '../../../config/assets.dart';
@@ -145,6 +146,8 @@ class _ReaderHomeState extends State<ReaderHome> {
         return DiningPage();
       case ScreenBuckets.reservationHistory:
         return ReservationHistory();
+      case ScreenBuckets.reservationSuits:
+        return ReservationSuitePage();
       default:
         return const SizedBox(width: 0, height: 0);
     }

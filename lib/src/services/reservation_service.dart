@@ -1,15 +1,12 @@
 import 'package:cloud_firestore/cloud_firestore.dart';
-import 'package:get_it/get_it.dart';
 import 'package:intl/intl.dart';
 import 'package:rh_reader/src/models/accommodation/reserved_dates_of_accommodation.dart';
-import 'package:rh_reader/src/models/change_notifiers/reservation_notifier.dart';
+import 'package:rh_reader/src/models/reservation/reservation_suit.dart';
 
 import '../config/firestore_collections.dart';
-import '../models/accommodation/edit_accommodation_reserved_rooms_model.dart';
 import '../models/reservation/reservation.dart';
 
 class ReservationService {
-  // final ReservationNotifier _reservationNotifier = GetIt.I<ReservationNotifier>();
   final FirebaseFirestore _firebaseFirestore = FirebaseFirestore.instance;
   
   double calculateSubTotalForSelectedRoom(RoomForReservationModel roomForReservationModel) {
@@ -107,6 +104,20 @@ class ReservationService {
 
           // accommodationRef.update(updateModel.toMap());
         });
+      });
+      return true;
+    } catch(e){
+      return false;
+    }
+  }
+
+  Future<bool> createReservationSuitByCustomer(ReservationSuit reservationSuit) async {
+    try{
+      _firebaseFirestore.runTransaction((Transaction transaction) async {
+        await _firebaseFirestore
+            .collection(FirestoreCollections.reservationSuitReservationCollection)
+            .doc()
+            .set(reservationSuit.toMap());
       });
       return true;
     } catch(e){
