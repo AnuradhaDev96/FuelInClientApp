@@ -7,6 +7,7 @@ class Accommodation {
   DocumentReference? reference;
   String? id;
   double? rateInLkr;
+  List<int>? roomNumbers;
 
   Accommodation({
     this.id,
@@ -19,6 +20,7 @@ class Accommodation {
     required this.rateInLkr,
     this.tempReservedRoomCountForResultSet,
     this.reference,
+    this.roomNumbers,
   });
 
   static final List<Accommodation> _systemRoomList = [
@@ -72,7 +74,8 @@ class Accommodation {
     description = map["description"],
     refBranch = map["refBranch"],
     roomName = map["roomName"],
-    rateInLkr = map["rateInLkr"];
+    rateInLkr = map["rateInLkr"],
+    roomNumbers = map["roomNumbers"] == null ? null : List<int>.from(map["roomNumbers"]).map((e) => e).toList();
 
   Map<String, dynamic> toMap(){
     return {
@@ -83,6 +86,7 @@ class Accommodation {
       'refBranch': refBranch,
       'roomName': roomName,
       'rateInLkr': rateInLkr,
+      'roomNumbers': roomNumbers,
     };
   }
 
@@ -99,6 +103,7 @@ class Accommodation {
       'roomName': roomName,
       'rateInLkr': rateInLkr,
       'reference': reference,
+      'roomNumbers': roomNumbers,
     };
   }
 }

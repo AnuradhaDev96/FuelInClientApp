@@ -1,3 +1,5 @@
+import 'dart:ui';
+
 import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:flutter/material.dart';
 import 'package:get_it/get_it.dart';
@@ -18,14 +20,31 @@ class AccommodationManagementPage extends StatefulWidget {
 class _AccommodationManagementPageState extends State<AccommodationManagementPage> {
   final TextEditingController _floorNoController = TextEditingController();
   final TextEditingController _sizeController = TextEditingController();
-  final TextEditingController _noOfRoomsController = TextEditingController();
+  // final TextEditingController _noOfRoomsController = TextEditingController();
   final TextEditingController _descriptionController = TextEditingController();
-  final TextEditingController _refBranchController = TextEditingController();
+  // final TextEditingController _refBranchController = TextEditingController();
   final TextEditingController _roomNameController = TextEditingController();
   final TextEditingController _rateController = TextEditingController();
 
   // final TextEditingController _assigned = TextEditingController();
   final GlobalKey<FormState> _formStateKey = GlobalKey<FormState>();
+
+  final GlobalKey<FormState> _roomNumbersFormStateKey = GlobalKey<FormState>();
+  final TextEditingController _roomNumberController = TextEditingController();
+  final FocusNode _roomNumberFocusNode = FocusNode();
+  // List<int> _roomNumbersList = [];
+  final ValueNotifier<List<int>> _roomNumbersList = ValueNotifier<List<int>>(<int>[]);
+  final ScrollController scrollController = ScrollController();
+
+  final List<String> _hotelBranches = <String>[
+    'Unawatuna',
+    'Bentota',
+    'Negombo',
+  ];
+  final String _defaultHoteName = "Unawatuna";
+  final ValueNotifier<String> _selectedHotelValue = ValueNotifier<String>("Unawatuna");
+
+
   late final AccommodationService _accommodationService;
   bool _isUpdateMode = false;
   Accommodation? _elementToBeEdited;
@@ -70,24 +89,11 @@ class _AccommodationManagementPageState extends State<AccommodationManagementPag
                           mainAxisAlignment: MainAxisAlignment.start,
                           children: [
                             Expanded(child: buildHotelNameField()),
-                            Expanded(child: buildHotelField()),
-                            Expanded(child: buildRoomCountField()),
-                            // Expanded(
-                            //   child: Column(
-                            //     children: [
-                            //       buildFullName(),
-                            //       submitEmployeeButton(),
-                            //     ],
-                            //   ),
-                            // )
-                          ],
-                        ),
-                        Row(
-                          mainAxisAlignment: MainAxisAlignment.start,
-                          children: [
-                            Expanded(child: buildFloorNoField()),
-                            Expanded(child: buildRoomSizeField()),
                             Expanded(child: buildRateInLkrField()),
+                            // Expanded(child: buildHotelField()),
+                            // Expanded(child: buildRoomCountField()),
+                            Expanded(child: buildRoomSizeField()),
+                            Expanded(child: buildFloorNoField()),
                             // Expanded(
                             //   child: Column(
                             //     children: [
@@ -101,12 +107,41 @@ class _AccommodationManagementPageState extends State<AccommodationManagementPag
                         Row(
                           mainAxisAlignment: MainAxisAlignment.start,
                           children: [
+                            // Expanded(child: buildHotelField()),
+                            SizedBox(
+                              width: 120.0,
+                              child: buildHotelField(),
+                            ),
                             Expanded(child: buildDescriptionField()),
+                            // Expanded(child: buildFloorNoField()),
+                            // Expanded(child: buildRoomSizeField()),
+                            // Expanded(child: buildRateInLkrField()),
+                            // Expanded(
+                            //   child: Column(
+                            //     children: [
+                            //       buildFullName(),
+                            //       submitEmployeeButton(),
+                            //     ],
+                            //   ),
+                            // )
+                          ],
+                        ),
+                        Row(
+                          mainAxisAlignment: MainAxisAlignment.start,
+                          crossAxisAlignment: CrossAxisAlignment.end,
+                          children: [
+                            Expanded(child: buildRoomNumbersSection()),
                             if (_isUpdateMode)
                               resetFormButton(),
                             submitAccommodationButton(),
                           ],
-                        )
+                        ),
+                        // Row(
+                        //   mainAxisAlignment: MainAxisAlignment.start,
+                        //   children: [
+                        //     Expanded(child: buildRoomNumbersSection()),
+                        //   ],
+                        // )
                       ],
                     ),
                   )
@@ -253,97 +288,85 @@ class _AccommodationManagementPageState extends State<AccommodationManagementPag
           SizedBox(
             // width: 100.0,
             height: 35.0,
-            child: TextFormField(
-              controller: _refBranchController,
-              validator: (value) {
-                if (value == null || value.isEmpty) {
-                  return 'Hotel cannot be empty';
+            child: ValueListenableBuilder(
+                valueListenable: _selectedHotelValue,
+                builder: (context, snapshot, child) {
+                  return DropdownButton(
+                    underline: const SizedBox(width: 0, height: 0),
+                    value: _selectedHotelValue.value,
+                    isExpanded: false,
+                    hint: const Text(
+                        'Select hotel'
+                    ),
+                    items: _hotelBranches.map((branch) => DropdownMenuItem(
+                      value: branch,
+                      child: Text(
+                        branch,
+                      ),
+                    )).toList(),
+                    onChanged: (selectedValue){
+                      _selectedHotelValue.value = selectedValue.toString();
+                    },
+                  );
                 }
-                // if (!value.isDouble) {
-                //   return 'Enter numeric';
-                // }
-                return null;
-              },
-              autofocus: true,
-              onChanged: (String emailAddress) {
-                // _emailAddressBloc.onChangeEmail(emailAddress);
-              },
-              style: const TextStyle(fontSize: 12.0),
-              keyboardType: TextInputType.number,
-              textCapitalization: TextCapitalization.words,
-              decoration: InputDecoration(
-                border: OutlineInputBorder(
-                    borderRadius: BorderRadius.circular(12.0),
-                    borderSide: const BorderSide(width: 1, color: AppColors.darkGrey)),
-                focusedBorder: OutlineInputBorder(
-                  borderSide: const BorderSide(width: 1, color: AppColors.darkGrey),
-                  borderRadius: BorderRadius.circular(12.0),
-                ),
-                contentPadding: const EdgeInsets.all(8.0),
-                hintText: "Hotel name",
-                hintStyle: const TextStyle(fontSize: 12.0),
-                // helperText: ' ',
-                // errorText: snapshot.error as String?,
-
-              ),
-            ),
+            )
           ),
         ],
       ),
     );
   }
 
-  Widget buildRoomCountField() {
-    return Padding(
-      padding: const EdgeInsets.all(8.0),
-      child: Column(
-        crossAxisAlignment: CrossAxisAlignment.start,
-        children: [
-          const Text(
-              "Total room count:"
-          ),
-          SizedBox(
-            // width: 100.0,
-            height: 35.0,
-            child: TextFormField(
-              controller: _noOfRoomsController,
-              validator: (value) {
-                if (value == null || value.isEmpty) {
-                  return 'Room count cannot be empty';
-                }
-                if (!value.isInteger) {
-                  return 'Enter integer value';
-                }
-                return null;
-              },
-              autofocus: true,
-              onChanged: (String emailAddress) {
-                // _emailAddressBloc.onChangeEmail(emailAddress);
-              },
-              style: const TextStyle(fontSize: 12.0),
-              keyboardType: TextInputType.number,
-              textCapitalization: TextCapitalization.words,
-              decoration: InputDecoration(
-                border: OutlineInputBorder(
-                    borderRadius: BorderRadius.circular(12.0),
-                    borderSide: const BorderSide(width: 1, color: AppColors.darkGrey)),
-                focusedBorder: OutlineInputBorder(
-                  borderSide: const BorderSide(width: 1, color: AppColors.darkGrey),
-                  borderRadius: BorderRadius.circular(12.0),
-                ),
-                contentPadding: const EdgeInsets.all(8.0),
-                hintText: "Room count",
-                hintStyle: const TextStyle(fontSize: 12.0),
-                // helperText: ' ',
-                // errorText: snapshot.error as String?,
-
-              ),
-            ),
-          ),
-        ],
-      ),
-    );
-  }
+  // Widget buildRoomCountField() {
+  //   return Padding(
+  //     padding: const EdgeInsets.all(8.0),
+  //     child: Column(
+  //       crossAxisAlignment: CrossAxisAlignment.start,
+  //       children: [
+  //         const Text(
+  //             "Total room count:"
+  //         ),
+  //         SizedBox(
+  //           // width: 100.0,
+  //           height: 35.0,
+  //           child: TextFormField(
+  //             controller: _noOfRoomsController,
+  //             validator: (value) {
+  //               if (value == null || value.isEmpty) {
+  //                 return 'Room count cannot be empty';
+  //               }
+  //               if (!value.isInteger) {
+  //                 return 'Enter integer value';
+  //               }
+  //               return null;
+  //             },
+  //             autofocus: true,
+  //             onChanged: (String emailAddress) {
+  //               // _emailAddressBloc.onChangeEmail(emailAddress);
+  //             },
+  //             style: const TextStyle(fontSize: 12.0),
+  //             keyboardType: TextInputType.number,
+  //             textCapitalization: TextCapitalization.words,
+  //             decoration: InputDecoration(
+  //               border: OutlineInputBorder(
+  //                   borderRadius: BorderRadius.circular(12.0),
+  //                   borderSide: const BorderSide(width: 1, color: AppColors.darkGrey)),
+  //               focusedBorder: OutlineInputBorder(
+  //                 borderSide: const BorderSide(width: 1, color: AppColors.darkGrey),
+  //                 borderRadius: BorderRadius.circular(12.0),
+  //               ),
+  //               contentPadding: const EdgeInsets.all(8.0),
+  //               hintText: "Room count",
+  //               hintStyle: const TextStyle(fontSize: 12.0),
+  //               // helperText: ' ',
+  //               // errorText: snapshot.error as String?,
+  //
+  //             ),
+  //           ),
+  //         ),
+  //       ],
+  //     ),
+  //   );
+  // }
 
   Widget buildRoomSizeField() {
     return Padding(
@@ -588,8 +611,10 @@ class _AccommodationManagementPageState extends State<AccommodationManagementPag
             _isUpdateMode = false;
             _elementToBeEdited = null;
             _roomNameController.clear();
-            _refBranchController.clear();
-            _noOfRoomsController.clear();
+            // _refBranchController.clear();
+            _selectedHotelValue.value = _defaultHoteName;
+            // _noOfRoomsController.clear();
+            _roomNumbersList.value.clear();
             _floorNoController.clear();
             _sizeController.clear();
             _descriptionController.clear();
@@ -609,18 +634,19 @@ class _AccommodationManagementPageState extends State<AccommodationManagementPag
       _formStateKey.currentState!.save();
       Accommodation accommodation = Accommodation(
         roomName: _roomNameController.text,
-        refBranch: _refBranchController.text,
-        noOfRooms: int.tryParse(_noOfRoomsController.text) ?? 0,
+        refBranch: _selectedHotelValue.value,
+        noOfRooms: _roomNumbersList.value.length,
         floorNo: int.tryParse(_floorNoController.text) ?? 0,
         size: int.tryParse(_sizeController.text) ?? 0,
         description: _descriptionController.text,
         rateInLkr: double.tryParse(_rateController.text),
+        roomNumbers: List.from(_roomNumbersList.value),
       );
       final bool result = await _accommodationService.registerAccommodation(accommodation);
       if (result) {
         _roomNameController.clear();
-        _refBranchController.clear();
-        _noOfRoomsController.clear();
+        _selectedHotelValue.value = _defaultHoteName;
+        _roomNumbersList.value.clear();
         _floorNoController.clear();
         _sizeController.clear();
         _descriptionController.clear();
@@ -641,13 +667,14 @@ class _AccommodationManagementPageState extends State<AccommodationManagementPag
 
       Accommodation accommodation = Accommodation(
         roomName: _roomNameController.text,
-        refBranch: _refBranchController.text,
-        noOfRooms: int.tryParse(_noOfRoomsController.text) ?? 0,
+        refBranch: _selectedHotelValue.value,
+        noOfRooms: _roomNumbersList.value.length,
         floorNo: int.tryParse(_floorNoController.text) ?? 0,
         size: int.tryParse(_sizeController.text) ?? 0,
         description: _descriptionController.text,
         rateInLkr: double.tryParse(_rateController.text),
         reference: _elementToBeEdited?.reference,
+        roomNumbers: List.from(_roomNumbersList.value),
       );
       if (_elementToBeEdited == null) return;
 
@@ -657,8 +684,8 @@ class _AccommodationManagementPageState extends State<AccommodationManagementPag
           _isUpdateMode = false;
           _elementToBeEdited = null;
           _roomNameController.clear();
-          _refBranchController.clear();
-          _noOfRoomsController.clear();
+          _selectedHotelValue.value = _defaultHoteName;
+          _roomNumbersList.value.clear();
           _floorNoController.clear();
           _sizeController.clear();
           _descriptionController.clear();
@@ -694,8 +721,8 @@ class _AccommodationManagementPageState extends State<AccommodationManagementPag
       _isUpdateMode = true;
       _elementToBeEdited = accommodationModel;
       _roomNameController.text = accommodationModel.roomName ?? "";
-      _refBranchController.text = accommodationModel.refBranch ?? "";
-      _noOfRoomsController.text = accommodationModel.noOfRooms.toString();
+      _selectedHotelValue.value = accommodationModel.refBranch ?? "";
+      _roomNumbersList.value = List.from(accommodationModel.roomNumbers ?? <int>[]);
       _floorNoController.text = accommodationModel.floorNo.toString();
       _sizeController.text = accommodationModel.size.toString();
       _descriptionController.text = accommodationModel.description ?? "";
@@ -715,8 +742,8 @@ class _AccommodationManagementPageState extends State<AccommodationManagementPag
   Widget accommodationItemBuilder(BuildContext context, DocumentSnapshot data) {
     final accommodation = Accommodation.fromSnapshot(data);
     int totalRooms = accommodation.noOfRooms ?? 0;
-    int reservedRoomCount = accommodation.tempReservedRoomCountForResultSet ?? 0;
-    int availableRoomCount = totalRooms - reservedRoomCount;
+    // int reservedRoomCount = accommodation.tempReservedRoomCountForResultSet ?? 0;
+    // int availableRoomCount = totalRooms - reservedRoomCount;
 
     return Card(
       elevation: 5,
@@ -891,34 +918,34 @@ class _AccommodationManagementPageState extends State<AccommodationManagementPag
                                 ),
                               ),
                             ),
-                            const SizedBox(width: 8.0),
-                            Container(
-                              padding: const EdgeInsets.symmetric(vertical:5.0, horizontal: 8.0),
-                              decoration: BoxDecoration(
-                                borderRadius: BorderRadius.circular(15.0),
-                                color: AppColors.black,
-                              ),
-                              child: Text(
-                                "$reservedRoomCount rooms reserved",
-                                style: const TextStyle(
-                                  color: AppColors.white,
-                                ),
-                              ),
-                            ),
-                            const SizedBox(width: 8.0),
-                            Container(
-                              padding: const EdgeInsets.symmetric(vertical:5.0, horizontal: 8.0),
-                              decoration: BoxDecoration(
-                                borderRadius: BorderRadius.circular(15.0),
-                                color: AppColors.ashBlue,
-                              ),
-                              child: Text(
-                                "$availableRoomCount rooms available",
-                                style: const TextStyle(
-                                  color: AppColors.goldYellow,
-                                ),
-                              ),
-                            ),
+                            // const SizedBox(width: 8.0),
+                            // Container(
+                            //   padding: const EdgeInsets.symmetric(vertical:5.0, horizontal: 8.0),
+                            //   decoration: BoxDecoration(
+                            //     borderRadius: BorderRadius.circular(15.0),
+                            //     color: AppColors.black,
+                            //   ),
+                            //   child: Text(
+                            //     "$reservedRoomCount rooms reserved",
+                            //     style: const TextStyle(
+                            //       color: AppColors.white,
+                            //     ),
+                            //   ),
+                            // ),
+                            // const SizedBox(width: 8.0),
+                            // Container(
+                            //   padding: const EdgeInsets.symmetric(vertical:5.0, horizontal: 8.0),
+                            //   decoration: BoxDecoration(
+                            //     borderRadius: BorderRadius.circular(15.0),
+                            //     color: AppColors.ashBlue,
+                            //   ),
+                            //   child: Text(
+                            //     "$availableRoomCount rooms available",
+                            //     style: const TextStyle(
+                            //       color: AppColors.goldYellow,
+                            //     ),
+                            //   ),
+                            // ),
                           ],
                         ),
                       ],
@@ -978,14 +1005,184 @@ class _AccommodationManagementPageState extends State<AccommodationManagementPag
     );
   }
 
+  // # start region: room chip section
+  Widget buildRoomNumbersSection() {
+    return Padding(
+      padding: const EdgeInsets.all(8.0),
+      child: Column(
+        crossAxisAlignment: CrossAxisAlignment.start,
+        children: [
+          Form(
+            key: _roomNumbersFormStateKey,
+            child: Row(
+              children: [
+                const Text(
+                    'Room Numbers:'
+                ),
+                const SizedBox(width: 5.0),
+                SizedBox(
+                  width: 120.0,
+                  height: 35.0,
+                  child: TextFormField(
+                    controller: _roomNumberController,
+                    validator: (value) {
+                      if (value == null || value.isEmpty) {
+                        return 'Room number cannot be empty';
+                      }
+                      if (!value.isInteger) {
+                        return 'Enter integer value';
+                      }
+                      return null;
+                    },
+                    // autofocus: true,
+                    onChanged: (String emailAddress) {
+                      // _emailAddressBloc.onChangeEmail(emailAddress);
+                    },
+                    onFieldSubmitted: (value) => addRoomNumberAction(),
+                    focusNode: _roomNumberFocusNode,
+                    style: const TextStyle(fontSize: 12.0),
+                    keyboardType: TextInputType.number,
+                    textCapitalization: TextCapitalization.words,
+                    decoration: InputDecoration(
+                      border: OutlineInputBorder(
+                          borderRadius: BorderRadius.circular(12.0),
+                          borderSide: const BorderSide(width: 1, color: AppColors.darkGrey)),
+                      focusedBorder: OutlineInputBorder(
+                        borderSide: const BorderSide(width: 1, color: AppColors.darkGrey),
+                        borderRadius: BorderRadius.circular(12.0),
+                      ),
+                      contentPadding: const EdgeInsets.all(8.0),
+                      hintText: "Floor no",
+                      hintStyle: const TextStyle(fontSize: 12.0),
+                      // helperText: ' ',
+                      // errorText: snapshot.error as String?,
+
+                    ),
+                  ),
+                ),
+                _buildRoomNumberButton(),
+              ],
+            ),
+          ),
+          // const SizedBox(height: 2.0),
+          ValueListenableBuilder(
+            valueListenable: _roomNumbersList,
+            builder: (context, snapshot, child) {
+              print(_roomNumbersList.value.length);
+              if (_roomNumbersList.value.isEmpty ) {
+                return const SizedBox(width: 0, height: 0);
+              }
+              return Column(
+                crossAxisAlignment: CrossAxisAlignment.start,
+                children: [
+                  Container(
+                    margin: const EdgeInsets.only(bottom: 2.0, right: 5.0),
+                    padding: const EdgeInsets.all(5.0),
+                    // color: Colors.red,
+                    child: Text(
+                      "Room count: ${_roomNumbersList.value.length}",
+                      style: const TextStyle(fontSize: 12.0),
+                    ),
+                  ),
+                  Container(
+                    height: 60.0,
+                    padding: const EdgeInsets.symmetric(horizontal: 10.0),
+                    width: MediaQuery.of(context).size.width * 0.4,
+                    decoration: BoxDecoration(
+                      borderRadius: BorderRadius.circular(15.0),
+                      border: Border.all(
+                        width: 2.0,
+                        color: AppColors.indigoMaroon,
+                      )
+                    ),
+                    child: ScrollConfiguration(
+                      behavior: ScrollConfiguration.of(context).copyWith(dragDevices: {
+                        PointerDeviceKind.touch,
+                        PointerDeviceKind.mouse,
+                        PointerDeviceKind.trackpad,
+                      }),
+                      child: Scrollbar(
+                        controller: scrollController,
+                        child: ListView(
+                          controller: scrollController,
+                          shrinkWrap: true,
+                          scrollDirection: Axis.horizontal,
+                          // itemCount: _roomNumbersList.value.length,
+                          // itemBuilder: ,
+                          children: _roomNumbersList.value.map((roomNumber) => roomNumbersChipBuilder(context, roomNumber)).toList(),
+                        ),
+                      ),
+                    ),
+                  ),
+                ],
+              );
+            }
+          )
+        ],
+      ),
+    );
+  }
+
+  Widget roomNumbersChipBuilder(BuildContext context, int roomNumber) {
+    return Padding(
+      padding: const EdgeInsets.symmetric(horizontal: 5.0),
+      child: Chip(
+        backgroundColor: AppColors.goldYellow,
+        padding: const EdgeInsets.all(4.0),
+        label: Text("$roomNumber"),
+        elevation: 4.0,
+        onDeleted: () {
+          _roomNumbersList.value.removeWhere((element) => element == roomNumber);
+          _roomNumbersList.value = List.from(_roomNumbersList.value);
+        },
+      ),
+    );
+  }
+
+  Widget _buildRoomNumberButton() {
+    return Padding(
+      padding: const EdgeInsets.all(8.0),
+      child: ElevatedButton(
+        style: Theme.of(context).elevatedButtonTheme.style!.copyWith(
+            shape: MaterialStateProperty.all(
+              RoundedRectangleBorder(
+                borderRadius: BorderRadius.circular(4.0),
+              ),
+            )
+        ),
+        onPressed: addRoomNumberAction,
+        child: const Text(
+          "Add Room Number",
+          style: TextStyle(color: AppColors.goldYellow, fontSize: 14.0),
+        ),
+      ),
+    );
+  }
+
+  void addRoomNumberAction() async {
+    if (_roomNumbersFormStateKey.currentState!.validate()){
+      _roomNumbersFormStateKey.currentState!.save();
+      // setState(() {
+      // _roomNumbersList.value.add(int.tryParse(_roomNumberController.text) ?? 0);
+
+      // _roomNumbersList.notifyListeners();
+      _roomNumbersList.value = [..._roomNumbersList.value, int.tryParse(_roomNumberController.text) ?? 0];
+      _roomNumbersList.value.sort((a, b) => a.compareTo(b));
+      // });
+      print(_roomNumbersList.value.length);
+      _roomNumberFocusNode.requestFocus();
+    }
+  }
+  // # end region: room chip section
+
   void deleteAccommodation(Accommodation accommodation) async {
     final bool result = await _accommodationService.deleteAccommodation(accommodation);
     if (result) {
       _isUpdateMode = false;
       _elementToBeEdited = null;
       _roomNameController.clear();
-      _refBranchController.clear();
-      _noOfRoomsController.clear();
+      _selectedHotelValue.value = _defaultHoteName;
+      _roomNumbersList.value.clear();
       _floorNoController.clear();
       _sizeController.clear();
       _descriptionController.clear();

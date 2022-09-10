@@ -2,6 +2,7 @@ enum AdminScreenBuckets {
   employeeManagement,
   roomManagement,
   reservationManagement,
+  checkInReserved,
 }
 
 extension ToString on AdminScreenBuckets {
@@ -13,6 +14,8 @@ extension ToString on AdminScreenBuckets {
         return "Room Management";
       case AdminScreenBuckets.reservationManagement:
         return "Reservation Management";
+      case AdminScreenBuckets.checkInReserved:
+        return "Check In Reserved";
     }
   }
 }
