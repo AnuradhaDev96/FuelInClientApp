@@ -1,6 +1,7 @@
 import 'package:get_it/get_it.dart';
 
 import '../models/change_notifiers/accommodation_search_result_notifier.dart';
+import '../models/change_notifiers/checkin_customer_page_view_notifier.dart';
 import '../models/change_notifiers/credit_card_notifier.dart';
 import '../models/change_notifiers/reservation_notifier.dart';
 import '../models/change_notifiers/side_drawer_notifier.dart';
@@ -16,6 +17,7 @@ void injectAppDependencies() {
   GetIt.I.registerLazySingleton(() => ReservationNotifier());
   GetIt.I.registerLazySingleton(() => CreditCardNotifier());
   GetIt.I.registerLazySingleton(() => AccommodationSearchResultNotifier());
+  GetIt.I.registerLazySingleton(() => CheckInCustomerPageViewNotifier());
 
   // Utils
   GetIt.I.registerLazySingleton(() => NavigationUtils());

@@ -11,6 +11,7 @@ import '../../../widgets/admin_side_drawer.dart';
 import '../../../widgets/side_drawer.dart';
 import '../../accommodation/accommodation_list.dart';
 import '../../admin_ui/accommodation/accommodation_management_page.dart';
+import '../../admin_ui/checkin_reserved_customer/checkin_reserved_customer_page.dart';
 import '../../dining/dining_page.dart';
 import '../../gallery/gallery_grid_view.dart';
 import '../../hotel_service/hotel_services_list.dart';
@@ -138,6 +139,8 @@ class _AdminHomeState extends State<AdminHome> {
         return const EmployeeManagementPage();
       case AdminScreenBuckets.roomManagement:
         return const AccommodationManagementPage();
+      case AdminScreenBuckets.checkInReserved:
+        return const CheckInReservedCustomer();
       default:
         return const SizedBox(width: 0, height: 0);
     }

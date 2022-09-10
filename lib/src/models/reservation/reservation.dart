@@ -8,6 +8,7 @@ class Reservation {
   DateTime? checkIn, checkOut;
   int? noOfNightsReserved, totalRooms, totalGuests;
   double? totalCostOfReservation;
+  DocumentReference? reference;
 
   Reservation({
     this.customerName,
@@ -38,8 +39,26 @@ class Reservation {
       'totalGuests': totalGuests,
       'totalCostOfReservation': totalCostOfReservation,
       'includedRooms': includedRoomsMappedList,
+      // 'includedRooms': includedRooms?.map((e) => e.toMap()).toList(),
     };
   }
+
+  Reservation.fromMap(Map<String, dynamic> map, {required this.reference}):
+        hotelName = map["hotelName"],
+        customerName = map["customerName"],
+        customerEmail = map["customerEmail"],
+        checkIn = map["checkIn"] == null ? null : (map["checkIn"] as Timestamp).toDate(),
+        checkOut = map["checkOut"] == null ? null : (map["checkOut"] as Timestamp).toDate(),
+        noOfNightsReserved = map["noOfNightsReserved"],
+        totalRooms = map["totalRooms"],
+        totalGuests = map["totalGuests"],
+        totalCostOfReservation = map["totalCostOfReservation"],
+        includedRooms = map["includedRooms"] == null
+            ? null
+            : List<RoomForReservationModel>.from(map["includedRooms"].map((it) => RoomForReservationModel.fromMap(it)));
+
+  Reservation.fromSnapshot(DocumentSnapshot snapshot)
+      : this.fromMap(snapshot.data() as Map<String, dynamic>, reference: snapshot.reference);
 }
 
 class RoomForReservationModel {
@@ -60,12 +79,12 @@ class RoomForReservationModel {
     this.availableRoomCount,
   });
 
-  RoomForReservationModel.fromMap(Map<String, dynamic> map,):
+  RoomForReservationModel.fromMap(Map<String, dynamic> map):
     roomName = map["roomName"],
     roomCountForOrder = map["roomCountForOrder"],
     noOfGuests = map["noOfGuests"],
     subTotal = map["subTotal"],
-    rateInLkr = map["refBranch"],
+    rateInLkr = map["rateInLkr"],
     accommodationReference = map["accommodationReference"];
 
   Map<String, dynamic> toMap(){

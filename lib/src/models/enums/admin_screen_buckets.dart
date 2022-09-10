@@ -15,7 +15,7 @@ extension ToString on AdminScreenBuckets {
       case AdminScreenBuckets.reservationManagement:
         return "Reservation Management";
       case AdminScreenBuckets.checkInReserved:
-        return "Check In Reserved";
+        return "Check In Reserved Customer";
     }
   }
 }

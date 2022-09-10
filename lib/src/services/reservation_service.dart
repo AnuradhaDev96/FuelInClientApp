@@ -124,4 +124,11 @@ class ReservationService {
       return false;
     }
   }
+
+  // get generat reservation stream
+  Stream<QuerySnapshot<Map<String, dynamic>>> getGeneralReservationsStream() {
+    final Stream<QuerySnapshot<Map<String, dynamic>>> result =
+    _firebaseFirestore.collection(FirestoreCollections.generalReservationCollection).snapshots();
+    return result;
+  }
 }

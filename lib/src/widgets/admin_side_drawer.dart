@@ -1,13 +1,11 @@
 import 'package:flutter/material.dart';
 import 'package:get_it/get_it.dart';
-import 'package:rh_reader/src/utils/navigation_utils.dart';
 
 import '../config/app_colors.dart';
 import '../config/language_settings.dart' as lang_settings;
 import '../models/change_notifiers/side_drawer_notifier.dart';
 import '../models/enums/admin_screen_buckets.dart';
 import '../ui/authentication/signin_page.dart';
-import '../utils/web_router.dart';
 
 class AdminSideDrawer extends StatefulWidget {
   AdminSideDrawer({Key? key}) : super(key: key);
@@ -91,13 +89,17 @@ class _AdminSideDrawerState extends State<AdminSideDrawer> {
                     _sideDrawerNotifier.selectedPageTypeByAdmin = AdminScreenBuckets.roomManagement;
                   },
                 ),
-                const ListTile(
-                  shape: RoundedRectangleBorder(
+                ListTile(
+                  shape: const RoundedRectangleBorder(
                       borderRadius: BorderRadius.only(topRight: Radius.circular(15.0), bottomRight: Radius.circular(15.0))
                   ),
-                  title: Text(
-                    "Contact Us",
+                  title: const Text(
+                    "Check In Reserved Customer",
                   ),
+                  tileColor: _sideDrawerNotifier.selectedPageTypeByAdmin == AdminScreenBuckets.checkInReserved ? AppColors.white : null,
+                  onTap: () {
+                    _sideDrawerNotifier.selectedPageTypeByAdmin = AdminScreenBuckets.checkInReserved;
+                  },
                 ),
               ],
             ),

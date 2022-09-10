@@ -80,7 +80,7 @@ class ReservationHistory extends StatelessWidget {
                     ),
                     const SizedBox(width: 10.0),
                     Text(
-                      DateFormat('yyyy-MM-dd').format(reservation.checkIn!) ,
+                      DateFormat('yyyy-MM-dd').format(reservation.checkIn!),
                       style: const TextStyle(
                         color: AppColors.black,
                       ),

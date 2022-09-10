@@ -4,6 +4,7 @@ import 'package:firebase_core/firebase_core.dart';
 import 'package:flutter/foundation.dart';
 import 'package:flutter/material.dart';
 import 'package:provider/provider.dart';
+import 'package:rh_reader/src/models/change_notifiers/checkin_customer_page_view_notifier.dart';
 
 import 'firebase_options.dart';
 import 'src/config/app_colors.dart';
@@ -59,6 +60,9 @@ class MyApp extends StatelessWidget {
         ChangeNotifierProvider(
           create: (context) => AccommodationSearchResultNotifier(),
         ),
+        ChangeNotifierProvider(
+          create: (context) => CheckInCustomerPageViewNotifier(),
+        ),
       ],
       child: MaterialApp(
         debugShowCheckedModeBanner: false,
@@ -93,6 +97,7 @@ class MyApp extends StatelessWidget {
             )
           ),
           scaffoldBackgroundColor: AppColors.lightGray,
+          // textTheme: TextTheme()
 
         ),
         // home: const ReaderHome(),
