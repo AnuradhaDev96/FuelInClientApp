@@ -126,4 +126,18 @@ class AccommodationService {
     // return accommodationList;
 
   }
+
+  Future<Accommodation?> getAccommodationByReference(DocumentReference? accommodationRef) async {
+    if (accommodationRef == null) {
+      return null;
+    }
+
+    DocumentSnapshot reservedDateDoc = await _firebaseFirestore
+        .collection(FirestoreCollections.accommodationCollection)
+        .doc(accommodationRef.id)
+        .get();
+    Accommodation? accommodation = Accommodation.fromSnapshot(reservedDateDoc);
+    return accommodation;
+  }
+
 }

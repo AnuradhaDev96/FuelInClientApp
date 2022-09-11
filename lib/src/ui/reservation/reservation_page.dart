@@ -84,9 +84,8 @@ class _ReservationPageState extends State<ReservationPage> {
   }
 
   Future<void> _searchAccommodationsByHotelAndCheckIn() async {
-    setState(() {
+    setState((){
       _isAccommodationSearchLoading = true;
-
     });
     await _accommodationService.getAccommodationsListBasedOnReservations(selectedHotel, _selectedCheckInDate).then((accommodationResultsList) {
       setState(() {

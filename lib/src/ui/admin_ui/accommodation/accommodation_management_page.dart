@@ -1069,7 +1069,7 @@ class _AccommodationManagementPageState extends State<AccommodationManagementPag
             valueListenable: _roomNumbersList,
             builder: (context, snapshot, child) {
               print(_roomNumbersList.value.length);
-              if (_roomNumbersList.value.isEmpty ) {
+              if (_roomNumbersList.value.isEmpty) {
                 return const SizedBox(width: 0, height: 0);
               }
               return Column(

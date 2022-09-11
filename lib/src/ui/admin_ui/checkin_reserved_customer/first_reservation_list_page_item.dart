@@ -95,7 +95,7 @@ class FirstReservationListPageItem extends StatelessWidget {
                 ),
               )
           ),
-          onPressed: () {},
+          onPressed: () => _selectReservationToAssignRooms(context, reservation),
           child: const Text(
             "Select",
             style: TextStyle(color: AppColors.goldYellow, fontSize: 14.0),
@@ -113,15 +113,8 @@ class FirstReservationListPageItem extends StatelessWidget {
     ]);
   }
 
-  Widget _buildToBillingButton(BuildContext context) {
-    return ElevatedButton(
-      onPressed: () {
-        Provider.of<CheckInCustomerPageViewNotifier>(context, listen: false).jumpToNextPage();
-      },
-      child: const Text(
-        "Next",
-        style: TextStyle(color: AppColors.goldYellow, fontSize: 14.0),
-      ),
-    );
+  void _selectReservationToAssignRooms(BuildContext context, Reservation reservation) {
+    Provider.of<CheckInCustomerPageViewNotifier>(context, listen: false).setSelectedReservation(reservation);
+    Provider.of<CheckInCustomerPageViewNotifier>(context, listen: false).jumpToNextPage();
   }
 }
