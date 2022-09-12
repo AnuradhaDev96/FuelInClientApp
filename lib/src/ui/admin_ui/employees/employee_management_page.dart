@@ -1,8 +1,8 @@
 import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:flutter/material.dart';
 import 'package:get_it/get_it.dart';
-import 'package:rh_reader/src/models/employee/employee_model.dart';
-import 'package:rh_reader/src/services/employee_service.dart';
+import '../../../models/employee/employee_model.dart';
+import '../../../services/employee_service.dart';
 
 import '../../../config/app_colors.dart';
 import '../../../utils/message_utils.dart';
@@ -104,7 +104,7 @@ class _EmployeeManagementPageState extends State<EmployeeManagementPage> {
             ),
           ),
         ),
-        Container(color: AppColors.indigoMaroon,height: 2.0,),
+        Container(color: AppColors.silverPurple,height: 2.0,),
         StreamBuilder(
           stream: _employeeService.getEmployeesStream(),
           builder: (context, AsyncSnapshot<QuerySnapshot<Map<String, dynamic>>> snapshot) {
@@ -117,7 +117,7 @@ class _EmployeeManagementPageState extends State<EmployeeManagementPage> {
                       height: 40,
                       child: CircularProgressIndicator(
                         strokeWidth: 1,
-                        color: AppColors.indigoMaroon,
+                        color: AppColors.silverPurple,
                       ),
                     )),
               );
@@ -335,7 +335,7 @@ class _EmployeeManagementPageState extends State<EmployeeManagementPage> {
         onPressed: _isUpdateMode ? editEmployee : registerEmployee,
         child: Text(
           _isUpdateMode ? "Edit Employee" : "Submit Employee",
-          style: const TextStyle(color: AppColors.goldYellow, fontSize: 14.0),
+          style: const TextStyle(color: AppColors.nppPurple, fontSize: 14.0),
         ),
       ),
     );
@@ -364,7 +364,7 @@ class _EmployeeManagementPageState extends State<EmployeeManagementPage> {
         },
         child: const Text(
           "Reset",
-          style: TextStyle(color: AppColors.goldYellow, fontSize: 14.0),
+          style: TextStyle(color: AppColors.nppPurple, fontSize: 14.0),
         ),
       ),
     );

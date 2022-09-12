@@ -1,5 +1,5 @@
 import 'package:flutter/material.dart';
-import 'package:rh_reader/src/ui/authentication/signin_page.dart';
+import '../ui/authentication/signin_page.dart';
 
 class WebRouter {
   static const String signInPage = "sign in page";

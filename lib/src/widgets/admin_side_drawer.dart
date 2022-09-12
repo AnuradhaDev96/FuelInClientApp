@@ -112,7 +112,7 @@ class _AdminSideDrawerState extends State<AdminSideDrawer> {
                     child: const Text(
                       "Sign Out",
                       style: TextStyle(
-                          color: AppColors.goldYellow
+                          color: AppColors.nppPurple
                       ),
                     ),
                     onPressed: () {

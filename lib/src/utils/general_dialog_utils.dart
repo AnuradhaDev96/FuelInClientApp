@@ -10,7 +10,7 @@ class GeneralDialogUtils {
       context: context,
       barrierDismissible: true,
       barrierLabel: MaterialLocalizations.of(context).dialogLabel,
-      barrierColor: AppColors.indigoMaroon.withOpacity(0.5),
+      barrierColor: AppColors.silverPurple.withOpacity(0.5),
       pageBuilder: (context, _, __) {
         return StatefulBuilder(
             builder: (BuildContext context, StateSetter setState) {
@@ -25,7 +25,7 @@ class GeneralDialogUtils {
                           child: Container(
                             padding: const EdgeInsets.symmetric(horizontal: 25.0),
                             decoration: const BoxDecoration(
-                              color: AppColors.goldYellow,
+                              color: AppColors.nppPurple,
                               borderRadius: BorderRadius.only(
                                 topLeft: Radius.circular(40.0),
                                 topRight: Radius.circular(10.0),
@@ -41,7 +41,7 @@ class GeneralDialogUtils {
                                     margin: const EdgeInsets.only(left: 18.0),
                                     // width: 50.0,
                                     height: 80.0,
-                                    color: AppColors.goldYellow,
+                                    color: AppColors.nppPurple,
                                     child: Row(
                                       mainAxisAlignment: MainAxisAlignment.spaceBetween,
                                       children: [

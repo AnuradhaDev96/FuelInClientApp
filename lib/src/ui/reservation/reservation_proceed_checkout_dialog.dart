@@ -2,10 +2,10 @@ import 'package:flutter/material.dart';
 import 'package:get_it/get_it.dart';
 import 'package:intl/intl.dart';
 import 'package:provider/provider.dart';
-import 'package:rh_reader/src/models/email_js/email_js_body.dart';
-import 'package:rh_reader/src/models/reservation/reservation.dart';
-import 'package:rh_reader/src/utils/email_js_util.dart';
-import 'package:rh_reader/src/utils/string_extention.dart';
+import 'package:matara_division_system/src/models/email_js/email_js_body.dart';
+import 'package:matara_division_system/src/models/reservation/reservation.dart';
+import 'package:matara_division_system/src/utils/email_js_util.dart';
+import 'package:matara_division_system/src/utils/string_extention.dart';
 
 import '../../config/app_colors.dart';
 import '../../models/change_notifiers/credit_card_notifier.dart';
@@ -491,7 +491,7 @@ class _ReservationProceedCheckoutDialogState extends State<ReservationProceedChe
         onPressed: proceedPaymentAction,
         child: const Text(
           "Proceed Payment",
-          style: TextStyle(color: AppColors.goldYellow, fontSize: 16.0),
+          style: TextStyle(color: AppColors.nppPurple, fontSize: 16.0),
         ),
       ),
     );
@@ -561,7 +561,7 @@ class _ReservationProceedCheckoutDialogState extends State<ReservationProceedChe
         },
         child: const Text(
           "Go back",
-          style: TextStyle(color: AppColors.indigoMaroon, fontSize: 16.0),
+          style: TextStyle(color: AppColors.silverPurple, fontSize: 16.0),
         ),
       ),
     );

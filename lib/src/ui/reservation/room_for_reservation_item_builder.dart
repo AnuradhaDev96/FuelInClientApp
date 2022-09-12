@@ -1,4 +1,3 @@
-import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:flutter/material.dart';
 import 'package:get_it/get_it.dart';
 import 'package:provider/provider.dart';
@@ -120,7 +119,7 @@ class _RoomForReservationItemBuilderState extends State<RoomForReservationItemBu
               children: [
                 const Text(
                     "Customize choices:",
-                    style: TextStyle(color: AppColors.indigoMaroon, fontSize: 14.0),
+                    style: TextStyle(color: AppColors.silverPurple, fontSize: 14.0),
                 ),
                 const SizedBox(height: 5.0),
                 Row(
@@ -143,7 +142,7 @@ class _RoomForReservationItemBuilderState extends State<RoomForReservationItemBu
                               Icons.bedroom_parent_outlined,
                               size: 15.0,
                             ),
-                            dropdownColor: AppColors.goldYellow,
+                            dropdownColor: AppColors.nppPurple,
                             value: _roomForReservationModel.roomCountForOrder,
                             isExpanded: false,
                             hint: const Text(
@@ -191,7 +190,7 @@ class _RoomForReservationItemBuilderState extends State<RoomForReservationItemBu
                                 Icons.family_restroom_rounded,
                                 size: 15.0,
                               ),
-                              dropdownColor: AppColors.goldYellow,
+                              dropdownColor: AppColors.nppPurple,
                               value: _roomForReservationModel.noOfGuests,
                               isExpanded: false,
                               hint: const Text(

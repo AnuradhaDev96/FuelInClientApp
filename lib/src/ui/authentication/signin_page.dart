@@ -1,9 +1,9 @@
 import 'package:flutter/material.dart';
 import 'package:get_it/get_it.dart';
-import 'package:rh_reader/src/models/authentication/password_login_result.dart';
-import 'package:rh_reader/src/services/auth_service.dart';
-import 'package:rh_reader/src/ui/widgets/admin_home/admin_home.dart';
-import 'package:rh_reader/src/utils/message_utils.dart';
+import '../../models/authentication/password_login_result.dart';
+import '../../services/auth_service.dart';
+import '../widgets/admin_home/admin_home.dart';
+import '../../utils/message_utils.dart';
 
 import '../../config/app_colors.dart';
 import '../widgets/custom_input_field.dart';
@@ -33,7 +33,7 @@ class _SignInPageState extends State<SignInPage> {
         children: [
           Expanded(
             child: Container(
-              color: AppColors.indigoMaroon,
+              color: AppColors.silverPurple,
               width: screenSize.width * 0.7,
               child: Padding(
                   padding:
@@ -44,7 +44,7 @@ class _SignInPageState extends State<SignInPage> {
                         children: [
                           Container(
                             decoration: const BoxDecoration(
-                              color: AppColors.goldYellow,
+                              color: AppColors.nppPurple,
                               shape: BoxShape.circle,
                             ),
                             height: 40,
@@ -123,7 +123,7 @@ class _SignInPageState extends State<SignInPage> {
                                   ),
                                   Container(
                                     decoration: const BoxDecoration(
-                                      color: AppColors.goldYellow,
+                                      color: AppColors.nppPurple,
                                       shape: BoxShape.circle,
                                     ),
                                     height: 10,
@@ -150,7 +150,7 @@ class _SignInPageState extends State<SignInPage> {
                                   Text(
                                     'Not A member ?',
                                     style: TextStyle(
-                                      color: AppColors.goldYellow,
+                                      color: AppColors.nppPurple,
                                       fontSize: 18.0,
                                       fontWeight: FontWeight.bold,
                                       decoration: TextDecoration.none,
@@ -211,11 +211,11 @@ class _SignInPageState extends State<SignInPage> {
                                 buttonTitle: 'Login to my account',
                                 width: 0.32,
                                 height: 0.05,
-                                borderColor: AppColors.goldYellow,
+                                borderColor: AppColors.nppPurple,
                                 borderRadius: 25,
                                 fontSize: 12,
                                 fontWeight: FontWeight.bold,
-                                fontColor: AppColors.indigoMaroon,
+                                fontColor: AppColors.silverPurple,
                                 onPressedAction: loginWithCredentials,
                               ),
                             ],

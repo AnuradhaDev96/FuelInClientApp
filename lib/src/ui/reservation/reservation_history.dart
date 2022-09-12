@@ -49,7 +49,7 @@ class ReservationHistory extends StatelessWidget {
           mainAxisAlignment: MainAxisAlignment.start,
           children: [
             Container(
-              color: AppColors.indigoMaroon,
+              color: AppColors.silverPurple,
               width: 150.0,
               height: 100.0,
               child: Center(

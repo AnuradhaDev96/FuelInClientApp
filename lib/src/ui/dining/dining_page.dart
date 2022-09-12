@@ -57,7 +57,7 @@ class DiningPage extends StatelessWidget {
                 text: TextSpan(
                   text: hotelService.name,
                   style: const TextStyle(
-                      color: AppColors.indigoMaroon,
+                      color: AppColors.silverPurple,
                       fontWeight: FontWeight.bold,
                       fontSize: 20.0
                   ),

@@ -3,8 +3,8 @@ import 'dart:ui';
 import 'package:flutter/material.dart';
 import 'package:get_it/get_it.dart';
 import 'package:provider/provider.dart';
-import 'package:rh_reader/src/models/accommodation/accommodation.dart';
-import 'package:rh_reader/src/models/reservation/reservation.dart';
+import '../../../models/accommodation/accommodation.dart';
+import '../../../models/reservation/reservation.dart';
 
 import '../../../config/app_colors.dart';
 import '../../../models/change_notifiers/checkin_customer_page_view_notifier.dart';
@@ -98,7 +98,7 @@ class IncludedRoomsItemBuilder extends StatelessWidget {
                           height: 40,
                           child: CircularProgressIndicator(
                             strokeWidth: 1,
-                            color: AppColors.indigoMaroon,
+                            color: AppColors.silverPurple,
                           ),
                         )),
                   );
@@ -117,7 +117,7 @@ class IncludedRoomsItemBuilder extends StatelessWidget {
                         borderRadius: BorderRadius.circular(15.0),
                         border: Border.all(
                           width: 2.0,
-                          color: AppColors.indigoMaroon,
+                          color: AppColors.silverPurple,
                         )
                     ),
                     child: ScrollConfiguration(

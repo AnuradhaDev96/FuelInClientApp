@@ -30,7 +30,7 @@ class SecondAssignRoomsPageItem extends StatelessWidget {
               },
               child: const Text(
                 "Back to Reservations Page",
-                style: TextStyle(color: AppColors.goldYellow, fontSize: 14.0),
+                style: TextStyle(color: AppColors.nppPurple, fontSize: 14.0),
               ),
             ),
           ],
@@ -107,7 +107,7 @@ class SecondAssignRoomsPageItem extends StatelessWidget {
           crossAxisAlignment: CrossAxisAlignment.center,
           children: [
             const Text("Assigned Rooms"),
-            Container(color: AppColors.indigoMaroon,height: 2.0,width: MediaQuery.of(context).size.width * 0.2,),
+            Container(color: AppColors.silverPurple,height: 2.0,width: MediaQuery.of(context).size.width * 0.2,),
             SizedBox(
               width: MediaQuery.of(context).size.width * 0.2,
               child: ListView(
@@ -132,11 +132,11 @@ class SecondAssignRoomsPageItem extends StatelessWidget {
         // borderRadius: BorderRadius.all(Radius.circular(15.0)),
         border: Border(
           left: BorderSide(
-            color: AppColors.indigoMaroon,
+            color: AppColors.silverPurple,
             width: 10.0,
           ),
           right: BorderSide(
-            color: AppColors.indigoMaroon,
+            color: AppColors.silverPurple,
             width: 10.0,
           ),
         ),

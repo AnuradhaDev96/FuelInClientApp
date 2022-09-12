@@ -1,5 +1,5 @@
 import 'package:cloud_firestore/cloud_firestore.dart';
-import 'package:rh_reader/src/config/firestore_collections.dart';
+import '../config/firestore_collections.dart';
 
 import '../models/employee/employee_model.dart';
 class EmployeeService {

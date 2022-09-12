@@ -3,8 +3,9 @@ import 'dart:async';
 import 'package:firebase_core/firebase_core.dart';
 import 'package:flutter/foundation.dart';
 import 'package:flutter/material.dart';
+import 'package:matara_division_system/src/ui/landing_page/landing_page.dart';
 import 'package:provider/provider.dart';
-import 'package:rh_reader/src/models/change_notifiers/checkin_customer_page_view_notifier.dart';
+import 'src/models/change_notifiers/checkin_customer_page_view_notifier.dart';
 
 import 'firebase_options.dart';
 import 'src/config/app_colors.dart';
@@ -66,7 +67,7 @@ class MyApp extends StatelessWidget {
       ],
       child: MaterialApp(
         debugShowCheckedModeBanner: false,
-        title: 'Element',
+        title: 'Matara Portal',
         theme: ThemeData(
           // This is the theme of your application.
           //
@@ -80,16 +81,16 @@ class MyApp extends StatelessWidget {
           primarySwatch: Colors.grey,
           brightness: Brightness.light,
           primaryColor: AppColors.grayForPrimary,
-          fontFamily: 'Oswald',
+          fontFamily: 'DL-Paras',
           elevatedButtonTheme: ElevatedButtonThemeData(
             style: ElevatedButton.styleFrom(
-              primary: AppColors.indigoMaroon,
+              primary: AppColors.silverPurple,
               onPrimary: AppColors.black,
               shape: RoundedRectangleBorder(
                 borderRadius: BorderRadius.circular(15.0),
               ),
               textStyle: const TextStyle(
-                fontFamily: 'Oswald',
+                fontFamily: 'DL-Paras',
                 color: AppColors.black,
                 fontWeight: FontWeight.w500,
                 fontSize: 18.0
@@ -101,7 +102,8 @@ class MyApp extends StatelessWidget {
 
         ),
         // home: const ReaderHome(),
-        home: const AdminHome(),
+        // home: const AdminHome(),
+        home: const LandingPage(),
       ),
     );
   }

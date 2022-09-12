@@ -1,5 +1,5 @@
 import 'package:flutter/material.dart';
-import 'package:rh_reader/src/models/enums/screen_bucket_enum.dart';
+import '../enums/screen_bucket_enum.dart';
 
 import '../enums/admin_screen_buckets.dart';
 

@@ -37,7 +37,7 @@ class _SideDrawerState extends State<SideDrawer> {
         ]
       ),
       child: Drawer(
-      backgroundColor: AppColors.goldYellow,
+      backgroundColor: AppColors.nppPurple,
         child: Column(
           mainAxisAlignment: MainAxisAlignment.spaceBetween,
           children: [
@@ -100,7 +100,7 @@ class _SideDrawerState extends State<SideDrawer> {
                   },
                   children: [
                     ExpansionPanel(
-                        backgroundColor: AppColors.goldYellow,
+                        backgroundColor: AppColors.nppPurple,
                         canTapOnHeader: true,
                         isExpanded: _expansionPanelExpandStatus[0],
                         headerBuilder: (BuildContext context, bool isExpanded) {
@@ -220,7 +220,7 @@ class _SideDrawerState extends State<SideDrawer> {
                     child: const Text(
                       "Sign In",
                       style: TextStyle(
-                        color: AppColors.goldYellow
+                        color: AppColors.nppPurple
                       ),
                     ),
                     onPressed: () {
@@ -232,7 +232,7 @@ class _SideDrawerState extends State<SideDrawer> {
                     child: const Text(
                       "Sign Up",
                       style: TextStyle(
-                          color: AppColors.goldYellow
+                          color: AppColors.nppPurple
                       ),
                     ),
                     onPressed: (){},

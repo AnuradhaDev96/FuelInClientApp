@@ -1,7 +1,7 @@
 import 'package:flutter/material.dart';
-import 'package:rh_reader/src/models/enums/reservation_suit_type.dart';
-import 'package:rh_reader/src/models/reservation/reservation_suit.dart';
-import 'package:rh_reader/src/ui/reservation/reservation_suit_checkout_dialog.dart';
+import 'package:matara_division_system/src/models/enums/reservation_suit_type.dart';
+import 'package:matara_division_system/src/models/reservation/reservation_suit.dart';
+import 'package:matara_division_system/src/ui/reservation/reservation_suit_checkout_dialog.dart';
 
 import '../../config/app_colors.dart';
 import '../../utils/general_dialog_utils.dart';
@@ -185,7 +185,7 @@ class ReservationSuitePage extends StatelessWidget {
       onPressed: () => proceedToCheckoutReservation(context, subscriptionType),
       child: const Text(
         "Subscribe Now",
-        style: TextStyle(color: AppColors.goldYellow, fontSize: 14.0),
+        style: TextStyle(color: AppColors.nppPurple, fontSize: 14.0),
       ),
     );
   }

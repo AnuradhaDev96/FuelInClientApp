@@ -1,7 +1,6 @@
 import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:intl/intl.dart';
-import 'package:rh_reader/src/config/firestore_collections.dart';
-import 'package:rxdart/rxdart.dart';
+import '../config/firestore_collections.dart';
 
 import '../models/accommodation/accommodation.dart';
 import '../models/accommodation/reserved_dates_of_accommodation.dart';

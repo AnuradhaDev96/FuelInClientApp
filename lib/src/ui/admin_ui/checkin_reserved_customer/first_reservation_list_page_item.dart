@@ -33,7 +33,7 @@ class FirstReservationListPageItem extends StatelessWidget {
                         height: 40,
                         child: CircularProgressIndicator(
                           strokeWidth: 1,
-                          color: AppColors.indigoMaroon,
+                          color: AppColors.silverPurple,
                         ),
                       )),
                 );
@@ -98,7 +98,7 @@ class FirstReservationListPageItem extends StatelessWidget {
           onPressed: () => _selectReservationToAssignRooms(context, reservation),
           child: const Text(
             "Select",
-            style: TextStyle(color: AppColors.goldYellow, fontSize: 14.0),
+            style: TextStyle(color: AppColors.nppPurple, fontSize: 14.0),
           ),
         ),
       ),

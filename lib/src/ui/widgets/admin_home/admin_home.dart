@@ -1,8 +1,8 @@
 import 'package:flutter/material.dart';
 import 'package:get_it/get_it.dart';
-import 'package:rh_reader/src/ui/admin_ui/employees/employee_management_page.dart';
-import 'package:rh_reader/src/ui/reservation/reservation_page.dart';
-import 'package:rh_reader/src/ui/widgets/reader_home/home_content.dart';
+import 'package:matara_division_system/src/ui/admin_ui/employees/employee_management_page.dart';
+import 'package:matara_division_system/src/ui/reservation/reservation_page.dart';
+import 'package:matara_division_system/src/ui/widgets/reader_home/home_content.dart';
 
 import '../../../config/assets.dart';
 import '../../../models/change_notifiers/side_drawer_notifier.dart';

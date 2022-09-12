@@ -2,11 +2,11 @@ import 'package:flutter/material.dart';
 import 'package:get_it/get_it.dart';
 import 'package:intl/intl.dart';
 import 'package:provider/provider.dart';
-import 'package:rh_reader/src/models/accommodation/accommodation.dart';
-import 'package:rh_reader/src/models/reservation/reservation.dart';
-import 'package:rh_reader/src/services/reservation_service.dart';
-import 'package:rh_reader/src/ui/reservation/reservation_proceed_checkout_dialog.dart';
-import 'package:rh_reader/src/utils/general_dialog_utils.dart';
+import 'package:matara_division_system/src/models/accommodation/accommodation.dart';
+import 'package:matara_division_system/src/models/reservation/reservation.dart';
+import 'package:matara_division_system/src/services/reservation_service.dart';
+import 'package:matara_division_system/src/ui/reservation/reservation_proceed_checkout_dialog.dart';
+import 'package:matara_division_system/src/utils/general_dialog_utils.dart';
 
 import '../../config/app_colors.dart';
 import '../../models/change_notifiers/accommodation_search_result_notifier.dart';
@@ -170,9 +170,9 @@ class _ReservationPageState extends State<ReservationPage> {
                         width: 0.12,
                         height: 0.05,
                         icon: Icons.calendar_month,
-                        iconColor: AppColors.indigoMaroon,
+                        iconColor: AppColors.silverPurple,
                         hintText: DateFormat('yyyy-MM-dd').format(DateTime.now()),
-                        hintColor: AppColors.indigoMaroon,
+                        hintColor: AppColors.silverPurple,
                         fontSize: 15,
                         obsecureText: false,
                         textEditingController: checkInDateController,
@@ -198,9 +198,9 @@ class _ReservationPageState extends State<ReservationPage> {
                         width: 0.12,
                         height: 0.05,
                         icon: Icons.calendar_month,
-                        iconColor: AppColors.indigoMaroon,
+                        iconColor: AppColors.silverPurple,
                         hintText: DateFormat('yyyy-MM-dd').format(DateTime.now().add(const Duration(days: 1))),
-                        hintColor: AppColors.indigoMaroon,
+                        hintColor: AppColors.silverPurple,
                         fontSize: 15,
                         obsecureText: false,
                         textEditingController: checkOutDateController,
@@ -249,7 +249,7 @@ class _ReservationPageState extends State<ReservationPage> {
                       fontSize: 14.0,
                     ),
                   ),
-                  Container(color: AppColors.indigoMaroon,height: 2.0,),
+                  Container(color: AppColors.silverPurple,height: 2.0,),
                   // TODO: Implement stream based on search giving branch params
                   // StreamBuilder(
                   //   stream: _accommodationService.getAccommodationsStream(),
@@ -289,7 +289,7 @@ class _ReservationPageState extends State<ReservationPage> {
                                 height: 40,
                                 child: CircularProgressIndicator(
                                   strokeWidth: 1,
-                                  color: AppColors.indigoMaroon,
+                                  color: AppColors.silverPurple,
                                 ),
                               )),
                         )
@@ -321,7 +321,7 @@ class _ReservationPageState extends State<ReservationPage> {
                           ),
                         ),
                         Container(
-                          color: AppColors.indigoMaroon,
+                          color: AppColors.silverPurple,
                           height: 2.0,
                         ),
                         ListView.builder(
@@ -354,14 +354,14 @@ class _ReservationPageState extends State<ReservationPage> {
                           fontSize: 14.0,
                         ),
                       ),
-                      Container(color: AppColors.indigoMaroon,height: 2.0,),
+                      Container(color: AppColors.silverPurple,height: 2.0,),
                       Padding(
                         padding: const EdgeInsets.all(10.0),
                         child: ElevatedButton(
                           child: const Text(
                             "Calculate Total",
                             style: TextStyle(
-                                color: AppColors.goldYellow
+                                color: AppColors.nppPurple
                             ),
                           ),
                           onPressed: () => calculateTotalCost(),
@@ -428,7 +428,7 @@ class _ReservationPageState extends State<ReservationPage> {
                                             child: const Text(
                                               "Proceed to checkout",
                                               style: TextStyle(
-                                                  color: AppColors.goldYellow
+                                                  color: AppColors.nppPurple
                                               ),
                                             ),
                                             onPressed: () => proceedToCheckoutReservation(),
@@ -492,14 +492,14 @@ class _ReservationPageState extends State<ReservationPage> {
               crossAxisAlignment: CrossAxisAlignment.start,
               children: [
                 Container(
-                  color: AppColors.indigoMaroon,
+                  color: AppColors.silverPurple,
                   width: 200.0,
                   height: 25.0,
                   padding: const EdgeInsets.only(left: 8.0),
                   child: Text(
                     accommodation.roomName ?? "-",
                     style: const TextStyle(
-                        color: AppColors.goldYellow
+                        color: AppColors.nppPurple
                     ),
                   ),
                 ),
@@ -516,7 +516,7 @@ class _ReservationPageState extends State<ReservationPage> {
                       child: Text(
                         "$availableRoomCount rooms available",
                         style: const TextStyle(
-                          color: AppColors.goldYellow,
+                          color: AppColors.nppPurple,
                           fontSize: 12.0,
                         ),
                       ),
@@ -580,7 +580,7 @@ class _ReservationPageState extends State<ReservationPage> {
                       child: Text(
                         "LKR ${accommodation.rateInLkr}",
                         style: const TextStyle(
-                          color: AppColors.indigoMaroon,
+                          color: AppColors.silverPurple,
                           fontSize: 12.0,
                         ),
                       ),

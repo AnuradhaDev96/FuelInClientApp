@@ -18,4 +18,9 @@ class Assets {
   static const String weddings1 = 'assets/images/weddings/1.jpeg';
   static const String weddings2 = 'assets/images/weddings/2.jpeg';
   static const String weddings3 = 'assets/images/weddings/3.jpeg';
+
+  //logos
+  static const String triLanguageLogo = 'assets/images/logos/NPP-LOGO-NEW.png';
+  static const String nppGroupCircle = 'assets/images/logos/tab_logo.jpg';
+
 }

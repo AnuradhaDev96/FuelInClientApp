@@ -37,7 +37,7 @@ class GalleryGridView extends StatelessWidget {
                 fontSize: 20.0,
               ),
             ),
-            Container(color: AppColors.indigoMaroon,height: 2.0,),
+            Container(color: AppColors.silverPurple,height: 2.0,),
           ],
         ),
         GridView.builder(

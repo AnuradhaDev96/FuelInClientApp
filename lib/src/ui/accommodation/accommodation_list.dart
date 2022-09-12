@@ -36,14 +36,14 @@ class AccommodationList extends StatelessWidget {
           crossAxisAlignment: CrossAxisAlignment.start,
           children: [
             Container(
-              color: AppColors.indigoMaroon,
+              color: AppColors.silverPurple,
               width: 200.0,
               height: 25.0,
               padding: const EdgeInsets.only(left: 8.0),
               child: Text(
                 accommodation.roomName ?? "-",
                 style: const TextStyle(
-                    color: AppColors.goldYellow
+                    color: AppColors.nppPurple
                 ),
               ),
             ),

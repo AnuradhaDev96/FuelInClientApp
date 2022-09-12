@@ -160,7 +160,7 @@ class _AccommodationManagementPageState extends State<AccommodationManagementPag
             ),
           ),
         ),
-        Container(color: AppColors.indigoMaroon,height: 2.0,),
+        Container(color: AppColors.silverPurple,height: 2.0,),
         StreamBuilder(
           stream: _accommodationService.getAccommodationsStream(),
           builder: (context, AsyncSnapshot<QuerySnapshot<Map<String, dynamic>>> snapshot) {
@@ -173,7 +173,7 @@ class _AccommodationManagementPageState extends State<AccommodationManagementPag
                       height: 40,
                       child: CircularProgressIndicator(
                         strokeWidth: 1,
-                        color: AppColors.indigoMaroon,
+                        color: AppColors.silverPurple,
                       ),
                     )),
               );
@@ -588,7 +588,7 @@ class _AccommodationManagementPageState extends State<AccommodationManagementPag
         onPressed: _isUpdateMode ? editAccommodation : registerAccommodation,
         child: Text(
           _isUpdateMode ? "Edit Room" : "Submit Room",
-          style: const TextStyle(color: AppColors.goldYellow, fontSize: 14.0),
+          style: const TextStyle(color: AppColors.nppPurple, fontSize: 14.0),
         ),
       ),
     );
@@ -623,7 +623,7 @@ class _AccommodationManagementPageState extends State<AccommodationManagementPag
         },
         child: const Text(
           "Reset",
-          style: TextStyle(color: AppColors.goldYellow, fontSize: 14.0),
+          style: TextStyle(color: AppColors.nppPurple, fontSize: 14.0),
         ),
       ),
     );
@@ -811,7 +811,7 @@ class _AccommodationManagementPageState extends State<AccommodationManagementPag
                               child: Text(
                                 "LKR ${accommodation.rateInLkr}",
                                 style: const TextStyle(
-                                  color: AppColors.indigoMaroon,
+                                  color: AppColors.silverPurple,
                                   fontSize: 12.0,
                                 ),
                               ),
@@ -1092,7 +1092,7 @@ class _AccommodationManagementPageState extends State<AccommodationManagementPag
                       borderRadius: BorderRadius.circular(15.0),
                       border: Border.all(
                         width: 2.0,
-                        color: AppColors.indigoMaroon,
+                        color: AppColors.silverPurple,
                       )
                     ),
                     child: ScrollConfiguration(
@@ -1127,7 +1127,7 @@ class _AccommodationManagementPageState extends State<AccommodationManagementPag
     return Padding(
       padding: const EdgeInsets.symmetric(horizontal: 5.0),
       child: Chip(
-        backgroundColor: AppColors.goldYellow,
+        backgroundColor: AppColors.nppPurple,
         padding: const EdgeInsets.all(4.0),
         label: Text("$roomNumber"),
         elevation: 4.0,
@@ -1153,7 +1153,7 @@ class _AccommodationManagementPageState extends State<AccommodationManagementPag
         onPressed: addRoomNumberAction,
         child: const Text(
           "Add Room Number",
-          style: TextStyle(color: AppColors.goldYellow, fontSize: 14.0),
+          style: TextStyle(color: AppColors.nppPurple, fontSize: 14.0),
         ),
       ),
     );

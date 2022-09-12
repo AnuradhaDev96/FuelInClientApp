@@ -1,11 +1,11 @@
 {
-    "name": "rh_reader",
-    "short_name": "rh_reader",
+    "name": "Matara Portal",
+    "short_name": "Matara Portal",
     "start_url": ".",
     "display": "standalone",
     "background_color": "#0175C2",
     "theme_color": "#0175C2",
-    "description": "A new Flutter project.",
+    "description": "NPP Matara division portal.",
     "orientation": "portrait-primary",
     "prefer_related_applications": false,
     "icons": [
