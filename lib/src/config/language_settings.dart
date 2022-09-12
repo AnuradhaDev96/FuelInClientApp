@@ -1,9 +1,14 @@
+import 'dart:ui';
+
 class SettingsSinhala {
   const SettingsSinhala();
 
   static const String webTitle = "fldÜGdY iNd tAllh - ud;r";//කොට්ඨාශ සභා ඒකකය - මාතර
   static const String unusumPuwathText = "WKqiqï mqj;a";//උණුසුම් පුවත්
   static const String wyaparikaPuwathText = "jHdmdßl mqj;a";//ව්‍යාපාරික පුවත්
+
+  static const String engFontFamily = "SecularOne";
+
 }
 
 class SettingsEnglish {

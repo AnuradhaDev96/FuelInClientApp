@@ -87,7 +87,7 @@ class MyApp extends StatelessWidget {
               primary: AppColors.silverPurple,
               onPrimary: AppColors.black,
               shape: RoundedRectangleBorder(
-                borderRadius: BorderRadius.circular(15.0),
+                borderRadius: BorderRadius.circular(4.0),
               ),
               textStyle: const TextStyle(
                 fontFamily: 'DL-Paras',
@@ -97,7 +97,7 @@ class MyApp extends StatelessWidget {
               )
             )
           ),
-          scaffoldBackgroundColor: AppColors.lightGray,
+          scaffoldBackgroundColor: AppColors.white,
           // textTheme: TextTheme()
 
         ),

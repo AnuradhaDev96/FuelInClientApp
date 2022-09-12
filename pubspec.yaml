@@ -41,6 +41,7 @@ dependencies:
   sliver_tools: ^0.2.7
   http: ^0.13.5
   rxdart: ^0.27.5
+  email_validator: ^2.1.17
 
 
   # The following adds the Cupertino Icons font to your application.
@@ -110,7 +111,10 @@ flutter:
         - asset: assets/fonts/fm_abhay.TTF
     - family: DL-Paras
       fonts:
-        - asset: assets/fonts/DL-Paras.TTF
+        - asset: assets/fonts/DL-Paras.ttf
     - family: Oswald
       fonts:
         - asset: assets/fonts/Oswald/Oswald-Regular.ttf
+    - family: SecularOne
+      fonts:
+        - asset: assets/fonts/SecularOne.ttf
