@@ -3,7 +3,14 @@ import 'dart:async';
 import 'package:firebase_core/firebase_core.dart';
 import 'package:flutter/foundation.dart';
 import 'package:flutter/material.dart';
+import 'package:get_it/get_it.dart';
+import 'package:hive/hive.dart';
+import 'package:matara_division_system/src/config/app_settings.dart';
+import 'package:matara_division_system/src/models/authentication/authenticated_user.dart';
+import 'package:matara_division_system/src/models/change_notifiers/application_auth_notifier.dart';
+import 'package:matara_division_system/src/models/enums/user_types.dart';
 import 'package:matara_division_system/src/ui/landing_page/landing_page.dart';
+import 'package:matara_division_system/src/utils/local_storage_utils.dart';
 import 'package:provider/provider.dart';
 import 'src/models/change_notifiers/checkin_customer_page_view_notifier.dart';
 
@@ -17,7 +24,6 @@ import 'src/ui/widgets/admin_home/admin_home.dart';
 import 'src/ui/widgets/reader_home/reader_home.dart';
 import 'src/utils/dependency_locator.dart';
 
-
 void main() {
 
   runZonedGuarded<Future<void>>(()  async {
@@ -27,9 +33,17 @@ void main() {
     if (kDebugMode) {
       print("FirebaseApp initialized $firebaseApp");
     }
+
     injectAppDependencies();
 
-    runApp(const MyApp());
+    Hive.registerAdapter(AuthenticatedUserAdapter());
+    Hive.registerAdapter(UserTypesAdapter());
+    GetIt.I<LocalStorageUtils>().hiveDbBox = await Hive.openBox(AppSettings.authHiveBox);
+    
+    // var value = GetIt.I<LocalStorageUtils>().hiveDbBox?.get(AppSettings.keyAppIsAuthenticated, defaultValue: false);
+    // print("####hiveValeIsAuth: $value");
+
+    runApp(MyApp());
   }, (error, stack) {
     print("cError: $error");
     print("StackTrace: $stack");
@@ -64,6 +78,9 @@ class MyApp extends StatelessWidget {
         ChangeNotifierProvider(
           create: (context) => CheckInCustomerPageViewNotifier(),
         ),
+        ChangeNotifierProvider(
+            create: (context) => ApplicationAuthNotifier(),
+        ),
       ],
       child: MaterialApp(
         debugShowCheckedModeBanner: false,
@@ -84,8 +101,8 @@ class MyApp extends StatelessWidget {
           fontFamily: 'DL-Paras',
           elevatedButtonTheme: ElevatedButtonThemeData(
             style: ElevatedButton.styleFrom(
-              primary: AppColors.silverPurple,
-              onPrimary: AppColors.black,
+              primary: AppColors.nppPurple,
+              onPrimary: AppColors.white,
               shape: RoundedRectangleBorder(
                 borderRadius: BorderRadius.circular(4.0),
               ),
@@ -103,93 +120,29 @@ class MyApp extends StatelessWidget {
         ),
         // home: const ReaderHome(),
         // home: const AdminHome(),
-        home: const LandingPage(),
+        home: Consumer<ApplicationAuthNotifier>(
+            builder: (BuildContext context, ApplicationAuthNotifier applicationAuthNotifier, child) {
+          if (applicationAuthNotifier.checkAppAuthenticated()) {
+            print("it is vadmin");
+            return const AdminHome();
+          }
+          return const LandingPage();
+        }),
       ),
     );
   }
 }
 
-class MyHomePage extends StatefulWidget {
-  const MyHomePage({Key? key, required this.title}) : super(key: key);
-
-  // This widget is the home page of your application. It is stateful, meaning
-  // that it has a State object (defined below) that contains fields that affect
-  // how it looks.
-
-  // This class is the configuration for the state. It holds the values (in this
-  // case the title) provided by the parent (in this case the App widget) and
-  // used by the build method of the State. Fields in a Widget subclass are
-  // always marked "final".
-
-  final String title;
-
-  @override
-  State<MyHomePage> createState() => _MyHomePageState();
-}
-
-class _MyHomePageState extends State<MyHomePage> {
-  int _counter = 0;
-
-  void _incrementCounter() {
-    setState(() {
-      // This call to setState tells the Flutter framework that something has
-      // changed in this State, which causes it to rerun the build method below
-      // so that the display can reflect the updated values. If we changed
-      // _counter without calling setState(), then the build method would not be
-      // called again, and so nothing would appear to happen.
-      _counter++;
-    });
-  }
-
-  @override
-  Widget build(BuildContext context) {
-    // This method is rerun every time setState is called, for instance as done
-    // by the _incrementCounter method above.
-    //
-    // The Flutter framework has been optimized to make rerunning build methods
-    // fast, so that you can just rebuild anything that needs updating rather
-    // than having to individually change instances of widgets.
-    return Scaffold(
-      appBar: AppBar(
-        // Here we take the value from the MyHomePage object that was created by
-        // the App.build method, and use it to set our appbar title.
-        title: Text(widget.title),
-      ),
-      body: Center(
-        // Center is a layout widget. It takes a single child and positions it
-        // in the middle of the parent.
-        child: Column(
-          // Column is also a layout widget. It takes a list of children and
-          // arranges them vertically. By default, it sizes itself to fit its
-          // children horizontally, and tries to be as tall as its parent.
-          //
-          // Invoke "debug painting" (press "p" in the console, choose the
-          // "Toggle Debug Paint" action from the Flutter Inspector in Android
-          // Studio, or the "Toggle Debug Paint" command in Visual Studio Code)
-          // to see the wireframe for each widget.
-          //
-          // Column has various properties to control how it sizes itself and
-          // how it positions its children. Here we use mainAxisAlignment to
-          // center the children vertically; the main axis here is the vertical
-          // axis because Columns are vertical (the cross axis would be
-          // horizontal).
-          mainAxisAlignment: MainAxisAlignment.center,
-          children: <Widget>[
-            const Text(
-              'You have pushed the button this many times:',
-            ),
-            Text(
-              '$_counter',
-              style: Theme.of(context).textTheme.headline4,
-            ),
-          ],
-        ),
-      ),
-      floatingActionButton: FloatingActionButton(
-        onPressed: _incrementCounter,
-        tooltip: 'Increment',
-        child: const Icon(Icons.add),
-      ), // This trailing comma makes auto-formatting nicer for build methods.
-    );
-  }
-}
+// class ScreenProvider extends StatelessWidget {
+//   const ScreenProvider({Key? key}) : super(key: key);
+//
+//   @override
+//   Widget build(BuildContext context) {
+//     final applicationAuthNotifier = Provider.of<ApplicationAuthNotifier>(context);
+//     if (applicationAuthNotifier.isAppAuthenticated && applicationAuthNotifier.authenticatedUser?.userType == UserTypes.systemAdmin) {
+//       print("it is vadmin");
+//       return const AdminHome();
+//     }
+//     return const LandingPage();
+//   }
+// }

@@ -1,11 +1,18 @@
-import 'dart:html';
-
 import 'package:email_validator/email_validator.dart';
 import 'package:flutter/material.dart';
+import 'package:flutter/services.dart';
+import 'package:get_it/get_it.dart';
+import 'package:matara_division_system/src/ui/landing_page/request_access_form.dart';
+import 'package:provider/provider.dart';
 
 import '../../config/app_colors.dart';
 import '../../config/assets.dart';
 import '../../config/language_settings.dart';
+import '../../models/authentication/authenticated_user.dart';
+import '../../models/change_notifiers/application_auth_notifier.dart';
+import '../../models/enums/user_types.dart';
+import '../../services/auth_service.dart';
+import '../../utils/message_utils.dart';
 
 class LandingPage extends StatefulWidget {
   const LandingPage({Key? key}) : super(key: key);
@@ -18,7 +25,9 @@ class _LandingPageState extends State<LandingPage> {
 
   final GlobalKey<FormState> _signInFormKey = GlobalKey<FormState>();
   final TextEditingController _authEmailAddressController = TextEditingController();
-  final TextEditingController _authPasswordAddressController = TextEditingController();
+  final TextEditingController _authPasswordController = TextEditingController();
+  final FocusNode _authEmailFieldFocusNode = FocusNode();
+  final FocusNode _authPasswordFieldFocusNode = FocusNode();
 
   @override
   Widget build(BuildContext context) {
@@ -91,6 +100,9 @@ class _LandingPageState extends State<LandingPage> {
                 ),
               ),
             ],
+          ),
+          Expanded(
+            child: RequestAccessForm(),
           )
         ],
       ),
@@ -144,46 +156,57 @@ class _LandingPageState extends State<LandingPage> {
           SizedBox(
             // width: 100.0,
             height: 80.0,
-            child: TextFormField(
-              controller: _authEmailAddressController,
-              validator: (value) {
-                if (value == null || value.isEmpty) {
-                  return 'Bfï,a ,smskh we;=,;a lrkak';
+            child: RawKeyboardListener(
+              focusNode: _authEmailFieldFocusNode,
+              onKey: (event) {
+                if (event.logicalKey == LogicalKeyboardKey.tab) {
+                  _authEmailFieldFocusNode.nextFocus();
                 }
-                if (!EmailValidator.validate(value)) {
-                  return "ksjerÈ Bfï,a ,smskh we;=,;a lrkak";
-                }
-                return null;
               },
-              style: const TextStyle(
-                fontSize: 14.0,
-                fontFamily: SettingsSinhala.engFontFamily,
-                color: AppColors.white,
-              ),
-              keyboardType: TextInputType.emailAddress,
-              // textCapitalization: TextCapitalization.words,
-              decoration: InputDecoration(
-                prefixIcon: const Icon(Icons.mail, size: 20.0,),
-                border: OutlineInputBorder(
+              child: TextFormField(
+                controller: _authEmailAddressController,
+                validator: (value) {
+                  if (value == null || value.isEmpty) {
+                    return 'Bfï,a ,smskh we;=,;a lrkak';
+                  }
+                  if (!EmailValidator.validate(value)) {
+                    return "ksjerÈ Bfï,a ,smskh we;=,;a lrkak";
+                  }
+                  return null;
+                },
+                style: const TextStyle(
+                  fontSize: 14.0,
+                  fontFamily: SettingsSinhala.engFontFamily,
+                  color: AppColors.white,
+                ),
+                keyboardType: TextInputType.emailAddress,
+                // textCapitalization: TextCapitalization.words,
+                decoration: InputDecoration(
+                  prefixIcon: const Icon(Icons.mail, size: 20.0,),
+                  border: OutlineInputBorder(
+                      borderRadius: BorderRadius.circular(12.0),
+                      borderSide: const BorderSide(width: 1, color: AppColors.lightGray)),
+                  focusedBorder: OutlineInputBorder(
+                    borderSide: const BorderSide(width: 1, color: AppColors.silverPurple),
                     borderRadius: BorderRadius.circular(12.0),
-                    borderSide: const BorderSide(width: 1, color: AppColors.lightGray)),
-                focusedBorder: OutlineInputBorder(
-                  borderSide: const BorderSide(width: 1, color: AppColors.silverPurple),
-                  borderRadius: BorderRadius.circular(12.0),
+                  ),
+                  contentPadding: const EdgeInsets.symmetric(horizontal: 10),
+                  focusedErrorBorder: OutlineInputBorder(
+                    borderSide: const BorderSide(width: 1, color: AppColors.silverPurple),
+                    borderRadius: BorderRadius.circular(12.0),
+                  ),
+                  errorBorder: OutlineInputBorder(
+                    borderSide: const BorderSide(width: 1, color: Colors.amber),
+                    borderRadius: BorderRadius.circular(12.0),
+                  ),
+                  errorStyle: const TextStyle(
+                    color: Colors.amber,
+                  )
                 ),
-                contentPadding: const EdgeInsets.symmetric(horizontal: 10),
-                focusedErrorBorder: OutlineInputBorder(
-                  borderSide: const BorderSide(width: 1, color: AppColors.silverPurple),
-                  borderRadius: BorderRadius.circular(12.0),
-                ),
-                errorBorder: OutlineInputBorder(
-                  borderSide: const BorderSide(width: 1, color: Colors.amber),
-                  borderRadius: BorderRadius.circular(12.0),
-                ),
-                errorStyle: const TextStyle(
-                  color: Colors.amber,
-                )
-
+                // textInputAction: TextInputAction.next,
+                onFieldSubmitted: (String value) {
+                  _authPasswordFieldFocusNode.requestFocus();
+                },
               ),
             ),
           ),
@@ -210,7 +233,8 @@ class _LandingPageState extends State<LandingPage> {
             // width: 100.0,
             height: 80.0,
             child: TextFormField(
-              controller: _authEmailAddressController,
+              controller: _authPasswordController,
+              focusNode: _authPasswordFieldFocusNode,
               validator: (value) {
                 if (value == null || value.isEmpty) {
                   return 'uqrmoh we;=,;a lrkak';
@@ -248,6 +272,7 @@ class _LandingPageState extends State<LandingPage> {
                   color: Colors.amber,
                 ),
               ),
+              onFieldSubmitted: (String value) => _signInAction(),
             ),
           ),
         ],
@@ -259,6 +284,16 @@ class _LandingPageState extends State<LandingPage> {
     return Padding(
       padding: const EdgeInsets.all(8.0),
       child: ElevatedButton(
+        style: Theme.of(context).elevatedButtonTheme.style!.copyWith(
+          backgroundColor: MaterialStateProperty.all(
+              AppColors.appBarColor
+          ),
+          textStyle: MaterialStateProperty.all(const TextStyle(
+                fontFamily: 'DL-Paras',
+                fontWeight: FontWeight.w500,
+                fontSize: 18.0,
+              )),
+            ),
         onPressed: _signInAction,
         child: const Text(
           "msúfikak",
@@ -268,10 +303,31 @@ class _LandingPageState extends State<LandingPage> {
     );
   }
 
-  void _signInAction() {
+  void setAuthCreds(AuthenticatedUser authenticatedUser) {
+    Provider.of<ApplicationAuthNotifier>(context, listen: false).setAppAuthenticated(authenticatedUser);
+  }
+
+  void _signInAction() async {
     if (_signInFormKey.currentState!.validate()) {
       _signInFormKey.currentState!.save();
       print("Validated");
+      try {
+        AuthenticatedUser? authenticatedUser = await GetIt.I<AuthService>().passwordLogin(_authEmailAddressController.text, _authPasswordController.text);
+        if (authenticatedUser != null) {
+          print("####${authenticatedUser.userType}");
+          if (authenticatedUser.userType == UserTypes.systemAdmin) {
+            print("Logged inSuzzessfully as admin");
+            setAuthCreds(authenticatedUser);
+          } else if (authenticatedUser.userType == UserTypes.seatOrganizer) {
+            setAuthCreds(authenticatedUser);
+          } else {
+            return;
+          }
+        }
+      } catch (e) {
+        MessageUtils.showErrorInFlushBar(context, "Bfï,a ,smskh fyda uqrmoh jerÈ neúka msúiSug fkdyel'", appearFromTop: false, duration: 4);
+        //ඊමේල් ලිපිනය හෝ මුරපදය වැරදි බැවින් පිවිසීමට නොහැක.
+      }
     }
   }
 }
