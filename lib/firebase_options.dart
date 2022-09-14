@@ -46,13 +46,13 @@ class DefaultFirebaseOptions {
   }
 
   static const FirebaseOptions webOptions = FirebaseOptions(
-      apiKey: "AIzaSyBRNs-b3nklxihcIH4GEB_LNWT2e8Zw618",
-      authDomain: "bakery-delivery-bc6b9.firebaseapp.com",
-      databaseURL: "https://bakery-delivery-bc6b9-default-rtdb.firebaseio.com",
-      projectId: "bakery-delivery-bc6b9",
-      storageBucket: "bakery-delivery-bc6b9.appspot.com",
-      messagingSenderId: "140907122190",
-      appId: "1:140907122190:web:b53b96dcd61592c6bff65f",
-      measurementId: "G-JQQKZ4TZT0"
+      apiKey: "AIzaSyCtnrlkTYpIdCXAXcwM_i19T3KXIl9EqHk",
+      authDomain: "nppmataradivision.firebaseapp.com",
+      projectId: "nppmataradivision",
+      storageBucket: "nppmataradivision.appspot.com",
+      messagingSenderId: "453100853360",
+      appId: "1:453100853360:web:39458a5a91bb68f3cbbcb5",
+      measurementId: "G-B477DZV451"
+      // databaseURL: "https://bakery-delivery-bc6b9-default-rtdb.firebaseio.com",
   );
 }

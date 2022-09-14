@@ -1,6 +1,5 @@
 import 'package:flutter/material.dart';
 import 'package:get_it/get_it.dart';
-import '../../models/authentication/password_login_result.dart';
 import '../../services/auth_service.dart';
 import '../widgets/admin_home/admin_home.dart';
 import '../../utils/message_utils.dart';
@@ -233,17 +232,16 @@ class _SignInPageState extends State<SignInPage> {
 
   void loginWithCredentials() async {
     try {
-      final PasswordLoginResult? passwordLoginResult =
-          await GetIt.I<AuthService>().passwordLogin(userNameController.text, passwordController.text);
-      if (passwordLoginResult != null) {
-        switch (passwordLoginResult.type) {
-          case "Rider":
-            navigateToAdminHomePage();
-            break;
-          default:
-            break;
-        }
-      }
+      await GetIt.I<AuthService>().passwordLogin(userNameController.text, passwordController.text);
+      // if (passwordLoginResult != null) {
+      //   switch (passwordLoginResult.type) {
+      //     case "Rider":
+      //       navigateToAdminHomePage();
+      //       break;
+      //     default:
+      //       break;
+      //   }
+      // }
     } catch (e) {
       MessageUtils.showErrorInFlushBar(context, "Invalid username or password.", appearFromTop: false, duration: 4);
     }
