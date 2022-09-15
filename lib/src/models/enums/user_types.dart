@@ -20,12 +20,14 @@ extension ToString on UserTypes {
     }
   }
 
-  String toDBValue() {
+  String? toDBValue() {
     switch (this) {
       case UserTypes.systemAdmin:
         return "sys_admin"; //පද්ධති ප්‍රධානී
       case UserTypes.seatOrganizer:
         return "seat_organizer"; //ආසන සංවිධායක
+      default:
+        return null;
     }
   }
 

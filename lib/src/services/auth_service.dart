@@ -2,6 +2,7 @@ import 'package:firebase_auth_web/firebase_auth_web.dart';
 import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:get_it/get_it.dart';
 import 'package:matara_division_system/src/models/authentication/authenticated_user.dart';
+import 'package:matara_division_system/src/models/authentication/request_access_model.dart';
 import 'package:matara_division_system/src/utils/local_storage_utils.dart';
 import '../config/firestore_collections.dart';
 
@@ -52,6 +53,44 @@ class AuthService {
     }
     return authenticatedUser;
   }
+
+  //# region Access Requests
+  Stream<QuerySnapshot<Map<String, dynamic>>> getRequestAccessForAdminStream() {
+    final Stream<QuerySnapshot<Map<String, dynamic>>> result =
+    _firebaseFirestore.collection(FirestoreCollections.accessRequestsCollection).snapshots();
+    return result;
+  }
+
+  Future<bool> saveAccessRequestByAnonymous(RequestAccessModel requestAccessModel) async {
+    // bool status;
+    try {
+
+      // final QuerySnapshot result =
+      // await _firebaseFirestore.collection(FirestoreCollections.accessRequestsCollection).get();
+
+      final reqDocumentRef =
+          _firebaseFirestore.collection(FirestoreCollections.accessRequestsCollection).doc(requestAccessModel.email);
+
+      bool x = await reqDocumentRef
+          .set(requestAccessModel.toMap()).then(
+              (value) {
+            print("you are in succes req");
+            return true;
+          },
+          onError: (e) {
+            print("####errorzz: $e");
+            return false;
+          });
+      // print("REQUESTSUCESS");
+      return x;
+    } catch(e){
+      print("REQUESTdENIEWS:  $e");
+      return false;
+    }
+  }
+
+
+  //# end region Access Requests
 
   // getSingleMall() async{
   //   final QuerySnapshot result =

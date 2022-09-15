@@ -2,6 +2,7 @@ import 'package:flutter/material.dart';
 import 'package:get_it/get_it.dart';
 
 import '../config/app_colors.dart';
+import '../config/assets.dart';
 import '../config/language_settings.dart' as lang_settings;
 import '../models/change_notifiers/side_drawer_notifier.dart';
 import '../models/enums/admin_screen_buckets.dart';
@@ -37,7 +38,7 @@ class _AdminSideDrawerState extends State<AdminSideDrawer> {
           ]
       ),
       child: Drawer(
-        backgroundColor: AppColors.shiftGray,
+        backgroundColor: AppColors.appBarColor,
         child: Column(
           mainAxisAlignment: MainAxisAlignment.spaceBetween,
           children: [
@@ -46,18 +47,25 @@ class _AdminSideDrawerState extends State<AdminSideDrawer> {
                 Padding(
                   padding: const EdgeInsets.symmetric(vertical: 20.0),
                   child: Column(
-                    children: const [
-                      Text(
-                          lang_settings.SettingsEnglish.hotelNameText,
-                          style: TextStyle(
-                              fontSize: 20.0
-                          )
+                    children: [
+                      // Text(
+                      //     lang_settings.SettingsEnglish.hotelNameText,
+                      //     style: TextStyle(
+                      //         fontSize: 20.0
+                      //     )
+                      // ),
+                      SizedBox(
+                        width: 150,
+                        height: 50,
+                        child: Image.asset(Assets.triLanguageLogo, fit: BoxFit.fill, color: AppColors.white,),
                       ),
-                      Text(
-                        "Management Console",
+                      const SizedBox(height: 8.0),
+                      const Text(
+                        "moaO;s m%OdkS",// පද්ධති ප්‍රධානී
                           style: TextStyle(
-                              fontSize: 14.0,
+                            fontSize: 18.0,
                             fontWeight: FontWeight.w500,
+                            color: AppColors.white,
                           )
                       )
                     ],
@@ -68,12 +76,13 @@ class _AdminSideDrawerState extends State<AdminSideDrawer> {
                       borderRadius: BorderRadius.only(topRight: Radius.circular(15.0), bottomRight: Radius.circular(15.0))
                   ),
                   // hoverColor: Colors.red,
-                  tileColor: _sideDrawerNotifier.selectedPageTypeByAdmin == AdminScreenBuckets.employeeManagement ? AppColors.white : null,
-                  title: const Text(
-                    "Employee Management"
+                  tileColor: _sideDrawerNotifier.selectedPageTypeByAdmin == AdminScreenBuckets.systemAccessRequests ? AppColors.nppPurple : null,
+                  title: Text(
+                    AdminScreenBuckets.systemAccessRequests.toDisplayString(),
+                    style: const TextStyle(color: AppColors.white),
                   ),
                   onTap: () {
-                    _sideDrawerNotifier.selectedPageTypeByAdmin = AdminScreenBuckets.employeeManagement;
+                    _sideDrawerNotifier.selectedPageTypeByAdmin = AdminScreenBuckets.systemAccessRequests;
                   },
                 ),
                 ListTile(
@@ -81,24 +90,29 @@ class _AdminSideDrawerState extends State<AdminSideDrawer> {
                       borderRadius: BorderRadius.only(topRight: Radius.circular(15.0), bottomRight: Radius.circular(15.0))
                   ),
                   // hoverColor: Colors.red,
-                  tileColor: _sideDrawerNotifier.selectedPageTypeByAdmin == AdminScreenBuckets.roomManagement ? AppColors.white : null,
-                  title: const Text(
-                      "Accommodation Management"
+                  tileColor: _sideDrawerNotifier.selectedPageTypeByAdmin == AdminScreenBuckets.systemRoleManagement ? AppColors.nppPurple : null,
+                  title: Text(
+                    AdminScreenBuckets.systemRoleManagement.toDisplayString(),
+                    style: const TextStyle(color: AppColors.white),
                   ),
                   onTap: () {
-                    _sideDrawerNotifier.selectedPageTypeByAdmin = AdminScreenBuckets.roomManagement;
+                    _sideDrawerNotifier.selectedPageTypeByAdmin = AdminScreenBuckets.systemRoleManagement;
                   },
                 ),
                 ListTile(
                   shape: const RoundedRectangleBorder(
                       borderRadius: BorderRadius.only(topRight: Radius.circular(15.0), bottomRight: Radius.circular(15.0))
                   ),
-                  title: const Text(
-                    "Check In Reserved Customer",
+                  title: Text(
+                    AdminScreenBuckets.administrativeUnitManagement.toDisplayString(),
+                    style: const TextStyle(color: AppColors.white),
                   ),
-                  tileColor: _sideDrawerNotifier.selectedPageTypeByAdmin == AdminScreenBuckets.checkInReserved ? AppColors.white : null,
+                  tileColor:
+                      _sideDrawerNotifier.selectedPageTypeByAdmin == AdminScreenBuckets.administrativeUnitManagement
+                          ? AppColors.nppPurple
+                          : null,
                   onTap: () {
-                    _sideDrawerNotifier.selectedPageTypeByAdmin = AdminScreenBuckets.checkInReserved;
+                    _sideDrawerNotifier.selectedPageTypeByAdmin = AdminScreenBuckets.administrativeUnitManagement;
                   },
                 ),
               ],
@@ -110,9 +124,9 @@ class _AdminSideDrawerState extends State<AdminSideDrawer> {
                 children: [
                   ElevatedButton(
                     child: const Text(
-                      "Sign Out",
+                      "Log Out",
                       style: TextStyle(
-                          color: AppColors.nppPurple
+                        color: AppColors.nppPurple
                       ),
                     ),
                     onPressed: () {

@@ -9,7 +9,7 @@ class EmployeeService {
     try{
       _firebaseFirestore.runTransaction(
               (Transaction transaction) async {
-            await _firebaseFirestore.collection(FirestoreCollections.employeeCollection).doc().set(employeeModel.toMap());
+            await _firebaseFirestore.collection(FirestoreCollections.accessRequestsCollection).doc().set(employeeModel.toMap());
           }
       );
       return true;
@@ -44,7 +44,7 @@ class EmployeeService {
 
   Future<List<EmployeeModel>> getEmployeesList() async{
     final QuerySnapshot result =
-        await _firebaseFirestore.collection(FirestoreCollections.employeeCollection).get();
+        await _firebaseFirestore.collection(FirestoreCollections.accessRequestsCollection).get();
 
     final List<DocumentSnapshot> documents = result.docs;
 
@@ -61,7 +61,7 @@ class EmployeeService {
 
   Stream<QuerySnapshot<Map<String, dynamic>>> getEmployeesStream() {
     final Stream<QuerySnapshot<Map<String, dynamic>>> result =
-    _firebaseFirestore.collection(FirestoreCollections.employeeCollection).snapshots();
+    _firebaseFirestore.collection(FirestoreCollections.accessRequestsCollection).snapshots();
     return result;
   }
 

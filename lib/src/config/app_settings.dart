@@ -21,4 +21,15 @@ class AppSettings {
         return UserTypes.seatOrganizer;
     }
   }
+
+  static UserTypes? getEnumValueFromEnglishValue(String? value) {
+    switch(value) {
+      case "sys_admin":
+        return UserTypes.systemAdmin;
+      case "seat_organizer":
+        return UserTypes.seatOrganizer;
+      default:
+        return null;
+    }
+  }
 }

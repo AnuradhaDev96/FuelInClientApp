@@ -1,11 +1,15 @@
 import 'package:email_validator/email_validator.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
+import 'package:get_it/get_it.dart';
+import 'package:matara_division_system/src/models/authentication/request_access_model.dart';
+import 'package:matara_division_system/src/services/auth_service.dart';
 
 import '../../config/app_colors.dart';
 import '../../config/app_settings.dart';
 import '../../config/language_settings.dart';
 import '../../models/enums/user_types.dart';
+import '../../utils/message_utils.dart';
 import '../../utils/validator_utils.dart';
 
 class RequestAccessForm extends StatelessWidget {
@@ -24,6 +28,7 @@ class RequestAccessForm extends StatelessWidget {
 
   final UserTypes _defaultUserType = UserTypes.seatOrganizer;
   final ValueNotifier<UserTypes> _selectedUserType = ValueNotifier<UserTypes>(UserTypes.seatOrganizer);
+  final AuthService _authService = GetIt.I<AuthService>();
 
   @override
   Widget build(BuildContext context) {
@@ -76,7 +81,7 @@ class RequestAccessForm extends StatelessWidget {
                           children: [
                             Padding(
                               padding: const EdgeInsets.only(left: 15.0),
-                              child: _buildRequestAccessButton(),
+                              child: _buildRequestAccessButton(context),
                             ),
                           ],
                         ),
@@ -198,6 +203,7 @@ class RequestAccessForm extends StatelessWidget {
             height: 80.0,
             child: TextFormField(
               controller: _waPhoneNoController,
+              maxLength: 10,
               validator: (value) {
                 if (value == null || value.isEmpty) {
                   return 'ms<s;=r wksjd¾hhs';//පිළිතුර අනිවාර්යයි!
@@ -217,6 +223,7 @@ class RequestAccessForm extends StatelessWidget {
               // textCapitalization: TextCapitalization.words,
               decoration: InputDecoration(
                 prefixIcon: const Icon(Icons.whatsapp_outlined, size: 20.0),
+                counterStyle: const TextStyle(fontFamily: SettingsSinhala.engFontFamily),
                 border: OutlineInputBorder(
                     borderRadius: BorderRadius.circular(12.0),
                     borderSide: const BorderSide(width: 1, color: AppColors.lightGray)),
@@ -362,11 +369,11 @@ class RequestAccessForm extends StatelessWidget {
     );
   }
 
-  Widget _buildRequestAccessButton() {
+  Widget _buildRequestAccessButton(BuildContext context) {
     return Padding(
       padding: const EdgeInsets.all(8.0),
       child: ElevatedButton(
-        onPressed: _requestAccessAction,
+        onPressed: () => _requestAccessAction(context),
         child: const Text(
           "whÿï lrkak",//අයදුම් කරන්න
           // style: const TextStyle(color: AppColors.nppPurple, fontSize: 14.0),
@@ -375,10 +382,33 @@ class RequestAccessForm extends StatelessWidget {
     );
   }
 
-  void _requestAccessAction() {
+  void _requestAccessAction(BuildContext context) async {
     if (_requestAccessFormKey.currentState!.validate()) {
       _requestAccessFormKey.currentState!.save();
-      print("Validated");
+      RequestAccessModel requestAccessModel = RequestAccessModel(
+          fullName: _fullNameController.text,
+          email: _personalEmailController.text,
+          waPhoneNumber: int.tryParse(_waPhoneNoController.text) ?? 0,
+          userType: _selectedUserType.value,
+      );
+
+      await _authService.saveAccessRequestByAnonymous(requestAccessModel).then((result) {
+        if (result) {
+          clearInputFields();
+          MessageUtils.showSuccessInFlushBar(context, "ia;+;shs' m%fõYh ikd: lsÍfï Bfï,h ,efnk f;la isákak'", appearFromTop: false, duration: 4);
+          //ස්තූතියි. ප්‍රවේශය සනාථ කිරීමේ ඊමේලය ලැබෙන තෙක් සිටින්න.
+        } else {
+          MessageUtils.showErrorInFlushBar(context, "fuu Bfï,a ,smskfhka b,a,Sula lr we;' m%;spdrhla ,efnk ;=re isákak'", appearFromTop: false, duration: 4);
+          //මෙම ඊමේල් ලිපිනයෙන් ඉල්ලීමක් කර ඇත. ප්‍රතිචාරයක් ලැබෙන තුරු සිටින්න.
+        }
+      });
     }
+  }
+
+  void clearInputFields() {
+    _fullNameController.clear();
+    _personalEmailController.clear();
+    _waPhoneNoController.clear();
+    _selectedUserType.value = _defaultUserType;
   }
 }
