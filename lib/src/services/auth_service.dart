@@ -1,5 +1,7 @@
+import 'package:firebase_auth/firebase_auth.dart';
 import 'package:firebase_auth_web/firebase_auth_web.dart';
 import 'package:cloud_firestore/cloud_firestore.dart';
+import 'package:flutter/foundation.dart';
 import 'package:get_it/get_it.dart';
 import 'package:matara_division_system/src/models/authentication/authenticated_user.dart';
 import 'package:matara_division_system/src/models/authentication/request_access_model.dart';
@@ -15,6 +17,11 @@ class AuthService {
   final FirebaseFirestore _firebaseFirestore = FirebaseFirestore.instance;
   
   Future<AuthenticatedUser?> passwordLogin(String username, String password) async {
+    // if (kIsWeb) {
+    //   _firebaseAuthWeb.setPersistence(Persistence.NONE);
+    // }
+    await _firebaseAuthWeb.setPersistence(Persistence.LOCAL);
+
     final loggedUser = await _firebaseAuthWeb.signInWithEmailAndPassword("anusampath9470@gmail.com", "admin_z123");
     print(loggedUser);
 
@@ -54,10 +61,14 @@ class AuthService {
     return authenticatedUser;
   }
 
+  // Stream<bool>
+
+
   //# region Access Requests
   Stream<QuerySnapshot<Map<String, dynamic>>> getRequestAccessForAdminStream() {
     final Stream<QuerySnapshot<Map<String, dynamic>>> result =
     _firebaseFirestore.collection(FirestoreCollections.accessRequestsCollection).snapshots();
+    print("##showaccessL: ${result.length}");
     return result;
   }
 
@@ -67,6 +78,8 @@ class AuthService {
 
       // final QuerySnapshot result =
       // await _firebaseFirestore.collection(FirestoreCollections.accessRequestsCollection).get();
+      requestAccessModel.requestedDate = DateTime.now();
+      requestAccessModel.lastUpdatedDate = DateTime.now();
 
       final reqDocumentRef =
           _firebaseFirestore.collection(FirestoreCollections.accessRequestsCollection).doc(requestAccessModel.email);

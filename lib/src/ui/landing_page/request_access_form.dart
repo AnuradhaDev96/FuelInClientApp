@@ -141,7 +141,7 @@ class RequestAccessForm extends StatelessWidget {
                   fontWeight: FontWeight.w500,
                 ),
                 keyboardType: TextInputType.text,
-                // textCapitalization: TextCapitalization.words,
+                textCapitalization: TextCapitalization.words,
                 decoration: InputDecoration(
                   border: OutlineInputBorder(
                       borderRadius: BorderRadius.circular(12.0),

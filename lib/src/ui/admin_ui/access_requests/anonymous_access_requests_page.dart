@@ -1,6 +1,12 @@
 import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:flutter/material.dart';
 import 'package:get_it/get_it.dart';
+import 'package:intl/intl.dart';
+import 'package:matara_division_system/src/config/language_settings.dart';
+import 'package:matara_division_system/src/models/enums/access_request_status.dart';
+import 'package:matara_division_system/src/models/enums/user_types.dart';
+import 'package:matara_division_system/src/services/auth_service.dart';
+import '../../../models/authentication/request_access_model.dart';
 import '../../../models/employee/employee_model.dart';
 import '../../../services/employee_service.dart';
 
@@ -8,105 +14,123 @@ import '../../../config/app_colors.dart';
 import '../../../utils/message_utils.dart';
 import '../../../utils/string_extention.dart';
 
-class EmployeeManagementPage extends StatefulWidget {
-  const EmployeeManagementPage({Key? key}) : super(key: key);
+class AnonymousAccessRequestsPage extends StatefulWidget {
+  const AnonymousAccessRequestsPage({Key? key}) : super(key: key);
 
   @override
-  State<EmployeeManagementPage> createState() => _EmployeeManagementPageState();
+  State<AnonymousAccessRequestsPage> createState() => _AnonymousAccessRequestsPageState();
 }
 
-class _EmployeeManagementPageState extends State<EmployeeManagementPage> {
+class _AnonymousAccessRequestsPageState extends State<AnonymousAccessRequestsPage> {
   final TextEditingController _fullNameController = TextEditingController();
   final TextEditingController _salaryController = TextEditingController();
   final TextEditingController _designationController = TextEditingController();
   // final TextEditingController _assigned = TextEditingController();
   final GlobalKey<FormState> _formStateKey = GlobalKey<FormState>();
   late final EmployeeService _employeeService;
+  late final AuthService _authService;
   List<EmployeeModel> employeeList = [];
   bool _isUpdateMode = false;
   EmployeeModel? _elementToBeEdited;
+  final ScrollController _horizontalScrollController = ScrollController();
+  final ScrollController _verticalScrollController = ScrollController();
+
 
   @override
   void initState() {
     _employeeService = GetIt.I<EmployeeService>();
+    _authService = GetIt.I<AuthService>();
     super.initState();
+  }
+
+  @override
+  void dispose() {
+    // TODO: implement dispose
+    super.dispose();
   }
 
   @override
   Widget build(BuildContext context) {
     return ListView(
       children: [
-        Material(
-          elevation: 3,
-          shape: RoundedRectangleBorder(
-            borderRadius: BorderRadius.circular(15),
-          ),
-          child: Padding(
-            padding: const EdgeInsets.symmetric(horizontal: 10.0, vertical: 8.0),
-            child: Container(
-              color: AppColors.grayForPrimaryLight,
-              padding: const EdgeInsets.all(8.0),
-              child: Column(
-                mainAxisAlignment: MainAxisAlignment.start,
-                crossAxisAlignment: CrossAxisAlignment.center,
-                children: [
-                  const Text(
-                    'Register Employee',
-                    style: TextStyle(
-                      fontWeight: FontWeight.bold,
-                      fontSize: 16.0,
-                    ),
-                  ),
-                  // Container(color: AppColors.black,height: 2.0),
-                  Form(
-                    key: _formStateKey,
-                    child: Column(
-                      children: [
-                        Row(
-                          mainAxisAlignment: MainAxisAlignment.start,
-                          children: [
-                            Expanded(child: buildFullName()),
-                            Expanded(child: buildSalaryField()),
-                            Expanded(child: buildDesignationField()),
-                            // Expanded(
-                            //   child: Column(
-                            //     children: [
-                            //       buildFullName(),
-                            //       submitEmployeeButton(),
-                            //     ],
-                            //   ),
-                            // )
-                          ],
-                        ),
-                        Row(
-                          mainAxisAlignment: MainAxisAlignment.end,
-                          children: [
-                            if (_isUpdateMode)
-                              resetFormButton(),
-                            submitEmployeeButton(),
-                          ],
-                        )
-                      ],
-                    ),
-                  )
-                ],
+        // Material(
+        //   elevation: 3,
+        //   shape: RoundedRectangleBorder(
+        //     borderRadius: BorderRadius.circular(15),
+        //   ),
+        //   child: Padding(
+        //     padding: const EdgeInsets.symmetric(horizontal: 10.0, vertical: 8.0),
+        //     child: Container(
+        //       color: AppColors.grayForPrimaryLight,
+        //       padding: const EdgeInsets.all(8.0),
+        //       child: Column(
+        //         mainAxisAlignment: MainAxisAlignment.start,
+        //         crossAxisAlignment: CrossAxisAlignment.center,
+        //         children: [
+        //           const Text(
+        //             'Register Employee',
+        //             style: TextStyle(
+        //               fontWeight: FontWeight.bold,
+        //               fontSize: 16.0,
+        //             ),
+        //           ),
+        //           // Container(color: AppColors.black,height: 2.0),
+        //           Form(
+        //             key: _formStateKey,
+        //             child: Column(
+        //               children: [
+        //                 Row(
+        //                   mainAxisAlignment: MainAxisAlignment.start,
+        //                   children: [
+        //                     Expanded(child: buildFullName()),
+        //                     Expanded(child: buildSalaryField()),
+        //                     Expanded(child: buildDesignationField()),
+        //                     // Expanded(
+        //                     //   child: Column(
+        //                     //     children: [
+        //                     //       buildFullName(),
+        //                     //       submitEmployeeButton(),
+        //                     //     ],
+        //                     //   ),
+        //                     // )
+        //                   ],
+        //                 ),
+        //                 Row(
+        //                   mainAxisAlignment: MainAxisAlignment.end,
+        //                   children: [
+        //                     if (_isUpdateMode)
+        //                       resetFormButton(),
+        //                     submitEmployeeButton(),
+        //                   ],
+        //                 )
+        //               ],
+        //             ),
+        //           )
+        //         ],
+        //       ),
+        //     ),
+        //   ),
+        // ),
+        Row(
+          mainAxisAlignment: MainAxisAlignment.start,
+          children: const [
+            Padding(
+              padding: EdgeInsets.only(left: 8.0, top: 15.0),
+              child: Text(
+                'm%fõY b,a,Sï l<uKdlrKh',//ප්‍රවේශ ඉල්ලීම් කළමණාකරණය
+                style: TextStyle(
+                  fontWeight: FontWeight.bold,
+                  fontSize: 16.0,
+                ),
               ),
             ),
-          ),
+          ],
         ),
-        const Padding(
-          padding: EdgeInsets.only(left: 8.0, top: 10.0),
-          child: Text(
-            'Employees of ELEMENT',
-            style: TextStyle(
-              fontWeight: FontWeight.bold,
-              fontSize: 16.0,
-            ),
-          ),
-        ),
-        Container(color: AppColors.silverPurple,height: 2.0,),
+        const SizedBox(height: 5.0),
+        Container(color: AppColors.nppPurple,height: 2.0,),
+        const SizedBox(height: 8.0),
         StreamBuilder(
-          stream: _employeeService.getEmployeesStream(),
+          stream: _authService.getRequestAccessForAdminStream(),
           builder: (context, AsyncSnapshot<QuerySnapshot<Map<String, dynamic>>> snapshot) {
             if (snapshot.connectionState == ConnectionState.waiting) {
               return const Center(
@@ -116,22 +140,73 @@ class _EmployeeManagementPageState extends State<EmployeeManagementPage> {
                       width: 40,
                       height: 40,
                       child: CircularProgressIndicator(
-                        strokeWidth: 1,
-                        color: AppColors.silverPurple,
+                        strokeWidth: 5,
+                        color: AppColors.nppPurple,
                       ),
                     )),
               );
-            } else if (snapshot.hasError) {
-              return Text("Error: ${snapshot.error}");
-            } else if (snapshot.hasData) {
-              // employeeList = snapshot.data ?? <EmployeeModel>[];
-              return ListView(
-                shrinkWrap: true,
-                children: snapshot.data!.docs.map((data) => employeeItemBuilder(context, data)).toList(),
-              );
-              // return Text("Error: ${snapshot.error}");
+            } else if (snapshot.hasError || !snapshot.hasData || snapshot.data == null) {
+              return const Text("m%fõY b,a,Sï lsisjla fkdue;"); //ප්‍රවේශ ඉල්ලීම් කිසිවක් නොමැත
             }
-            return const Text("No employees available");
+            else if (snapshot.hasData) {
+              // employeeList = snapshot.data ?? <EmployeeModel>[];
+              // return ListView(
+              //   shrinkWrap: true,
+              //   children: snapshot.data!.docs.map((data) => accessItemBuilder(context, data)).toList(),
+              // );
+              // return Text("Error: ${snapshot.error}");
+              return Scrollbar(
+                controller: _verticalScrollController,
+                scrollbarOrientation: ScrollbarOrientation.right,
+                thumbVisibility: true,
+                trackVisibility: true,
+                child: SingleChildScrollView(
+                  controller: _verticalScrollController,
+                  scrollDirection: Axis.vertical,
+                  physics: const ClampingScrollPhysics(),
+                  child: Scrollbar(
+                    controller: _horizontalScrollController,
+                    scrollbarOrientation: ScrollbarOrientation.top,
+                    // trackVisibility: true,
+                    thumbVisibility: true,
+                    trackVisibility: true,
+                    child: SingleChildScrollView(
+                      scrollDirection: Axis.horizontal,
+                      controller: _horizontalScrollController,
+                      child: DataTable(
+                        headingTextStyle: const TextStyle(fontSize: 14.0, fontWeight: FontWeight.bold, fontFamily: 'DL-Paras'),
+                        dataTextStyle: const TextStyle(fontSize: 12.0, fontFamily: SettingsSinhala.engFontFamily),
+                        headingRowColor: MaterialStateProperty.all(AppColors.silverPurple),
+                        columns: const [
+                          DataColumn(label: Text(';SrKh')),//තීරණය
+                          DataColumn(label: Text('iïmQ¾K ku')),//සම්පූර්ණ නම
+                          DataColumn(label: Text('Bfï,a ,smskh')),//ඊමේල් ලිපිනය
+                          DataColumn(label: Text('ÿ\'l\' wxlh')),//දු.ක. අංකය
+                          DataColumn(label: Text('b,a,Sï lrk ;k;=r')),//ඉල්ලීම් කරන තනතුර
+                          DataColumn(
+                            label: Text(
+                              "Status",
+                              style: TextStyle(
+                                fontFamily: SettingsSinhala.engFontFamily
+                              ),
+                            ),
+                          ),
+                          DataColumn(label: Text('b,a¨ï l< Èkh')),//ඉල්ලුම් කළ දිනය
+                          DataColumn(label: Text('wjidk jrg\nfjkia l< Èkh')),//අවසාන වරට වෙනස් කළ දිනය
+                          // DataColumn(label: Text('Check In')),
+                          // DataColumn(label: Text('Check Out')),
+                          // DataColumn(label: Text('Room Count')),
+                          // DataColumn(label: Text('No of Nights')),
+                          // DataColumn(label: Text('Total Cost')),
+                        ],
+                        rows: snapshot.data!.docs.map((data) => accessItemBuilder(context, data)).toList(),
+                      ),
+                    ),
+                  ),
+                ),
+              );
+            }
+            return const Text("m%fõY b,a,Sï lsisjla fkdue;"); //ප්‍රවේශ ඉල්ලීම් කිසිවක් නොමැත
           },
         ),
         // FutureBuilder(
@@ -458,157 +533,89 @@ class _EmployeeManagementPageState extends State<EmployeeManagementPage> {
     }
   }
 
-  Widget employeeItemBuilder(BuildContext context, DocumentSnapshot data) {
-    final employee = EmployeeModel.fromSnapshot(data);
+  DataRow accessItemBuilder(BuildContext context, DocumentSnapshot data) {
+    final accessRequest = RequestAccessModel.fromSnapshot(data);
 
-    return Card(
-      elevation: 5,
-      color: getCardColor(employee.reference),
-      shape: RoundedRectangleBorder(
-        borderRadius: BorderRadius.circular(15),
-      ),
-      child: Padding(
-        padding: const EdgeInsets.all(12.0),
-        child: Row(
-          mainAxisAlignment: MainAxisAlignment.spaceBetween,
+    return DataRow(cells: [
+
+      DataCell(
+        Row(
           children: [
-            Column(
-              crossAxisAlignment: CrossAxisAlignment.start,
-              children: [
-                Row(
-                  mainAxisAlignment: MainAxisAlignment.start,
-                  children: [
-                    // Container(
-                    //   width: 50.0,
-                    //   height: 50.0,
-                    //   decoration: const BoxDecoration(
-                    //     shape: BoxShape.circle,
-                    //     color: AppColors.indigoMaroon,
-                    //   ),
-                    //   padding: const EdgeInsets.all(8.0),
-                    //   child: const Center(
-                    //     child: Text(
-                    //       "A",
-                    //       style: TextStyle(
-                    //           color: AppColors.goldYellow,
-                    //           fontWeight: FontWeight.bold,
-                    //           fontSize: 20.0
-                    //       ),
-                    //     ),
-                    //   ),
-                    // ),
-                    const SizedBox(width: 20.0),
-                    Column(
-                      crossAxisAlignment: CrossAxisAlignment.start,
-                      children: [
-                        Row(
-                          children: [
-                            const Text(
-                              "Name: ",
-                              style: TextStyle(
-                                color: AppColors.black,
-                                fontWeight: FontWeight.bold,
-                              ),
-                            ),
-                            const SizedBox(width: 10.0),
-                            Text(
-                              employee.fullName ?? "-",
-                              style: const TextStyle(
-                                color: AppColors.black,
-                              ),
-                            ),
-                          ],
-                        ),
-                        Row(
-                          children: [
-                            const Text(
-                              "Salary: ",
-                              style: TextStyle(
-                                color: AppColors.black,
-                                fontWeight: FontWeight.bold,
-                              ),
-                            ),
-                            const SizedBox(width: 10.0),
-                            Text(
-                              employee.salary ?? "-",
-                              style: const TextStyle(
-                                color: AppColors.black,
-                              ),
-                            ),
-                          ],
-                        ),
-                        Row(
-                          children: [
-                            const Text(
-                              "Designation: ",
-                              style: TextStyle(
-                                color: AppColors.black,
-                                fontWeight: FontWeight.bold,
-                              ),
-                            ),
-                            const SizedBox(width: 10.0),
-                            Text(
-                              employee.designation ?? "-",
-                              style: const TextStyle(
-                                color: AppColors.black,
-                              ),
-                            ),
-                          ],
-                        ),
-                      ],
-                    )
-                  ],
-                ),
-              ],
+            ElevatedButton(
+              // style: Theme.of(context).elevatedButtonTheme.style!.copyWith(
+              //     shape: MaterialStateProperty.all(
+              //       RoundedRectangleBorder(
+              //         borderRadius: BorderRadius.circular(4.0),
+              //       ),
+              //     )
+              // ),
+              // onPressed: () => _selectReservationToAssignRooms(context, reservation),
+              onPressed: () {},
+              child: const Text(
+                "n|jd.kak",//බඳවාගන්න
+                style: TextStyle(color: AppColors.white, fontSize: 14.0),
+              ),
             ),
-            Column(
-              crossAxisAlignment: CrossAxisAlignment.center,
-              children: [
-                Row(
-                  children: [
-                    Container(
-                      width: 50.0,
-                      height: 50.0,
-                      decoration: const BoxDecoration(
-                        // borderRadius: BorderRadius.circular(15.0),
-                        shape: BoxShape.circle,
-                        color: AppColors.shiftGray,
-                      ),
-                      child: IconButton(
-                          onPressed: () => switchToUpdateMode(employee),
-                          icon: const Icon(
-                            Icons.edit_rounded,
-                            color: AppColors.black,
-                            size: 20.0,
-                          ),
-                      ),
-                    ),
-                    const SizedBox(width: 8.0),
-                    Container(
-                      width: 50.0,
-                      height: 50.0,
-                      decoration: const BoxDecoration(
-                        // borderRadius: BorderRadius.circular(15.0),
-                        shape: BoxShape.circle,
-                        color: AppColors.ashRed,
-                      ),
-                      child: IconButton(
-                        onPressed: () => deleteEmployee(employee),
-                        icon: const Icon(
-                          Icons.delete_outline_sharp,
-                          color: AppColors.lightGray,
-                          size: 20.0,
-                        )
-                      ),
-                    ),
-                  ],
-                )
-              ],
-            )
+            const SizedBox(width: 5.0),
+            ElevatedButton(
+              style: Theme.of(context).elevatedButtonTheme.style!.copyWith(
+                  backgroundColor: MaterialStateProperty.all(AppColors.silverPurple),
+              ),
+              // onPressed: () => _selectReservationToAssignRooms(context, reservation),
+              onPressed: () {},
+              child: const Text(
+                "bj;alrkak",//ඉවත්කරන්න
+                style: TextStyle(color: AppColors.nppPurple, fontSize: 14.0),
+              ),
+            ),
           ],
         ),
       ),
-    );
+      DataCell(Text(accessRequest.fullName)),
+      DataCell(Text(accessRequest.email)),
+      DataCell(Text("${accessRequest.waPhoneNumber}")),
+      // DataCell(Text(DateFormat('yyyy-MM-dd').format(reservation.checkIn!))),
+      // DataCell(Text(DateFormat('yyyy-MM-dd').format(reservation.checkOut!))),
+      DataCell(Text(
+        "${accessRequest.userType?.toDisplaySinhalaString()}",
+        style: const TextStyle(fontFamily: 'DL-Paras'),
+      )),
+      DataCell(Text("${accessRequest.accessRequestStatus?.toDbValue()}")),
+      DataCell(
+        RichText(
+          text: TextSpan(
+            style: const TextStyle(fontFamily: SettingsSinhala.engFontFamily),
+            children: [
+              TextSpan(text: DateFormat.yMd().format(accessRequest.requestedDate!)),
+              const TextSpan(text: "  "),
+              TextSpan(
+                text: DateFormat.jms().format(accessRequest.requestedDate!),
+                style: const TextStyle(color: AppColors.createdDateColor),
+              ),
+            ],
+          ),
+        ),
+      ),
+      DataCell(
+        RichText(
+          text: TextSpan(
+            style: const TextStyle(fontFamily: SettingsSinhala.engFontFamily),
+            children: [
+              TextSpan(
+                text: DateFormat.yMd().format(accessRequest.lastUpdatedDate!),
+              ),
+              const TextSpan(text: "  "),
+              TextSpan(
+                text: DateFormat.jms().format(accessRequest.lastUpdatedDate!),
+                style: const TextStyle(color: AppColors.updatedDateColor),
+              )
+            ],
+          ),
+        ),
+      ),
+      // DataCell(Text("${reservation.noOfNightsReserved ?? 0}")),
+      // DataCell(Text("${reservation.totalCostOfReservation ?? 0}")),
+    ]);
   }
 
   void deleteEmployee(EmployeeModel employeeModel) async {

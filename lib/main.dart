@@ -1,5 +1,6 @@
 import 'dart:async';
 
+import 'package:firebase_auth/firebase_auth.dart';
 import 'package:firebase_core/firebase_core.dart';
 import 'package:flutter/foundation.dart';
 import 'package:flutter/material.dart';
@@ -10,6 +11,7 @@ import 'package:matara_division_system/src/models/authentication/authenticated_u
 import 'package:matara_division_system/src/models/change_notifiers/application_auth_notifier.dart';
 import 'package:matara_division_system/src/models/enums/user_types.dart';
 import 'package:matara_division_system/src/ui/landing_page/landing_page.dart';
+import 'package:matara_division_system/src/ui/widgets/splash_web_screen.dart';
 import 'package:matara_division_system/src/utils/local_storage_utils.dart';
 import 'package:provider/provider.dart';
 import 'src/models/change_notifiers/checkin_customer_page_view_notifier.dart';
@@ -121,14 +123,28 @@ class MyApp extends StatelessWidget {
         ),
         // home: const ReaderHome(),
         // home: const AdminHome(),
-        home: Consumer<ApplicationAuthNotifier>(
-            builder: (BuildContext context, ApplicationAuthNotifier applicationAuthNotifier, child) {
-          if (applicationAuthNotifier.checkAppAuthenticated()) {
-            print("it is vadmin");
-            return const AdminHome();
-          }
-          return const LandingPage();
-        }),
+        // home: Consumer<ApplicationAuthNotifier>(
+        //   builder: (BuildContext context, ApplicationAuthNotifier applicationAuthNotifier, child) {
+        //     if (applicationAuthNotifier.checkAppAuthenticated()) {
+        //       print("it is vadmin");
+        //       return const AdminHome();
+        //     }
+        //     return const LandingPage();
+        //   },
+        // ),
+        home: StreamBuilder(
+          stream: FirebaseAuth.instance.authStateChanges(),
+          builder: (BuildContext context, AsyncSnapshot<User?> snapshot) {
+              if (snapshot.connectionState == ConnectionState.waiting) {
+                return const SplashWebScreen();
+              }
+              if (snapshot.hasData) {
+                return const AdminHome();
+              } else {
+                return const LandingPage();
+              }
+          },
+        ),
       ),
     );
   }

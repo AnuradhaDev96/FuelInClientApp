@@ -1,22 +1,30 @@
 import 'package:cloud_firestore/cloud_firestore.dart';
+import 'package:matara_division_system/src/utils/string_extention.dart';
 
 import '../../config/app_settings.dart';
+import '../enums/access_request_status.dart';
 import '../enums/user_types.dart';
 
 class RequestAccessModel {
   String fullName, email;
   int waPhoneNumber;
+  AccessRequestStatus? accessRequestStatus;
+  DateTime? requestedDate;
+  DateTime? lastUpdatedDate;
 
   /// If userType is null during fromMap() display an error
   UserTypes? userType;
 
-  DocumentReference? reference;
+  // DocumentReference? reference;
 
   RequestAccessModel({
     required this.fullName,
     required this.email,
     required this.waPhoneNumber,
     required this.userType,
+    this.accessRequestStatus = AccessRequestStatus.pendingApproval,
+    this.requestedDate,
+    this.lastUpdatedDate,
   });
 
   Map<String, dynamic> toMap(){
@@ -25,16 +33,24 @@ class RequestAccessModel {
       'email': email,
       'waPhoneNumber': waPhoneNumber,
       'userType': userType?.toDBValue(),
+      'accessRequestStatus': accessRequestStatus?.toDbValue(),
+      'requestedDate': requestedDate,
+      'lastUpdatedDate': lastUpdatedDate,
     };
   }
 
-  RequestAccessModel.fromMap(Map<String, dynamic> map, {required this.reference}):
+  RequestAccessModel.fromMap(Map<String, dynamic> map, {required this.email}):
         fullName = map["fullName"],
-        email = map["email"],
         waPhoneNumber = map["waPhoneNumber"],
-        userType = AppSettings.getEnumValueFromEnglishValue(map["userType"]);
+        userType = AppSettings.getEnumValueFromEnglishValue(map["userType"]),
+        accessRequestStatus = map["accessRequestStatus"] == null
+            ? AccessRequestStatus.pendingApproval
+            : (map["accessRequestStatus"] as String).requestStatusEnumValue,
+        requestedDate = map["requestedDate"] == null ? null : (map["requestedDate"] as Timestamp).toDate(),
+        lastUpdatedDate = map["lastUpdatedDate"] == null ? null : (map["lastUpdatedDate"] as Timestamp).toDate();
 
-  RequestAccessModel.fromSnapshot(DocumentSnapshot snapshot)
-      : this.fromMap(snapshot.data() as Map<String, dynamic>, reference: snapshot.reference);
+
+      RequestAccessModel.fromSnapshot(DocumentSnapshot snapshot)
+      : this.fromMap(snapshot.data() as Map<String, dynamic>, email: snapshot.id);
 
 }

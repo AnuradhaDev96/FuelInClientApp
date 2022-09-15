@@ -17,6 +17,8 @@ extension ToString on UserTypes {
         return "moaO;s m%OdkS"; //පද්ධති ප්‍රධානී
       case UserTypes.seatOrganizer:
         return "wdik ixúOdhl"; //ආසන සංවිධායක
+      default:
+        return "jHdc ;k;=rla"; //ව්‍යාජ තනතුරක්
     }
   }
 

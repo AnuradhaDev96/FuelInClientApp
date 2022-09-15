@@ -1,6 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:get_it/get_it.dart';
-import 'package:matara_division_system/src/ui/admin_ui/employees/employee_management_page.dart';
+import '../../admin_ui/access_requests/anonymous_access_requests_page.dart';
+
 import 'package:matara_division_system/src/ui/reservation/reservation_page.dart';
 import 'package:matara_division_system/src/ui/widgets/reader_home/home_content.dart';
 
@@ -136,7 +137,7 @@ class _AdminHomeState extends State<AdminHome> {
   Widget buildPages() {
     switch (_selectedPageIndex) {
       case AdminScreenBuckets.systemAccessRequests:
-        return const EmployeeManagementPage();
+        return const AnonymousAccessRequestsPage();
       case AdminScreenBuckets.systemRoleManagement:
         return const AccommodationManagementPage();
       case AdminScreenBuckets.administrativeUnitManagement:
