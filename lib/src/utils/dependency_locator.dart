@@ -1,5 +1,6 @@
 import 'package:get_it/get_it.dart';
 
+import '../models/change_notifiers/access_requests_page_view_notifier.dart';
 import '../models/change_notifiers/accommodation_search_result_notifier.dart';
 import '../models/change_notifiers/application_auth_notifier.dart';
 import '../models/change_notifiers/checkin_customer_page_view_notifier.dart';
@@ -21,6 +22,7 @@ void injectAppDependencies() {
   GetIt.I.registerLazySingleton(() => AccommodationSearchResultNotifier());
   GetIt.I.registerLazySingleton(() => CheckInCustomerPageViewNotifier());
   GetIt.I.registerLazySingleton(() => ApplicationAuthNotifier());
+  GetIt.I.registerLazySingleton(() => AccessRequestsPageViewNotifier());
 
   // Utils
   GetIt.I.registerLazySingleton(() => NavigationUtils());

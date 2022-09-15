@@ -20,7 +20,7 @@ class AuthService {
     // if (kIsWeb) {
     //   _firebaseAuthWeb.setPersistence(Persistence.NONE);
     // }
-    await _firebaseAuthWeb.setPersistence(Persistence.LOCAL);
+    await _firebaseAuthWeb.setPersistence(Persistence.INDEXED_DB);
 
     final loggedUser = await _firebaseAuthWeb.signInWithEmailAndPassword("anusampath9470@gmail.com", "admin_z123");
     print(loggedUser);

@@ -3,9 +3,11 @@ import 'package:flutter/material.dart';
 import 'package:get_it/get_it.dart';
 import 'package:intl/intl.dart';
 import 'package:matara_division_system/src/config/language_settings.dart';
+import 'package:matara_division_system/src/models/change_notifiers/access_requests_page_view_notifier.dart';
 import 'package:matara_division_system/src/models/enums/access_request_status.dart';
 import 'package:matara_division_system/src/models/enums/user_types.dart';
 import 'package:matara_division_system/src/services/auth_service.dart';
+import 'package:provider/provider.dart';
 import '../../../models/authentication/request_access_model.dart';
 import '../../../models/employee/employee_model.dart';
 import '../../../services/employee_service.dart';
@@ -167,7 +169,6 @@ class _AnonymousAccessRequestsPageState extends State<AnonymousAccessRequestsPag
                   child: Scrollbar(
                     controller: _horizontalScrollController,
                     scrollbarOrientation: ScrollbarOrientation.top,
-                    // trackVisibility: true,
                     thumbVisibility: true,
                     trackVisibility: true,
                     child: SingleChildScrollView(
@@ -542,15 +543,7 @@ class _AnonymousAccessRequestsPageState extends State<AnonymousAccessRequestsPag
         Row(
           children: [
             ElevatedButton(
-              // style: Theme.of(context).elevatedButtonTheme.style!.copyWith(
-              //     shape: MaterialStateProperty.all(
-              //       RoundedRectangleBorder(
-              //         borderRadius: BorderRadius.circular(4.0),
-              //       ),
-              //     )
-              // ),
-              // onPressed: () => _selectReservationToAssignRooms(context, reservation),
-              onPressed: () {},
+              onPressed: () => _selectAccessRequestToCreateUser(context, accessRequest),
               child: const Text(
                 "n|jd.kak",//බඳවාගන්න
                 style: TextStyle(color: AppColors.white, fontSize: 14.0),
@@ -631,5 +624,10 @@ class _AnonymousAccessRequestsPageState extends State<AnonymousAccessRequestsPag
       showDeleteMessage(false);
     }
     setState(() {});
+  }
+
+  void _selectAccessRequestToCreateUser(BuildContext context, RequestAccessModel requestAccessModel) {
+    Provider.of<AccessRequestsPageViewNotifier>(context, listen: false).setSelectedRequestAccess(requestAccessModel);
+    Provider.of<AccessRequestsPageViewNotifier>(context, listen: false).jumpToNextPage();
   }
 }
