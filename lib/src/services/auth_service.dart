@@ -104,7 +104,12 @@ class AuthService {
     }
   }
 
-  // Stream<bool>
+  Stream<QuerySnapshot<Map<String, dynamic>>> getUsersForAdminStream() {
+    final Stream<QuerySnapshot<Map<String, dynamic>>> result =
+    _firebaseFirestore.collection(FirestoreCollections.userCollection).snapshots();
+    // print("##showaccessL: ${result.length}");
+    return result;
+  }
 
 
   //# region Access Requests

@@ -9,8 +9,9 @@ import 'package:matara_division_system/src/ui/widgets/reader_home/home_content.d
 import '../../../config/assets.dart';
 import '../../../models/change_notifiers/side_drawer_notifier.dart';
 import '../../../models/enums/admin_screen_buckets.dart';
-import '../../../widgets/admin_side_drawer.dart';
-import '../../../widgets/side_drawer.dart';
+import '../../admin_ui/role_management/role_management_list_page.dart';
+import 'admin_side_drawer.dart';
+import '../reader_home/side_drawer.dart';
 import '../../accommodation/accommodation_list.dart';
 import '../../admin_ui/accommodation/accommodation_management_page.dart';
 import '../../admin_ui/checkin_reserved_customer/checkin_reserved_customer_page.dart';
@@ -140,7 +141,7 @@ class _AdminHomeState extends State<AdminHome> {
       case AdminScreenBuckets.systemAccessRequests:
         return const AccessRequestPageView();
       case AdminScreenBuckets.systemRoleManagement:
-        return const AccommodationManagementPage();
+        return RoleManagementListPage();
       case AdminScreenBuckets.administrativeUnitManagement:
         return const CheckInReservedCustomer();
       default:

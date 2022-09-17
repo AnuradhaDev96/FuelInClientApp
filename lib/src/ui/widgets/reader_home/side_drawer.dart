@@ -1,11 +1,11 @@
 import 'package:flutter/material.dart';
 import 'package:get_it/get_it.dart';
 
-import '../config/app_colors.dart';
-import '../config/language_settings.dart' as lang_settings;
-import '../models/change_notifiers/side_drawer_notifier.dart';
-import '../models/enums/screen_bucket_enum.dart';
-import '../ui/authentication/signin_page.dart';
+import '../../../config/app_colors.dart';
+import '../../../config/language_settings.dart' as lang_settings;
+import '../../../models/change_notifiers/side_drawer_notifier.dart';
+import '../../../models/enums/screen_bucket_enum.dart';
+import '../../authentication/signin_page.dart';
 
 class SideDrawer extends StatefulWidget {
   SideDrawer({Key? key}) : super(key: key);

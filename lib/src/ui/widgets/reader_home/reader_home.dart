@@ -7,7 +7,7 @@ import 'package:matara_division_system/src/ui/widgets/reader_home/home_content.d
 import '../../../config/assets.dart';
 import '../../../models/change_notifiers/side_drawer_notifier.dart';
 import '../../../models/enums/screen_bucket_enum.dart';
-import '../../../widgets/side_drawer.dart';
+import 'side_drawer.dart';
 import '../../accommodation/accommodation_list.dart';
 import '../../dining/dining_page.dart';
 import '../../gallery/gallery_grid_view.dart';
