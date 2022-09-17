@@ -1,6 +1,8 @@
 import 'package:flutter/material.dart';
 import 'package:get_it/get_it.dart';
-import 'package:matara_division_system/src/ui/admin_ui/employees/employee_management_page.dart';
+import 'package:matara_division_system/src/ui/admin_ui/access_requests/access_requests_page_view.dart';
+import '../../admin_ui/access_requests/anonymous_access_requests_page.dart';
+
 import 'package:matara_division_system/src/ui/reservation/reservation_page.dart';
 import 'package:matara_division_system/src/ui/widgets/reader_home/home_content.dart';
 
@@ -27,8 +29,8 @@ class AdminHome extends StatefulWidget {
 class _AdminHomeState extends State<AdminHome> {
   late final SideDrawerNotifier _sideDrawerNotifier;
   final PageStorageBucket screenBucket = PageStorageBucket();
-  AdminScreenBuckets _selectedPageIndex = AdminScreenBuckets.employeeManagement;
-  String _selectedPageTitle = AdminScreenBuckets.employeeManagement.toDisplayString();
+  AdminScreenBuckets _selectedPageIndex = AdminScreenBuckets.systemAccessRequests;
+  String _selectedPageTitle = AdminScreenBuckets.systemAccessRequests.toDisplayString();
 
   @override
   void initState() {
@@ -37,7 +39,7 @@ class _AdminHomeState extends State<AdminHome> {
     _sideDrawerNotifier.addListener(() {
       if(mounted) {
         setState(() {
-          _selectedPageIndex = _sideDrawerNotifier.selectedPageTypeByAdmin ?? AdminScreenBuckets.employeeManagement;
+          _selectedPageIndex = _sideDrawerNotifier.selectedPageTypeByAdmin ?? AdminScreenBuckets.systemAccessRequests;
           _selectedPageTitle = _sideDrawerNotifier.selectedPageTitleByAdmin();
         });
       }
@@ -135,11 +137,11 @@ class _AdminHomeState extends State<AdminHome> {
 
   Widget buildPages() {
     switch (_selectedPageIndex) {
-      case AdminScreenBuckets.employeeManagement:
-        return const EmployeeManagementPage();
-      case AdminScreenBuckets.roomManagement:
+      case AdminScreenBuckets.systemAccessRequests:
+        return const AccessRequestPageView();
+      case AdminScreenBuckets.systemRoleManagement:
         return const AccommodationManagementPage();
-      case AdminScreenBuckets.checkInReserved:
+      case AdminScreenBuckets.administrativeUnitManagement:
         return const CheckInReservedCustomer();
       default:
         return const SizedBox(width: 0, height: 0);

@@ -18,3 +18,5 @@ samples, guidance on mobile development, and a full API reference.
 # Build project after flutter clean or cloning
 - flutter pub get
 - flutter packages pub run build_runner build --delete-conflicting-outputs
+- Run > Edit Config > Set Additional run args: --web-port=3404 or flutter run -d chrome --web-port
+  3404

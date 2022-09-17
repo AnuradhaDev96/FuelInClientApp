@@ -1,25 +1,30 @@
 import 'dart:async';
 
+import 'package:firebase_auth/firebase_auth.dart';
 import 'package:firebase_core/firebase_core.dart';
 import 'package:flutter/foundation.dart';
 import 'package:flutter/material.dart';
 import 'package:get_it/get_it.dart';
 import 'package:hive/hive.dart';
-import 'package:matara_division_system/src/config/app_settings.dart';
-import 'package:matara_division_system/src/models/authentication/authenticated_user.dart';
-import 'package:matara_division_system/src/models/change_notifiers/application_auth_notifier.dart';
-import 'package:matara_division_system/src/models/enums/user_types.dart';
-import 'package:matara_division_system/src/ui/landing_page/landing_page.dart';
-import 'package:matara_division_system/src/utils/local_storage_utils.dart';
+import 'package:matara_division_system/src/ui/widgets/verify_email_page.dart';
 import 'package:provider/provider.dart';
-import 'src/models/change_notifiers/checkin_customer_page_view_notifier.dart';
 
 import 'firebase_options.dart';
 import 'src/config/app_colors.dart';
+import 'src/config/app_settings.dart';
+import 'src/models/authentication/authenticated_user.dart';
 import 'src/models/change_notifiers/accommodation_search_result_notifier.dart';
+import 'src/models/change_notifiers/access_requests_page_view_notifier.dart';
+import 'src/models/change_notifiers/checkin_customer_page_view_notifier.dart';
+import 'src/models/change_notifiers/application_auth_notifier.dart';
 import 'src/models/change_notifiers/credit_card_notifier.dart';
 import 'src/models/change_notifiers/reservation_notifier.dart';
 import 'src/models/change_notifiers/side_drawer_notifier.dart';
+import 'src/models/enums/user_types.dart';
+import 'src/ui/landing_page/landing_page.dart';
+import 'src/ui/widgets/authenticated_screen_provider.dart';
+import 'src/ui/widgets/splash_web_screen.dart';
+import 'src/utils/local_storage_utils.dart';
 import 'src/ui/widgets/admin_home/admin_home.dart';
 import 'src/ui/widgets/reader_home/reader_home.dart';
 import 'src/utils/dependency_locator.dart';
@@ -43,7 +48,7 @@ void main() {
     // var value = GetIt.I<LocalStorageUtils>().hiveDbBox?.get(AppSettings.keyAppIsAuthenticated, defaultValue: false);
     // print("####hiveValeIsAuth: $value");
 
-    runApp(MyApp());
+    runApp(const MyApp());
   }, (error, stack) {
     print("cError: $error");
     print("StackTrace: $stack");
@@ -81,10 +86,14 @@ class MyApp extends StatelessWidget {
         ChangeNotifierProvider(
             create: (context) => ApplicationAuthNotifier(),
         ),
+        ChangeNotifierProvider(
+            create: (context) => AccessRequestsPageViewNotifier(),
+        ),
       ],
       child: MaterialApp(
         debugShowCheckedModeBanner: false,
         title: 'Matara Portal',
+        // navigatorKey: ,
         theme: ThemeData(
           // This is the theme of your application.
           //
@@ -120,14 +129,37 @@ class MyApp extends StatelessWidget {
         ),
         // home: const ReaderHome(),
         // home: const AdminHome(),
-        home: Consumer<ApplicationAuthNotifier>(
-            builder: (BuildContext context, ApplicationAuthNotifier applicationAuthNotifier, child) {
-          if (applicationAuthNotifier.checkAppAuthenticated()) {
-            print("it is vadmin");
-            return const AdminHome();
-          }
-          return const LandingPage();
-        }),
+        // home: Consumer<ApplicationAuthNotifier>(
+        //   builder: (BuildContext context, ApplicationAuthNotifier applicationAuthNotifier, child) {
+        //     if (applicationAuthNotifier.checkAppAuthenticated()) {
+        //       print("it is vadmin");
+        //       return const AdminHome();
+        //     }
+        //     return const LandingPage();
+        //   },
+        // ),
+        home: StreamBuilder(
+          stream: FirebaseAuth.instance.authStateChanges(),
+          builder: (BuildContext context, AsyncSnapshot<User?> snapshot) {
+            bool savedLoggedInValue =
+            GetIt.I<LocalStorageUtils>().hiveDbBox?.get(AppSettings.hiveKeyAppIsAuthenticated, defaultValue: false);
+            print("################initialHiveIsLoggedIn: $savedLoggedInValue");
+              if (snapshot.connectionState == ConnectionState.waiting) {
+                return const SplashWebScreen();
+              }
+              if (snapshot.hasData) {
+                // if (FirebaseAuth.instance.currentUser!.emailVerified) {
+                //   return const AdminHome();
+                // } else {
+                //   return const VerifyEmailPage();
+                // }
+                // return const AdminHome();
+                return const AuthenticatedScreenProvider();
+              } else {
+                return LandingPage();
+              }
+          },
+        ),
       ),
     );
   }

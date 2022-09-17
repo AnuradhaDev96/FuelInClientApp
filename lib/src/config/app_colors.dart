@@ -25,4 +25,8 @@ class AppColors {
   static const Color ashMaroon = Color(0xFF988693);
   static const Color enabledGreenColor = Color(0xFF61EF25);
   static const Color appBarColor = Color(0xFF282828);
+  static const Color updatedDateColor = Color(0xFFC78606);
+  static const Color createdDateColor = Color(0xFF31830E);
+  static const Color nppPurpleLight = Color(0xFFD33695);
+  static const Color nppPurpleDark = Color(0xFF560134);
 }

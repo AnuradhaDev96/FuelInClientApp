@@ -1,5 +1,8 @@
+import 'package:firebase_auth/firebase_auth.dart';
 import 'package:firebase_core/firebase_core.dart';
 import 'package:flutter/foundation.dart';
+
+import 'src/config/app_settings.dart';
 
 class DefaultFirebaseOptions {
   static FirebaseOptions get currentPlatform {
@@ -55,4 +58,9 @@ class DefaultFirebaseOptions {
       measurementId: "G-B477DZV451"
       // databaseURL: "https://bakery-delivery-bc6b9-default-rtdb.firebaseio.com",
   );
+
+  static ActionCodeSettings get actionCodeSettings {
+    if (kDebugMode) return ActionCodeSettings(url: AppSettings.debugWebUrl);
+    return ActionCodeSettings(url: AppSettings.prodWebUrl);
+  }
 }
