@@ -6,6 +6,7 @@ import 'package:flutter/foundation.dart';
 import 'package:flutter/material.dart';
 import 'package:get_it/get_it.dart';
 import 'package:hive/hive.dart';
+import 'package:matara_division_system/src/ui/widgets/verify_email_page.dart';
 import 'package:provider/provider.dart';
 
 import 'firebase_options.dart';
@@ -21,6 +22,7 @@ import 'src/models/change_notifiers/reservation_notifier.dart';
 import 'src/models/change_notifiers/side_drawer_notifier.dart';
 import 'src/models/enums/user_types.dart';
 import 'src/ui/landing_page/landing_page.dart';
+import 'src/ui/widgets/authenticated_screen_provider.dart';
 import 'src/ui/widgets/splash_web_screen.dart';
 import 'src/utils/local_storage_utils.dart';
 import 'src/ui/widgets/admin_home/admin_home.dart';
@@ -139,13 +141,22 @@ class MyApp extends StatelessWidget {
         home: StreamBuilder(
           stream: FirebaseAuth.instance.authStateChanges(),
           builder: (BuildContext context, AsyncSnapshot<User?> snapshot) {
+            bool savedLoggedInValue =
+            GetIt.I<LocalStorageUtils>().hiveDbBox?.get(AppSettings.hiveKeyAppIsAuthenticated, defaultValue: false);
+            print("################initialHiveIsLoggedIn: $savedLoggedInValue");
               if (snapshot.connectionState == ConnectionState.waiting) {
                 return const SplashWebScreen();
               }
               if (snapshot.hasData) {
-                return const AdminHome();
+                // if (FirebaseAuth.instance.currentUser!.emailVerified) {
+                //   return const AdminHome();
+                // } else {
+                //   return const VerifyEmailPage();
+                // }
+                // return const AdminHome();
+                return const AuthenticatedScreenProvider();
               } else {
-                return const LandingPage();
+                return LandingPage();
               }
           },
         ),

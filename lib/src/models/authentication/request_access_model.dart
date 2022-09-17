@@ -12,6 +12,11 @@ class RequestAccessModel {
   DateTime? requestedDate;
   DateTime? lastUpdatedDate;
 
+  /// When a user is created for this request the uid is assigned to this.
+  /// [accessRequestStatus] should only be [AccessRequestStatus.approved]
+  String? uidOfCreatedUser;
+
+
   /// If userType is null during fromMap() display an error
   UserTypes? userType;
 
@@ -25,6 +30,7 @@ class RequestAccessModel {
     this.accessRequestStatus = AccessRequestStatus.pendingApproval,
     this.requestedDate,
     this.lastUpdatedDate,
+    this.uidOfCreatedUser
   });
 
   Map<String, dynamic> toMap(){
@@ -36,6 +42,7 @@ class RequestAccessModel {
       'accessRequestStatus': accessRequestStatus?.toDbValue(),
       'requestedDate': requestedDate,
       'lastUpdatedDate': lastUpdatedDate,
+      'uidOfCreatedUser': uidOfCreatedUser,
     };
   }
 
@@ -47,7 +54,8 @@ class RequestAccessModel {
             ? AccessRequestStatus.pendingApproval
             : (map["accessRequestStatus"] as String).requestStatusEnumValue,
         requestedDate = map["requestedDate"] == null ? null : (map["requestedDate"] as Timestamp).toDate(),
-        lastUpdatedDate = map["lastUpdatedDate"] == null ? null : (map["lastUpdatedDate"] as Timestamp).toDate();
+        lastUpdatedDate = map["lastUpdatedDate"] == null ? null : (map["lastUpdatedDate"] as Timestamp).toDate(),
+        uidOfCreatedUser = map["uidOfCreatedUser"];
 
 
       RequestAccessModel.fromSnapshot(DocumentSnapshot snapshot)

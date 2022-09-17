@@ -42,10 +42,14 @@ class ApplicationAuthNotifier extends ChangeNotifier {
     notifyListeners();
   }
 
-  void setAppUnAuthenticated(AuthenticatedUser authenticatedUser) {
+  void setAppUnAuthenticated() {
     _authenticatedUser = null;
     _localStorageUtils.hiveDbBox?.put(AppSettings.hiveKeyAppIsAuthenticated, false);
     _localStorageUtils.hiveDbBox?.put(AppSettings.hiveKeyAuthenticatedUser, null);
+
+    // temp
+    bool savedLoggedInValue = _localStorageUtils.hiveDbBox?.get(AppSettings.hiveKeyAppIsAuthenticated, defaultValue: false);
+    print("after Attempt sign out: $savedLoggedInValue");
     notifyListeners();
   }
 }

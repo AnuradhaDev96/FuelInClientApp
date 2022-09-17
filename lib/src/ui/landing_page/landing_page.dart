@@ -1,4 +1,5 @@
 import 'package:email_validator/email_validator.dart';
+import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
 import 'package:get_it/get_it.dart';
@@ -28,6 +29,14 @@ class _LandingPageState extends State<LandingPage> {
   final TextEditingController _authPasswordController = TextEditingController();
   final FocusNode _authEmailFieldFocusNode = FocusNode();
   final FocusNode _authPasswordFieldFocusNode = FocusNode();
+  final ValueNotifier<bool> _isPasswordTextHidden = ValueNotifier<bool>(true);
+
+  @override
+  void dispose() {
+    _authEmailFieldFocusNode.dispose();
+    _authPasswordFieldFocusNode.dispose();
+    super.dispose();
+  }
 
   @override
   Widget build(BuildContext context) {
@@ -232,47 +241,64 @@ class _LandingPageState extends State<LandingPage> {
           SizedBox(
             // width: 100.0,
             height: 80.0,
-            child: TextFormField(
-              controller: _authPasswordController,
-              focusNode: _authPasswordFieldFocusNode,
-              validator: (value) {
-                if (value == null || value.isEmpty) {
-                  return 'uqrmoh we;=,;a lrkak';
-                }
-                return null;
-              },
-              // autofocus: true,
-              style: const TextStyle(
-                fontSize: 14.0,
-                fontFamily: SettingsSinhala.engFontFamily,
-                color: AppColors.white,
-              ),
-              obscureText: true,
-              keyboardType: TextInputType.text,
-              // textCapitalization: TextCapitalization.words,
-              decoration: InputDecoration(
-                prefixIcon: const Icon(Icons.key, size: 20.0,),
-                border: OutlineInputBorder(
-                    borderRadius: BorderRadius.circular(12.0),
-                    borderSide: const BorderSide(width: 1, color: AppColors.lightGray)),
-                focusedBorder: OutlineInputBorder(
-                  borderSide: const BorderSide(width: 1, color: AppColors.silverPurple),
-                  borderRadius: BorderRadius.circular(12.0),
-                ),
-                contentPadding: const EdgeInsets.symmetric(horizontal: 10),
-                focusedErrorBorder: OutlineInputBorder(
-                  borderSide: const BorderSide(width: 1, color: AppColors.silverPurple),
-                  borderRadius: BorderRadius.circular(12.0),
-                ),
-                errorBorder: OutlineInputBorder(
-                  borderSide: const BorderSide(width: 1, color: Colors.amber),
-                  borderRadius: BorderRadius.circular(12.0),
-                ),
-                errorStyle: const TextStyle(
-                  color: Colors.amber,
-                ),
-              ),
-              onFieldSubmitted: (String value) => _signInAction(),
+            child: ValueListenableBuilder(
+              valueListenable: _isPasswordTextHidden,
+              builder: (context, snapshot, child) {
+                return TextFormField(
+                  controller: _authPasswordController,
+                  focusNode: _authPasswordFieldFocusNode,
+                  validator: (value) {
+                    if (value == null || value.isEmpty) {
+                      return 'uqrmoh we;=,;a lrkak';
+                    }
+                    return null;
+                  },
+                  // autofocus: true,
+                  style: const TextStyle(
+                    fontSize: 14.0,
+                    fontFamily: SettingsSinhala.engFontFamily,
+                    color: AppColors.white,
+                  ),
+                  obscureText: _isPasswordTextHidden.value,
+                  keyboardType: TextInputType.text,
+                  // textCapitalization: TextCapitalization.words,
+                  decoration: InputDecoration(
+                    prefixIcon: const Icon(Icons.key, size: 20.0,),
+                    suffixIcon: MouseRegion(
+                      cursor: SystemMouseCursors.click,
+                      child: GestureDetector(
+                        onTap: () {
+                          _isPasswordTextHidden.value = !_isPasswordTextHidden.value;
+                        },
+                        child: const Icon(
+                          Icons.visibility,
+                          size: 20.0,
+                        ),
+                      ),
+                    ),
+                    border: OutlineInputBorder(
+                        borderRadius: BorderRadius.circular(12.0),
+                        borderSide: const BorderSide(width: 1, color: AppColors.lightGray)),
+                    focusedBorder: OutlineInputBorder(
+                      borderSide: const BorderSide(width: 1, color: AppColors.silverPurple),
+                      borderRadius: BorderRadius.circular(12.0),
+                    ),
+                    contentPadding: const EdgeInsets.symmetric(horizontal: 10),
+                    focusedErrorBorder: OutlineInputBorder(
+                      borderSide: const BorderSide(width: 1, color: AppColors.silverPurple),
+                      borderRadius: BorderRadius.circular(12.0),
+                    ),
+                    errorBorder: OutlineInputBorder(
+                      borderSide: const BorderSide(width: 1, color: Colors.amber),
+                      borderRadius: BorderRadius.circular(12.0),
+                    ),
+                    errorStyle: const TextStyle(
+                      color: Colors.amber,
+                    ),
+                  ),
+                  onFieldSubmitted: (String value) => _signInAction(),
+                );
+              }
             ),
           ),
         ],
@@ -303,7 +329,7 @@ class _LandingPageState extends State<LandingPage> {
     );
   }
 
-  void setAuthCreds(AuthenticatedUser authenticatedUser) {
+  void notifyAppIsAuthenticated(AuthenticatedUser authenticatedUser) {
     Provider.of<ApplicationAuthNotifier>(context, listen: false).setAppAuthenticated(authenticatedUser);
   }
 
@@ -317,15 +343,15 @@ class _LandingPageState extends State<LandingPage> {
           print("####${authenticatedUser.userType}");
           if (authenticatedUser.userType == UserTypes.systemAdmin) {
             print("Logged inSuzzessfully as admin");
-            setAuthCreds(authenticatedUser);
+            notifyAppIsAuthenticated(authenticatedUser);
           } else if (authenticatedUser.userType == UserTypes.seatOrganizer) {
-            setAuthCreds(authenticatedUser);
+            notifyAppIsAuthenticated(authenticatedUser);
           } else {
             return;
           }
         }
       } catch (e) {
-        MessageUtils.showErrorInFlushBar(context, "Bfï,a ,smskh fyda uqrmoh jerÈ neúka msúiSug fkdyel'", appearFromTop: false, duration: 4);
+        if (mounted) MessageUtils.showErrorInFlushBar(context, "Bfï,a ,smskh fyda uqrmoh jerÈ neúka msúiSug fkdyel'", appearFromTop: false, duration: 4);
         //ඊමේල් ලිපිනය හෝ මුරපදය වැරදි බැවින් පිවිසීමට නොහැක.
       }
     }

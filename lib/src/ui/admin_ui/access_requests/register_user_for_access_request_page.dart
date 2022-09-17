@@ -1,14 +1,14 @@
 import 'package:flutter/material.dart';
 import 'package:intl/intl.dart';
-import 'package:matara_division_system/src/models/enums/access_request_status.dart';
-import 'package:matara_division_system/src/models/enums/user_types.dart';
 import 'package:provider/provider.dart';
 
 import '../../../config/app_colors.dart';
 import '../../../config/language_settings.dart';
-// import '../../../models/authentication/request_access_model.dart';
+import '../../../models/enums/access_request_status.dart';
+import '../../../models/enums/user_types.dart';
 import '../../../models/authentication/request_access_model.dart';
 import '../../../models/change_notifiers/access_requests_page_view_notifier.dart';
+import 'register_access_request_with_user_form.dart';
 
 class RegisterUserForAccessRequestPage extends StatelessWidget {
   RegisterUserForAccessRequestPage({Key? key}) : super(key: key);
@@ -136,7 +136,9 @@ class RegisterUserForAccessRequestPage extends StatelessWidget {
                   ],
                 ),
               ),
-            )
+            ),
+            const SizedBox(height: 10.0),
+            RegisterAccessRequestWithUserForm(selectedRequestAccess: requestAccessModel,),
           ],
         );
       }

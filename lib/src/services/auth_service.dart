@@ -5,7 +5,10 @@ import 'package:flutter/foundation.dart';
 import 'package:get_it/get_it.dart';
 import 'package:matara_division_system/src/models/authentication/authenticated_user.dart';
 import 'package:matara_division_system/src/models/authentication/request_access_model.dart';
+import 'package:matara_division_system/src/models/enums/access_request_status.dart';
+import 'package:matara_division_system/src/utils/common_utils.dart';
 import 'package:matara_division_system/src/utils/local_storage_utils.dart';
+import '../../firebase_options.dart';
 import '../config/firestore_collections.dart';
 
 import '../models/authentication/password_login_result.dart';
@@ -23,6 +26,7 @@ class AuthService {
     await _firebaseAuthWeb.setPersistence(Persistence.INDEXED_DB);
 
     final loggedUser = await _firebaseAuthWeb.signInWithEmailAndPassword("anusampath9470@gmail.com", "admin_z123");
+    // final loggedUser = await _firebaseAuthWeb.signInWithEmailAndPassword(username, password);
     print(loggedUser);
 
     final QuerySnapshot result = await _firebaseFirestore
@@ -59,6 +63,45 @@ class AuthService {
       throw Exception("User cannot be found in db.");
     }
     return authenticatedUser;
+  }
+
+  Future<void> signOutUser() async {
+    _firebaseAuthWeb.signOut();
+  }
+
+  Future<void> acceptAccessRequestByAdmin(RequestAccessModel requestAccessModel, String password) async {
+    var result = await _firebaseAuthWeb.createUserWithEmailAndPassword(requestAccessModel.email, password);
+    // print("###createUserResponse: ${result.credential}");
+    // print("###createUserResponse: ${result.user}");
+    // print("###createUserResponse: ${result.additionalUserInfo}");
+    if (result.user != null) {
+
+      // save created user details user collection
+      SystemUser systemUser = SystemUser(
+        fullName: requestAccessModel.fullName,
+        email: requestAccessModel.email,
+        encPassword: CommonUtils.getPasswordOnSave(password),
+        type: requestAccessModel.userType?.toDBValue(),
+        uid: result.user!.uid,
+      );
+      await _firebaseFirestore
+          .collection(FirestoreCollections.userCollection)
+          .doc()
+          .set(systemUser.toMap());
+
+      //update the access request collection with uid, and approved status
+      requestAccessModel.uidOfCreatedUser = result.user!.uid;
+      requestAccessModel.accessRequestStatus = AccessRequestStatus.approved;
+      requestAccessModel.lastUpdatedDate = DateTime.now();
+      final reqDocumentRef =
+      _firebaseFirestore.collection(FirestoreCollections.accessRequestsCollection).doc(requestAccessModel.email);
+      await reqDocumentRef.update(requestAccessModel.toMap()).then((value) async {
+        //send verification email to accepted user after updating request model
+        await result.user?.sendEmailVerification(DefaultFirebaseOptions.actionCodeSettings);
+      });
+    } else {
+      throw Exception("User is null");
+    }
   }
 
   // Stream<bool>
