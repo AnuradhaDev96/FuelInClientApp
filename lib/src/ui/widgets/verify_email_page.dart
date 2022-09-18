@@ -5,7 +5,7 @@ import 'package:flutter/material.dart';
 import 'package:get_it/get_it.dart';
 import 'package:provider/provider.dart';
 
-import '../../../firebase_options.dart';
+import '../../utils/firebase_options.dart';
 import '../../config/app_colors.dart';
 import '../../config/language_settings.dart';
 import '../../models/change_notifiers/application_auth_notifier.dart';

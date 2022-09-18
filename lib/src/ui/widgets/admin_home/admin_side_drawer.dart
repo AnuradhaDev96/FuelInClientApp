@@ -126,13 +126,16 @@ class _AdminSideDrawerState extends State<AdminSideDrawer> {
               child: Row(
                 mainAxisAlignment: MainAxisAlignment.center,
                 children: [
-                  ElevatedButton(
-                    onPressed: _logOutAction,
-                    child: const Text(
-                      "Log Out",
-                      style: TextStyle(
-                        color: AppColors.white,
-                        fontFamily: SettingsSinhala.engFontFamily,
+                  Expanded(
+                    child: ElevatedButton(
+                      onPressed: _logOutAction,
+                      child: const Text(
+                        "Log Out",
+                        textAlign: TextAlign.center,
+                        style: TextStyle(
+                          color: AppColors.white,
+                          fontFamily: SettingsSinhala.engFontFamily,
+                        ),
                       ),
                     ),
                   ),

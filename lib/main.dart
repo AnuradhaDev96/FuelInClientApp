@@ -6,10 +6,11 @@ import 'package:flutter/foundation.dart';
 import 'package:flutter/material.dart';
 import 'package:get_it/get_it.dart';
 import 'package:hive/hive.dart';
+import 'src/models/change_notifiers/administrative_units_change_notifer.dart';
 import 'package:matara_division_system/src/ui/widgets/verify_email_page.dart';
 import 'package:provider/provider.dart';
 
-import 'firebase_options.dart';
+import 'src/utils/firebase_options.dart';
 import 'src/config/app_colors.dart';
 import 'src/config/app_settings.dart';
 import 'src/models/authentication/authenticated_user.dart';

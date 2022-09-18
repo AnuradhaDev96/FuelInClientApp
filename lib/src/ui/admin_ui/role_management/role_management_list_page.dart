@@ -27,6 +27,7 @@ class RoleManagementListPage extends StatelessWidget {
                   style: TextStyle(
                     fontWeight: FontWeight.bold,
                     fontSize: 16.0,
+                    fontFamily: 'DL-Paras',
                   ),
                   children: [
                     TextSpan(
@@ -102,7 +103,7 @@ class RoleManagementListPage extends StatelessWidget {
                           // DataColumn(label: Text('b,a¨ï l< Èkh')),//ඉල්ලුම් කළ දිනය
                           // DataColumn(label: Text('wjidk jrg\nfjkia l< Èkh')),//අවසාන වරට වෙනස් කළ දිනය
                         ],
-                        rows: snapshot.data!.docs.map((data) => accessItemBuilder(context, data)).toList(),
+                        rows: snapshot.data!.docs.map((data) => _roleItemBuilder(context, data)).toList(),
                       ),
                     ),
                   ),
@@ -116,7 +117,7 @@ class RoleManagementListPage extends StatelessWidget {
     );
   }
 
-  DataRow accessItemBuilder(BuildContext context, DocumentSnapshot data) {
+  DataRow _roleItemBuilder(BuildContext context, DocumentSnapshot data) {
     final systemUser = SystemUser.fromSnapshot(data);
 
     return DataRow(cells: [

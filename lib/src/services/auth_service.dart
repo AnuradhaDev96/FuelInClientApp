@@ -8,7 +8,7 @@ import 'package:matara_division_system/src/models/authentication/request_access_
 import 'package:matara_division_system/src/models/enums/access_request_status.dart';
 import 'package:matara_division_system/src/utils/common_utils.dart';
 import 'package:matara_division_system/src/utils/local_storage_utils.dart';
-import '../../firebase_options.dart';
+import '../utils/firebase_options.dart';
 import '../config/firestore_collections.dart';
 
 import '../models/authentication/password_login_result.dart';
@@ -20,10 +20,12 @@ class AuthService {
   final FirebaseFirestore _firebaseFirestore = FirebaseFirestore.instance;
   
   Future<AuthenticatedUser?> passwordLogin(String username, String password) async {
-    // if (kIsWeb) {
-    //   _firebaseAuthWeb.setPersistence(Persistence.NONE);
-    // }
-    await _firebaseAuthWeb.setPersistence(Persistence.INDEXED_DB);
+    if (kIsWeb) {
+      print("###################it is web");
+      _firebaseAuthWeb.setPersistence(Persistence.SESSION);
+    } else {
+      await _firebaseAuthWeb.setPersistence(Persistence.LOCAL);
+    }
 
     final loggedUser = await _firebaseAuthWeb.signInWithEmailAndPassword("anusampath9470@gmail.com", "admin_z123");
     // final loggedUser = await _firebaseAuthWeb.signInWithEmailAndPassword(username, password);
