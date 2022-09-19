@@ -10,6 +10,7 @@ import '../../../config/assets.dart';
 import '../../../models/change_notifiers/side_drawer_notifier.dart';
 import '../../../models/enums/admin_screen_buckets.dart';
 import '../../admin_ui/administrative_divisions/administrative_divisions_list.dart';
+import '../../admin_ui/administrative_divisions/administrative_units_page_view.dart';
 import '../../admin_ui/role_management/role_management_list_page.dart';
 import 'admin_side_drawer.dart';
 import '../reader_home/side_drawer.dart';
@@ -144,7 +145,7 @@ class _AdminHomeState extends State<AdminHome> {
       case AdminScreenBuckets.systemRoleManagement:
         return RoleManagementListPage();
       case AdminScreenBuckets.administrativeUnitManagement:
-        return const AdministrativeDivisionsList();
+        return const AdministrativeUnitsPageView();
       default:
         return const SizedBox(width: 0, height: 0);
     }

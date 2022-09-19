@@ -12,6 +12,7 @@ import '../services/accommodation_service.dart';
 import '../services/administrative_units_service.dart';
 import '../services/auth_service.dart';
 import '../services/employee_service.dart';
+import '../services/membership_service.dart';
 import '../services/reservation_service.dart';
 import 'local_storage_utils.dart';
 import 'navigation_utils.dart';
@@ -25,6 +26,7 @@ void injectAppDependencies() {
   GetIt.I.registerLazySingleton(() => CheckInCustomerPageViewNotifier());
   GetIt.I.registerLazySingleton(() => ApplicationAuthNotifier());
   GetIt.I.registerLazySingleton(() => AccessRequestsPageViewNotifier());
+  GetIt.I.registerLazySingleton(() => AdministrativeUnitsChangeNotifier());
 
   // Utils
   GetIt.I.registerLazySingleton(() => NavigationUtils());
@@ -35,6 +37,7 @@ void injectAppDependencies() {
   GetIt.I.registerLazySingleton(() => AccommodationService());
   GetIt.I.registerLazySingleton(() => ReservationService());
   GetIt.I.registerLazySingleton(() => AdministrativeUnitsService());
+  GetIt.I.registerLazySingleton(() => MembershipService());
 
 
   // Local storage instances

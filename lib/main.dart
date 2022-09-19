@@ -89,6 +89,8 @@ class MyApp extends StatelessWidget {
         ),
         ChangeNotifierProvider(
             create: (context) => AccessRequestsPageViewNotifier(),
+        ),ChangeNotifierProvider(
+            create: (context) => AdministrativeUnitsChangeNotifier(),
         ),
       ],
       child: MaterialApp(

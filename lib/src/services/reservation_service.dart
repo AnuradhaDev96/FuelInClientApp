@@ -115,7 +115,7 @@ class ReservationService {
     try{
       _firebaseFirestore.runTransaction((Transaction transaction) async {
         await _firebaseFirestore
-            .collection(FirestoreCollections.reservationSuitReservationCollection)
+            .collection(FirestoreCollections.membershipCollection)
             .doc()
             .set(reservationSuit.toMap());
       });

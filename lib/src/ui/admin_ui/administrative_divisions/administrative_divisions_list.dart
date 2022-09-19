@@ -2,6 +2,7 @@ import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:flutter/material.dart';
 import 'package:get_it/get_it.dart';
 import 'package:matara_division_system/src/models/administrative_units/grama_niladari_divisions.dart';
+import 'package:provider/provider.dart';
 import '../../../models/change_notifiers/administrative_units_change_notifer.dart';
 
 import '../../../config/app_colors.dart';
@@ -49,7 +50,7 @@ class _AdministrativeDivisionsListState extends State<AdministrativeDivisionsLis
                       children: [
                         TextSpan(
                           text: "m%dfoaYsh f,alï ld¾hd, jiï ",//ප්‍රාදේශිය ලේකම් කාර්යාල වසම්
-                          style: TextStyle(fontFamily: 'DL-Paras')
+                          style: TextStyle(fontFamily: 'DL-Paras', fontWeight: FontWeight.bold)
                         ),
                         TextSpan(
                             text: "| Divisional Secretariats",
@@ -336,7 +337,7 @@ class DivisionalSecretariatExpansionPanelContent extends StatelessWidget {
             mainAxisAlignment: MainAxisAlignment.end,
             children: [
               IconButton(
-                onPressed: () => _deleteSelectedGramaNiladariDivision(context, divisionalSecretariatId, division),
+                onPressed: () => _navigateToMembershipPage(context, division.id),
                 icon: const Icon(
                   Icons.people_alt_outlined,
                 ),
@@ -386,8 +387,16 @@ class DivisionalSecretariatExpansionPanelContent extends StatelessWidget {
         : MessageUtils.showErrorInFlushBar(context, message, appearFromTop: false, duration: 4);
   }
 
-//#end region: add new grama niladari division
+  //#end region: add new grama niladari division
 
-
+  // void _selectAccessRequestToCreateUser(BuildContext context, RequestAccessModel requestAccessModel) {
+  //   Provider.of<AccessRequestsPageViewNotifier>(context, listen: false).setSelectedRequestAccess(requestAccessModel);
+  //   Provider.of<AccessRequestsPageViewNotifier>(context, listen: false).jumpToNextPage();
+  // }
+  void _navigateToMembershipPage(BuildContext context, String gramaNiladariDivisionId) {
+    Provider.of<AdministrativeUnitsChangeNotifier>(context, listen: false)
+        .setSelectedAdministrativeIds(divisionalSecretariatId, gramaNiladariDivisionId);
+    Provider.of<AdministrativeUnitsChangeNotifier>(context, listen: false).jumpToNextPage();
+  }
 }
 
