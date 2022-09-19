@@ -117,6 +117,9 @@ flutter:
     - family: DL-Paras
       fonts:
         - asset: assets/fonts/DL-Paras.ttf
+    - family: un-emanee
+      fonts:
+        - asset: assets/fonts/un-emanee.ttf
     - family: Oswald
       fonts:
         - asset: assets/fonts/Oswald/Oswald-Regular.ttf

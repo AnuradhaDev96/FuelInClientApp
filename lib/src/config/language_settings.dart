@@ -6,7 +6,8 @@ class SettingsSinhala {
   static const String wyaparikaPuwathText = "jHdmdßl mqj;a";//ව්‍යාපාරික පුවත්
 
   static const String engFontFamily = "SecularOne";
-
+  static const String unicodeSinhalaFontFamily = "un-emanee";
+  static const String legacySinhalaFontFamily = "DL-Paras";
 }
 
 class SettingsEnglish {

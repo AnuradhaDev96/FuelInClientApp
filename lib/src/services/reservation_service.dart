@@ -66,7 +66,7 @@ class ReservationService {
 
         DocumentReference? referenceOfCreatedReservation;
         await _firebaseFirestore
-            .collection(FirestoreCollections.generalReservationCollection)
+            .collection(FirestoreCollections.divisionalSecretariatsCollection)
             .add(reservation.toMap()).then((createdReference) => referenceOfCreatedReservation = createdReference);
 
         // increment reserved room count of each included room and
@@ -128,7 +128,7 @@ class ReservationService {
   // get generat reservation stream
   Stream<QuerySnapshot<Map<String, dynamic>>> getGeneralReservationsStream() {
     final Stream<QuerySnapshot<Map<String, dynamic>>> result =
-    _firebaseFirestore.collection(FirestoreCollections.generalReservationCollection).snapshots();
+    _firebaseFirestore.collection(FirestoreCollections.divisionalSecretariatsCollection).snapshots();
     return result;
   }
 }

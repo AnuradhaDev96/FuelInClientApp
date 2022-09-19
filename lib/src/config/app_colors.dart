@@ -29,4 +29,5 @@ class AppColors {
   static const Color createdDateColor = Color(0xFF31830E);
   static const Color nppPurpleLight = Color(0xFFD33695);
   static const Color nppPurpleDark = Color(0xFF560134);
+  static const Color dialogGrey = Color(0xFFCBB9C3);
 }

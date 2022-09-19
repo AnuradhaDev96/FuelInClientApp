@@ -20,13 +20,13 @@ class AccessRequestsPageViewNotifier extends ChangeNotifier {
 
   void jumpToNextPage() {
     if (_pageController.hasClients) {
-      _pageController.nextPage(duration: const Duration(milliseconds: 700), curve: Curves.easeIn);
+      _pageController.nextPage(duration: const Duration(milliseconds: 1200), curve: Curves.fastOutSlowIn);
     }
   }
 
   void jumpToPreviousPage() {
     if (_pageController.hasClients) {
-      _pageController.previousPage(duration: const Duration(milliseconds: 700), curve: Curves.easeIn);
+      _pageController.previousPage(duration: const Duration(milliseconds: 1200), curve: Curves.fastOutSlowIn);
     }
   }
 

@@ -10,12 +10,12 @@ class GeneralDialogUtils {
       context: context,
       barrierDismissible: true,
       barrierLabel: MaterialLocalizations.of(context).dialogLabel,
-      barrierColor: AppColors.silverPurple.withOpacity(0.5),
+      barrierColor: AppColors.appBarColor.withOpacity(0.5),
       pageBuilder: (context, _, __) {
         return StatefulBuilder(
             builder: (BuildContext context, StateSetter setState) {
               return Padding(
-                padding: const EdgeInsets.symmetric(horizontal: 150.0, vertical: 30.0),
+                padding: const EdgeInsets.symmetric(horizontal: 150.0, vertical: 30.0),//TODO: Measure screen size and set 0 for mobile
                 child: SafeArea(
                   child: Scaffold(
                     backgroundColor: Colors.transparent,
@@ -25,7 +25,7 @@ class GeneralDialogUtils {
                           child: Container(
                             padding: const EdgeInsets.symmetric(horizontal: 25.0),
                             decoration: const BoxDecoration(
-                              color: AppColors.nppPurple,
+                              color: AppColors.dialogGrey,
                               borderRadius: BorderRadius.only(
                                 topLeft: Radius.circular(40.0),
                                 topRight: Radius.circular(10.0),
@@ -41,7 +41,7 @@ class GeneralDialogUtils {
                                     margin: const EdgeInsets.only(left: 18.0),
                                     // width: 50.0,
                                     height: 80.0,
-                                    color: AppColors.nppPurple,
+                                    color: AppColors.dialogGrey,
                                     child: Row(
                                       mainAxisAlignment: MainAxisAlignment.spaceBetween,
                                       children: [
@@ -63,7 +63,7 @@ class GeneralDialogUtils {
                                             Navigator.of(context).pop(false);
                                           },
                                           icon: const Icon(
-                                              Icons.close_rounded
+                                            Icons.close_rounded,
                                           ),
                                         ),
                                       ],

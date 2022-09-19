@@ -42,9 +42,9 @@ class RegisterUserForAccessRequestPage extends StatelessWidget {
         return ListView(
           children: [
             Row(
-              mainAxisAlignment: MainAxisAlignment.start,
-              children: const [
-                Padding(
+              mainAxisAlignment: MainAxisAlignment.spaceBetween,
+              children: [
+                const Padding(
                   padding: EdgeInsets.only(left: 8.0, top: 15.0),
                   child: Text(
                     'f;dard.;a m%fõY b,a,Su',//තෝරාගත් ප්‍රවේශ ඉල්ලීම
@@ -52,6 +52,23 @@ class RegisterUserForAccessRequestPage extends StatelessWidget {
                       fontWeight: FontWeight.bold,
                       fontSize: 16.0,
                     ),
+                  ),
+                ),
+                Padding(
+                  padding: const EdgeInsets.only(right: 8.0, top: 15.0),
+                  child: RawMaterialButton(
+                      onPressed: () {
+                        pageViewNotifier.jumpToPreviousPage();
+                      },
+                      // iconSize: 15.0,
+                      // color: AppColors.nppPurple,
+                      // padding: const EdgeInsets.all(5.0),
+                      fillColor: AppColors.nppPurple,
+                      shape: const RoundedRectangleBorder(borderRadius: BorderRadius.all(Radius.circular(5.0))),
+                      child: const Icon(Icons.keyboard_backspace_outlined, size: 25.0, color: AppColors.white,),
+
+                    // splashRadius: 10.0,
+
                   ),
                 ),
               ],
