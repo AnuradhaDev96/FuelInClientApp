@@ -72,7 +72,7 @@ class _AdministrativeDivisionsListState extends State<AdministrativeDivisionsLis
                 // splashRadius: 10.0,
 
               ),
-            )
+            ),
           ],
         ),
         const SizedBox(height: 5.0),
@@ -268,16 +268,17 @@ class DivisionalSecretariatExpansionPanelContent extends StatelessWidget {
       mainAxisAlignment: MainAxisAlignment.center,
       crossAxisAlignment: CrossAxisAlignment.start,
       children: [
-        FutureBuilder(
-            future: _administrativeUnitsService.getGramaNiladiriDivisionsList(divisionalSecretariatId),
-            builder: (BuildContext context, AsyncSnapshot<List<GramaNiladariDivisions>> snapshot) {
+        StreamBuilder(
+            stream: _administrativeUnitsService.getGramaNiladiriDivisionsStream(divisionalSecretariatId),
+            // (BuildContext context, AsyncSnapshot<List<GramaNiladariDivisions>> snapshot)
+            builder: (BuildContext context, AsyncSnapshot<QuerySnapshot<Map<String, dynamic>>> snapshot) {
               if (snapshot.connectionState == ConnectionState.waiting) {
                 return const Center(
                   child: Padding(
                     padding: EdgeInsets.all(8.0),
                     child: SizedBox(
-                      width: 40,
-                      height: 40,
+                      width: 100,
+                      height: 10,
                       child: LinearProgressIndicator(
                         // strokeWidth: 5,
                         backgroundColor: AppColors.silverPurple,
@@ -291,9 +292,9 @@ class DivisionalSecretariatExpansionPanelContent extends StatelessWidget {
                 return const Text("o;a; lsisjla fkdue;"); //දත්ත කිසිවක් නොමැත
               } else if (snapshot.hasData) {
                 return ListView(
-                  padding: const EdgeInsets.symmetric(vertical: 5.0, horizontal: 15.0),
+                  // padding: const EdgeInsets.fromLTRB(10.0, 8.0, 8.0, 10.0),
                   shrinkWrap: true,
-                  children: snapshot.data!.map((division) => _gramaNiladariDivItemBuilder(context, division)).toList(),
+                  children: snapshot.data!.docs.map((division) => _gramaNiladariDivItemBuilder(context, division)).toList(),
                 );
               }
 
@@ -304,39 +305,79 @@ class DivisionalSecretariatExpansionPanelContent extends StatelessWidget {
     );
   }
 
-  Widget _gramaNiladariDivItemBuilder(BuildContext context, GramaNiladariDivisions division) {
-    return Row(
-      children: [
-        Text(
-          division.sinhalaValue,
-          style: const TextStyle(
-            fontFamily: SettingsSinhala.unicodeSinhalaFontFamily,
-            color: AppColors.appBarColor,
+  // Widget _gramaNiladariDivItemBuilder(BuildContext context, GramaNiladariDivisions division) {
+  Widget _gramaNiladariDivItemBuilder(BuildContext context, DocumentSnapshot data) {
+    final division = GramaNiladariDivisions.fromSnapshot(data);
+    return Container(
+      margin: const EdgeInsets.symmetric(horizontal: 10.0, vertical: 4.0),
+      padding: const EdgeInsets.fromLTRB(25.0, 8.0, 10.0, 8.0),
+      decoration: const BoxDecoration(
+        // color: Colors.amber,
+        gradient: LinearGradient(colors: [AppColors.nppPurpleLight, Colors.white], stops: [0.02, 0.02]),
+        borderRadius: BorderRadius.all(Radius.circular(15.0)),
+        // border: Border(
+        //   left: BorderSide(
+        //     color: AppColors.nppPurple,
+        //     width: 10.0,
+        //   ),
+        // )
+      ),
+      child: Row(
+        mainAxisAlignment: MainAxisAlignment.spaceBetween,
+        children: [
+          Text(
+            division.sinhalaValue,
+            style: const TextStyle(
+              fontFamily: SettingsSinhala.unicodeSinhalaFontFamily,
+              color: AppColors.appBarColor,
+            ),
           ),
-        ),
-      ],
+          Row(
+            mainAxisAlignment: MainAxisAlignment.end,
+            children: [
+              IconButton(
+                onPressed: () => _deleteSelectedGramaNiladariDivision(context, divisionalSecretariatId, division),
+                icon: const Icon(
+                  Icons.people_alt_outlined,
+                ),
+                splashRadius: 20.0,
+                color: AppColors.nppPurpleLight,
+                tooltip: "idudðlhska",
+              ),
+              IconButton(
+                onPressed: () => _deleteSelectedGramaNiladariDivision(context, divisionalSecretariatId, division),
+                icon: const Icon(
+                  Icons.delete_outline,
+                ),
+                splashRadius: 20.0,
+                color: AppColors.nppPurpleLight,
+              ),
+            ],
+          )
+        ],
+      ),
     );
   }
 
 
   //#region: add new grama niladari division
-  // void _deleteGramaNiladariDivision(DivisionalSecretariats division) {
-  //   _administrativeUnitsService.deleteDivisionalSecretariatRecord(division).then(
-  //         (value) {
-  //       if (value) {
-  //         //ප්‍රාදේශිය ලේකම් කාර්යාලය ඉවත් කිරීම සාර්ථකයි.
-  //         showDeleteResultMessage(context, true, "m%dfoaYsh f,alï ld¾hd,h bj;a lsÍu id¾:lhs'");
-  //       } else {
-  //         //මෙම කේතයෙන් ප්‍රාදේශිය ලේකම් කාර්යාලයක් නැත.
-  //         showDeleteResultMessage(context, false, "fuu fla;fhka m%dfoaYsh f,alï ld¾hd,hla ke;'");
-  //       }
-  //     },
-  //     onError: (e) {
-  //       //තාක්ශනික දෝශයක්. නැවත උත්සහ කරන්න.
-  //       showDeleteResultMessage(context, false, ";dlaYksl fodaYhla' kej; W;aiy lrkak'");
-  //     },
-  //   );
-  // }
+  void _deleteSelectedGramaNiladariDivision(BuildContext context, String divisionalSecretariatId, GramaNiladariDivisions division) {
+    _administrativeUnitsService.deleteGramaNiladariDivisionRecord(divisionalSecretariatId, division).then(
+          (value) {
+        if (value) {
+          //ග්‍රාම නිලධාරි වසම ඉවත් කිරීම සාර්ථකයි.
+          showDeleteResultMessage(context, true, ".%du ks,Odß jiu bj;a lsÍu id¾:lhs'");
+        } else {
+          //මෙම කේතයෙන් ප්‍රාදේශිය ලේකම් කාර්යාලයක් නැත.
+          showDeleteResultMessage(context, false, "fuu fla;fhka .%du ks,Odß jiula ke;'");
+        }
+      },
+      onError: (e) {
+        //තාක්ශනික දෝශයක්. නැවත උත්සහ කරන්න.
+        showDeleteResultMessage(context, false, ";dlaYksl fodaYhla' kej; W;aiy lrkak'");
+      },
+    );
+  }
 
   void showDeleteResultMessage(BuildContext context, bool statusOfRequest, String message) {
     statusOfRequest

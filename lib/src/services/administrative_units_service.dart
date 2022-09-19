@@ -38,6 +38,18 @@ class AdministrativeUnitsService {
     }
   }
 
+  /// Get grama niladiri divisions stream
+  Stream<QuerySnapshot<Map<String, dynamic>>> getGramaNiladiriDivisionsStream(String divisionalSecretariatId) {
+    final Stream<QuerySnapshot<Map<String, dynamic>>> result =
+    _firebaseFirestore
+        .collection(FirestoreCollections.divisionalSecretariatsCollection)
+        .doc(divisionalSecretariatId)
+        .collection(FirestoreCollections.gramaNiladariDivisionsCollection)
+        .snapshots();
+
+    return result;
+  }
+
   Future<bool> createDivisionalSecretariatRecord(DivisionalSecretariats divisionalSecretariat) async {
     DocumentSnapshot documentSnapshot = await _firebaseFirestore
         .collection(FirestoreCollections.divisionalSecretariatsCollection)
@@ -92,6 +104,29 @@ class AdministrativeUnitsService {
           .collection(FirestoreCollections.gramaNiladariDivisionsCollection)
           .doc(gramaNiladariDivision.id)
           .set(gramaNiladariDivision.toMap())
+          .then((value) => success = true, onError: (e) => success = false);
+      return success;
+    } else {
+      return false;
+    }
+  }
+
+  Future<bool> deleteGramaNiladariDivisionRecord(String divisionalSecretariatId, GramaNiladariDivisions gramaNiladariDivision) async {
+    DocumentSnapshot documentSnapshot = await _firebaseFirestore
+        .collection(FirestoreCollections.divisionalSecretariatsCollection)
+        .doc(divisionalSecretariatId)
+        .collection(FirestoreCollections.gramaNiladariDivisionsCollection)
+        .doc(gramaNiladariDivision.id)
+        .get();
+
+    if (documentSnapshot.exists) {
+      bool success = false;
+      await _firebaseFirestore
+          .collection(FirestoreCollections.divisionalSecretariatsCollection)
+          .doc(divisionalSecretariatId)
+          .collection(FirestoreCollections.gramaNiladariDivisionsCollection)
+          .doc(gramaNiladariDivision.id)
+          .delete()
           .then((value) => success = true, onError: (e) => success = false);
       return success;
     } else {
