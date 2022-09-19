@@ -200,7 +200,7 @@ class _AdministrativeDivisionsListState extends State<AdministrativeDivisionsLis
           );
         },
         isExpanded: _expansionPanelExpandStatus[index],
-        body: DivisionalSecretariatExpansionPanelContent(divisionalSecretariatId: divisionalSecretariat.id),
+        body: DivisionalSecretariatExpansionPanelContent(divisionalSecretariat: divisionalSecretariat),
     );
   }
 
@@ -259,8 +259,9 @@ class _AdministrativeDivisionsListState extends State<AdministrativeDivisionsLis
 }
 
 class DivisionalSecretariatExpansionPanelContent extends StatelessWidget {
-  DivisionalSecretariatExpansionPanelContent({Key? key, required this.divisionalSecretariatId}) : super(key: key);
-  final String divisionalSecretariatId;
+  DivisionalSecretariatExpansionPanelContent({Key? key, required this.divisionalSecretariat}) : super(key: key);
+  // final String divisionalSecretariatId;
+  final DivisionalSecretariats divisionalSecretariat;
   final AdministrativeUnitsService _administrativeUnitsService = GetIt.I<AdministrativeUnitsService>();
 
   @override
@@ -270,7 +271,7 @@ class DivisionalSecretariatExpansionPanelContent extends StatelessWidget {
       crossAxisAlignment: CrossAxisAlignment.start,
       children: [
         StreamBuilder(
-            stream: _administrativeUnitsService.getGramaNiladiriDivisionsStream(divisionalSecretariatId),
+            stream: _administrativeUnitsService.getGramaNiladiriDivisionsStream(divisionalSecretariat.id),
             // (BuildContext context, AsyncSnapshot<List<GramaNiladariDivisions>> snapshot)
             builder: (BuildContext context, AsyncSnapshot<QuerySnapshot<Map<String, dynamic>>> snapshot) {
               if (snapshot.connectionState == ConnectionState.waiting) {
@@ -337,7 +338,7 @@ class DivisionalSecretariatExpansionPanelContent extends StatelessWidget {
             mainAxisAlignment: MainAxisAlignment.end,
             children: [
               IconButton(
-                onPressed: () => _navigateToMembershipPage(context, division.id),
+                onPressed: () => _navigateToMembershipPage(context, division),
                 icon: const Icon(
                   Icons.people_alt_outlined,
                 ),
@@ -346,7 +347,7 @@ class DivisionalSecretariatExpansionPanelContent extends StatelessWidget {
                 tooltip: "idudðlhska",
               ),
               IconButton(
-                onPressed: () => _deleteSelectedGramaNiladariDivision(context, divisionalSecretariatId, division),
+                onPressed: () => _deleteSelectedGramaNiladariDivision(context, divisionalSecretariat.id, division),
                 icon: const Icon(
                   Icons.delete_outline,
                 ),
@@ -393,9 +394,9 @@ class DivisionalSecretariatExpansionPanelContent extends StatelessWidget {
   //   Provider.of<AccessRequestsPageViewNotifier>(context, listen: false).setSelectedRequestAccess(requestAccessModel);
   //   Provider.of<AccessRequestsPageViewNotifier>(context, listen: false).jumpToNextPage();
   // }
-  void _navigateToMembershipPage(BuildContext context, String gramaNiladariDivisionId) {
+  void _navigateToMembershipPage(BuildContext context, GramaNiladariDivisions gramaNiladariDivision) {
     Provider.of<AdministrativeUnitsChangeNotifier>(context, listen: false)
-        .setSelectedAdministrativeIds(divisionalSecretariatId, gramaNiladariDivisionId);
+        .setSelectedAdministrativeUnits(divisionalSecretariat, gramaNiladariDivision);
     Provider.of<AdministrativeUnitsChangeNotifier>(context, listen: false).jumpToNextPage();
   }
 }

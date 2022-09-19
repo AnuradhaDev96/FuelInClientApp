@@ -21,8 +21,8 @@ class MembershipListPage extends StatelessWidget {
   Widget build(BuildContext context) {
     return Consumer<AdministrativeUnitsChangeNotifier>(
       builder: (BuildContext context, AdministrativeUnitsChangeNotifier pageViewNotifier, child) {
-        if (pageViewNotifier.paramDivisionalSecretariatId == null ||
-          pageViewNotifier.paramGramaNiladariDivisionId == null) {
+        if (pageViewNotifier.paramDivisionalSecretariat == null ||
+          pageViewNotifier.paramGramaNiladariDivision == null) {
         return Column(
           children: [
             const Text(";dlaYksl fodaYhla' kej; fmr msgqjg hkak'"), //තාක්ශනික දෝශයක්. නැවත පෙර පිටුවට යන්න.
@@ -42,11 +42,34 @@ class MembershipListPage extends StatelessWidget {
 
       return ListView(
           children: [
-            Row(
+            Padding(
+              padding: const EdgeInsets.only(left: 8.0, top: 10.0),
+              child: Row(
+                mainAxisAlignment: MainAxisAlignment.start,
+                children: [
+                  Text(
+                    pageViewNotifier.paramDivisionalSecretariat!.sinhalaValue,
+                    style: const TextStyle(
+                        fontFamily: SettingsSinhala.unicodeSinhalaFontFamily, color: AppColors.nppPurpleLight),
+                  ),
+                  const Icon(
+                    Icons.arrow_forward_ios_rounded,
+                    color: AppColors.appBarColor,
+                    size: 14.0,
+                  ),
+                  Text(
+                    pageViewNotifier.paramGramaNiladariDivision!.sinhalaValue,
+                    style: const TextStyle(
+                        fontFamily: SettingsSinhala.unicodeSinhalaFontFamily, color: AppColors.nppPurpleLight),
+                  ),
+                ],
+          ),
+            ),
+          Row(
               mainAxisAlignment: MainAxisAlignment.spaceBetween,
               children: [
                 const Padding(
-                    padding: EdgeInsets.only(left: 8.0, top: 15.0),
+                    padding: EdgeInsets.only(left: 8.0, top: 5.0),
                     child: Text(
                       'idudðlhska l<uKdlrKh',//සාමාජිකයින් කළමණාකරණය
                       style: TextStyle(
@@ -56,15 +79,31 @@ class MembershipListPage extends StatelessWidget {
                     ),
                 ),
                 Padding(
-                  padding: const EdgeInsets.only(right: 8.0, top: 15.0),
-                  child: RawMaterialButton(
-                      // onPressed: _createNewDivisionalSecretariatRecord,
-                      onPressed: () => _navigateToAdministrativeUnitsPage(context),
-                      fillColor: AppColors.nppPurple,
-                      shape: const RoundedRectangleBorder(borderRadius: BorderRadius.all(Radius.circular(5.0))),
-                      child: const Icon(Icons.keyboard_backspace_outlined, size: 25.0, color: AppColors.white,)
-                    // splashRadius: 10.0,
+                  padding: const EdgeInsets.only(right: 8.0, top: 5.0),
+                  child: Row(
+                    crossAxisAlignment: CrossAxisAlignment.start,
+                    children: [
+                      IconButton(
+                        onPressed: () {},
+                        icon: const Icon(
+                          Icons.add_circle_outline,
+                          size: 32.0,
+                        ),
+                        splashRadius: 6.0,
+                        color: AppColors.nppPurple,
+                        tooltip: "kj iduðlfhla",//නව සාමජිකයෙක්
+                      ),
+                      const SizedBox(width: 8.0),
+                      RawMaterialButton(
+                          // onPressed: _createNewDivisionalSecretariatRecord,
+                          onPressed: () => _navigateToAdministrativeUnitsPage(context),
+                          fillColor: AppColors.nppPurple,
+                          shape: const RoundedRectangleBorder(borderRadius: BorderRadius.all(Radius.circular(5.0))),
+                          child: const Icon(Icons.keyboard_backspace_outlined, size: 25.0, color: AppColors.white,)
+                        // splashRadius: 10.0,
 
+                      ),
+                    ],
                   ),
                 ),
               ],
@@ -74,8 +113,8 @@ class MembershipListPage extends StatelessWidget {
             const SizedBox(height: 8.0),
             StreamBuilder(
               stream: _membershipService.getDivisionalSecretariatsStream(
-                  pageViewNotifier.paramDivisionalSecretariatId!,
-                  pageViewNotifier.paramGramaNiladariDivisionId!),
+                  pageViewNotifier.paramDivisionalSecretariat!.id,
+                  pageViewNotifier.paramGramaNiladariDivision!.id),
               builder: (context, AsyncSnapshot<QuerySnapshot<Map<String, dynamic>>> snapshot) {
                 if (snapshot.connectionState == ConnectionState.waiting) {
                   return const Center(
@@ -93,6 +132,9 @@ class MembershipListPage extends StatelessWidget {
                 } else if (snapshot.hasError || !snapshot.hasData || snapshot.data == null) {
                   return const Text("idudðlhska lsisfjla lsisjla fkdue;"); //සාමාජිකයින් කිසිවෙක් නොමැත
                 } else if (snapshot.hasData) {
+                  if (snapshot.data!.docs.isEmpty) {
+                    return const Center(child: Text("idudðlhska lsisfjla lsisjla fkdue;")); //සාමාජිකයින් කිසිවෙක් නොමැත
+                  }
                   return Scrollbar(
                     controller: _verticalScrollController,
                     scrollbarOrientation: ScrollbarOrientation.right,
@@ -113,7 +155,7 @@ class MembershipListPage extends StatelessWidget {
                           child: DataTable(
                             headingTextStyle: const TextStyle(
                                     fontSize: 14.0,
-                                    fontWeight: FontWeight.bold,
+                                    fontWeight: FontWeight.w600,
                                     fontFamily: SettingsSinhala.unicodeSinhalaFontFamily),
                             dataTextStyle: const TextStyle(fontSize: 12.0, fontFamily: SettingsSinhala.unicodeSinhalaFontFamily),
                             headingRowColor: MaterialStateProperty.all(AppColors.silverPurple),
@@ -152,8 +194,6 @@ class MembershipListPage extends StatelessWidget {
   }
 
   void _navigateToAdministrativeUnitsPage(BuildContext context) {
-    Provider.of<AdministrativeUnitsChangeNotifier>(context, listen: false)
-        .drainSelectedAdministrativeIds();
     Provider.of<AdministrativeUnitsChangeNotifier>(context, listen: false).jumpToPreviousPage();
   }
 }

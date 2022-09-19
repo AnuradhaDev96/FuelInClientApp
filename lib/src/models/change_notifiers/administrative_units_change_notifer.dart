@@ -1,4 +1,6 @@
 import 'package:flutter/material.dart';
+import 'package:matara_division_system/src/models/administrative_units/divisional_secretariats.dart';
+import 'package:matara_division_system/src/models/administrative_units/grama_niladari_divisions.dart';
 
 import '../membership/membership_model.dart';
 
@@ -29,11 +31,12 @@ class AdministrativeUnitsChangeNotifier extends ChangeNotifier {
 
   //administrative unit details
   // MembershipModel? _membershipModelToBeSaved;
-  String? _paramDivisionalSecretariatId, _paramGramaNiladariDivisionId;
+  DivisionalSecretariats? _paramDivisionalSecretariat;
+  GramaNiladariDivisions? _paramGramaNiladariDivision;
 
   // MembershipModel? get membershipModelToBeSaved => _membershipModelToBeSaved;
-  String? get paramDivisionalSecretariatId => _paramDivisionalSecretariatId;
-  String? get paramGramaNiladariDivisionId => _paramGramaNiladariDivisionId;
+  DivisionalSecretariats? get paramDivisionalSecretariat => _paramDivisionalSecretariat;
+  GramaNiladariDivisions? get paramGramaNiladariDivision => _paramGramaNiladariDivision;
 
   // void setSelectedMembershipModel(MembershipModel requestAccessModel) {
   //   _membershipModelToBeSaved = requestAccessModel;
@@ -45,15 +48,15 @@ class AdministrativeUnitsChangeNotifier extends ChangeNotifier {
   //   notifyListeners();
   // }
 
-  void setSelectedAdministrativeIds(String divisionalSecretariatId, String gramaNiladariDivisionId) {
-    _paramDivisionalSecretariatId = divisionalSecretariatId;
-    _paramGramaNiladariDivisionId = gramaNiladariDivisionId;
+  void setSelectedAdministrativeUnits(DivisionalSecretariats divisionalSecretariat, GramaNiladariDivisions gramaNiladariDivision) {
+    _paramDivisionalSecretariat = divisionalSecretariat;
+    _paramGramaNiladariDivision = gramaNiladariDivision;
     notifyListeners();
   }
 
-  void drainSelectedAdministrativeIds() {
-    _paramDivisionalSecretariatId = null;
-    _paramGramaNiladariDivisionId = null;
+  void drainSelectedAdministrativeUnits() {
+    _paramDivisionalSecretariat = null;
+    _paramGramaNiladariDivision = null;
     notifyListeners();
   }
 
@@ -64,10 +67,10 @@ class AdministrativeUnitsChangeNotifier extends ChangeNotifier {
   }
 
   void jumpToPreviousPage() {
+    drainSelectedAdministrativeUnits();
     if (_pageController.hasClients) {
       _pageController.previousPage(duration: const Duration(milliseconds: 1200), curve: Curves.fastOutSlowIn);
     }
-    drainSelectedAdministrativeIds();
   }
 
 }
