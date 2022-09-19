@@ -1,4 +1,5 @@
 import 'package:cloud_firestore/cloud_firestore.dart';
+import 'package:matara_division_system/src/models/administrative_units/divisional_secretariats.dart';
 import 'package:matara_division_system/src/models/administrative_units/grama_niladari_divisions.dart';
 
 import '../config/firestore_collections.dart';
@@ -36,4 +37,66 @@ class AdministrativeUnitsService {
       return <GramaNiladariDivisions>[];
     }
   }
+
+  Future<bool> createDivisionalSecretariatRecord(DivisionalSecretariats divisionalSecretariat) async {
+    DocumentSnapshot documentSnapshot = await _firebaseFirestore
+        .collection(FirestoreCollections.divisionalSecretariatsCollection)
+        .doc(divisionalSecretariat.id)
+        .get();
+
+    if (!documentSnapshot.exists) {
+      bool success = false;
+      await _firebaseFirestore
+          .collection(FirestoreCollections.divisionalSecretariatsCollection)
+          .doc(divisionalSecretariat.id)
+          .set(divisionalSecretariat.toMap())
+          .then((value) => success = true, onError: (e) => success = false);
+      return success;
+    } else {
+      return false;
+    }
+  }
+
+  Future<bool> deleteDivisionalSecretariatRecord(DivisionalSecretariats divisionalSecretariat) async {
+    DocumentSnapshot documentSnapshot = await _firebaseFirestore
+        .collection(FirestoreCollections.divisionalSecretariatsCollection)
+        .doc(divisionalSecretariat.id)
+        .get();
+
+    if (documentSnapshot.exists) {
+      bool success = false;
+      await _firebaseFirestore
+          .collection(FirestoreCollections.divisionalSecretariatsCollection)
+          .doc(divisionalSecretariat.id)
+          .delete()
+          .then((value) => success = true, onError: (e) => success = false);
+      return success;
+    } else {
+      return false;
+    }
+  }
+
+  Future<bool> createGramaNiladariDivisionRecord(String divisionalSecretariatId, GramaNiladariDivisions gramaNiladariDivision) async {
+    DocumentSnapshot documentSnapshot = await _firebaseFirestore
+        .collection(FirestoreCollections.divisionalSecretariatsCollection)
+        .doc(divisionalSecretariatId)
+        .collection(FirestoreCollections.gramaNiladariDivisionsCollection)
+        .doc(gramaNiladariDivision.id)
+        .get();
+
+    if (!documentSnapshot.exists) {
+      bool success = false;
+      await _firebaseFirestore
+          .collection(FirestoreCollections.divisionalSecretariatsCollection)
+          .doc(divisionalSecretariatId)
+          .collection(FirestoreCollections.gramaNiladariDivisionsCollection)
+          .doc(gramaNiladariDivision.id)
+          .set(gramaNiladariDivision.toMap())
+          .then((value) => success = true, onError: (e) => success = false);
+      return success;
+    } else {
+      return false;
+    }
+  }
+
 }

@@ -8,6 +8,10 @@ import '../../../config/app_colors.dart';
 import '../../../config/language_settings.dart';
 import '../../../models/administrative_units/divisional_secretariats.dart';
 import '../../../services/administrative_units_service.dart';
+import '../../../utils/general_dialog_utils.dart';
+import '../../../utils/message_utils.dart';
+import 'create_divisional_secretariat_dialog.dart';
+import 'create_grama_niladari_division_dialog.dart';
 
 class AdministrativeDivisionsList extends StatefulWidget {
   const AdministrativeDivisionsList({Key? key}) : super(key: key);
@@ -27,6 +31,7 @@ class _AdministrativeDivisionsListState extends State<AdministrativeDivisionsLis
 
   @override
   void dispose() {
+    print("disposed when opeening dialog");
     super.dispose();
   }
   // final ValueNotifier<List<bool>> _expansionPanelExpandStatus = ValueNotifier<List<bool>>(<bool>[]);
@@ -35,7 +40,7 @@ class _AdministrativeDivisionsListState extends State<AdministrativeDivisionsLis
     return ListView(
       children: [
         Row(
-          mainAxisAlignment: MainAxisAlignment.start,
+          mainAxisAlignment: MainAxisAlignment.spaceBetween,
           children: [
             Padding(
                 padding: const EdgeInsets.only(left: 8.0, top: 15.0),
@@ -54,6 +59,20 @@ class _AdministrativeDivisionsListState extends State<AdministrativeDivisionsLis
                   ),
                 )
             ),
+            Padding(
+              padding: const EdgeInsets.only(right: 8.0, top: 15.0),
+              child: RawMaterialButton(
+                onPressed: _createNewDivisionalSecretariatRecord,
+                // iconSize: 15.0,
+                // color: AppColors.nppPurple,
+                // padding: const EdgeInsets.all(5.0),
+                fillColor: AppColors.nppPurple,
+                shape: const RoundedRectangleBorder(borderRadius: BorderRadius.all(Radius.circular(5.0))),
+                child: const Icon(Icons.add, size: 25.0, color: AppColors.white,)
+                // splashRadius: 10.0,
+
+              ),
+            )
           ],
         ),
         const SizedBox(height: 5.0),
@@ -85,6 +104,13 @@ class _AdministrativeDivisionsListState extends State<AdministrativeDivisionsLis
               if (_expansionPanelExpandStatus.isEmpty) {
                 for (int index = 0; index < snapshot.data!.docs.length; index++) {
                   _expansionPanelExpandStatus.add(false);
+                }
+              } else {
+                if (snapshot.data!.docs.length != _expansionPanelExpandStatus.length) {
+                  _expansionPanelExpandStatus.clear();
+                  for (int index = 0; index < snapshot.data!.docs.length; index++) {
+                    _expansionPanelExpandStatus.add(false);
+                  }
                 }
               }
 
@@ -142,12 +168,93 @@ class _AdministrativeDivisionsListState extends State<AdministrativeDivisionsLis
                 color: AppColors.nppPurple,
               ),
             ),
+            trailing: SizedBox(
+              width: 80,
+              height: 30,
+              child: Row(
+                crossAxisAlignment: CrossAxisAlignment.start,
+                mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                children: [
+                  IconButton(
+                    onPressed: () => _createNewGramaNiladariDivisionRecord(divisionalSecretariat),
+                    icon: const Icon(
+                      Icons.add_circle_outline,
+                    ),
+                    splashRadius: 25.0,
+                    color: AppColors.nppPurple,
+                    // hoverColor: AppColors.appBarColor,
+                  ),
+                  IconButton(
+                    onPressed: () => _deleteSelectedDivisionalSecretariat(divisionalSecretariat),
+                    icon: const Icon(
+                      Icons.delete_outline,
+                    ),
+                    splashRadius: 25.0,
+                    color: AppColors.nppPurple,
+                  ),
+
+                ],
+              ),
+            ),
           );
         },
         isExpanded: _expansionPanelExpandStatus[index],
         body: DivisionalSecretariatExpansionPanelContent(divisionalSecretariatId: divisionalSecretariat.id),
     );
   }
+
+  void _createNewDivisionalSecretariatRecord() async {
+    bool isProcessSuccessful = await GeneralDialogUtils().showCustomGeneralDialog(
+      context: context,
+      child: CreateDivisionalSecretariatDialog(),
+      title: "m%dfoaYsh f,alï ld¾hd,hla tl;= lsÍu",//ප්‍රාදේශිය ලේකම් කාර්යාලයක් එකතු කිරීම
+    );
+    // if (isProcessSuccessful == null) {
+    //   return;
+    // } else if (isProcessSuccessful) {
+    //   showSaveResultMessage(true, "m%dfoaYsh f,alï ld¾hd,hla tl;= lrk ,È'");
+    // } else {
+    //   showSaveResultMessage(false, "m%dfoaYsh f,alï ld¾hd,hla tl;= lrk ,È'");//ප්‍රාදේශිය ලේකම් කාර්යාලයක් එකතු කරන ලදි.
+    // }
+  }
+
+  //#region delete divisional secretariat
+  void _deleteSelectedDivisionalSecretariat(DivisionalSecretariats division) {
+    _administrativeUnitsService.deleteDivisionalSecretariatRecord(division).then(
+          (value) {
+        if (value) {
+          //ප්‍රාදේශිය ලේකම් කාර්යාලය ඉවත් කිරීම සාර්ථකයි.
+          _showResultMessage(context, true, "m%dfoaYsh f,alï ld¾hd,h bj;a lsÍu id¾:lhs'");
+        } else {
+          //මෙම කේතයෙන් ප්‍රාදේශිය ලේකම් කාර්යාලයක් නැත.
+          _showResultMessage(context, false, "fuu fla;fhka m%dfoaYsh f,alï ld¾hd,hla ke;'");
+        }
+      },
+      onError: (e) {
+        //තාක්ශනික දෝශයක්. නැවත උත්සහ කරන්න.
+        _showResultMessage(context, false, ";dlaYksl fodaYhla' kej; W;aiy lrkak'");
+      },
+    );
+  }
+
+  void _showResultMessage(BuildContext context, bool statusOfRequest, String message) {
+    statusOfRequest
+        ? MessageUtils.showSuccessInFlushBar(context, message, appearFromTop: false,
+        duration: 4)
+        : MessageUtils.showErrorInFlushBar(context, message, appearFromTop: false, duration: 4);
+  }
+  //#end region delete divisional secretariat
+
+  //#region add grama niladari division
+  void _createNewGramaNiladariDivisionRecord(DivisionalSecretariats division) async {
+    bool isProcessSuccessful = await GeneralDialogUtils().showCustomGeneralDialog(
+      context: context,
+      child: CreateGramaNiladariDivisionDialog(divisionalSecretariatId: division.id,),
+      title: ".%du ks,Odß jiula tl;= lsÍu",//ග්‍රාම නිලධාරි වසමක් එකතු කිරීම
+    );
+  }
+  //#end region add grama niladari division
+
 }
 
 class DivisionalSecretariatExpansionPanelContent extends StatelessWidget {
@@ -175,6 +282,7 @@ class DivisionalSecretariatExpansionPanelContent extends StatelessWidget {
                         // strokeWidth: 5,
                         backgroundColor: AppColors.silverPurple,
                         color: AppColors.nppPurple,
+                        minHeight: null,
                       ),
                     ),
                   ),
@@ -183,9 +291,9 @@ class DivisionalSecretariatExpansionPanelContent extends StatelessWidget {
                 return const Text("o;a; lsisjla fkdue;"); //දත්ත කිසිවක් නොමැත
               } else if (snapshot.hasData) {
                 return ListView(
-                  padding: const EdgeInsets.symmetric(vertical: 5.0),
+                  padding: const EdgeInsets.symmetric(vertical: 5.0, horizontal: 15.0),
                   shrinkWrap: true,
-                  children: snapshot.data!.map((division) => Text(division.name)).toList(),
+                  children: snapshot.data!.map((division) => _gramaNiladariDivItemBuilder(context, division)).toList(),
                 );
               }
 
@@ -195,6 +303,49 @@ class DivisionalSecretariatExpansionPanelContent extends StatelessWidget {
       ],
     );
   }
+
+  Widget _gramaNiladariDivItemBuilder(BuildContext context, GramaNiladariDivisions division) {
+    return Row(
+      children: [
+        Text(
+          division.sinhalaValue,
+          style: const TextStyle(
+            fontFamily: SettingsSinhala.unicodeSinhalaFontFamily,
+            color: AppColors.appBarColor,
+          ),
+        ),
+      ],
+    );
+  }
+
+
+  //#region: add new grama niladari division
+  // void _deleteGramaNiladariDivision(DivisionalSecretariats division) {
+  //   _administrativeUnitsService.deleteDivisionalSecretariatRecord(division).then(
+  //         (value) {
+  //       if (value) {
+  //         //ප්‍රාදේශිය ලේකම් කාර්යාලය ඉවත් කිරීම සාර්ථකයි.
+  //         showDeleteResultMessage(context, true, "m%dfoaYsh f,alï ld¾hd,h bj;a lsÍu id¾:lhs'");
+  //       } else {
+  //         //මෙම කේතයෙන් ප්‍රාදේශිය ලේකම් කාර්යාලයක් නැත.
+  //         showDeleteResultMessage(context, false, "fuu fla;fhka m%dfoaYsh f,alï ld¾hd,hla ke;'");
+  //       }
+  //     },
+  //     onError: (e) {
+  //       //තාක්ශනික දෝශයක්. නැවත උත්සහ කරන්න.
+  //       showDeleteResultMessage(context, false, ";dlaYksl fodaYhla' kej; W;aiy lrkak'");
+  //     },
+  //   );
+  // }
+
+  void showDeleteResultMessage(BuildContext context, bool statusOfRequest, String message) {
+    statusOfRequest
+        ? MessageUtils.showSuccessInFlushBar(context, message, appearFromTop: false,
+        duration: 4)
+        : MessageUtils.showErrorInFlushBar(context, message, appearFromTop: false, duration: 4);
+  }
+
+//#end region: add new grama niladari division
 
 
 }

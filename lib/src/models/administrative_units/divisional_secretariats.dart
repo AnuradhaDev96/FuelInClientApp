@@ -1,7 +1,7 @@
 import 'package:cloud_firestore/cloud_firestore.dart';
 
 class DivisionalSecretariats {
-  String name;
+  String name;//english value
   String id;
   String sinhalaValue;
 
