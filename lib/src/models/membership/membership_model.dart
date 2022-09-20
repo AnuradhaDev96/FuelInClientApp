@@ -9,7 +9,7 @@ class MembershipModel {
   String? job;
   String? district;
   String? electoralSeat;
-  String? waTelephoneNo;
+  String? firstTelephoneNo;
   String? secondTelephoneNo;
   String? fbUserName;
   DateTime? dateInTheForm;
@@ -41,7 +41,7 @@ class MembershipModel {
     this.district = "මාතර",
     this.electoralSeat,
     this.kottashaya,
-    this.waTelephoneNo,
+    this.firstTelephoneNo,
     this.secondTelephoneNo,
     this.preferredFieldToJoin,
     this.preferredRegionToOperate,
@@ -59,7 +59,7 @@ class MembershipModel {
       'nicNumber': nicNumber,
       'district': district,
       'electoralSeat': electoralSeat,
-      'waTelephoneNo': waTelephoneNo,
+      'waTelephoneNo': firstTelephoneNo,
       'secondTelephoneNo': secondTelephoneNo,
       'fbUserName': fbUserName,
       'kottashaya': kottashaya,
@@ -79,7 +79,7 @@ class MembershipModel {
         job = map["job"],
         district = map["district"],
         electoralSeat = map["electoralSeat"],
-        waTelephoneNo = map["waTelephoneNo"],
+        firstTelephoneNo = map["waTelephoneNo"],
         secondTelephoneNo = map["secondTelephoneNo"],
         fbUserName = map["fbUserName"],
         kottashaya = map["kottashaya"],
@@ -88,8 +88,8 @@ class MembershipModel {
         houseNumber = map["houseNumber"],
         divisionalSecretariatId = map["divisionalSecretariatId"],
         gramaNiladariDivisionId = map["gramaNiladariDivisionId"],
-        dateInTheForm = map["dateInTheForm"],
-        createdDate = map["createdDate"];
+        dateInTheForm = map["dateInTheForm"] == null ? null : (map["dateInTheForm"] as Timestamp).toDate(),
+        createdDate = map["createdDate"] == null ? null : (map["createdDate"] as Timestamp).toDate();
 
   MembershipModel.fromSnapshot(DocumentSnapshot snapshot)
       : this.fromMap(snapshot.data() as Map<String, dynamic>, nicNumber: snapshot.id);

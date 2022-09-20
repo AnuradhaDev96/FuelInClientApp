@@ -1,13 +1,18 @@
 import 'package:cloud_firestore/cloud_firestore.dart';
+import 'package:flutter/gestures.dart';
 import 'package:flutter/material.dart';
 import 'package:get_it/get_it.dart';
+import 'package:intl/intl.dart';
+import 'package:matara_division_system/src/ui/admin_ui/membership/create_new_member_dialog.dart';
 import 'package:provider/provider.dart';
+import 'package:url_launcher/url_launcher.dart';
 
 import '../../../config/app_colors.dart';
 import '../../../config/language_settings.dart';
 import '../../../models/change_notifiers/administrative_units_change_notifer.dart';
 import '../../../models/membership/membership_model.dart';
 import '../../../services/membership_service.dart';
+import '../../../utils/general_dialog_utils.dart';
 
 class MembershipListPage extends StatelessWidget {
   MembershipListPage({Key? key}) : super(key: key);
@@ -84,14 +89,15 @@ class MembershipListPage extends StatelessWidget {
                     crossAxisAlignment: CrossAxisAlignment.start,
                     children: [
                       IconButton(
-                        onPressed: () {},
+                        onPressed: () => _createNewMembershipRecord(context, pageViewNotifier.paramDivisionalSecretariat!.id,
+                          pageViewNotifier.paramGramaNiladariDivision!.id),
                         icon: const Icon(
                           Icons.add_circle_outline,
                           size: 32.0,
                         ),
                         splashRadius: 6.0,
                         color: AppColors.nppPurple,
-                        tooltip: "kj iduðlfhla",//නව සාමජිකයෙක්
+                        tooltip: "kj iduðlfhla", //නව සාමජිකයෙක්
                       ),
                       const SizedBox(width: 8.0),
                       RawMaterialButton(
@@ -162,9 +168,22 @@ class MembershipListPage extends StatelessWidget {
                             columns: const [
                               DataColumn(label: Text('ජා.හැ.අංකය')),
                               DataColumn(label: Text('සම්පූර්ණ නම')),
-                              DataColumn(label: Text('ප්‍රා ලේ කේතය')),
-                              DataColumn(label: Text('ග්‍රාම සේවක කේතය')),
-                              // DataColumn(label: Text(';SrKh')),
+                              DataColumn(label: Text('ලිපිනය')),
+                              DataColumn(label: Text('මැතිවරණ ආසනය')),
+                              DataColumn(label: Text('කොට්ඨාශය')),
+                              DataColumn(label: Text('දුරකතන අංකය 1')),
+                              DataColumn(label: Text('දුරකතන අංකය 2')),
+                              DataColumn(label: Text('රැකියාව')),
+                              DataColumn(
+                                label: Text(
+                                  'FB Username',
+                                  style: TextStyle(fontFamily: SettingsSinhala.engFontFamily),
+                                ),
+                              ),
+                              DataColumn(label: Text('සම්බන්ද වීමට කැමති ක්ෂේත්‍රය')),
+                              DataColumn(label: Text('ක්‍රියාත්මක වීමට කැමති ප්‍රදේශය')),
+                              DataColumn(label: Text('ගෘහ මූලික අංකය')),
+                              DataColumn(label: Text('බඳවාගත් දිනය')),
                             ],
                             rows: snapshot.data!.docs.map((data) => _membershipItemBuilder(context, data)).toList(),
                           )
@@ -188,12 +207,68 @@ class MembershipListPage extends StatelessWidget {
     return DataRow(cells: [
       DataCell(Text(membership.nicNumber)),
       DataCell(Text(membership.fullName)),
-      DataCell(Text(membership.divisionalSecretariatId)),
-      DataCell(Text(membership.gramaNiladariDivisionId)),
+      DataCell(Text(membership.address ?? "-")),
+      DataCell(Text(membership.electoralSeat ?? "-")),
+      DataCell(Text(membership.kottashaya ?? "-")),
+      DataCell(Text(membership.firstTelephoneNo ?? "-")),
+      DataCell(Text(membership.secondTelephoneNo ?? "-")),
+      DataCell(Text(membership.job ?? "-")),
+      DataCell(
+        (membership.fbUserName != null)
+            ? RichText(
+                text: TextSpan(
+                  style: const TextStyle(
+                    fontSize: 14.0,
+                    color: AppColors.black,
+                    fontWeight: FontWeight.w500,
+                  ),
+                  children: [
+                    TextSpan(
+                        children: [
+                      TextSpan(
+                        text: membership.fbUserName,
+                        style: const TextStyle(
+                          fontFamily: SettingsSinhala.engFontFamily,
+                          decoration: TextDecoration.underline,
+                        ),
+                        recognizer: TapGestureRecognizer()..onTap = () => _launchFbUrlOfUser(membership.fbUserName!)
+                      ),
+                    ],
+                    ),
+                  ],
+                ),
+              )
+            : const Text("-"),
+      ),
+      DataCell(Text(membership.preferredFieldToJoin ?? "-")),
+      DataCell(Text(membership.preferredRegionToOperate ?? "-")),
+      DataCell(Text(membership.houseNumber ?? "-")),
+      DataCell(
+        Text(membership.dateInTheForm != null ? DateFormat.yMd().format(membership.dateInTheForm!) : "-"),
+      ),
     ]);
   }
 
   void _navigateToAdministrativeUnitsPage(BuildContext context) {
     Provider.of<AdministrativeUnitsChangeNotifier>(context, listen: false).jumpToPreviousPage();
+  }
+
+  void _createNewMembershipRecord(
+      BuildContext context, String divisionalSecretariatId, String gramaNiladariDivisionId) async {
+    bool isProcessSuccessful = await GeneralDialogUtils().showCustomGeneralDialog(
+      context: context,
+      child: CreateNewMemberDialog(
+          divisionalSecretariatId: divisionalSecretariatId, gramaNiladariDivisionId: gramaNiladariDivisionId),
+      title: ".%du ks,Odß jiula tl;= lsÍu", //සාමාජිකයෙක් එකතු කිරීම
+    );
+  }
+
+  void _launchFbUrlOfUser(String username) async {
+    String url = "https://fb.com/$username";
+    if (await canLaunchUrl(Uri.parse(url))) {
+      await launchUrl(Uri.parse(url));
+    } else {
+      print("URL is not available");
+    }
   }
 }

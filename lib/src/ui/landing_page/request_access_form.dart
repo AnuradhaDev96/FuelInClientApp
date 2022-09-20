@@ -219,7 +219,7 @@ class RequestAccessForm extends StatelessWidget {
                 color: AppColors.black,
                 fontWeight: FontWeight.w500,
               ),
-              keyboardType: TextInputType.emailAddress,
+              keyboardType: TextInputType.phone,
               // textCapitalization: TextCapitalization.words,
               decoration: InputDecoration(
                 prefixIcon: const Icon(Icons.whatsapp_outlined, size: 20.0),
