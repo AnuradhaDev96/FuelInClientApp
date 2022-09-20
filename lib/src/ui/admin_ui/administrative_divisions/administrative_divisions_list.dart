@@ -2,6 +2,7 @@ import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:flutter/material.dart';
 import 'package:get_it/get_it.dart';
 import 'package:matara_division_system/src/models/administrative_units/grama_niladari_divisions.dart';
+import 'package:provider/provider.dart';
 import '../../../models/change_notifiers/administrative_units_change_notifer.dart';
 
 import '../../../config/app_colors.dart';
@@ -49,7 +50,7 @@ class _AdministrativeDivisionsListState extends State<AdministrativeDivisionsLis
                       children: [
                         TextSpan(
                           text: "m%dfoaYsh f,alï ld¾hd, jiï ",//ප්‍රාදේශිය ලේකම් කාර්යාල වසම්
-                          style: TextStyle(fontFamily: 'DL-Paras')
+                          style: TextStyle(fontFamily: 'DL-Paras', fontWeight: FontWeight.bold)
                         ),
                         TextSpan(
                             text: "| Divisional Secretariats",
@@ -199,7 +200,7 @@ class _AdministrativeDivisionsListState extends State<AdministrativeDivisionsLis
           );
         },
         isExpanded: _expansionPanelExpandStatus[index],
-        body: DivisionalSecretariatExpansionPanelContent(divisionalSecretariatId: divisionalSecretariat.id),
+        body: DivisionalSecretariatExpansionPanelContent(divisionalSecretariat: divisionalSecretariat),
     );
   }
 
@@ -258,8 +259,9 @@ class _AdministrativeDivisionsListState extends State<AdministrativeDivisionsLis
 }
 
 class DivisionalSecretariatExpansionPanelContent extends StatelessWidget {
-  DivisionalSecretariatExpansionPanelContent({Key? key, required this.divisionalSecretariatId}) : super(key: key);
-  final String divisionalSecretariatId;
+  DivisionalSecretariatExpansionPanelContent({Key? key, required this.divisionalSecretariat}) : super(key: key);
+  // final String divisionalSecretariatId;
+  final DivisionalSecretariats divisionalSecretariat;
   final AdministrativeUnitsService _administrativeUnitsService = GetIt.I<AdministrativeUnitsService>();
 
   @override
@@ -269,7 +271,7 @@ class DivisionalSecretariatExpansionPanelContent extends StatelessWidget {
       crossAxisAlignment: CrossAxisAlignment.start,
       children: [
         StreamBuilder(
-            stream: _administrativeUnitsService.getGramaNiladiriDivisionsStream(divisionalSecretariatId),
+            stream: _administrativeUnitsService.getGramaNiladiriDivisionsStream(divisionalSecretariat.id),
             // (BuildContext context, AsyncSnapshot<List<GramaNiladariDivisions>> snapshot)
             builder: (BuildContext context, AsyncSnapshot<QuerySnapshot<Map<String, dynamic>>> snapshot) {
               if (snapshot.connectionState == ConnectionState.waiting) {
@@ -336,7 +338,7 @@ class DivisionalSecretariatExpansionPanelContent extends StatelessWidget {
             mainAxisAlignment: MainAxisAlignment.end,
             children: [
               IconButton(
-                onPressed: () => _deleteSelectedGramaNiladariDivision(context, divisionalSecretariatId, division),
+                onPressed: () => _navigateToMembershipPage(context, division),
                 icon: const Icon(
                   Icons.people_alt_outlined,
                 ),
@@ -345,7 +347,7 @@ class DivisionalSecretariatExpansionPanelContent extends StatelessWidget {
                 tooltip: "idudðlhska",
               ),
               IconButton(
-                onPressed: () => _deleteSelectedGramaNiladariDivision(context, divisionalSecretariatId, division),
+                onPressed: () => _deleteSelectedGramaNiladariDivision(context, divisionalSecretariat.id, division),
                 icon: const Icon(
                   Icons.delete_outline,
                 ),
@@ -386,8 +388,16 @@ class DivisionalSecretariatExpansionPanelContent extends StatelessWidget {
         : MessageUtils.showErrorInFlushBar(context, message, appearFromTop: false, duration: 4);
   }
 
-//#end region: add new grama niladari division
+  //#end region: add new grama niladari division
 
-
+  // void _selectAccessRequestToCreateUser(BuildContext context, RequestAccessModel requestAccessModel) {
+  //   Provider.of<AccessRequestsPageViewNotifier>(context, listen: false).setSelectedRequestAccess(requestAccessModel);
+  //   Provider.of<AccessRequestsPageViewNotifier>(context, listen: false).jumpToNextPage();
+  // }
+  void _navigateToMembershipPage(BuildContext context, GramaNiladariDivisions gramaNiladariDivision) {
+    Provider.of<AdministrativeUnitsChangeNotifier>(context, listen: false)
+        .setSelectedAdministrativeUnits(divisionalSecretariat, gramaNiladariDivision);
+    Provider.of<AdministrativeUnitsChangeNotifier>(context, listen: false).jumpToNextPage();
+  }
 }
 

@@ -6,6 +6,6 @@ class FirestoreCollections {
   static const String accommodationCollection = "Accommodation";
   static const String divisionalSecretariatsCollection = "DivisionalSecretariats";
   static const String gramaNiladariDivisionsCollection = "GramaNiladariDivisions";
-  static const String reservationSuitReservationCollection = "SuiteReservations";
+  static const String membershipCollection = "Memberships";
   static const String reservedDatesOfAccommodation = "ReservedDatesOfAccommodation";
 }

@@ -87,7 +87,7 @@ class CreateGramaNiladariDivisionDialog extends StatelessWidget {
               ),
               children: [
                 TextSpan(
-                  text: "m%dfoaYsh f,alï ld¾hd,fha ku bx.%Sisfhka", //ප්‍රාදේශිය ලේකම් කාර්යාලයේ නම ඉංග්‍රීසියෙන්:
+                  text: ".%du ks,Odß jifï ku bx.%Sisfhka", //ග්‍රාම නිලදාරි වසමේ නම ඉංග්‍රීසියෙන්:
                   style: TextStyle(
                     fontFamily: SettingsSinhala.legacySinhalaFontFamily,
                   ),
@@ -170,7 +170,7 @@ class CreateGramaNiladariDivisionDialog extends StatelessWidget {
               ),
               children: [
                 TextSpan(
-                  text: "m%dfoaYsh f,alï ld¾hd,fha ku isxyf,ka", //ප්‍රාදේශිය ලේකම් කාර්යාලයේ නම සිංහලෙන්:
+                  text: ".%du ks,Odß jifï ku isxyf,ka", //ග්‍රාම නිලදාරි වසමේ නම සිංහලෙන්:
                   style: TextStyle(
                     fontFamily: SettingsSinhala.legacySinhalaFontFamily,
                   ),

@@ -89,6 +89,8 @@ class MyApp extends StatelessWidget {
         ),
         ChangeNotifierProvider(
             create: (context) => AccessRequestsPageViewNotifier(),
+        ),ChangeNotifierProvider(
+            create: (context) => AdministrativeUnitsChangeNotifier(),
         ),
       ],
       child: MaterialApp(
@@ -144,7 +146,10 @@ class MyApp extends StatelessWidget {
           builder: (BuildContext context, AsyncSnapshot<User?> snapshot) {
             bool savedLoggedInValue =
             GetIt.I<LocalStorageUtils>().hiveDbBox?.get(AppSettings.hiveKeyAppIsAuthenticated, defaultValue: false);
+            AuthenticatedUser? aUser =
+                GetIt.I<LocalStorageUtils>().hiveDbBox?.get(AppSettings.hiveKeyAuthenticatedUser, defaultValue: null);
             print("################initialHiveIsLoggedIn: $savedLoggedInValue");
+            print("################initialHiveIsLoggedIn: ${aUser?.toMap()}");
               if (snapshot.connectionState == ConnectionState.waiting) {
                 return const SplashWebScreen();
               }
