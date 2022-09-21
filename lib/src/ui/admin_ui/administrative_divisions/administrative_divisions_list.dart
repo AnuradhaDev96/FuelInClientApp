@@ -3,6 +3,8 @@ import 'package:flutter/material.dart';
 import 'package:get_it/get_it.dart';
 import 'package:matara_division_system/src/models/administrative_units/grama_niladari_divisions.dart';
 import 'package:provider/provider.dart';
+import '../../../models/administrative_units/divisional_secretariats.dart';
+import '../../../models/administrative_units/divisional_secretariats.dart';
 import '../../../models/change_notifiers/administrative_units_change_notifer.dart';
 
 import '../../../config/app_colors.dart';
@@ -99,6 +101,10 @@ class _AdministrativeDivisionsListState extends State<AdministrativeDivisionsLis
             } else if (snapshot.hasError || !snapshot.hasData || snapshot.data == null) {
               return const Text("o;a; lsisjla fkdue;"); //දත්ත කිසිවක් නොමැත
             } else if (snapshot.hasData) {
+              if (snapshot.data!.docs.isEmpty) {
+                return const Text("o;a; lsisjla fkdue;"); //දත්ත කිසිවක් නොමැත
+              }
+
               print("### length of divsecStream: ${snapshot.data!.docs.length}");
               var panels = <ExpansionPanel>[];
               //
@@ -115,6 +121,12 @@ class _AdministrativeDivisionsListState extends State<AdministrativeDivisionsLis
                 }
               }
 
+              // DivisionalSecretariats.fromSnapshot
+              snapshot.data!.docs.sort((a,b) {
+                String div1 = DivisionalSecretariats.fromSnapshot(a).id;
+                String div2 = DivisionalSecretariats.fromSnapshot(b).id;
+                return div1.compareTo(div2);
+              });
               for (int index = 0; index < snapshot.data!.docs.length; index++) {
                 panels.add(_divSecretariatItemBuilder(context, snapshot.data!.docs[index], index));
               }
@@ -293,6 +305,10 @@ class DivisionalSecretariatExpansionPanelContent extends StatelessWidget {
               } else if (snapshot.hasError || !snapshot.hasData || snapshot.data == null) {
                 return const Text("o;a; lsisjla fkdue;"); //දත්ත කිසිවක් නොමැත
               } else if (snapshot.hasData) {
+                if (snapshot.data!.docs.isEmpty) {
+                  return const Text("o;a; lsisjla fkdue;"); //දත්ත කිසිවක් නොමැත
+                }
+
                 return ListView(
                   // padding: const EdgeInsets.fromLTRB(10.0, 8.0, 8.0, 10.0),
                   shrinkWrap: true,

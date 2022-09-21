@@ -6,6 +6,7 @@ import 'package:flutter/foundation.dart';
 import 'package:flutter/material.dart';
 import 'package:get_it/get_it.dart';
 import 'package:hive/hive.dart';
+import 'src/models/change_notifiers/role_management_notifier.dart';
 import 'src/models/change_notifiers/administrative_units_change_notifer.dart';
 import 'package:matara_division_system/src/ui/widgets/verify_email_page.dart';
 import 'package:provider/provider.dart';
@@ -91,6 +92,8 @@ class MyApp extends StatelessWidget {
             create: (context) => AccessRequestsPageViewNotifier(),
         ),ChangeNotifierProvider(
             create: (context) => AdministrativeUnitsChangeNotifier(),
+        ),ChangeNotifierProvider(
+            create: (context) => RoleManagementNotifier(),
         ),
       ],
       child: MaterialApp(

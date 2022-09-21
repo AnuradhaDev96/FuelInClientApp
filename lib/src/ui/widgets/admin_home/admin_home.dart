@@ -12,6 +12,7 @@ import '../../../models/enums/admin_screen_buckets.dart';
 import '../../admin_ui/administrative_divisions/administrative_divisions_list.dart';
 import '../../admin_ui/administrative_divisions/administrative_units_page_view.dart';
 import '../../admin_ui/role_management/role_management_list_page.dart';
+import '../../admin_ui/role_management/role_management_page_view.dart';
 import 'admin_side_drawer.dart';
 import '../reader_home/side_drawer.dart';
 import '../../accommodation/accommodation_list.dart';
@@ -143,7 +144,7 @@ class _AdminHomeState extends State<AdminHome> {
       case AdminScreenBuckets.systemAccessRequests:
         return const AccessRequestPageView();
       case AdminScreenBuckets.systemRoleManagement:
-        return RoleManagementListPage();
+        return const RoleManagementPageView();
       case AdminScreenBuckets.administrativeUnitManagement:
         return const AdministrativeUnitsPageView();
       default:

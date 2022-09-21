@@ -42,6 +42,7 @@ class AuthService {
 
     if (documents.length == 1) {
       SystemUser element = SystemUser.fromSnapshot(documents[0]);
+      print(element.authPermissions);
 
       if (element.type == UserTypes.systemAdmin.toDBValue()) {
         authenticatedUser = AuthenticatedUser(
@@ -155,6 +156,32 @@ class AuthService {
 
   //# end region Access Requests
 
+  //#start region permissions
+  Future<bool> assignPermissionsForUser(SystemUser userToBeUpdated, List<String>? authPermissionList) async {
+    // _firebaseAuthWeb.currentUser.email
+    final QuerySnapshot result = await _firebaseFirestore
+        .collection(FirestoreCollections.userCollection)
+        .where('email', isEqualTo: userToBeUpdated.email)
+        .limit(1)
+        .get();
+
+    if (result.docs.length == 1) {
+      bool success = false;
+      SystemUser systemUser = SystemUser.fromSnapshot(result.docs[0]);
+      systemUser.authPermissions = List<String>.from(authPermissionList ?? <String>[]);
+
+      await _firebaseFirestore
+        .collection(FirestoreCollections.userCollection)
+        .doc(systemUser.reference?.id)
+        .update(systemUser.toMap())
+        .then((value) => success = true, onError: (e) => success = false);
+
+      return success;
+    } else {
+      return false;
+    }
+  }
+  //#end region permissions
   // getSingleMall() async{
   //   final QuerySnapshot result =
   //       await _firebaseFirestore.collection(FirestoreCollections.userCollection).where('email', isEqualTo: email).limit(1).get();

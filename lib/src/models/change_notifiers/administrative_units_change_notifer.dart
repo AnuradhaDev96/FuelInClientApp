@@ -67,10 +67,10 @@ class AdministrativeUnitsChangeNotifier extends ChangeNotifier {
   }
 
   void jumpToPreviousPage() {
-    drainSelectedAdministrativeUnits();
     if (_pageController.hasClients) {
-      _pageController.previousPage(duration: const Duration(milliseconds: 1200), curve: Curves.fastOutSlowIn);
+      _pageController
+          .previousPage(duration: const Duration(milliseconds: 1200), curve: Curves.fastOutSlowIn)
+          .whenComplete(() => drainSelectedAdministrativeUnits());
     }
   }
-
 }

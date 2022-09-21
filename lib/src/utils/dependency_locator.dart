@@ -7,6 +7,7 @@ import '../models/change_notifiers/application_auth_notifier.dart';
 import '../models/change_notifiers/checkin_customer_page_view_notifier.dart';
 import '../models/change_notifiers/credit_card_notifier.dart';
 import '../models/change_notifiers/reservation_notifier.dart';
+import '../models/change_notifiers/role_management_notifier.dart';
 import '../models/change_notifiers/side_drawer_notifier.dart';
 import '../services/accommodation_service.dart';
 import '../services/administrative_units_service.dart';
@@ -27,6 +28,7 @@ void injectAppDependencies() {
   GetIt.I.registerLazySingleton(() => ApplicationAuthNotifier());
   GetIt.I.registerLazySingleton(() => AccessRequestsPageViewNotifier());
   GetIt.I.registerLazySingleton(() => AdministrativeUnitsChangeNotifier());
+  GetIt.I.registerLazySingleton(() => RoleManagementNotifier());
 
   // Utils
   GetIt.I.registerLazySingleton(() => NavigationUtils());
