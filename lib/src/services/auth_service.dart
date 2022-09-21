@@ -27,8 +27,8 @@ class AuthService {
       await _firebaseAuthWeb.setPersistence(Persistence.LOCAL);
     }
 
-    final loggedUser = await _firebaseAuthWeb.signInWithEmailAndPassword("anusampath9470@gmail.com", "admin_z123");
-    // final loggedUser = await _firebaseAuthWeb.signInWithEmailAndPassword(username, password);
+    // final loggedUser = await _firebaseAuthWeb.signInWithEmailAndPassword("anusampath9470@gmail.com", "admin_z123");
+    final loggedUser = await _firebaseAuthWeb.signInWithEmailAndPassword(username, password);
     print(loggedUser);
 
     final QuerySnapshot result = await _firebaseFirestore

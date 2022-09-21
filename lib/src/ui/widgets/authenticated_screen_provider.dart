@@ -2,9 +2,17 @@ import 'dart:async';
 
 import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/material.dart';
+import 'package:get_it/get_it.dart';
+import 'package:matara_division_system/src/models/enums/user_types.dart';
+import 'package:matara_division_system/src/ui/widgets/reader_home/so_home.dart';
 import 'package:matara_division_system/src/ui/widgets/verify_email_page.dart';
 
+import '../../models/authentication/system_user.dart';
+import '../../services/auth_service.dart';
 import 'admin_home/admin_home.dart';
+import 'splash_web_screen.dart';
+
+// import 'admin_home/so_home.dart';
 
 class AuthenticatedScreenProvider extends StatefulWidget {
   const AuthenticatedScreenProvider({Key? key}) : super(key: key);
@@ -55,8 +63,25 @@ class _AuthenticatedScreenProviderState extends State<AuthenticatedScreenProvide
     if (!_isEmailVerified) {
       return VerifyEmailPage();
     } else {
-      return const AdminHome();
+      return FutureBuilder(
+        future: GetIt.I<AuthService>().permissionsListForUser(),
+        builder: (BuildContext context, AsyncSnapshot<SystemUser?> snapshot) {
+          if (snapshot.connectionState == ConnectionState.waiting) {
+            return const SplashWebScreen();
+          } else if (snapshot.hasError || !snapshot.hasData || snapshot.data == null) {
+            return const SplashWebScreen();
+          } else if (snapshot.hasData) {
+            if (snapshot.data!.type == UserTypes.systemAdmin.toDBValue()) {
+              return const AdminHome();
+            } else if (snapshot.data!.type == UserTypes.seatOrganizer.toDBValue()) {
+              return const SeatOrganizerHome();
+            } else {
+              return const SplashWebScreen();
+            }
+          }
+          return const SplashWebScreen();
+        },
+      );
     }
-
   }
 }

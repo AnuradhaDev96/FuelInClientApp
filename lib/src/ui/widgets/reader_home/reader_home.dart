@@ -24,8 +24,8 @@ class ReaderHome extends StatefulWidget {
 class _ReaderHomeState extends State<ReaderHome> {
   late final SideDrawerNotifier _sideDrawerNotifier;
   final PageStorageBucket screenBucket = PageStorageBucket();
-  ScreenBuckets _selectedPageIndex = ScreenBuckets.home;
-  String _selectedPageTitle = ScreenBuckets.home.toDisplayString();
+  ScreenBuckets _selectedPageIndex = ScreenBuckets.membersManagement;
+  String _selectedPageTitle = ScreenBuckets.membersManagement.toDisplayString();
 
   @override
   void initState() {
@@ -34,7 +34,7 @@ class _ReaderHomeState extends State<ReaderHome> {
     _sideDrawerNotifier.addListener(() {
       if(mounted) {
         setState(() {
-          _selectedPageIndex = _sideDrawerNotifier.selectedPageType ?? ScreenBuckets.home;
+          _selectedPageIndex = _sideDrawerNotifier.selectedPageType ?? ScreenBuckets.membersManagement;
           _selectedPageTitle = _sideDrawerNotifier.selectedPageTitle();
         });
       }
@@ -132,7 +132,7 @@ class _ReaderHomeState extends State<ReaderHome> {
 
   Widget buildPages() {
     switch (_selectedPageIndex) {
-      case ScreenBuckets.home:
+      case ScreenBuckets.membersManagement:
         return HomeContent();
       case ScreenBuckets.booking:
         return const ReservationPage();

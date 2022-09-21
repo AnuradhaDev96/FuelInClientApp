@@ -11,7 +11,7 @@ class SideDrawerNotifier extends ChangeNotifier {
   GlobalKey<ScaffoldState> get adminScaffoldKey => _scaffoldKeyForAdmin;
 
   //general properties
-  ScreenBuckets? _selectedPageType = ScreenBuckets.home;
+  ScreenBuckets? _selectedPageType = ScreenBuckets.membersManagement;
   ScreenBuckets? get selectedPageType => _selectedPageType;
 
   // admin properties
