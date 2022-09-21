@@ -165,6 +165,10 @@ class MembershipListPage extends StatelessWidget {
                                     fontFamily: SettingsSinhala.unicodeSinhalaFontFamily),
                             dataTextStyle: const TextStyle(fontSize: 12.0, fontFamily: SettingsSinhala.unicodeSinhalaFontFamily),
                             headingRowColor: MaterialStateProperty.all(AppColors.silverPurple),
+                            border: const TableBorder(
+                              verticalInside: BorderSide(width: 0.5, color: AppColors.nppPurpleLight),
+                              bottom: BorderSide(width: 0.5, color: AppColors.grayForPrimary),
+                            ),
                             columns: const [
                               DataColumn(label: Text('ජා.හැ.අංකය')),
                               DataColumn(label: Text('සම්පූර්ණ නම')),

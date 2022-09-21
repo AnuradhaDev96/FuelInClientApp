@@ -8,14 +8,16 @@ class SystemUser {
   // String profileImageUrl;
   String? uid;
   DocumentReference? reference;
+  List<String>? authPermissions;
 
-  SystemUser({this.fullName, this.email, this.type, this.encPassword, this.uid, this.reference});
+  SystemUser({this.fullName, this.email, this.type, this.encPassword, this.uid, this.reference, this.authPermissions});
 
   SystemUser.fromMap(Map<String, dynamic> map, {required this.reference}):
     fullName = map["fullName"],
     email = map["email"],
-    type = map["userType"],
+    type = map["type"],
     encPassword = map["encPassword"],
+    authPermissions = map["authPermissions"] == null ? null : List<String>.from(map["authPermissions"].map((it) => it)),
     uid = map["uid"];
 
   Map<String, dynamic> toMap(){
@@ -25,7 +27,7 @@ class SystemUser {
       'encPassword': encPassword,
       'type': type,
       'uid': uid,
-      // 'profileImageUrl': profileImageUrl
+      'authPermissions': authPermissions?.map((e) => e).toList()
     };
   }
 

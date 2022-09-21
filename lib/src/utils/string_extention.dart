@@ -1,4 +1,5 @@
-import 'package:matara_division_system/src/models/enums/access_request_status.dart';
+import '../models/enums/access_request_status.dart';
+import '../models/enums/user_types.dart';
 
 extension IsNumericExtention on String {
   bool get isInteger {
@@ -22,6 +23,17 @@ extension StringToEnum on String {
         return AccessRequestStatus.declined;
       default:
         return AccessRequestStatus.pendingApproval;
+    }
+  }
+
+  UserTypes? get authUserTypeEnumValue {
+    switch (this) {
+      case "sys_admin":
+        return UserTypes.systemAdmin;
+      case "seat_organizer":
+        return UserTypes.seatOrganizer;
+      default:
+        return null;
     }
   }
 }

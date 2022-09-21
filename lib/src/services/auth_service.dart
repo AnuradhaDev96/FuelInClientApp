@@ -42,6 +42,7 @@ class AuthService {
 
     if (documents.length == 1) {
       SystemUser element = SystemUser.fromSnapshot(documents[0]);
+      print(element.authPermissions);
 
       if (element.type == UserTypes.systemAdmin.toDBValue()) {
         authenticatedUser = AuthenticatedUser(
@@ -65,6 +66,40 @@ class AuthService {
       throw Exception("User cannot be found in db.");
     }
     return authenticatedUser;
+  }
+
+  Future<SystemUser?> passwordLogin2(String username, String password) async {
+    if (kIsWeb) {
+      _firebaseAuthWeb.setPersistence(Persistence.SESSION);
+    } else {
+      await _firebaseAuthWeb.setPersistence(Persistence.LOCAL);
+    }
+
+    final loggedUser = await _firebaseAuthWeb.signInWithEmailAndPassword("anusampath9470@gmail.com", "admin_z123");
+    // final loggedUser = await _firebaseAuthWeb.signInWithEmailAndPassword(username, password);
+    // print(loggedUser);
+
+    final QuerySnapshot result = await _firebaseFirestore
+        .collection(FirestoreCollections.userCollection)
+        .where('email', isEqualTo: loggedUser.user?.email)
+        .limit(1)
+        .get();
+
+    final List<DocumentSnapshot> documents = result.docs;
+    SystemUser? systemUser;
+
+    if (documents.length == 1) {
+      systemUser = SystemUser.fromSnapshot(documents[0]);
+      // print(element.authPermissions);
+
+      if (systemUser.type == null) {
+        throw Exception("Invalid user type.");
+      }
+
+    } else {
+      throw Exception("User cannot be found in db.");
+    }
+    return systemUser;
   }
 
   Future<void> signOutUser() async {
@@ -155,6 +190,50 @@ class AuthService {
 
   //# end region Access Requests
 
+  //#start region permissions
+  Future<bool> assignPermissionsForUser(SystemUser userToBeUpdated, List<String>? authPermissionList) async {
+    // _firebaseAuthWeb.currentUser.email
+    final QuerySnapshot result = await _firebaseFirestore
+        .collection(FirestoreCollections.userCollection)
+        .where('email', isEqualTo: userToBeUpdated.email)
+        .limit(1)
+        .get();
+
+    if (result.docs.length == 1) {
+      bool success = false;
+      SystemUser systemUser = SystemUser.fromSnapshot(result.docs[0]);
+      systemUser.authPermissions = List<String>.from(authPermissionList ?? <String>[]);
+
+      await _firebaseFirestore
+        .collection(FirestoreCollections.userCollection)
+        .doc(systemUser.reference?.id)
+        .update(systemUser.toMap())
+        .then((value) => success = true, onError: (e) => success = false);
+
+      return success;
+    } else {
+      return false;
+    }
+  }
+
+  Future<SystemUser?> permissionsListForUser() async {
+
+    final QuerySnapshot result = await _firebaseFirestore
+        .collection(FirestoreCollections.userCollection)
+        .where('email', isEqualTo: _firebaseAuthWeb.currentUser!.email)
+        .limit(1)
+        .get();
+
+    if (result.docs.length == 1) {
+      bool success = false;
+      SystemUser systemUser = SystemUser.fromSnapshot(result.docs[0]);
+      return systemUser;
+      // systemUser.authPermissions = List<String>.from(authPermissionList ?? <String>[]);
+    } else {
+      return null;
+    }
+  }
+  //#end region permissions
   // getSingleMall() async{
   //   final QuerySnapshot result =
   //       await _firebaseFirestore.collection(FirestoreCollections.userCollection).where('email', isEqualTo: email).limit(1).get();

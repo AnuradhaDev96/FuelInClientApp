@@ -4,6 +4,7 @@ import 'package:matara_division_system/src/config/app_settings.dart';
 import 'package:matara_division_system/src/models/authentication/authenticated_user.dart';
 
 import '../../utils/local_storage_utils.dart';
+import '../authentication/system_user.dart';
 
 class ApplicationAuthNotifier extends ChangeNotifier {
   // bool _isAppAuthenticated = false;
@@ -16,6 +17,10 @@ class ApplicationAuthNotifier extends ChangeNotifier {
 
   AuthenticatedUser? _authenticatedUser;
   // AuthenticatedUser? get authenticatedUser => _authenticatedUser;
+
+  // SystemUser? _authenticatedUser;
+  // SystemUser? get authenticatedUser => _authenticatedUser;
+
 
   final LocalStorageUtils _localStorageUtils =  GetIt.I<LocalStorageUtils>();
 
@@ -37,19 +42,19 @@ class ApplicationAuthNotifier extends ChangeNotifier {
   void setAppAuthenticated(AuthenticatedUser authenticatedUser) {
     print("Setting auth");
     _authenticatedUser = authenticatedUser;
-    _localStorageUtils.hiveDbBox?.put(AppSettings.hiveKeyAppIsAuthenticated, true);
-    _localStorageUtils.hiveDbBox?.put(AppSettings.hiveKeyAuthenticatedUser, authenticatedUser);
+    // _localStorageUtils.hiveDbBox?.put(AppSettings.hiveKeyAppIsAuthenticated, true);
+    // _localStorageUtils.hiveDbBox?.put(AppSettings.hiveKeyAuthenticatedUser, authenticatedUser);
     notifyListeners();
   }
 
   void setAppUnAuthenticated() {
     _authenticatedUser = null;
-    _localStorageUtils.hiveDbBox?.put(AppSettings.hiveKeyAppIsAuthenticated, false);
-    _localStorageUtils.hiveDbBox?.put(AppSettings.hiveKeyAuthenticatedUser, null);
+    // _localStorageUtils.hiveDbBox?.put(AppSettings.hiveKeyAppIsAuthenticated, false);
+    // _localStorageUtils.hiveDbBox?.put(AppSettings.hiveKeyAuthenticatedUser, null);
 
     // temp
-    bool savedLoggedInValue = _localStorageUtils.hiveDbBox?.get(AppSettings.hiveKeyAppIsAuthenticated, defaultValue: false);
-    print("after Attempt sign out: $savedLoggedInValue");
+    // bool savedLoggedInValue = _localStorageUtils.hiveDbBox?.get(AppSettings.hiveKeyAppIsAuthenticated, defaultValue: false);
+    // print("after Attempt sign out: $savedLoggedInValue");
     notifyListeners();
   }
 }

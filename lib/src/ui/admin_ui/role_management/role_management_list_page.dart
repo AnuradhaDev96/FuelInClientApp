@@ -2,6 +2,10 @@ import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:flutter/material.dart';
 import 'package:get_it/get_it.dart';
 import 'package:matara_division_system/src/config/language_settings.dart';
+import 'package:matara_division_system/src/models/change_notifiers/role_management_notifier.dart';
+import 'package:matara_division_system/src/models/enums/user_types.dart';
+import 'package:matara_division_system/src/utils/string_extention.dart';
+import 'package:provider/provider.dart';
 
 import '../../../config/app_colors.dart';
 import '../../../models/authentication/system_user.dart';
@@ -100,6 +104,7 @@ class RoleManagementListPage extends StatelessWidget {
                           DataColumn(label: Text('iïmQ¾K ku')),//සම්පූර්ණ නම
                           DataColumn(label: Text('Bfï,a ,smskh')),//ඊමේල් ලිපිනය
                           DataColumn(label: Text(';k;=r')),//තනතුර
+                          DataColumn(label: Text('wjirhka')),//අවසරයන්
                           // DataColumn(label: Text('b,a¨ï l< Èkh')),//ඉල්ලුම් කළ දිනය
                           // DataColumn(label: Text('wjidk jrg\nfjkia l< Èkh')),//අවසාන වරට වෙනස් කළ දිනය
                         ],
@@ -119,6 +124,7 @@ class RoleManagementListPage extends StatelessWidget {
 
   DataRow _roleItemBuilder(BuildContext context, DocumentSnapshot data) {
     final systemUser = SystemUser.fromSnapshot(data);
+    print("sysUsers: ${systemUser.email} | ${systemUser.type}");
 
     return DataRow(cells: [
 
@@ -152,9 +158,28 @@ class RoleManagementListPage extends StatelessWidget {
       // DataCell(Text(DateFormat('yyyy-MM-dd').format(reservation.checkIn!))),
       // DataCell(Text(DateFormat('yyyy-MM-dd').format(reservation.checkOut!))),
       DataCell(Text(
-        "${systemUser.type}",
+        (systemUser.type)?.authUserTypeEnumValue == null
+            ? "-"
+            : "${(systemUser.type)?.authUserTypeEnumValue!.toDisplaySinhalaString()}",
         style: const TextStyle(fontFamily: 'DL-Paras'),
       )),
+      DataCell(
+        Row(
+          children: [
+            ElevatedButton(
+              style: Theme.of(context).elevatedButtonTheme.style!.copyWith(
+                backgroundColor: MaterialStateProperty.all(AppColors.silverPurple),
+              ),
+              // onPressed: () => _selectReservationToAssignRooms(context, reservation),
+              onPressed: () => _navigateToPermissionsPage(context, systemUser),
+              child: const Text(
+                "f;darkak",//තෝරන්න
+                style: TextStyle(color: AppColors.nppPurple, fontSize: 14.0),
+              ),
+            ),
+          ],
+        ),
+      )
       // DataCell(
       //   RichText(
       //     text: TextSpan(
@@ -190,5 +215,11 @@ class RoleManagementListPage extends StatelessWidget {
       // DataCell(Text("${reservation.noOfNightsReserved ?? 0}")),
       // DataCell(Text("${reservation.totalCostOfReservation ?? 0}")),
     ]);
+  }
+
+  void _navigateToPermissionsPage(BuildContext context, SystemUser systemUser) {
+    Provider.of<RoleManagementNotifier>(context, listen: false)
+        .setSelectedUserForPermissions(systemUser);
+    Provider.of<RoleManagementNotifier>(context, listen: false).jumpToNextPage();
   }
 }

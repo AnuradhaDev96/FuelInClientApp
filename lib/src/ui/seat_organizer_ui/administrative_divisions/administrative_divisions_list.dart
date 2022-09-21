@@ -5,12 +5,15 @@ import 'package:matara_division_system/src/models/administrative_units/grama_nil
 import 'package:provider/provider.dart';
 import '../../../models/administrative_units/divisional_secretariats.dart';
 import '../../../models/administrative_units/divisional_secretariats.dart';
+import '../../../models/authentication/system_user.dart';
 import '../../../models/change_notifiers/administrative_units_change_notifer.dart';
 
 import '../../../config/app_colors.dart';
 import '../../../config/language_settings.dart';
 import '../../../models/administrative_units/divisional_secretariats.dart';
+import '../../../models/enums/user_types.dart';
 import '../../../services/administrative_units_service.dart';
+import '../../../services/auth_service.dart';
 import '../../../utils/general_dialog_utils.dart';
 import '../../../utils/message_utils.dart';
 import 'create_divisional_secretariat_dialog.dart';
@@ -26,6 +29,9 @@ class AdministrativeDivisionsList extends StatefulWidget {
 class _AdministrativeDivisionsListState extends State<AdministrativeDivisionsList> {
   late final AdministrativeUnitsService _administrativeUnitsService;
   List<bool> _expansionPanelExpandStatus = <bool>[];
+
+  final ValueNotifier<List<String>> _allocatedPermissionsListNotifier = ValueNotifier<List<String>>(<String>[]);
+
   @override
   void initState() {
     _administrativeUnitsService = GetIt.I<AdministrativeUnitsService>();
@@ -40,124 +46,140 @@ class _AdministrativeDivisionsListState extends State<AdministrativeDivisionsLis
   // final ValueNotifier<List<bool>> _expansionPanelExpandStatus = ValueNotifier<List<bool>>(<bool>[]);
   @override
   Widget build(BuildContext context) {
-    return ListView(
-      children: [
-        Row(
-          mainAxisAlignment: MainAxisAlignment.spaceBetween,
-          children: [
-            Padding(
-                padding: const EdgeInsets.only(left: 8.0, top: 15.0),
-                child: RichText(
-                  text: const TextSpan(
-                      children: [
-                        TextSpan(
-                          text: "m%dfoaYsh f,alï ld¾hd, jiï ",//ප්‍රාදේශිය ලේකම් කාර්යාල වසම්
-                          style: TextStyle(fontFamily: 'DL-Paras', fontWeight: FontWeight.bold)
+    return FutureBuilder(
+      future: GetIt.I<AuthService>().permissionsListForUser(),
+      builder: (BuildContext context, AsyncSnapshot<SystemUser?> snapshot) {
+
+        if (snapshot.connectionState == ConnectionState.waiting ||
+            snapshot.hasError ||
+            !snapshot.hasData ||
+            snapshot.data == null) {
+          return const SizedBox(width: 0, height: 0);
+        } else if (snapshot.hasData) {
+          _allocatedPermissionsListNotifier.value = List<String>.from(snapshot.data!.authPermissions ?? <String>[]);
+          return ListView(
+            children: [
+              Row(
+                mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                children: [
+                  Padding(
+                      padding: const EdgeInsets.only(left: 8.0, top: 15.0),
+                      child: RichText(
+                        text: const TextSpan(
+                            children: [
+                              TextSpan(
+                                  text: "m%dfoaYsh f,alï ld¾hd, jiï ", //ප්‍රාදේශිය ලේකම් කාර්යාල වසම්
+                                  style: TextStyle(fontFamily: 'DL-Paras', fontWeight: FontWeight.bold)
+                              ),
+                              TextSpan(
+                                  text: "| Divisional Secretariats",
+                                  style: TextStyle(fontFamily: SettingsSinhala.engFontFamily)
+                              ),
+                            ]
                         ),
-                        TextSpan(
-                            text: "| Divisional Secretariats",
-                            style: TextStyle(fontFamily: SettingsSinhala.engFontFamily)
-                        ),
-                      ]
+                      )
                   ),
-                )
-            ),
-            Padding(
-              padding: const EdgeInsets.only(right: 8.0, top: 15.0),
-              child: RawMaterialButton(
-                onPressed: _createNewDivisionalSecretariatRecord,
-                // iconSize: 15.0,
-                // color: AppColors.nppPurple,
-                // padding: const EdgeInsets.all(5.0),
-                fillColor: AppColors.nppPurple,
-                shape: const RoundedRectangleBorder(borderRadius: BorderRadius.all(Radius.circular(5.0))),
-                child: const Icon(Icons.add, size: 25.0, color: AppColors.white,)
-                // splashRadius: 10.0,
+                  Padding(
+                    padding: const EdgeInsets.only(right: 8.0, top: 15.0),
+                    child: (snapshot.data!.type != UserTypes.systemAdmin.toDBValue()) ? RawMaterialButton(
+                        onPressed: _createNewDivisionalSecretariatRecord,
+                        // iconSize: 15.0,
+                        // color: AppColors.nppPurple,
+                        // padding: const EdgeInsets.all(5.0),
+                        fillColor: AppColors.nppPurple,
+                        shape: const RoundedRectangleBorder(borderRadius: BorderRadius.all(Radius.circular(5.0))),
+                        child: const Icon(Icons.add, size: 25.0, color: AppColors.white,)
+                      // splashRadius: 10.0,
 
+                    ) : const SizedBox(width: 0, height: 0,),
+                  ),
+                ],
               ),
-            ),
-          ],
-        ),
-        const SizedBox(height: 5.0),
-        Container(color: AppColors.nppPurple,height: 2.0,),
-        const SizedBox(height: 8.0),
-        StreamBuilder(
-          stream: _administrativeUnitsService.getDivisionalSecretariatsStream(),
-          builder: (BuildContext context, AsyncSnapshot<QuerySnapshot<Map<String, dynamic>>> snapshot) {
+              const SizedBox(height: 5.0),
+              Container(color: AppColors.nppPurple, height: 2.0,),
+              const SizedBox(height: 8.0),
+              StreamBuilder(
+                stream: _administrativeUnitsService.getDivisionalSecretariatsStream(),
+                builder: (BuildContext context, AsyncSnapshot<QuerySnapshot<Map<String, dynamic>>> snapshot) {
+                  if (snapshot.connectionState == ConnectionState.waiting) {
+                    return const Center(
+                      child: Padding(
+                          padding: EdgeInsets.all(8.0),
+                          child: SizedBox(
+                            width: 40,
+                            height: 40,
+                            child: CircularProgressIndicator(
+                              strokeWidth: 5,
+                              color: AppColors.nppPurple,
+                            ),
+                          )),
+                    );
+                  } else if (snapshot.hasError || !snapshot.hasData || snapshot.data == null) {
+                    return const Text("o;a; lsisjla fkdue;"); //දත්ත කිසිවක් නොමැත
+                  } else if (snapshot.hasData) {
+                    if (snapshot.data!.docs.isEmpty) {
+                      return const Text("o;a; lsisjla fkdue;"); //දත්ත කිසිවක් නොමැත
+                    }
 
-            if (snapshot.connectionState == ConnectionState.waiting) {
-              return const Center(
-                child: Padding(
-                    padding: EdgeInsets.all(8.0),
-                    child: SizedBox(
-                      width: 40,
-                      height: 40,
-                      child: CircularProgressIndicator(
-                        strokeWidth: 5,
-                        color: AppColors.nppPurple,
-                      ),
-                    )),
-              );
-            } else if (snapshot.hasError || !snapshot.hasData || snapshot.data == null) {
-              return const Text("o;a; lsisjla fkdue;"); //දත්ත කිසිවක් නොමැත
-            } else if (snapshot.hasData) {
-              if (snapshot.data!.docs.isEmpty) {
-                return const Text("o;a; lsisjla fkdue;"); //දත්ත කිසිවක් නොමැත
-              }
+                    print("### length of divsecStream: ${snapshot.data!.docs.length}");
+                    var panels = <ExpansionPanel>[];
+                    //
+                    if (_expansionPanelExpandStatus.isEmpty) {
+                      for (int index = 0; index < snapshot.data!.docs.length; index++) {
+                        _expansionPanelExpandStatus.add(false);
+                      }
+                    } else {
+                      if (snapshot.data!.docs.length != _expansionPanelExpandStatus.length) {
+                        _expansionPanelExpandStatus.clear();
+                        for (int index = 0; index < snapshot.data!.docs.length; index++) {
+                          _expansionPanelExpandStatus.add(false);
+                        }
+                      }
+                    }
 
-              print("### length of divsecStream: ${snapshot.data!.docs.length}");
-              var panels = <ExpansionPanel>[];
-              //
-              if (_expansionPanelExpandStatus.isEmpty) {
-                for (int index = 0; index < snapshot.data!.docs.length; index++) {
-                  _expansionPanelExpandStatus.add(false);
-                }
-              } else {
-                if (snapshot.data!.docs.length != _expansionPanelExpandStatus.length) {
-                  _expansionPanelExpandStatus.clear();
-                  for (int index = 0; index < snapshot.data!.docs.length; index++) {
-                    _expansionPanelExpandStatus.add(false);
+                    // DivisionalSecretariats.fromSnapshot
+                    snapshot.data!.docs.sort((a, b) {
+                      String div1 = DivisionalSecretariats
+                          .fromSnapshot(a)
+                          .id;
+                      String div2 = DivisionalSecretariats
+                          .fromSnapshot(b)
+                          .id;
+                      return div1.compareTo(div2);
+                    });
+                    for (int index = 0; index < snapshot.data!.docs.length; index++) {
+                      panels.add(_divSecretariatItemBuilder(context, snapshot.data!.docs[index], index));
+                    }
+
+
+                    return ExpansionPanelList(
+                      // shrinkWrap: true,
+                      expandedHeaderPadding: const EdgeInsets.symmetric(vertical: 5.0),
+                      dividerColor: AppColors.nppPurple,
+                      animationDuration: const Duration(milliseconds: 1200),
+                      expansionCallback: (int panelIndex, bool isExpanded) {
+                        setState(() {
+                          _expansionPanelExpandStatus[panelIndex] = !_expansionPanelExpandStatus[panelIndex];
+                        });
+                        // _administrativeUnitsChangeNotifier.setValueByIndex(
+                        //     panelIndex, !_administrativeUnitsChangeNotifier.expansionPanelExpandStatusList[panelIndex]);
+                      },
+                      // elevation: 5.0,
+                      // children: snapshot.data!.docs.map((data) =>
+                      //     _divSecretariatItemBuilder(context, data, snapshot.data!.docs.indexOf(data),)).toList(),
+                      children: panels,
+
+
+                    );
                   }
-                }
-              }
-
-              // DivisionalSecretariats.fromSnapshot
-              snapshot.data!.docs.sort((a,b) {
-                String div1 = DivisionalSecretariats.fromSnapshot(a).id;
-                String div2 = DivisionalSecretariats.fromSnapshot(b).id;
-                return div1.compareTo(div2);
-              });
-              for (int index = 0; index < snapshot.data!.docs.length; index++) {
-                panels.add(_divSecretariatItemBuilder(context, snapshot.data!.docs[index], index));
-              }
-
-
-              return ExpansionPanelList(
-                // shrinkWrap: true,
-                expandedHeaderPadding: const EdgeInsets.symmetric(vertical: 5.0),
-                dividerColor: AppColors.nppPurple,
-                animationDuration: const Duration(milliseconds: 1200),
-                expansionCallback: (int panelIndex, bool isExpanded) {
-                  setState(() {
-                  _expansionPanelExpandStatus[panelIndex] = !_expansionPanelExpandStatus[panelIndex];
-
-                  });
-                  // _administrativeUnitsChangeNotifier.setValueByIndex(
-                  //     panelIndex, !_administrativeUnitsChangeNotifier.expansionPanelExpandStatusList[panelIndex]);
+                  return const Text("o;a; lsisjla fkdue;");
                 },
-                // elevation: 5.0,
-                // children: snapshot.data!.docs.map((data) =>
-                //     _divSecretariatItemBuilder(context, data, snapshot.data!.docs.indexOf(data),)).toList(),
-                children: panels,
-
-
-              );
-            }
-            return const Text("o;a; lsisjla fkdue;");
-
-          },
-        ),
-      ],
+              ),
+            ],
+          );
+        }
+        return const SizedBox(width: 0, height: 0);
+      }
     );
   }
 
