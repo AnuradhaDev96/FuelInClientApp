@@ -147,12 +147,10 @@ class MyApp extends StatelessWidget {
         home: StreamBuilder(
           stream: FirebaseAuth.instance.authStateChanges(),
           builder: (BuildContext context, AsyncSnapshot<User?> snapshot) {
-            bool savedLoggedInValue =
-            GetIt.I<LocalStorageUtils>().hiveDbBox?.get(AppSettings.hiveKeyAppIsAuthenticated, defaultValue: false);
-            AuthenticatedUser? aUser =
-                GetIt.I<LocalStorageUtils>().hiveDbBox?.get(AppSettings.hiveKeyAuthenticatedUser, defaultValue: null);
-            print("################initialHiveIsLoggedIn: $savedLoggedInValue");
-            print("################initialHiveIsLoggedIn: ${aUser?.toMap()}");
+            // bool savedLoggedInValue =
+            // GetIt.I<LocalStorageUtils>().hiveDbBox?.get(AppSettings.hiveKeyAppIsAuthenticated, defaultValue: false);
+            // AuthenticatedUser? aUser =
+            //     GetIt.I<LocalStorageUtils>().hiveDbBox?.get(AppSettings.hiveKeyAuthenticatedUser, defaultValue: null);
               if (snapshot.connectionState == ConnectionState.waiting) {
                 return const SplashWebScreen();
               }
