@@ -1,7 +1,9 @@
 import 'package:flutter/material.dart';
 import 'package:get_it/get_it.dart';
 import 'package:matara_division_system/src/ui/admin_ui/access_requests/access_requests_page_view.dart';
+import '../../../config/app_colors.dart';
 import '../../../models/enums/screen_bucket_enum.dart';
+import '../../../utils/common_utils.dart';
 import '../../admin_ui/access_requests/anonymous_access_requests_page.dart';
 
 import 'package:matara_division_system/src/ui/reservation/reservation_page.dart';
@@ -61,11 +63,11 @@ class _SeatOrganizerHomeState extends State<SeatOrganizerHome> {
       body: Row(
         crossAxisAlignment: CrossAxisAlignment.start,
         children: [
-          //TODO: Check for desktop and remove side menu for mobile
-          Expanded(
-              flex: 1,
-              child: SeatOrganizerSideDrawer()
-          ),
+          if (!CommonUtils.isMobileUI(context))
+            Expanded(
+                flex: 1,
+                child: SeatOrganizerSideDrawer()
+            ),
           Expanded(
               flex: 4,
               child: Container(
@@ -87,13 +89,41 @@ class _SeatOrganizerHomeState extends State<SeatOrganizerHome> {
                       //   ),
                       // ),
                       // const SizedBox(height: 8.0),
-                      Text(
-                        _selectedPageTitle,
-                        style: const TextStyle(
-                          fontSize: 20.0,
-                          fontWeight: FontWeight.bold,
-                        ),
-                      ),
+                      (CommonUtils.isMobileUI(context))
+                          ? Row(
+                              mainAxisAlignment: MainAxisAlignment.start,
+                              children: [
+                                IconButton(
+                                  onPressed: () {
+                                    _sideDrawerNotifier.operateDrawer();
+                                  },
+                                  icon: const Icon(
+                                    Icons.menu_rounded,
+                                  ),
+                                  splashRadius: 25.0,
+                                  color: AppColors.nppPurple,
+                                  // hoverColor: AppColors.appBarColor,
+                                ),
+                                Expanded(
+                                  child: Center(
+                                    child: Text(
+                                      _selectedPageTitle,
+                                      style: const TextStyle(
+                                        fontSize: 20.0,
+                                        fontWeight: FontWeight.bold,
+                                      ),
+                                    ),
+                                  ),
+                                ),
+                              ],
+                            )
+                          : Text(
+                            _selectedPageTitle,
+                            style: const TextStyle(
+                              fontSize: 20.0,
+                              fontWeight: FontWeight.bold,
+                            ),
+                          ),
                       const SizedBox(height: 8.0),
                       Expanded(
                         child: PageStorage(

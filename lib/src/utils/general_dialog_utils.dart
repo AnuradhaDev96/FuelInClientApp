@@ -2,6 +2,7 @@ import 'package:flutter/material.dart';
 import 'package:sliver_tools/sliver_tools.dart';
 
 import '../config/app_colors.dart';
+import 'common_utils.dart';
 
 class GeneralDialogUtils {
 
@@ -15,7 +16,7 @@ class GeneralDialogUtils {
         return StatefulBuilder(
             builder: (BuildContext context, StateSetter setState) {
               return Padding(
-                padding: const EdgeInsets.symmetric(horizontal: 150.0, vertical: 30.0),//TODO: Measure screen size and set 0 for mobile
+                padding: (CommonUtils.isMobileUI(context)) ? EdgeInsets.zero : const EdgeInsets.symmetric(horizontal: 150.0, vertical: 30.0),//TODO: Measure screen size and set 0 for mobile
                 child: SafeArea(
                   child: Scaffold(
                     backgroundColor: Colors.transparent,
