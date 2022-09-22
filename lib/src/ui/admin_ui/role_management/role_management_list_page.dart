@@ -168,13 +168,13 @@ class RoleManagementListPage extends StatelessWidget {
           children: [
             ElevatedButton(
               style: Theme.of(context).elevatedButtonTheme.style!.copyWith(
-                backgroundColor: MaterialStateProperty.all(AppColors.silverPurple),
+                backgroundColor: MaterialStateProperty.all(AppColors.nppPurple),
               ),
               // onPressed: () => _selectReservationToAssignRooms(context, reservation),
               onPressed: () => _navigateToPermissionsPage(context, systemUser),
               child: const Text(
                 "f;darkak",//තෝරන්න
-                style: TextStyle(color: AppColors.nppPurple, fontSize: 14.0),
+                style: TextStyle(color: AppColors.white, fontSize: 14.0),
               ),
             ),
           ],

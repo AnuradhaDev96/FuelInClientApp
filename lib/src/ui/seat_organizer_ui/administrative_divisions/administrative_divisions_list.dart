@@ -19,8 +19,41 @@ import '../../../utils/message_utils.dart';
 import 'create_divisional_secretariat_dialog.dart';
 import 'create_grama_niladari_division_dialog.dart';
 
+class PermissionBasedAdministrativeDivListWidget extends StatelessWidget {
+  PermissionBasedAdministrativeDivListWidget({Key? key}) : super(key: key);
+
+  final ValueNotifier<List<String>> _allocatedPermissionsListNotifier = ValueNotifier<List<String>>(<String>[]);
+
+  @override
+  Widget build(BuildContext context) {
+    return FutureBuilder(
+      future: GetIt.I<AuthService>().permissionsListForUser(),
+      builder: (BuildContext context, AsyncSnapshot<SystemUser?> snapshot) {
+        if (snapshot.connectionState == ConnectionState.waiting ||
+            snapshot.hasError ||
+            !snapshot.hasData ||
+            snapshot.data == null) {
+          return const SizedBox(width: 0, height: 0);
+        } else if (snapshot.hasData) {
+          _allocatedPermissionsListNotifier.value = List<String>.from(snapshot.data!.authPermissions ?? <String>[]);
+          return ValueListenableBuilder(
+            valueListenable: _allocatedPermissionsListNotifier,
+            builder: (context, snapshot, child) {
+              return AdministrativeDivisionsList(
+                allocatedPermissionsList: List<String>.from(_allocatedPermissionsListNotifier.value),
+              );
+            },
+          );
+        }
+        return const SizedBox(width: 0, height: 0);
+      },
+    );
+  }
+}
+
 class AdministrativeDivisionsList extends StatefulWidget {
-  const AdministrativeDivisionsList({Key? key}) : super(key: key);
+  const AdministrativeDivisionsList({Key? key, required this.allocatedPermissionsList}) : super(key: key);
+  final List<String> allocatedPermissionsList;
 
   @override
   State<AdministrativeDivisionsList> createState() => _AdministrativeDivisionsListState();
@@ -30,8 +63,8 @@ class _AdministrativeDivisionsListState extends State<AdministrativeDivisionsLis
   late final AdministrativeUnitsService _administrativeUnitsService;
   List<bool> _expansionPanelExpandStatus = <bool>[];
 
-  final ValueNotifier<List<String>> _allocatedPermissionsListNotifier = ValueNotifier<List<String>>(<String>[]);
-
+  // final ValueNotifier<List<String>> _allocatedPermissionsListNotifier = ValueNotifier<List<String>>(<String>[]);
+  // late final bool doHavePriviledToEdit
   @override
   void initState() {
     _administrativeUnitsService = GetIt.I<AdministrativeUnitsService>();
@@ -46,146 +79,120 @@ class _AdministrativeDivisionsListState extends State<AdministrativeDivisionsLis
   // final ValueNotifier<List<bool>> _expansionPanelExpandStatus = ValueNotifier<List<bool>>(<bool>[]);
   @override
   Widget build(BuildContext context) {
-    return FutureBuilder(
-      future: GetIt.I<AuthService>().permissionsListForUser(),
-      builder: (BuildContext context, AsyncSnapshot<SystemUser?> snapshot) {
-
-        if (snapshot.connectionState == ConnectionState.waiting ||
-            snapshot.hasError ||
-            !snapshot.hasData ||
-            snapshot.data == null) {
-          return const SizedBox(width: 0, height: 0);
-        } else if (snapshot.hasData) {
-          _allocatedPermissionsListNotifier.value = List<String>.from(snapshot.data!.authPermissions ?? <String>[]);
-          return ListView(
-            children: [
-              Row(
-                mainAxisAlignment: MainAxisAlignment.spaceBetween,
-                children: [
-                  Padding(
-                      padding: const EdgeInsets.only(left: 8.0, top: 15.0),
-                      child: RichText(
-                        text: const TextSpan(
-                            children: [
-                              TextSpan(
-                                  text: "m%dfoaYsh f,alï ld¾hd, jiï ", //ප්‍රාදේශිය ලේකම් කාර්යාල වසම්
-                                  style: TextStyle(fontFamily: 'DL-Paras', fontWeight: FontWeight.bold)
-                              ),
-                              TextSpan(
-                                  text: "| Divisional Secretariats",
-                                  style: TextStyle(fontFamily: SettingsSinhala.engFontFamily)
-                              ),
-                            ]
+    return ListView(
+      children: [
+        Row(
+          mainAxisAlignment: MainAxisAlignment.spaceBetween,
+          children: [
+            Padding(
+                padding: const EdgeInsets.only(left: 8.0, top: 15.0),
+                child: RichText(
+                  text: const TextSpan(
+                      children: [
+                        TextSpan(
+                            text: "m%dfoaYsh f,alï ld¾hd, jiï ", //ප්‍රාදේශිය ලේකම් කාර්යාල වසම්
+                            style: TextStyle(fontFamily: 'DL-Paras', fontWeight: FontWeight.bold)
                         ),
-                      )
+                        TextSpan(
+                            text: "| Divisional Secretariats",
+                            style: TextStyle(fontFamily: SettingsSinhala.engFontFamily)
+                        ),
+                      ]
                   ),
-                  Padding(
-                    padding: const EdgeInsets.only(right: 8.0, top: 15.0),
-                    child: (snapshot.data!.type != UserTypes.systemAdmin.toDBValue()) ? RawMaterialButton(
-                        onPressed: _createNewDivisionalSecretariatRecord,
-                        // iconSize: 15.0,
-                        // color: AppColors.nppPurple,
-                        // padding: const EdgeInsets.all(5.0),
-                        fillColor: AppColors.nppPurple,
-                        shape: const RoundedRectangleBorder(borderRadius: BorderRadius.all(Radius.circular(5.0))),
-                        child: const Icon(Icons.add, size: 25.0, color: AppColors.white,)
-                      // splashRadius: 10.0,
+                )
+            ),
+          ],
+        ),
+        const SizedBox(height: 5.0),
+        Container(color: AppColors.nppPurple, height: 2.0,),
+        const SizedBox(height: 8.0),
+        StreamBuilder(
+          stream: _administrativeUnitsService.getDivisionalSecretariatsStream(),
+          builder: (BuildContext context, AsyncSnapshot<QuerySnapshot<Map<String, dynamic>>> snapshot) {
+            if (snapshot.connectionState == ConnectionState.waiting) {
+              return const Center(
+                child: Padding(
+                    padding: EdgeInsets.all(8.0),
+                    child: SizedBox(
+                      width: 40,
+                      height: 40,
+                      child: CircularProgressIndicator(
+                        strokeWidth: 5,
+                        color: AppColors.nppPurple,
+                      ),
+                    )),
+              );
+            } else if (snapshot.hasError || !snapshot.hasData || snapshot.data == null) {
+              return const Text("o;a; lsisjla fkdue;"); //දත්ත කිසිවක් නොමැත
+            } else if (snapshot.hasData) {
+              if (snapshot.data!.docs.isEmpty) {
+                return const Text("o;a; lsisjla fkdue;"); //දත්ත කිසිවක් නොමැත
+              }
 
-                    ) : const SizedBox(width: 0, height: 0,),
-                  ),
-                ],
-              ),
-              const SizedBox(height: 5.0),
-              Container(color: AppColors.nppPurple, height: 2.0,),
-              const SizedBox(height: 8.0),
-              StreamBuilder(
-                stream: _administrativeUnitsService.getDivisionalSecretariatsStream(),
-                builder: (BuildContext context, AsyncSnapshot<QuerySnapshot<Map<String, dynamic>>> snapshot) {
-                  if (snapshot.connectionState == ConnectionState.waiting) {
-                    return const Center(
-                      child: Padding(
-                          padding: EdgeInsets.all(8.0),
-                          child: SizedBox(
-                            width: 40,
-                            height: 40,
-                            child: CircularProgressIndicator(
-                              strokeWidth: 5,
-                              color: AppColors.nppPurple,
-                            ),
-                          )),
-                    );
-                  } else if (snapshot.hasError || !snapshot.hasData || snapshot.data == null) {
-                    return const Text("o;a; lsisjla fkdue;"); //දත්ත කිසිවක් නොමැත
-                  } else if (snapshot.hasData) {
-                    if (snapshot.data!.docs.isEmpty) {
-                      return const Text("o;a; lsisjla fkdue;"); //දත්ත කිසිවක් නොමැත
-                    }
-
-                    print("### length of divsecStream: ${snapshot.data!.docs.length}");
-                    var panels = <ExpansionPanel>[];
-                    //
-                    if (_expansionPanelExpandStatus.isEmpty) {
-                      for (int index = 0; index < snapshot.data!.docs.length; index++) {
-                        _expansionPanelExpandStatus.add(false);
-                      }
-                    } else {
-                      if (snapshot.data!.docs.length != _expansionPanelExpandStatus.length) {
-                        _expansionPanelExpandStatus.clear();
-                        for (int index = 0; index < snapshot.data!.docs.length; index++) {
-                          _expansionPanelExpandStatus.add(false);
-                        }
-                      }
-                    }
-
-                    // DivisionalSecretariats.fromSnapshot
-                    snapshot.data!.docs.sort((a, b) {
-                      String div1 = DivisionalSecretariats
-                          .fromSnapshot(a)
-                          .id;
-                      String div2 = DivisionalSecretariats
-                          .fromSnapshot(b)
-                          .id;
-                      return div1.compareTo(div2);
-                    });
-                    for (int index = 0; index < snapshot.data!.docs.length; index++) {
-                      panels.add(_divSecretariatItemBuilder(context, snapshot.data!.docs[index], index));
-                    }
-
-
-                    return ExpansionPanelList(
-                      // shrinkWrap: true,
-                      expandedHeaderPadding: const EdgeInsets.symmetric(vertical: 5.0),
-                      dividerColor: AppColors.nppPurple,
-                      animationDuration: const Duration(milliseconds: 1200),
-                      expansionCallback: (int panelIndex, bool isExpanded) {
-                        setState(() {
-                          _expansionPanelExpandStatus[panelIndex] = !_expansionPanelExpandStatus[panelIndex];
-                        });
-                        // _administrativeUnitsChangeNotifier.setValueByIndex(
-                        //     panelIndex, !_administrativeUnitsChangeNotifier.expansionPanelExpandStatusList[panelIndex]);
-                      },
-                      // elevation: 5.0,
-                      // children: snapshot.data!.docs.map((data) =>
-                      //     _divSecretariatItemBuilder(context, data, snapshot.data!.docs.indexOf(data),)).toList(),
-                      children: panels,
-
-
-                    );
+              print("### length of divsecStream: ${snapshot.data!.docs.length}");
+              var panels = <ExpansionPanel>[];
+              //
+              if (_expansionPanelExpandStatus.isEmpty) {
+                for (int index = 0; index < snapshot.data!.docs.length; index++) {
+                  _expansionPanelExpandStatus.add(false);
+                }
+              } else {
+                if (snapshot.data!.docs.length != _expansionPanelExpandStatus.length) {
+                  _expansionPanelExpandStatus.clear();
+                  for (int index = 0; index < snapshot.data!.docs.length; index++) {
+                    _expansionPanelExpandStatus.add(false);
                   }
-                  return const Text("o;a; lsisjla fkdue;");
+                }
+              }
+
+              // DivisionalSecretariats.fromSnapshot
+              snapshot.data!.docs.sort((a, b) {
+                String div1 = DivisionalSecretariats
+                    .fromSnapshot(a)
+                    .id;
+                String div2 = DivisionalSecretariats
+                    .fromSnapshot(b)
+                    .id;
+                return div1.compareTo(div2);
+              });
+              for (int index = 0; index < snapshot.data!.docs.length; index++) {
+                panels.add(_divSecretariatItemBuilder(context, snapshot.data!.docs[index], index));
+              }
+
+
+              return ExpansionPanelList(
+                // shrinkWrap: true,
+                expandedHeaderPadding: const EdgeInsets.symmetric(vertical: 5.0),
+                dividerColor: AppColors.nppPurple,
+                animationDuration: const Duration(milliseconds: 1200),
+                expansionCallback: (int panelIndex, bool isExpanded) {
+                  setState(() {
+                    _expansionPanelExpandStatus[panelIndex] = !_expansionPanelExpandStatus[panelIndex];
+                  });
+                  // _administrativeUnitsChangeNotifier.setValueByIndex(
+                  //     panelIndex, !_administrativeUnitsChangeNotifier.expansionPanelExpandStatusList[panelIndex]);
                 },
-              ),
-            ],
-          );
-        }
-        return const SizedBox(width: 0, height: 0);
-      }
-    );
+                // elevation: 5.0,
+                // children: snapshot.data!.docs.map((data) =>
+                //     _divSecretariatItemBuilder(context, data, snapshot.data!.docs.indexOf(data),)).toList(),
+                children: panels,
+
+
+              );
+            }
+            return const Text("o;a; lsisjla fkdue;");
+          },
+        ),
+      ],
+    );;
   }
 
   ExpansionPanel _divSecretariatItemBuilder(BuildContext context, DocumentSnapshot data, int index) {
     print("##index of sent data: $index");
     final divisionalSecretariat = DivisionalSecretariats.fromSnapshot(data);
+
+    bool doHavePrivilegeToEditDivision = widget.allocatedPermissionsList.contains(divisionalSecretariat.id);
+
     return ExpansionPanel(
         canTapOnHeader: true,
         backgroundColor: AppColors.lightGray,
@@ -203,55 +210,24 @@ class _AdministrativeDivisionsListState extends State<AdministrativeDivisionsLis
                 color: AppColors.nppPurple,
               ),
             ),
-            trailing: SizedBox(
-              width: 80,
-              height: 30,
-              child: Row(
-                crossAxisAlignment: CrossAxisAlignment.start,
-                mainAxisAlignment: MainAxisAlignment.spaceBetween,
-                children: [
-                  IconButton(
-                    onPressed: () => _createNewGramaNiladariDivisionRecord(divisionalSecretariat),
-                    icon: const Icon(
-                      Icons.add_circle_outline,
-                    ),
-                    splashRadius: 25.0,
-                    color: AppColors.nppPurple,
-                    // hoverColor: AppColors.appBarColor,
+            trailing: doHavePrivilegeToEditDivision
+              ? IconButton(
+                  onPressed: () => _createNewGramaNiladariDivisionRecord(divisionalSecretariat),
+                  icon: const Icon(
+                    Icons.add_circle_outline,
                   ),
-                  IconButton(
-                    onPressed: () => _deleteSelectedDivisionalSecretariat(divisionalSecretariat),
-                    icon: const Icon(
-                      Icons.delete_outline,
-                    ),
-                    splashRadius: 25.0,
-                    color: AppColors.nppPurple,
-                  ),
-
-                ],
-              ),
-            ),
-          );
+                  splashRadius: 25.0,
+                  color: AppColors.nppPurple,
+                  // hoverColor: AppColors.appBarColor,
+                )
+              : const SizedBox(width: 8, height: 8),
+        );
         },
         isExpanded: _expansionPanelExpandStatus[index],
         body: DivisionalSecretariatExpansionPanelContent(divisionalSecretariat: divisionalSecretariat),
     );
   }
 
-  void _createNewDivisionalSecretariatRecord() async {
-    bool isProcessSuccessful = await GeneralDialogUtils().showCustomGeneralDialog(
-      context: context,
-      child: CreateDivisionalSecretariatDialog(),
-      title: "m%dfoaYsh f,alï ld¾hd,hla tl;= lsÍu",//ප්‍රාදේශිය ලේකම් කාර්යාලයක් එකතු කිරීම
-    );
-    // if (isProcessSuccessful == null) {
-    //   return;
-    // } else if (isProcessSuccessful) {
-    //   showSaveResultMessage(true, "m%dfoaYsh f,alï ld¾hd,hla tl;= lrk ,È'");
-    // } else {
-    //   showSaveResultMessage(false, "m%dfoaYsh f,alï ld¾hd,hla tl;= lrk ,È'");//ප්‍රාදේශිය ලේකම් කාර්යාලයක් එකතු කරන ලදි.
-    // }
-  }
 
   //#region delete divisional secretariat
   void _deleteSelectedDivisionalSecretariat(DivisionalSecretariats division) {

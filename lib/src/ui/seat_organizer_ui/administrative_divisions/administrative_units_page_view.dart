@@ -5,11 +5,12 @@ import 'package:provider/provider.dart';
 
 import '../../../models/change_notifiers/administrative_units_change_notifer.dart';
 
-import '../../admin_ui/membership/membership_list_page.dart';
+// import '../../admin_ui/membership/membership_list_page.dart';
+import '../membership/membership_list_page.dart';
 import 'administrative_divisions_list.dart';
 
-class AdministrativeUnitsPageView extends StatelessWidget {
-  const AdministrativeUnitsPageView({Key? key}) : super(key: key);
+class SeatOrgAdministrativeUnitsPageView extends StatelessWidget {
+  const SeatOrgAdministrativeUnitsPageView({Key? key}) : super(key: key);
 
   @override
   Widget build(BuildContext context) {
@@ -24,7 +25,7 @@ class AdministrativeUnitsPageView extends StatelessWidget {
               PointerDeviceKind.mouse,
             }),
             children: [
-              const AdministrativeDivisionsList(),
+              PermissionBasedAdministrativeDivListWidget(),
               MembershipListPage(),
             ],
           );

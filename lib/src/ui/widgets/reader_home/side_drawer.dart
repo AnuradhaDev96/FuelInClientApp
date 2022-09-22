@@ -57,12 +57,12 @@ class _SideDrawerState extends State<SideDrawer> {
                     borderRadius: BorderRadius.only(topRight: const Radius.circular(15.0), bottomRight: Radius.circular(15.0))
                   ),
                   // hoverColor: Colors.red,
-                  tileColor: _sideDrawerNotifier.selectedPageType == ScreenBuckets.home ? AppColors.ashYellow : null,
+                  tileColor: _sideDrawerNotifier.selectedPageType == ScreenBuckets.membersManagement ? AppColors.ashYellow : null,
                   title: const Text(
                     lang_settings.SettingsEnglish.homeText,
                   ),
                   onTap: () {
-                    _sideDrawerNotifier.selectedPageType = ScreenBuckets.home;
+                    _sideDrawerNotifier.selectedPageType = ScreenBuckets.membersManagement;
                   },
                 ),
                 ListTile(

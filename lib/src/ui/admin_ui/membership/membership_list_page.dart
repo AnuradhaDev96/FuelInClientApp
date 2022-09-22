@@ -263,7 +263,7 @@ class MembershipListPage extends StatelessWidget {
       context: context,
       child: CreateNewMemberDialog(
           divisionalSecretariatId: divisionalSecretariatId, gramaNiladariDivisionId: gramaNiladariDivisionId),
-      title: ".%du ks,Odß jiula tl;= lsÍu", //සාමාජිකයෙක් එකතු කිරීම
+      title: "idudðlfhla tl;= lsÍu", //සාමාජිකයෙක් එකතු කිරීම
     );
   }
 
