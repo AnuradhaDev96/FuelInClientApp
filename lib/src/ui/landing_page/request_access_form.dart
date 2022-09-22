@@ -9,6 +9,7 @@ import '../../config/app_colors.dart';
 import '../../config/app_settings.dart';
 import '../../config/language_settings.dart';
 import '../../models/enums/user_types.dart';
+import '../../utils/common_utils.dart';
 import '../../utils/message_utils.dart';
 import '../../utils/validator_utils.dart';
 
@@ -57,7 +58,9 @@ class RequestAccessForm extends StatelessWidget {
             ),
             const SizedBox(height: 8.0),
             SizedBox(
-              width: MediaQuery.of(context).size.width * 0.6,
+              width: (CommonUtils.isMobileUI(context))
+                  ? MediaQuery.of(context).size.width * 0.95
+                  : MediaQuery.of(context).size.width * 0.6,
               height: MediaQuery.of(context).size.height * 0.91,
               child: Card(
                 elevation: 5.0,

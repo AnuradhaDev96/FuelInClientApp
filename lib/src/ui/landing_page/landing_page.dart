@@ -13,6 +13,7 @@ import '../../models/authentication/authenticated_user.dart';
 import '../../models/change_notifiers/application_auth_notifier.dart';
 import '../../models/enums/user_types.dart';
 import '../../services/auth_service.dart';
+import '../../utils/common_utils.dart';
 import '../../utils/message_utils.dart';
 
 class LandingPage extends StatefulWidget {
@@ -42,79 +43,96 @@ class _LandingPageState extends State<LandingPage> {
   Widget build(BuildContext context) {
     return Scaffold(
       appBar: PreferredSize(
-      preferredSize: Size(MediaQuery.of(context).size.width, 80),
-      child: AppBar(
-          backgroundColor: AppColors.appBarColor,
-          leading: Padding(
-            padding: const EdgeInsets.fromLTRB(10.0, 10.0, 0, 0),
-            child: ClipOval(
-              // height: 25.0,
-              // width: 25.0,
-              child: Image.asset(Assets.nppGroupCircle, fit: BoxFit.fill),
+        preferredSize: Size(MediaQuery.of(context).size.width, 80),
+        child: AppBar(
+            backgroundColor: AppColors.appBarColor,
+            leading: Padding(
+              padding: const EdgeInsets.fromLTRB(10.0, 10.0, 0, 0),
+              child: ClipOval(
+                // height: 25.0,
+                // width: 25.0,
+                child: Image.asset(Assets.nppGroupCircle, fit: BoxFit.fill),
+              ),
             ),
+            elevation: 8.0,
+            title: Padding(
+              padding: const EdgeInsets.only(top: 8.0),
+              child: RichText(
+                text: const TextSpan(
+                    style: TextStyle(
+                      color: AppColors.white,
+                    ),
+                    children: [
+                      TextSpan(
+                        text: 'NPP  ',
+                        style: TextStyle(
+                          fontFamily: 'Oswald',
+                          fontWeight: FontWeight.bold,
+                          fontSize: 16.0,
+                        ),
+                      ),
+                      TextSpan(
+                        text: SettingsSinhala.webTitle,
+                        style: TextStyle(
+                          fontFamily: 'DL-Paras',
+                          fontWeight: FontWeight.w500,
+                          fontSize: 20.0,
+                        ),
+                      )
+                    ]),
+              ),
+            ),
+            // bottom: PreferredSize(
+            //   preferredSize: Size(MediaQuery.of(context).size.width, 100), child: Container(
+            //   child: Flex(
+            //     direction: Axis.vertical,
+            //     children: [
+            //       Image.asset(Assets.triLanguageLogo,),
+            //     ]
+            //   ),
+            // ),
+            // ),
           ),
-          elevation: 8.0,
-          title: Padding(
-            padding: const EdgeInsets.only(top: 8.0),
-            child: RichText(
-              text: const TextSpan(
-                  style: TextStyle(
-                    color: AppColors.white,
-                  ),
+      ),
+      body: (CommonUtils.isMobileUI(context))
+          ? _buildMobileContent()
+          : Row(
+              mainAxisAlignment: MainAxisAlignment.start,
+              crossAxisAlignment: CrossAxisAlignment.start,
+              children: [
+                Column(
                   children: [
-                    TextSpan(
-                      text: 'NPP  ',
-                      style: TextStyle(
-                        fontFamily: 'Oswald',
-                        fontWeight: FontWeight.bold,
-                        fontSize: 16.0,
+                    Expanded(
+                      child: Container(
+                        width: MediaQuery.of(context).size.width * 0.28,
+                        // height: double.infinity,
+                        color: AppColors.nppPurple,
+                        padding: const EdgeInsets.all(8.0),
+                        child: _signInSection(),
                       ),
                     ),
-                    TextSpan(
-                      text: SettingsSinhala.webTitle,
-                      style: TextStyle(
-                        fontFamily: 'DL-Paras',
-                        fontWeight: FontWeight.w500,
-                        fontSize: 20.0,
-                      ),
-                    )
-                  ]),
-            ),
-          ),
-          // bottom: PreferredSize(
-          //   preferredSize: Size(MediaQuery.of(context).size.width, 100), child: Container(
-          //   child: Flex(
-          //     direction: Axis.vertical,
-          //     children: [
-          //       Image.asset(Assets.triLanguageLogo,),
-          //     ]
-          //   ),
-          // ),
-          // ),
-        ),
-      ),
-      body: Row(
-        mainAxisAlignment: MainAxisAlignment.start,
-        crossAxisAlignment: CrossAxisAlignment.start,
-        children: [
-          Column(
-            children: [
-              Expanded(
-                child: Container(
-                  width: MediaQuery.of(context).size.width * 0.28,
-                  // height: double.infinity,
-                  color: AppColors.nppPurple,
-                  padding: const EdgeInsets.all(8.0),
-                  child: _signInSection(),
+                  ],
                 ),
-              ),
-            ],
-          ),
-          Expanded(
-            child: RequestAccessForm(),
-          )
-        ],
-      ),
+                Expanded(
+                  child: RequestAccessForm(),
+                )
+              ],
+            ),
+    );
+  }
+
+  Widget _buildMobileContent() {
+    return ListView(
+      children: [
+        Container(
+          // width: MediaQuery.of(context).size.width * 0.28,
+          // height: double.infinity,
+          color: AppColors.nppPurple,
+          padding: const EdgeInsets.all(8.0),
+          child: _signInSection(),
+        ),
+        RequestAccessForm(),
+      ],
     );
   }
 
@@ -122,7 +140,7 @@ class _LandingPageState extends State<LandingPage> {
     return Form(
       key: _signInFormKey,
       child: ListView(
-        // shrinkWrap: true,
+        shrinkWrap: (CommonUtils.isMobileUI(context)) ? true : false,
         padding: const EdgeInsets.all(2.0),
         children: [
           Row(
