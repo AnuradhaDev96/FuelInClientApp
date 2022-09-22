@@ -19,8 +19,8 @@ import '../../../utils/message_utils.dart';
 import 'create_divisional_secretariat_dialog.dart';
 import 'create_grama_niladari_division_dialog.dart';
 
-class PermissionBasedWidget extends StatelessWidget {
-  PermissionBasedWidget({Key? key}) : super(key: key);
+class PermissionBasedAdministrativeDivListWidget extends StatelessWidget {
+  PermissionBasedAdministrativeDivListWidget({Key? key}) : super(key: key);
 
   final ValueNotifier<List<String>> _allocatedPermissionsListNotifier = ValueNotifier<List<String>>(<String>[]);
 

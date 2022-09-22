@@ -5,7 +5,8 @@ import 'package:provider/provider.dart';
 
 import '../../../models/change_notifiers/administrative_units_change_notifer.dart';
 
-import '../../admin_ui/membership/membership_list_page.dart';
+// import '../../admin_ui/membership/membership_list_page.dart';
+import '../membership/membership_list_page.dart';
 import 'administrative_divisions_list.dart';
 
 class SeatOrgAdministrativeUnitsPageView extends StatelessWidget {
@@ -24,7 +25,7 @@ class SeatOrgAdministrativeUnitsPageView extends StatelessWidget {
               PointerDeviceKind.mouse,
             }),
             children: [
-              PermissionBasedWidget(),
+              PermissionBasedAdministrativeDivListWidget(),
               MembershipListPage(),
             ],
           );

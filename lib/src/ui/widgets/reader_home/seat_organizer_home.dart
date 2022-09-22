@@ -144,7 +144,7 @@ class _SeatOrganizerHomeState extends State<SeatOrganizerHome> {
   Widget buildPages() {
     switch (_selectedPageIndex) {
       case ScreenBuckets.membersManagement:
-        return const SeatOrgAdministrativeUnitsPageView();
+        return SeatOrgAdministrativeUnitsPageView();
       // case ScreenBuckets.systemRoleManagement:
       //   return const RoleManagementPageView();
       // case ScreenBuckets.administrativeUnitManagement:
