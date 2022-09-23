@@ -49,6 +49,9 @@ class _AdministrativeDivisionsListState extends State<AdministrativeDivisionsLis
                 padding: const EdgeInsets.only(left: 8.0, top: 15.0),
                 child: RichText(
                   text: const TextSpan(
+                      style: TextStyle(
+                        color: AppColors.black,
+                      ),
                       children: [
                         TextSpan(
                           text: "m%dfoaYsh f,alï ld¾hd, jiï ",//ප්‍රාදේශිය ලේකම් කාර්යාල වසම්

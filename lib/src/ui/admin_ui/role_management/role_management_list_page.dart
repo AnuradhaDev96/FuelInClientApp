@@ -31,7 +31,8 @@ class RoleManagementListPage extends StatelessWidget {
                   style: TextStyle(
                     fontWeight: FontWeight.bold,
                     fontSize: 16.0,
-                    fontFamily: 'DL-Paras',
+                    fontFamily: SettingsSinhala.legacySinhalaFontFamily,
+                    color: AppColors.black,
                   ),
                   children: [
                     TextSpan(
@@ -96,8 +97,13 @@ class RoleManagementListPage extends StatelessWidget {
                       scrollDirection: Axis.horizontal,
                       controller: _horizontalScrollController,
                       child: DataTable(
-                        headingTextStyle: const TextStyle(fontSize: 14.0, fontWeight: FontWeight.bold, fontFamily: 'DL-Paras'),
-                        dataTextStyle: const TextStyle(fontSize: 12.0, fontFamily: SettingsSinhala.engFontFamily),
+                        headingTextStyle: const TextStyle(
+                            fontSize: 14.0,
+                            fontWeight: FontWeight.bold,
+                            fontFamily: SettingsSinhala.legacySinhalaFontFamily,
+                            color: AppColors.black),
+                        dataTextStyle: const TextStyle(
+                            fontSize: 12.0, fontFamily: SettingsSinhala.engFontFamily, color: AppColors.black),
                         headingRowColor: MaterialStateProperty.all(AppColors.silverPurple),
                         columns: const [
                           DataColumn(label: Text(';SrKh')),//තීරණය
