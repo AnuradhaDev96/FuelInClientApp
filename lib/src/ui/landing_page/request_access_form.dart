@@ -40,16 +40,17 @@ class RequestAccessForm extends StatelessWidget {
       child: SingleChildScrollView(
         controller: _scrollController,
         child: Column(
-          // crossAxisAlignment: Cro,
           children: [
             const Padding(
               padding: EdgeInsets.only(top: 20.0),
               child: Text(
                 SettingsSinhala.requestAccessTitle,
+                textAlign: TextAlign.center,
                 style: TextStyle(fontSize: 30.0, fontWeight: FontWeight.w600),
               ),
             ),
             const Text("Request Access to System",
+                textAlign: TextAlign.center,
                 style: TextStyle(
                     color: AppColors.nppPurple,
                     fontSize: 25.0,
