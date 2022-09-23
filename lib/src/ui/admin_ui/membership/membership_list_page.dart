@@ -162,10 +162,16 @@ class MembershipListPage extends StatelessWidget {
                             headingTextStyle: const TextStyle(
                                     fontSize: 14.0,
                                     fontWeight: FontWeight.w600,
-                                    fontFamily: SettingsSinhala.unicodeSinhalaFontFamily),
-                            dataTextStyle: const TextStyle(fontSize: 12.0, fontFamily: SettingsSinhala.unicodeSinhalaFontFamily),
-                            headingRowColor: MaterialStateProperty.all(AppColors.silverPurple),
-                            border: const TableBorder(
+                                    fontFamily: SettingsSinhala.unicodeSinhalaFontFamily,
+                                    color: AppColors.black,
+                            ),
+                            dataTextStyle: const TextStyle(
+                                  fontSize: 12.0,
+                                  fontFamily: SettingsSinhala.unicodeSinhalaFontFamily,
+                                  color: AppColors.black,
+                                ),
+                                headingRowColor: MaterialStateProperty.all(AppColors.silverPurple),
+                                border: const TableBorder(
                               verticalInside: BorderSide(width: 0.5, color: AppColors.nppPurpleLight),
                               bottom: BorderSide(width: 0.5, color: AppColors.grayForPrimary),
                             ),

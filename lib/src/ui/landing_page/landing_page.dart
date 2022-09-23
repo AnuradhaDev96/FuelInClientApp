@@ -1,5 +1,4 @@
 import 'package:email_validator/email_validator.dart';
-import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
 import 'package:get_it/get_it.dart';
@@ -31,6 +30,7 @@ class _LandingPageState extends State<LandingPage> {
   final FocusNode _authEmailFieldFocusNode = FocusNode();
   final FocusNode _authPasswordFieldFocusNode = FocusNode();
   final ValueNotifier<bool> _isPasswordTextHidden = ValueNotifier<bool>(true);
+  final List<bool> _mobileLoginPanelExpandStatus = <bool>[false];
 
   @override
   void dispose() {
@@ -125,13 +125,61 @@ class _LandingPageState extends State<LandingPage> {
     return ListView(
       children: [
         Container(
-          // width: MediaQuery.of(context).size.width * 0.28,
+          width: MediaQuery.of(context).size.width,
           // height: double.infinity,
           color: AppColors.nppPurple,
           padding: const EdgeInsets.all(8.0),
-          child: _signInSection(),
+          child: _signInSectionMobile(),
         ),
         RequestAccessForm(),
+      ],
+    );
+  }
+
+  Widget _signInSectionMobile() {
+    return ExpansionPanelList(
+      elevation: 0,
+      expansionCallback: (int panelIndex, bool isExpanded) {
+        setState(() {
+          _mobileLoginPanelExpandStatus[panelIndex] = !_mobileLoginPanelExpandStatus[panelIndex];
+        });
+      },
+      children: [
+        ExpansionPanel(
+          backgroundColor: AppColors.nppPurple,
+          canTapOnHeader: true,
+          isExpanded: _mobileLoginPanelExpandStatus[0],
+          headerBuilder: (BuildContext context, bool isExpanded) {
+            return Row(
+              mainAxisAlignment: MainAxisAlignment.center,
+              children: const [
+                Text(
+                  'Log In',
+                  style: TextStyle(
+                    fontFamily: SettingsSinhala.engFontFamily,
+                    fontSize: 25.0,
+                    color: AppColors.silverPurple,
+                  ),
+                ),
+              ],
+            );
+          },
+          body: Form(
+            key: _signInFormKey,
+            child: ListView(
+              shrinkWrap: (CommonUtils.isMobileUI(context)) ? true : false,
+              padding: const EdgeInsets.all(2.0),
+              children: [
+
+                // const SizedBox(height: 5.0),
+                _buildAuthEmailField(),
+                _buildAuthPasswordField(),
+                // const SizedBox(height: 5.0),
+                _buildSignInButton(),
+              ],
+            ),
+          ),
+        )
       ],
     );
   }
