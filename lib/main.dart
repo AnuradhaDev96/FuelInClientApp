@@ -8,7 +8,6 @@ import 'package:get_it/get_it.dart';
 import 'package:hive/hive.dart';
 import 'src/models/change_notifiers/role_management_notifier.dart';
 import 'src/models/change_notifiers/administrative_units_change_notifer.dart';
-import 'package:matara_division_system/src/ui/widgets/verify_email_page.dart';
 import 'package:provider/provider.dart';
 
 import 'src/utils/firebase_options.dart';
@@ -27,8 +26,6 @@ import 'src/ui/landing_page/landing_page.dart';
 import 'src/ui/widgets/authenticated_screen_provider.dart';
 import 'src/ui/widgets/splash_web_screen.dart';
 import 'src/utils/local_storage_utils.dart';
-import 'src/ui/widgets/admin_home/admin_home.dart';
-import 'src/ui/widgets/reader_home/reader_home.dart';
 import 'src/utils/dependency_locator.dart';
 
 void main() {
@@ -163,7 +160,7 @@ class MyApp extends StatelessWidget {
                 // return const AdminHome();
                 return const AuthenticatedScreenProvider();
               } else {
-                return LandingPage();
+                return const LandingPage();
               }
           },
         ),
