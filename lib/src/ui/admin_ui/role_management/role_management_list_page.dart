@@ -130,7 +130,6 @@ class RoleManagementListPage extends StatelessWidget {
 
   DataRow _roleItemBuilder(BuildContext context, DocumentSnapshot data) {
     final systemUser = SystemUser.fromSnapshot(data);
-    print("sysUsers: ${systemUser.email} | ${systemUser.type}");
 
     return DataRow(cells: [
 

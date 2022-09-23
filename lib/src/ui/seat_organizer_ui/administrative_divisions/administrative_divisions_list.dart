@@ -4,19 +4,15 @@ import 'package:get_it/get_it.dart';
 import 'package:matara_division_system/src/models/administrative_units/grama_niladari_divisions.dart';
 import 'package:provider/provider.dart';
 import '../../../models/administrative_units/divisional_secretariats.dart';
-import '../../../models/administrative_units/divisional_secretariats.dart';
 import '../../../models/authentication/system_user.dart';
 import '../../../models/change_notifiers/administrative_units_change_notifer.dart';
 
 import '../../../config/app_colors.dart';
 import '../../../config/language_settings.dart';
-import '../../../models/administrative_units/divisional_secretariats.dart';
-import '../../../models/enums/user_types.dart';
 import '../../../services/administrative_units_service.dart';
 import '../../../services/auth_service.dart';
 import '../../../utils/general_dialog_utils.dart';
 import '../../../utils/message_utils.dart';
-import 'create_divisional_secretariat_dialog.dart';
 import 'create_grama_niladari_division_dialog.dart';
 
 class PermissionBasedAdministrativeDivListWidget extends StatelessWidget {
@@ -81,30 +77,25 @@ class _AdministrativeDivisionsListState extends State<AdministrativeDivisionsLis
   Widget build(BuildContext context) {
     return ListView(
       children: [
-        Row(
-          mainAxisAlignment: MainAxisAlignment.spaceBetween,
-          children: [
-            Padding(
-                padding: const EdgeInsets.only(left: 8.0, top: 15.0),
-                child: RichText(
-                  text: const TextSpan(
-                      style: TextStyle(
-                        color: AppColors.black,
-                      ),
-                      children: [
-                        TextSpan(
-                            text: "m%dfoaYsh f,alï ld¾hd, jiï ", //ප්‍රාදේශිය ලේකම් කාර්යාල වසම්
-                            style: TextStyle(fontFamily: 'DL-Paras', fontWeight: FontWeight.bold)
-                        ),
-                        TextSpan(
-                            text: "| Divisional Secretariats",
-                            style: TextStyle(fontFamily: SettingsSinhala.engFontFamily)
-                        ),
-                      ]
+        Padding(
+            padding: const EdgeInsets.only(left: 8.0, top: 15.0),
+            child: RichText(
+              text: const TextSpan(
+                  style: TextStyle(
+                    color: AppColors.black,
                   ),
-                )
-            ),
-          ],
+                  children: [
+                    TextSpan(
+                        text: "m%dfoaYsh f,alï ld¾hd, jiï ", //ප්‍රාදේශිය ලේකම් කාර්යාල වසම්
+                        style: TextStyle(fontFamily: 'DL-Paras', fontWeight: FontWeight.bold)
+                    ),
+                    TextSpan(
+                        text: "| Divisional Secretariats",
+                        style: TextStyle(fontFamily: SettingsSinhala.engFontFamily)
+                    ),
+                  ]
+              ),
+            )
         ),
         const SizedBox(height: 5.0),
         Container(color: AppColors.nppPurple, height: 2.0,),
@@ -187,7 +178,7 @@ class _AdministrativeDivisionsListState extends State<AdministrativeDivisionsLis
           },
         ),
       ],
-    );;
+    );
   }
 
   ExpansionPanel _divSecretariatItemBuilder(BuildContext context, DocumentSnapshot data, int index) {

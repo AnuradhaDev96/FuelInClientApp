@@ -582,7 +582,7 @@ class _AnonymousAccessRequestsPageState extends State<AnonymousAccessRequestsPag
       DataCell(
         RichText(
           text: TextSpan(
-            style: const TextStyle(fontFamily: SettingsSinhala.engFontFamily),
+            style: const TextStyle(fontFamily: SettingsSinhala.engFontFamily, color: AppColors.black),
             children: [
               TextSpan(text: DateFormat.yMd().format(accessRequest.requestedDate!)),
               const TextSpan(text: "  "),
@@ -597,7 +597,7 @@ class _AnonymousAccessRequestsPageState extends State<AnonymousAccessRequestsPag
       DataCell(
         RichText(
           text: TextSpan(
-            style: const TextStyle(fontFamily: SettingsSinhala.engFontFamily),
+            style: const TextStyle(fontFamily: SettingsSinhala.engFontFamily, color: AppColors.black),
             children: [
               TextSpan(
                 text: DateFormat.yMd().format(accessRequest.lastUpdatedDate!),

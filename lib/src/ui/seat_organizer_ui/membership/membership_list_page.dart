@@ -163,11 +163,11 @@ class MembershipListPage extends StatelessWidget {
                                 )),
                           );
                         } else if (snapshot.hasError || !snapshot.hasData || snapshot.data == null) {
-                          return const Text("idudðlhska lsisfjla lsisjla fkdue;"); //සාමාජිකයින් කිසිවෙක් නොමැත
+                          return const Text("idudðlhska lsisfjla fkdue;"); //සාමාජිකයින් කිසිවෙක් නොමැත
                         } else if (snapshot.hasData) {
                           if (snapshot.data!.docs.isEmpty) {
                             return const Center(
-                                child: Text("idudðlhska lsisfjla lsisjla fkdue;")); //සාමාජිකයින් කිසිවෙක් නොමැත
+                                child: Text("idudðlhska lsisfjla fkdue;")); //සාමාජිකයින් කිසිවෙක් නොමැත
                           }
                           return Scrollbar(
                               controller: _verticalScrollController,
@@ -231,7 +231,7 @@ class MembershipListPage extends StatelessWidget {
                               )
                           );
                         }
-                        return const Text("idudðlhska lsisfjla lsisjla fkdue;"); //සාමාජිකයින් කිසිවෙක් නොමැත
+                        return const Text("idudðlhska lsisfjla fkdue;"); //සාමාජිකයින් කිසිවෙක් නොමැත
                       },
                     )
                   ],
