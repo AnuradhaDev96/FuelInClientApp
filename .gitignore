@@ -48,6 +48,3 @@ app.*.map.json
 
 # Generated files
 lib/src/models/hive_generated/
-
-# Firebase
-.firebase/
