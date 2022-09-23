@@ -163,11 +163,11 @@ class MembershipListPage extends StatelessWidget {
                                 )),
                           );
                         } else if (snapshot.hasError || !snapshot.hasData || snapshot.data == null) {
-                          return const Text("idudðlhska lsisfjla lsisjla fkdue;"); //සාමාජිකයින් කිසිවෙක් නොමැත
+                          return const Text("idudðlhska lsisfjla fkdue;"); //සාමාජිකයින් කිසිවෙක් නොමැත
                         } else if (snapshot.hasData) {
                           if (snapshot.data!.docs.isEmpty) {
                             return const Center(
-                                child: Text("idudðlhska lsisfjla lsisjla fkdue;")); //සාමාජිකයින් කිසිවෙක් නොමැත
+                                child: Text("idudðlhska lsisfjla fkdue;")); //සාමාජිකයින් කිසිවෙක් නොමැත
                           }
                           return Scrollbar(
                               controller: _verticalScrollController,
@@ -188,11 +188,16 @@ class MembershipListPage extends StatelessWidget {
                                         controller: _horizontalScrollController,
                                         child: DataTable(
                                           headingTextStyle: const TextStyle(
-                                              fontSize: 14.0,
-                                              fontWeight: FontWeight.w600,
-                                              fontFamily: SettingsSinhala.unicodeSinhalaFontFamily),
+                                            fontSize: 14.0,
+                                            fontWeight: FontWeight.w600,
+                                            fontFamily: SettingsSinhala.unicodeSinhalaFontFamily,
+                                            color: AppColors.black,
+                                          ),
                                           dataTextStyle: const TextStyle(
-                                              fontSize: 12.0, fontFamily: SettingsSinhala.unicodeSinhalaFontFamily),
+                                            fontSize: 12.0,
+                                            fontFamily: SettingsSinhala.unicodeSinhalaFontFamily,
+                                            color: AppColors.black,
+                                          ),
                                           headingRowColor: MaterialStateProperty.all(AppColors.silverPurple),
                                           border: const TableBorder(
                                             verticalInside: BorderSide(width: 0.5, color: AppColors.nppPurpleLight),
@@ -226,7 +231,7 @@ class MembershipListPage extends StatelessWidget {
                               )
                           );
                         }
-                        return const Text("idudðlhska lsisfjla lsisjla fkdue;"); //සාමාජිකයින් කිසිවෙක් නොමැත
+                        return const Text("idudðlhska lsisfjla fkdue;"); //සාමාජිකයින් කිසිවෙක් නොමැත
                       },
                     )
                   ],

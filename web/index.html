@@ -30,6 +30,9 @@
   <link rel="shortcut icon" type="image/x-icon" href="favicon.io"/>
   <link rel="icon" type="image/x-icon" href="favicon.io"/>
 
+  <!-- PreLoading style -->
+  <link rel="stylesheet" href="/css/loading_style.css">
+
   <title>Matara Portal</title>
   <link rel="manifest" href="manifest.json">
 
@@ -41,6 +44,14 @@
   <script src="flutter.js" defer></script>
 </head>
 <body>
+  <div class="loader">
+    <div class="loader__bar"></div>
+    <div class="loader__bar"></div>
+    <div class="loader__bar"></div>
+    <div class="loader__bar"></div>
+    <div class="loader__bar"></div>
+    <div class="loader__ball"></div>
+  </div>
   <script>
     window.addEventListener('load', function(ev) {
       // Download main.dart.js

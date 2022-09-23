@@ -86,9 +86,14 @@ class RegisterUserForAccessRequestPage extends StatelessWidget {
                 controller: _horizontalScrollController,
                 physics: const ClampingScrollPhysics(),
                 child: DataTable(
-                  headingTextStyle: const TextStyle(fontSize: 14.0, fontWeight: FontWeight.bold, fontFamily: 'DL-Paras'),
-                  dataTextStyle: const TextStyle(fontSize: 12.0, fontFamily: SettingsSinhala.engFontFamily),
-                  headingRowColor: MaterialStateProperty.all(AppColors.silverPurple),
+                  headingTextStyle: const TextStyle(
+                    fontSize: 14.0,
+                    fontWeight: FontWeight.bold,
+                    fontFamily: SettingsSinhala.legacySinhalaFontFamily,
+                    color: AppColors.black),
+                dataTextStyle:
+                    const TextStyle(fontSize: 12.0, fontFamily: SettingsSinhala.engFontFamily, color: AppColors.black),
+                headingRowColor: MaterialStateProperty.all(AppColors.silverPurple),
                   columns: const [
                     DataColumn(label: Text('iïmQ¾K ku')),//සම්පූර්ණ නම
                     DataColumn(label: Text('Bfï,a ,smskh')),//ඊමේල් ලිපිනය
@@ -118,7 +123,7 @@ class RegisterUserForAccessRequestPage extends StatelessWidget {
                       DataCell(
                         RichText(
                           text: TextSpan(
-                            style: const TextStyle(fontFamily: SettingsSinhala.engFontFamily),
+                            style: const TextStyle(fontFamily: SettingsSinhala.engFontFamily, color: AppColors.black),
                             children: [
                               TextSpan(text: DateFormat.yMd().format(requestAccessModel.requestedDate!)),
                               const TextSpan(text: "  "),
@@ -133,7 +138,7 @@ class RegisterUserForAccessRequestPage extends StatelessWidget {
                       DataCell(
                         RichText(
                           text: TextSpan(
-                            style: const TextStyle(fontFamily: SettingsSinhala.engFontFamily),
+                            style: const TextStyle(fontFamily: SettingsSinhala.engFontFamily, color: AppColors.black),
                             children: [
                               TextSpan(
                                 text: DateFormat.yMd().format(requestAccessModel.lastUpdatedDate!),

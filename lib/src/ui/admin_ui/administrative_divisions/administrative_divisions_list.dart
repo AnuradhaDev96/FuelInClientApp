@@ -4,13 +4,12 @@ import 'package:get_it/get_it.dart';
 import 'package:matara_division_system/src/models/administrative_units/grama_niladari_divisions.dart';
 import 'package:provider/provider.dart';
 import '../../../models/administrative_units/divisional_secretariats.dart';
-import '../../../models/administrative_units/divisional_secretariats.dart';
 import '../../../models/change_notifiers/administrative_units_change_notifer.dart';
 
 import '../../../config/app_colors.dart';
 import '../../../config/language_settings.dart';
-import '../../../models/administrative_units/divisional_secretariats.dart';
 import '../../../services/administrative_units_service.dart';
+import '../../../utils/common_utils.dart';
 import '../../../utils/general_dialog_utils.dart';
 import '../../../utils/message_utils.dart';
 import 'create_divisional_secretariat_dialog.dart';
@@ -42,42 +41,91 @@ class _AdministrativeDivisionsListState extends State<AdministrativeDivisionsLis
   Widget build(BuildContext context) {
     return ListView(
       children: [
-        Row(
-          mainAxisAlignment: MainAxisAlignment.spaceBetween,
-          children: [
-            Padding(
-                padding: const EdgeInsets.only(left: 8.0, top: 15.0),
-                child: RichText(
-                  text: const TextSpan(
-                      children: [
-                        TextSpan(
-                          text: "m%dfoaYsh f,alï ld¾hd, jiï ",//ප්‍රාදේශිය ලේකම් කාර්යාල වසම්
-                          style: TextStyle(fontFamily: 'DL-Paras', fontWeight: FontWeight.bold)
-                        ),
-                        TextSpan(
-                            text: "| Divisional Secretariats",
-                            style: TextStyle(fontFamily: SettingsSinhala.engFontFamily)
-                        ),
-                      ]
-                  ),
-                )
-            ),
-            Padding(
-              padding: const EdgeInsets.only(right: 8.0, top: 15.0),
-              child: RawMaterialButton(
-                onPressed: _createNewDivisionalSecretariatRecord,
-                // iconSize: 15.0,
-                // color: AppColors.nppPurple,
-                // padding: const EdgeInsets.all(5.0),
-                fillColor: AppColors.nppPurple,
-                shape: const RoundedRectangleBorder(borderRadius: BorderRadius.all(Radius.circular(5.0))),
-                child: const Icon(Icons.add, size: 25.0, color: AppColors.white,)
-                // splashRadius: 10.0,
+        (CommonUtils.isMobileUI(context))
+            ? Column(
+                mainAxisAlignment: MainAxisAlignment.start,
+                crossAxisAlignment: CrossAxisAlignment.start,
+                children: [
+                  Padding(
+                      padding: const EdgeInsets.only(left: 8.0, top: 15.0),
+                      child: RichText(
+                        text: const TextSpan(
+                            style: TextStyle(
+                              color: AppColors.black,
+                            ),
+                            children: [
+                              TextSpan(
+                                  text: "m%dfoaYsh f,alï ld¾hd, jiï ", //ප්‍රාදේශිය ලේකම් කාර්යාල වසම්
+                                  style: TextStyle(fontFamily: 'DL-Paras', fontWeight: FontWeight.bold)),
+                              TextSpan(
+                                  text: "| Divisional Secretariats",
+                                  style: TextStyle(fontFamily: SettingsSinhala.engFontFamily)),
+                            ]),
+                      )),
+                  Row(
+                    mainAxisAlignment: MainAxisAlignment.end,
+                    children: [
+                      Padding(
+                        padding: const EdgeInsets.only(right: 8.0, top: 15.0),
+                        child: RawMaterialButton(
+                            onPressed: _createNewDivisionalSecretariatRecord,
+                            // iconSize: 15.0,
+                            // color: AppColors.nppPurple,
+                            // padding: const EdgeInsets.all(5.0),
+                            fillColor: AppColors.nppPurple,
+                            shape: const RoundedRectangleBorder(borderRadius: BorderRadius.all(Radius.circular(5.0))),
+                            child: const Icon(
+                              Icons.add,
+                              size: 25.0,
+                              color: AppColors.white,
+                            )
+                            // splashRadius: 10.0,
 
+                            ),
+                      ),
+                    ],
+                  ),
+                ],
+              )
+            : Row(
+                mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                children: [
+                  Padding(
+                      padding: const EdgeInsets.only(left: 8.0, top: 15.0),
+                      child: RichText(
+                        text: const TextSpan(
+                            style: TextStyle(
+                              color: AppColors.black,
+                            ),
+                            children: [
+                              TextSpan(
+                                  text: "m%dfoaYsh f,alï ld¾hd, jiï ", //ප්‍රාදේශිය ලේකම් කාර්යාල වසම්
+                                  style: TextStyle(fontFamily: 'DL-Paras', fontWeight: FontWeight.bold)),
+                              TextSpan(
+                                  text: "| Divisional Secretariats",
+                                  style: TextStyle(fontFamily: SettingsSinhala.engFontFamily)),
+                            ]),
+                      )),
+                  Padding(
+                    padding: const EdgeInsets.only(right: 8.0, top: 15.0),
+                    child: RawMaterialButton(
+                        onPressed: _createNewDivisionalSecretariatRecord,
+                        // iconSize: 15.0,
+                        // color: AppColors.nppPurple,
+                        // padding: const EdgeInsets.all(5.0),
+                        fillColor: AppColors.nppPurple,
+                        shape: const RoundedRectangleBorder(borderRadius: BorderRadius.all(Radius.circular(5.0))),
+                        child: const Icon(
+                          Icons.add,
+                          size: 25.0,
+                          color: AppColors.white,
+                        )
+                        // splashRadius: 10.0,
+
+                        ),
+                  ),
+                ],
               ),
-            ),
-          ],
-        ),
         const SizedBox(height: 5.0),
         Container(color: AppColors.nppPurple,height: 2.0,),
         const SizedBox(height: 8.0),

@@ -11,6 +11,7 @@ import '../../../models/authentication/system_user.dart';
 import '../../../models/change_notifiers/role_management_notifier.dart';
 import '../../../services/administrative_units_service.dart';
 import '../../../services/auth_service.dart';
+import '../../../utils/common_utils.dart';
 import '../../../utils/message_utils.dart';
 
 class PermissionManagementPage extends StatelessWidget {
@@ -78,58 +79,122 @@ class PermissionManagementPage extends StatelessWidget {
                 ],
               ),
             ),
-            Row(
-              mainAxisAlignment: MainAxisAlignment.spaceBetween,
-              children: [
-                const Padding(
-                  padding: EdgeInsets.only(left: 8.0, top: 5.0),
-                  child: Text(
-                    'hdj;ald,Sk lsÍfï wjirhka l<uKdlrKh',//යාවත්කාලීන කිරීමේ අවසරයන් කළමණාකරණය
-                    style: TextStyle(
-                      fontWeight: FontWeight.bold,
-                      fontSize: 16.0,
-                    ),
-                  ),
-                ),
-                Padding(
-                  padding: const EdgeInsets.only(right: 8.0, top: 5.0),
-                  child: Row(
+            (CommonUtils.isMobileUI(context))
+                ? Column(
+                    mainAxisAlignment: MainAxisAlignment.start,
                     crossAxisAlignment: CrossAxisAlignment.start,
                     children: [
-                      ValueListenableBuilder<List<String>>(
-                        valueListenable: _assignedPermissionsListNotifier,
-                        builder: (context, snapshot, child) {
-                          if (listEquals(pageViewNotifier.selectedUserForPermissions!.authPermissions, snapshot)) {
-                            return const SizedBox(width: 0, height: 0);
-                          }
-                          return IconButton(
-                            onPressed: () =>
-                                _savePermissionUpdatesByUser(context, pageViewNotifier.selectedUserForPermissions!),
-                            icon: const Icon(
-                              Icons.save,
-                              size: 32.0,
-                            ),
-                            splashRadius: 6.0,
-                            color: AppColors.nppPurple,
-                            // tooltip: "kj iduðlfhla", //නව සාමජිකයෙක්
-                          );
-                        }
+                      const Padding(
+                        padding: EdgeInsets.only(left: 8.0, top: 5.0),
+                        child: Text(
+                          'hdj;ald,Sk lsÍfï wjirhka l<uKdlrKh', //යාවත්කාලීන කිරීමේ අවසරයන් කළමණාකරණය
+                          style: TextStyle(
+                            fontWeight: FontWeight.bold,
+                            fontSize: 16.0,
+                          ),
+                        ),
                       ),
-                      const SizedBox(width: 8.0),
-                      RawMaterialButton(
-                        // onPressed: _createNewDivisionalSecretariatRecord,
-                          onPressed: () => _navigateToRoleManagementListPage(context),
-                          fillColor: AppColors.nppPurple,
-                          shape: const RoundedRectangleBorder(borderRadius: BorderRadius.all(Radius.circular(5.0))),
-                          child: const Icon(Icons.keyboard_backspace_outlined, size: 25.0, color: AppColors.white,)
-                        // splashRadius: 10.0,
+                      Padding(
+                        padding: const EdgeInsets.only(right: 8.0, top: 5.0),
+                        child: Row(
+                          crossAxisAlignment: CrossAxisAlignment.start,
+                          children: [
+                            ValueListenableBuilder<List<String>>(
+                                valueListenable: _assignedPermissionsListNotifier,
+                                builder: (context, snapshot, child) {
+                                  if (listEquals(
+                                      pageViewNotifier.selectedUserForPermissions!.authPermissions, snapshot)) {
+                                    return const SizedBox(width: 0, height: 0);
+                                  }
+                                  return IconButton(
+                                    onPressed: () => _savePermissionUpdatesByUser(
+                                        context, pageViewNotifier.selectedUserForPermissions!),
+                                    icon: const Icon(
+                                      Icons.save,
+                                      size: 32.0,
+                                    ),
+                                    splashRadius: 6.0,
+                                    color: AppColors.nppPurple,
+                                    // tooltip: "kj iduðlfhla", //නව සාමජිකයෙක්
+                                  );
+                                }),
+                            const SizedBox(width: 8.0),
+                            RawMaterialButton(
+                                // onPressed: _createNewDivisionalSecretariatRecord,
+                                onPressed: () => _navigateToRoleManagementListPage(context),
+                                fillColor: AppColors.nppPurple,
+                                shape:
+                                    const RoundedRectangleBorder(borderRadius: BorderRadius.all(Radius.circular(5.0))),
+                                child: const Icon(
+                                  Icons.keyboard_backspace_outlined,
+                                  size: 25.0,
+                                  color: AppColors.white,
+                                )
+                                // splashRadius: 10.0,
 
+                                ),
+                          ],
+                        ),
+                      ),
+                    ],
+                  )
+                : Row(
+                    mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                    children: [
+                      const Padding(
+                        padding: EdgeInsets.only(left: 8.0, top: 5.0),
+                        child: Text(
+                          'hdj;ald,Sk lsÍfï wjirhka l<uKdlrKh', //යාවත්කාලීන කිරීමේ අවසරයන් කළමණාකරණය
+                          style: TextStyle(
+                            fontWeight: FontWeight.bold,
+                            fontSize: 16.0,
+                          ),
+                        ),
+                      ),
+                      Padding(
+                        padding: const EdgeInsets.only(right: 8.0, top: 5.0),
+                        child: Row(
+                          crossAxisAlignment: CrossAxisAlignment.start,
+                          children: [
+                            ValueListenableBuilder<List<String>>(
+                                valueListenable: _assignedPermissionsListNotifier,
+                                builder: (context, snapshot, child) {
+                                  if (listEquals(
+                                      pageViewNotifier.selectedUserForPermissions!.authPermissions, snapshot)) {
+                                    return const SizedBox(width: 0, height: 0);
+                                  }
+                                  return IconButton(
+                                    onPressed: () => _savePermissionUpdatesByUser(
+                                        context, pageViewNotifier.selectedUserForPermissions!),
+                                    icon: const Icon(
+                                      Icons.save,
+                                      size: 32.0,
+                                    ),
+                                    splashRadius: 6.0,
+                                    color: AppColors.nppPurple,
+                                    // tooltip: "kj iduðlfhla", //නව සාමජිකයෙක්
+                                  );
+                                }),
+                            const SizedBox(width: 8.0),
+                            RawMaterialButton(
+                                // onPressed: _createNewDivisionalSecretariatRecord,
+                                onPressed: () => _navigateToRoleManagementListPage(context),
+                                fillColor: AppColors.nppPurple,
+                                shape:
+                                    const RoundedRectangleBorder(borderRadius: BorderRadius.all(Radius.circular(5.0))),
+                                child: const Icon(
+                                  Icons.keyboard_backspace_outlined,
+                                  size: 25.0,
+                                  color: AppColors.white,
+                                )
+                                // splashRadius: 10.0,
+
+                                ),
+                          ],
+                        ),
                       ),
                     ],
                   ),
-                ),
-              ],
-            ),
             const SizedBox(height: 5.0),
             Container(color: AppColors.nppPurple,height: 2.0,),
             const SizedBox(height: 8.0),

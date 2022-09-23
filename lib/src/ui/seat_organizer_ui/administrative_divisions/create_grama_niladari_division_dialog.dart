@@ -1,8 +1,5 @@
-import 'dart:js';
-
 import 'package:flutter/material.dart';
 import 'package:get_it/get_it.dart';
-import 'package:matara_division_system/src/models/administrative_units/divisional_secretariats.dart';
 
 import '../../../config/app_colors.dart';
 import '../../../config/language_settings.dart';
@@ -38,6 +35,7 @@ class CreateGramaNiladariDivisionDialog extends StatelessWidget {
                   builder: (context, snapshot, child) {
                     return RichText(
                       text: TextSpan(
+                        style: const TextStyle(color: AppColors.black),
                         children: [
                           const TextSpan(
                             text: "fla;h( ", //කේතය:
