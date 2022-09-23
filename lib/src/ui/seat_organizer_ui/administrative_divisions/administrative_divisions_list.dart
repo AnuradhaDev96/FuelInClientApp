@@ -218,7 +218,8 @@ class _AdministrativeDivisionsListState extends State<AdministrativeDivisionsLis
         );
         },
         isExpanded: _expansionPanelExpandStatus[index],
-        body: DivisionalSecretariatExpansionPanelContent(divisionalSecretariat: divisionalSecretariat),
+      body: DivisionalSecretariatExpansionPanelContent(
+        divisionalSecretariat: divisionalSecretariat, doHavePermissionToEditDivision: doHavePrivilegeToEditDivision,),
     );
   }
 
@@ -263,9 +264,11 @@ class _AdministrativeDivisionsListState extends State<AdministrativeDivisionsLis
 }
 
 class DivisionalSecretariatExpansionPanelContent extends StatelessWidget {
-  DivisionalSecretariatExpansionPanelContent({Key? key, required this.divisionalSecretariat}) : super(key: key);
+  DivisionalSecretariatExpansionPanelContent(
+      {Key? key, required this.divisionalSecretariat, required this.doHavePermissionToEditDivision}) : super(key: key);
   // final String divisionalSecretariatId;
   final DivisionalSecretariats divisionalSecretariat;
+  final bool doHavePermissionToEditDivision;
   final AdministrativeUnitsService _administrativeUnitsService = GetIt.I<AdministrativeUnitsService>();
 
   @override
@@ -304,7 +307,7 @@ class DivisionalSecretariatExpansionPanelContent extends StatelessWidget {
                 return ListView(
                   // padding: const EdgeInsets.fromLTRB(10.0, 8.0, 8.0, 10.0),
                   shrinkWrap: true,
-                  children: snapshot.data!.docs.map((division) => _gramaNiladariDivItemBuilder(context, division)).toList(),
+                  children: snapshot.data!.docs.map((division) => _gramaNiladariDivItemBuilder(context, division, doHavePermissionToEditDivision)).toList(),
                 );
               }
 
@@ -316,8 +319,13 @@ class DivisionalSecretariatExpansionPanelContent extends StatelessWidget {
   }
 
   // Widget _gramaNiladariDivItemBuilder(BuildContext context, GramaNiladariDivisions division) {
-  Widget _gramaNiladariDivItemBuilder(BuildContext context, DocumentSnapshot data) {
+  Widget _gramaNiladariDivItemBuilder(
+    BuildContext context,
+    DocumentSnapshot data,
+    bool doHavePermissionToEditDivision,
+  ) {
     final division = GramaNiladariDivisions.fromSnapshot(data);
+
     return Container(
       margin: const EdgeInsets.symmetric(horizontal: 10.0, vertical: 4.0),
       padding: const EdgeInsets.fromLTRB(25.0, 8.0, 10.0, 8.0),
@@ -354,14 +362,15 @@ class DivisionalSecretariatExpansionPanelContent extends StatelessWidget {
                 color: AppColors.nppPurpleLight,
                 tooltip: "idudðlhska",
               ),
-              IconButton(
-                onPressed: () => _deleteSelectedGramaNiladariDivision(context, divisionalSecretariat.id, division),
-                icon: const Icon(
-                  Icons.delete_outline,
+              if (doHavePermissionToEditDivision)
+                IconButton(
+                  onPressed: () => _deleteSelectedGramaNiladariDivision(context, divisionalSecretariat.id, division),
+                  icon: const Icon(
+                    Icons.delete_outline,
+                  ),
+                  splashRadius: 20.0,
+                  color: AppColors.nppPurpleLight,
                 ),
-                splashRadius: 20.0,
-                color: AppColors.nppPurpleLight,
-              ),
             ],
           )
         ],
