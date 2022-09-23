@@ -24,6 +24,7 @@ class LandingPage extends StatefulWidget {
 
 class _LandingPageState extends State<LandingPage> {
 
+  final GlobalKey<ScaffoldState> _landingScaffoldKey = GlobalKey<ScaffoldState>();
   final GlobalKey<FormState> _signInFormKey = GlobalKey<FormState>();
   final TextEditingController _authEmailAddressController = TextEditingController();
   final TextEditingController _authPasswordController = TextEditingController();
@@ -42,6 +43,8 @@ class _LandingPageState extends State<LandingPage> {
   @override
   Widget build(BuildContext context) {
     return Scaffold(
+      key: _landingScaffoldKey,
+      resizeToAvoidBottomInset: true,
       appBar: PreferredSize(
         preferredSize: Size(MediaQuery.of(context).size.width, 80),
         child: AppBar(
@@ -421,5 +424,7 @@ class _LandingPageState extends State<LandingPage> {
         //ඊමේල් ලිපිනය හෝ මුරපදය වැරදි බැවින් පිවිසීමට නොහැක.
       }
     }
+    if (_authEmailFieldFocusNode.hasFocus) _authEmailFieldFocusNode.unfocus();
+    if (_authPasswordFieldFocusNode.hasFocus) _authPasswordFieldFocusNode.unfocus();
   }
 }

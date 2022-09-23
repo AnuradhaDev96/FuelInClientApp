@@ -16,19 +16,20 @@ import '../../utils/validator_utils.dart';
 class RequestAccessForm extends StatelessWidget {
   RequestAccessForm({Key? key}) : super(key: key);
 
-  final GlobalKey<FormState> _requestAccessFormKey = GlobalKey<FormState>();
+  static final GlobalKey<FormState> _requestAccessFormKey = GlobalKey<FormState>();
 
-  final TextEditingController _personalEmailController = TextEditingController();
-  final FocusNode _personalEmailFieldFocusNode = FocusNode();
-  final TextEditingController _fullNameController = TextEditingController();
-  final FocusNode _fullNameFieldFocusNode = FocusNode(canRequestFocus: false);
-  final TextEditingController _waPhoneNoController = TextEditingController();
+  static final TextEditingController _personalEmailController = TextEditingController();
+  // final FocusNode _personalEmailFieldFocusNode = FocusNode();
+  static final TextEditingController _fullNameController = TextEditingController();
+  // final FocusNode _fullNameFieldFocusNode = FocusNode(canRequestFocus: false);
+  static final TextEditingController _waPhoneNoController = TextEditingController();
+  // final FocusNode _waPhoneNoFieldFocusNode = FocusNode();
 
   final ScrollController _scrollController = ScrollController();
   final ScrollController _formScrollController = ScrollController();
 
   final UserTypes _defaultUserType = UserTypes.seatOrganizer;
-  final ValueNotifier<UserTypes> _selectedUserType = ValueNotifier<UserTypes>(UserTypes.seatOrganizer);
+  static final ValueNotifier<UserTypes> _selectedUserType = ValueNotifier<UserTypes>(UserTypes.seatOrganizer);
   final AuthService _authService = GetIt.I<AuthService>();
 
   @override
@@ -120,45 +121,40 @@ class RequestAccessForm extends StatelessWidget {
           SizedBox(
             // width: 100.0,
             height: 80.0,
-            child: RawKeyboardListener(
-              focusNode: _fullNameFieldFocusNode,
-              onKey: (event) {
-                if (event.logicalKey == LogicalKeyboardKey.tab) {
-                  _fullNameFieldFocusNode.nextFocus();
+            child: TextFormField(
+              controller: _fullNameController,
+              // focusNode: _fullNameFieldFocusNode,
+              validator: (value) {
+                if (value == null || value.isEmpty) {
+                  return 'ms<s;=r wksjd¾hhs';//පිළිතුර අනිවාර්යයි!
                 }
+                return null;
               },
-              child: TextFormField(
-                controller: _fullNameController,
-                validator: (value) {
-                  if (value == null || value.isEmpty) {
-                    return 'ms<s;=r wksjd¾hhs';//පිළිතුර අනිවාර්යයි!
-                  }
-                  return null;
-                },
-                onEditingComplete: () {
-                  _personalEmailFieldFocusNode.requestFocus();
-                },
-                style: const TextStyle(
-                  fontSize: 14.0,
-                  fontFamily: SettingsSinhala.engFontFamily,
-                  color: AppColors.black,
-                  fontWeight: FontWeight.w500,
+              // onEditingComplete: () {
+              //   // if (_fullNameFieldFocusNode.hasFocus)
+              //   _fullNameFieldFocusNode.unfocus();
+              //   _personalEmailFieldFocusNode.requestFocus();
+              // },
+              style: const TextStyle(
+                fontSize: 14.0,
+                fontFamily: SettingsSinhala.engFontFamily,
+                color: AppColors.black,
+                fontWeight: FontWeight.w500,
+              ),
+              keyboardType: TextInputType.text,
+              textCapitalization: TextCapitalization.words,
+              decoration: InputDecoration(
+                border: OutlineInputBorder(
+                    borderRadius: BorderRadius.circular(12.0),
+                    borderSide: const BorderSide(width: 1, color: AppColors.lightGray)),
+                focusedBorder: OutlineInputBorder(
+                  borderSide: const BorderSide(width: 1, color: AppColors.nppPurple),
+                  borderRadius: BorderRadius.circular(12.0),
                 ),
-                keyboardType: TextInputType.text,
-                textCapitalization: TextCapitalization.words,
-                decoration: InputDecoration(
-                  border: OutlineInputBorder(
-                      borderRadius: BorderRadius.circular(12.0),
-                      borderSide: const BorderSide(width: 1, color: AppColors.lightGray)),
-                  focusedBorder: OutlineInputBorder(
-                    borderSide: const BorderSide(width: 1, color: AppColors.nppPurple),
-                    borderRadius: BorderRadius.circular(12.0),
-                  ),
-                  contentPadding: const EdgeInsets.symmetric(horizontal: 10),
-                  focusedErrorBorder: OutlineInputBorder(
-                    borderSide: const BorderSide(width: 1, color: AppColors.nppPurple),
-                    borderRadius: BorderRadius.circular(12.0),
-                  ),
+                contentPadding: const EdgeInsets.symmetric(horizontal: 10),
+                focusedErrorBorder: OutlineInputBorder(
+                  borderSide: const BorderSide(width: 1, color: AppColors.nppPurple),
+                  borderRadius: BorderRadius.circular(12.0),
                 ),
               ),
             ),
@@ -207,6 +203,7 @@ class RequestAccessForm extends StatelessWidget {
             height: 80.0,
             child: TextFormField(
               controller: _waPhoneNoController,
+              // focusNode: _waPhoneNoFieldFocusNode,
               maxLength: 10,
               validator: (value) {
                 if (value == null || value.isEmpty) {
@@ -217,6 +214,9 @@ class RequestAccessForm extends StatelessWidget {
                 }
                 return null;
               },
+              // onEditingComplete: () {
+              //   if (_waPhoneNoFieldFocusNode.hasFocus) _waPhoneNoFieldFocusNode.unfocus();
+              // },
               style: const TextStyle(
                 fontSize: 14.0,
                 fontFamily: SettingsSinhala.engFontFamily,
@@ -268,7 +268,7 @@ class RequestAccessForm extends StatelessWidget {
             height: 80.0,
             child: TextFormField(
               controller: _personalEmailController,
-              focusNode: _personalEmailFieldFocusNode,
+              // focusNode: _personalEmailFieldFocusNode,
               validator: (value) {
                 if (value == null || value.isEmpty) {
                   return 'ms<s;=r wksjd¾hhs';//පිළිතුර අනිවාර්යයි!
@@ -284,6 +284,10 @@ class RequestAccessForm extends StatelessWidget {
                 color: AppColors.black,
                 fontWeight: FontWeight.w500,
               ),
+              // onEditingComplete: () {
+              //   if (_personalEmailFieldFocusNode.hasFocus) _personalEmailFieldFocusNode.unfocus();
+              //   _waPhoneNoFieldFocusNode.requestFocus();
+              // },
               keyboardType: TextInputType.emailAddress,
               // textCapitalization: TextCapitalization.words,
               decoration: InputDecoration(
