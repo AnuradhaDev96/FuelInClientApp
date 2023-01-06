@@ -45,6 +45,7 @@ dependencies:
   hive: ^2.2.3
   encrypt: ^5.0.1
   url_launcher: ^6.1.5
+  flutter_svg: ^1.1.6
 
 
   # The following adds the Cupertino Icons font to your application.
@@ -85,6 +86,7 @@ flutter:
     - assets/images/accommodation/
     - assets/images/weddings/
     - assets/images/logos/
+    - assets/images/svgs/
 
   # An image asset can refer to one or more resolution-specific "variants", see
   # https://flutter.dev/assets-and-images/#resolution-aware

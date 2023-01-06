@@ -27,6 +27,8 @@ import 'src/ui/widgets/authenticated_screen_provider.dart';
 import 'src/ui/widgets/splash_web_screen.dart';
 import 'src/utils/local_storage_utils.dart';
 import 'src/utils/dependency_locator.dart';
+import 'src/utils/navigation_utils.dart';
+import 'src/utils/web_router.dart';
 
 void main() {
 
@@ -130,6 +132,13 @@ class MyApp extends StatelessWidget {
           // textTheme: TextTheme()
 
         ),
+        navigatorKey: GetIt.I<NavigationUtils>().navigationKey,
+        onGenerateRoute: WebRouter.generateRoute,
+        // onGenerateInitialRoutes: (String initialRouteName) {
+        //   return [
+        //     WebRouter.generateRoute(RouteSettings(name: initialRouteName)),
+        //   ];
+        // },
         // home: const ReaderHome(),
         // home: const AdminHome(),
         // home: Consumer<ApplicationAuthNotifier>(

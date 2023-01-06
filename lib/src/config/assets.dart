@@ -23,6 +23,9 @@ class Assets {
   static const String triLanguageLogo = 'assets/images/logos/NPP-LOGO-NEW.png';
   static const String nppGroupCircle = 'assets/images/logos/tab_logo.jpg';
   static const String lockHoodLogo = 'assets/images/logos/lock_hood_logo.png';
+  static const String lockHoodLogoSvg = 'assets/images/logos/lock_hood_logo.svg';
 
+  //svgs
+  static const String lockIconSvg = 'assets/images/svgs/lock_svg.svg';
 
 }

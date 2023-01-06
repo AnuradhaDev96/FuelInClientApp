@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import 'package:flutter_svg/flutter_svg.dart';
 
 import '../../config/app_colors.dart';
 import '../../config/assets.dart';
@@ -11,10 +12,10 @@ class SplashWebScreen extends StatelessWidget {
     return Container(
       color: AppColors.silverPurple,
       child: Center(
-        child: SizedBox(
-          width: 150,
-          height: 70,
-          child: Image.asset(Assets.lockHoodLogo, fit: BoxFit.fill,),
+        child: SvgPicture.asset(
+          Assets.lockHoodLogoSvg,
+          width: 245 * 0.75,
+          height: 36 * 0.75,
         ),
       ),
     );
