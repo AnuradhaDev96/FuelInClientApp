@@ -49,14 +49,14 @@ class DefaultFirebaseOptions {
   }
 
   static const FirebaseOptions webOptions = FirebaseOptions(
-      apiKey: "AIzaSyCtnrlkTYpIdCXAXcwM_i19T3KXIl9EqHk",
-      authDomain: "nppmataradivision.firebaseapp.com",
-      projectId: "nppmataradivision",
-      storageBucket: "nppmataradivision.appspot.com",
-      messagingSenderId: "453100853360",
-      appId: "1:453100853360:web:39458a5a91bb68f3cbbcb5",
-      measurementId: "G-B477DZV451"
-      // databaseURL: "https://bakery-delivery-bc6b9-default-rtdb.firebaseio.com",
+      apiKey: "AIzaSyBRfGMOOmF71GzvekdaCoCthQPbszKp-Sw",
+      authDomain: "lockhoodmanagement.firebaseapp.com",
+      projectId: "lockhoodmanagement",
+      storageBucket: "lockhoodmanagement.appspot.com",
+      messagingSenderId: "514494598039",
+      appId: "1:514494598039:web:ca0f18485bdbb1083192d2",
+      measurementId: "G-YFFQ15CGLT"
+    // databaseURL: "https://bakery-delivery-bc6b9-default-rtdb.firebaseio.com",
   );
 
   static ActionCodeSettings get actionCodeSettings {

@@ -95,7 +95,7 @@ class MyApp extends StatelessWidget {
       ],
       child: MaterialApp(
         debugShowCheckedModeBanner: false,
-        title: 'Matara Portal',
+        title: 'Lock Hood Portal',
         // navigatorKey: ,
         theme: ThemeData(
           // This is the theme of your application.
@@ -110,7 +110,7 @@ class MyApp extends StatelessWidget {
           primarySwatch: Colors.grey,
           brightness: Brightness.light,
           primaryColor: AppColors.grayForPrimary,
-          fontFamily: 'DL-Paras',
+          fontFamily: 'Poppins',
           elevatedButtonTheme: ElevatedButtonThemeData(
             style: ElevatedButton.styleFrom(
               primary: AppColors.nppPurple,
@@ -119,7 +119,7 @@ class MyApp extends StatelessWidget {
                 borderRadius: BorderRadius.circular(4.0),
               ),
               textStyle: const TextStyle(
-                fontFamily: 'DL-Paras',
+                fontFamily: 'Poppins',
                 color: AppColors.black,
                 fontWeight: FontWeight.w500,
                 fontSize: 18.0
