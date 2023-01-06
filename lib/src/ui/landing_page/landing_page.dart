@@ -109,7 +109,7 @@ class _LandingPageState extends State<LandingPage> {
                       child: Container(
                         width: MediaQuery.of(context).size.width * 0.28,
                         // height: double.infinity,
-                        color: AppColors.nppPurple,
+                        color: AppColors.darkPurple,
                         padding: const EdgeInsets.all(8.0),
                         child: _signInSection(),
                       ),
@@ -130,7 +130,7 @@ class _LandingPageState extends State<LandingPage> {
         Container(
           width: MediaQuery.of(context).size.width,
           // height: double.infinity,
-          color: AppColors.nppPurple,
+          color: AppColors.darkPurple,
           padding: const EdgeInsets.all(8.0),
           child: _signInSectionMobile(),
         ),
@@ -149,7 +149,7 @@ class _LandingPageState extends State<LandingPage> {
       },
       children: [
         ExpansionPanel(
-          backgroundColor: AppColors.nppPurple,
+          backgroundColor: AppColors.darkPurple,
           canTapOnHeader: true,
           isExpanded: _mobileLoginPanelExpandStatus[0],
           headerBuilder: (BuildContext context, bool isExpanded) {

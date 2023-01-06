@@ -113,7 +113,7 @@ class MyApp extends StatelessWidget {
           fontFamily: 'Poppins',
           elevatedButtonTheme: ElevatedButtonThemeData(
             style: ElevatedButton.styleFrom(
-              primary: AppColors.nppPurple,
+              primary: AppColors.darkPurple,
               onPrimary: AppColors.white,
               shape: RoundedRectangleBorder(
                 borderRadius: BorderRadius.circular(4.0),

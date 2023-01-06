@@ -588,7 +588,7 @@ class _AccommodationManagementPageState extends State<AccommodationManagementPag
         onPressed: _isUpdateMode ? editAccommodation : registerAccommodation,
         child: Text(
           _isUpdateMode ? "Edit Room" : "Submit Room",
-          style: const TextStyle(color: AppColors.nppPurple, fontSize: 14.0),
+          style: const TextStyle(color: AppColors.darkPurple, fontSize: 14.0),
         ),
       ),
     );
@@ -623,7 +623,7 @@ class _AccommodationManagementPageState extends State<AccommodationManagementPag
         },
         child: const Text(
           "Reset",
-          style: TextStyle(color: AppColors.nppPurple, fontSize: 14.0),
+          style: TextStyle(color: AppColors.darkPurple, fontSize: 14.0),
         ),
       ),
     );
@@ -1127,7 +1127,7 @@ class _AccommodationManagementPageState extends State<AccommodationManagementPag
     return Padding(
       padding: const EdgeInsets.symmetric(horizontal: 5.0),
       child: Chip(
-        backgroundColor: AppColors.nppPurple,
+        backgroundColor: AppColors.darkPurple,
         padding: const EdgeInsets.all(4.0),
         label: Text("$roomNumber"),
         elevation: 4.0,
@@ -1153,7 +1153,7 @@ class _AccommodationManagementPageState extends State<AccommodationManagementPag
         onPressed: addRoomNumberAction,
         child: const Text(
           "Add Room Number",
-          style: TextStyle(color: AppColors.nppPurple, fontSize: 14.0),
+          style: TextStyle(color: AppColors.darkPurple, fontSize: 14.0),
         ),
       ),
     );

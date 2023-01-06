@@ -361,7 +361,7 @@ class _ReservationPageState extends State<ReservationPage> {
                           child: const Text(
                             "Calculate Total",
                             style: TextStyle(
-                                color: AppColors.nppPurple
+                                color: AppColors.darkPurple
                             ),
                           ),
                           onPressed: () => calculateTotalCost(),
@@ -428,7 +428,7 @@ class _ReservationPageState extends State<ReservationPage> {
                                             child: const Text(
                                               "Proceed to checkout",
                                               style: TextStyle(
-                                                  color: AppColors.nppPurple
+                                                  color: AppColors.darkPurple
                                               ),
                                             ),
                                             onPressed: () => proceedToCheckoutReservation(),
@@ -499,7 +499,7 @@ class _ReservationPageState extends State<ReservationPage> {
                   child: Text(
                     accommodation.roomName ?? "-",
                     style: const TextStyle(
-                        color: AppColors.nppPurple
+                        color: AppColors.darkPurple
                     ),
                   ),
                 ),
@@ -516,7 +516,7 @@ class _ReservationPageState extends State<ReservationPage> {
                       child: Text(
                         "$availableRoomCount rooms available",
                         style: const TextStyle(
-                          color: AppColors.nppPurple,
+                          color: AppColors.darkPurple,
                           fontSize: 12.0,
                         ),
                       ),

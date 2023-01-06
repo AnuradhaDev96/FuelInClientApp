@@ -72,7 +72,7 @@ class _AdministrativeDivisionsListState extends State<AdministrativeDivisionsLis
                             // iconSize: 15.0,
                             // color: AppColors.nppPurple,
                             // padding: const EdgeInsets.all(5.0),
-                            fillColor: AppColors.nppPurple,
+                            fillColor: AppColors.darkPurple,
                             shape: const RoundedRectangleBorder(borderRadius: BorderRadius.all(Radius.circular(5.0))),
                             child: const Icon(
                               Icons.add,
@@ -113,7 +113,7 @@ class _AdministrativeDivisionsListState extends State<AdministrativeDivisionsLis
                         // iconSize: 15.0,
                         // color: AppColors.nppPurple,
                         // padding: const EdgeInsets.all(5.0),
-                        fillColor: AppColors.nppPurple,
+                        fillColor: AppColors.darkPurple,
                         shape: const RoundedRectangleBorder(borderRadius: BorderRadius.all(Radius.circular(5.0))),
                         child: const Icon(
                           Icons.add,
@@ -127,7 +127,7 @@ class _AdministrativeDivisionsListState extends State<AdministrativeDivisionsLis
                 ],
               ),
         const SizedBox(height: 5.0),
-        Container(color: AppColors.nppPurple,height: 2.0,),
+        Container(color: AppColors.darkPurple,height: 2.0,),
         const SizedBox(height: 8.0),
         StreamBuilder(
           stream: _administrativeUnitsService.getDivisionalSecretariatsStream(),
@@ -142,7 +142,7 @@ class _AdministrativeDivisionsListState extends State<AdministrativeDivisionsLis
                       height: 40,
                       child: CircularProgressIndicator(
                         strokeWidth: 5,
-                        color: AppColors.nppPurple,
+                        color: AppColors.darkPurple,
                       ),
                     )),
               );
@@ -183,7 +183,7 @@ class _AdministrativeDivisionsListState extends State<AdministrativeDivisionsLis
               return ExpansionPanelList(
                 // shrinkWrap: true,
                 expandedHeaderPadding: const EdgeInsets.symmetric(vertical: 5.0),
-                dividerColor: AppColors.nppPurple,
+                dividerColor: AppColors.darkPurple,
                 animationDuration: const Duration(milliseconds: 1200),
                 expansionCallback: (int panelIndex, bool isExpanded) {
                   setState(() {
@@ -226,7 +226,7 @@ class _AdministrativeDivisionsListState extends State<AdministrativeDivisionsLis
               divisionalSecretariat.sinhalaValue,
               style: const TextStyle(
                 fontFamily: SettingsSinhala.unicodeSinhalaFontFamily,
-                color: AppColors.nppPurple,
+                color: AppColors.darkPurple,
               ),
             ),
             trailing: SizedBox(
@@ -242,7 +242,7 @@ class _AdministrativeDivisionsListState extends State<AdministrativeDivisionsLis
                       Icons.add_circle_outline,
                     ),
                     splashRadius: 25.0,
-                    color: AppColors.nppPurple,
+                    color: AppColors.darkPurple,
                     // hoverColor: AppColors.appBarColor,
                   ),
                   IconButton(
@@ -251,7 +251,7 @@ class _AdministrativeDivisionsListState extends State<AdministrativeDivisionsLis
                       Icons.delete_outline,
                     ),
                     splashRadius: 25.0,
-                    color: AppColors.nppPurple,
+                    color: AppColors.darkPurple,
                   ),
 
                 ],
@@ -344,7 +344,7 @@ class DivisionalSecretariatExpansionPanelContent extends StatelessWidget {
                       child: LinearProgressIndicator(
                         // strokeWidth: 5,
                         backgroundColor: AppColors.silverPurple,
-                        color: AppColors.nppPurple,
+                        color: AppColors.darkPurple,
                         minHeight: null,
                       ),
                     ),

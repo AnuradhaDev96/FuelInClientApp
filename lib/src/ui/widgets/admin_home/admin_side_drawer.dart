@@ -80,7 +80,7 @@ class _AdminSideDrawerState extends State<AdminSideDrawer> {
                       borderRadius: BorderRadius.only(topRight: Radius.circular(15.0), bottomRight: Radius.circular(15.0))
                   ),
                   // hoverColor: Colors.red,
-                  tileColor: _sideDrawerNotifier.selectedPageTypeByAdmin == AdminScreenBuckets.systemAccessRequests ? AppColors.nppPurple : null,
+                  tileColor: _sideDrawerNotifier.selectedPageTypeByAdmin == AdminScreenBuckets.systemAccessRequests ? AppColors.darkPurple : null,
                   title: Text(
                     AdminScreenBuckets.systemAccessRequests.toDisplayString(),
                     style: const TextStyle(color: AppColors.white),
@@ -94,7 +94,7 @@ class _AdminSideDrawerState extends State<AdminSideDrawer> {
                       borderRadius: BorderRadius.only(topRight: Radius.circular(15.0), bottomRight: Radius.circular(15.0))
                   ),
                   // hoverColor: Colors.red,
-                  tileColor: _sideDrawerNotifier.selectedPageTypeByAdmin == AdminScreenBuckets.systemRoleManagement ? AppColors.nppPurple : null,
+                  tileColor: _sideDrawerNotifier.selectedPageTypeByAdmin == AdminScreenBuckets.systemRoleManagement ? AppColors.darkPurple : null,
                   title: Text(
                     AdminScreenBuckets.systemRoleManagement.toDisplayString(),
                     style: const TextStyle(color: AppColors.white),
@@ -113,7 +113,7 @@ class _AdminSideDrawerState extends State<AdminSideDrawer> {
                   ),
                   tileColor:
                       _sideDrawerNotifier.selectedPageTypeByAdmin == AdminScreenBuckets.administrativeUnitManagement
-                          ? AppColors.nppPurple
+                          ? AppColors.darkPurple
                           : null,
                   onTap: () {
                     _sideDrawerNotifier.selectedPageTypeByAdmin = AdminScreenBuckets.administrativeUnitManagement;

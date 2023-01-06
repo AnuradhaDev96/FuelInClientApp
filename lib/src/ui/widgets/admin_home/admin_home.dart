@@ -99,7 +99,7 @@ class _AdminHomeState extends State<AdminHome> {
                                     Icons.menu_rounded,
                                   ),
                                   splashRadius: 25.0,
-                                  color: AppColors.nppPurple,
+                                  color: AppColors.darkPurple,
                                   // hoverColor: AppColors.appBarColor,
                                 ),
                                 Expanded(

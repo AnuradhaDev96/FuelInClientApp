@@ -12,9 +12,9 @@ class SplashWebScreen extends StatelessWidget {
       color: AppColors.silverPurple,
       child: Center(
         child: SizedBox(
-          width: 250,
-          height: 80,
-          child: Image.asset(Assets.triLanguageLogo, fit: BoxFit.fill,),
+          width: 150,
+          height: 70,
+          child: Image.asset(Assets.lockHoodLogo, fit: BoxFit.fill,),
         ),
       ),
     );

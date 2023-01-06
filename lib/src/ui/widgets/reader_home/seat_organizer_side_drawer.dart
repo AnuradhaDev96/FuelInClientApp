@@ -81,7 +81,7 @@ class _SeatOrganizerSideDrawerState extends State<SeatOrganizerSideDrawer> {
                       borderRadius: BorderRadius.only(topRight: Radius.circular(15.0), bottomRight: Radius.circular(15.0))
                   ),
                   // hoverColor: Colors.red,
-                  tileColor: _sideDrawerNotifier.selectedPageType == ScreenBuckets.membersManagement ? AppColors.nppPurple : null,
+                  tileColor: _sideDrawerNotifier.selectedPageType == ScreenBuckets.membersManagement ? AppColors.darkPurple : null,
                   title: Text(
                     ScreenBuckets.membersManagement.toDisplayString(),
                     style: const TextStyle(color: AppColors.white),

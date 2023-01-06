@@ -6,8 +6,8 @@ class AppColors {
   static const Color primaryColor = Colors.grey;
 
   //
-  static const Color silverPurple = Color(0xFFF8D7F0);
-  static const Color nppPurple = Color(0xFF970059);
+  static const Color silverPurple = Color(0xFFA573E8);
+  static const Color darkPurple = Color(0xFF552494);
   static const Color ashYellow = Color(0xFFF5E3B7);
   static const Color ashGreen = Color(0xFFC9F5B7);
   static const Color lightGray = Color(0xFFEEEEEE);

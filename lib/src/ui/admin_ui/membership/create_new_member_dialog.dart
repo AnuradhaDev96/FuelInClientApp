@@ -106,7 +106,7 @@ class CreateNewMemberDialog extends StatelessWidget {
                 ),
                 TextSpan(
                   text: ("*"),
-                  style: TextStyle(fontFamily: SettingsSinhala.engFontFamily, color: AppColors.nppPurple),
+                  style: TextStyle(fontFamily: SettingsSinhala.engFontFamily, color: AppColors.darkPurple),
                 ),
               ],
             ),
@@ -154,12 +154,12 @@ class CreateNewMemberDialog extends StatelessWidget {
                           borderRadius: BorderRadius.circular(12.0),
                           borderSide: const BorderSide(width: 1, color: AppColors.lightGray)),
                       focusedBorder: OutlineInputBorder(
-                        borderSide: const BorderSide(width: 1, color: AppColors.nppPurple),
+                        borderSide: const BorderSide(width: 1, color: AppColors.darkPurple),
                         borderRadius: BorderRadius.circular(12.0),
                       ),
                       contentPadding: const EdgeInsets.symmetric(horizontal: 10),
                       focusedErrorBorder: OutlineInputBorder(
-                        borderSide: const BorderSide(width: 1, color: AppColors.nppPurple),
+                        borderSide: const BorderSide(width: 1, color: AppColors.darkPurple),
                         borderRadius: BorderRadius.circular(12.0),
                       ),
                     ),
@@ -195,7 +195,7 @@ class CreateNewMemberDialog extends StatelessWidget {
                 ),
                 TextSpan(
                   text: ("*"),
-                  style: TextStyle(fontFamily: SettingsSinhala.engFontFamily, color: AppColors.nppPurple),
+                  style: TextStyle(fontFamily: SettingsSinhala.engFontFamily, color: AppColors.darkPurple),
                 ),
               ],
             ),
@@ -240,12 +240,12 @@ class CreateNewMemberDialog extends StatelessWidget {
                           borderRadius: BorderRadius.circular(12.0),
                           borderSide: const BorderSide(width: 1, color: AppColors.lightGray)),
                       focusedBorder: OutlineInputBorder(
-                        borderSide: const BorderSide(width: 1, color: AppColors.nppPurple),
+                        borderSide: const BorderSide(width: 1, color: AppColors.darkPurple),
                         borderRadius: BorderRadius.circular(12.0),
                       ),
                       contentPadding: const EdgeInsets.symmetric(horizontal: 10),
                       focusedErrorBorder: OutlineInputBorder(
-                        borderSide: const BorderSide(width: 1, color: AppColors.nppPurple),
+                        borderSide: const BorderSide(width: 1, color: AppColors.darkPurple),
                         borderRadius: BorderRadius.circular(12.0),
                       ),
                     ),
@@ -281,7 +281,7 @@ class CreateNewMemberDialog extends StatelessWidget {
                 ),
                 TextSpan(
                   text: ("*"),
-                  style: TextStyle(fontFamily: SettingsSinhala.engFontFamily, color: AppColors.nppPurple),
+                  style: TextStyle(fontFamily: SettingsSinhala.engFontFamily, color: AppColors.darkPurple),
                 ),
               ],
             ),
@@ -327,12 +327,12 @@ class CreateNewMemberDialog extends StatelessWidget {
                           borderRadius: BorderRadius.circular(12.0),
                           borderSide: const BorderSide(width: 1, color: AppColors.lightGray)),
                       focusedBorder: OutlineInputBorder(
-                        borderSide: const BorderSide(width: 1, color: AppColors.nppPurple),
+                        borderSide: const BorderSide(width: 1, color: AppColors.darkPurple),
                         borderRadius: BorderRadius.circular(12.0),
                       ),
                       contentPadding: const EdgeInsets.symmetric(horizontal: 10),
                       focusedErrorBorder: OutlineInputBorder(
-                        borderSide: const BorderSide(width: 1, color: AppColors.nppPurple),
+                        borderSide: const BorderSide(width: 1, color: AppColors.darkPurple),
                         borderRadius: BorderRadius.circular(12.0),
                       ),
                     ),
@@ -368,7 +368,7 @@ class CreateNewMemberDialog extends StatelessWidget {
                 ),
                 TextSpan(
                   text: ("*"),
-                  style: TextStyle(fontFamily: SettingsSinhala.engFontFamily, color: AppColors.nppPurple),
+                  style: TextStyle(fontFamily: SettingsSinhala.engFontFamily, color: AppColors.darkPurple),
                 ),
               ],
             ),
@@ -413,12 +413,12 @@ class CreateNewMemberDialog extends StatelessWidget {
                           borderRadius: BorderRadius.circular(12.0),
                           borderSide: const BorderSide(width: 1, color: AppColors.lightGray)),
                       focusedBorder: OutlineInputBorder(
-                        borderSide: const BorderSide(width: 1, color: AppColors.nppPurple),
+                        borderSide: const BorderSide(width: 1, color: AppColors.darkPurple),
                         borderRadius: BorderRadius.circular(12.0),
                       ),
                       contentPadding: const EdgeInsets.symmetric(horizontal: 10),
                       focusedErrorBorder: OutlineInputBorder(
-                        borderSide: const BorderSide(width: 1, color: AppColors.nppPurple),
+                        borderSide: const BorderSide(width: 1, color: AppColors.darkPurple),
                         borderRadius: BorderRadius.circular(12.0),
                       ),
                     ),
@@ -454,7 +454,7 @@ class CreateNewMemberDialog extends StatelessWidget {
                 ),
                 TextSpan(
                   text: ("*"),
-                  style: TextStyle(fontFamily: SettingsSinhala.engFontFamily, color: AppColors.nppPurple),
+                  style: TextStyle(fontFamily: SettingsSinhala.engFontFamily, color: AppColors.darkPurple),
                 ),
               ],
             ),
@@ -499,12 +499,12 @@ class CreateNewMemberDialog extends StatelessWidget {
                           borderRadius: BorderRadius.circular(12.0),
                           borderSide: const BorderSide(width: 1, color: AppColors.lightGray)),
                       focusedBorder: OutlineInputBorder(
-                        borderSide: const BorderSide(width: 1, color: AppColors.nppPurple),
+                        borderSide: const BorderSide(width: 1, color: AppColors.darkPurple),
                         borderRadius: BorderRadius.circular(12.0),
                       ),
                       contentPadding: const EdgeInsets.symmetric(horizontal: 10),
                       focusedErrorBorder: OutlineInputBorder(
-                        borderSide: const BorderSide(width: 1, color: AppColors.nppPurple),
+                        borderSide: const BorderSide(width: 1, color: AppColors.darkPurple),
                         borderRadius: BorderRadius.circular(12.0),
                       ),
                     ),
@@ -540,7 +540,7 @@ class CreateNewMemberDialog extends StatelessWidget {
                 ),
                 TextSpan(
                   text: ("*"),
-                  style: TextStyle(fontFamily: SettingsSinhala.engFontFamily, color: AppColors.nppPurple),
+                  style: TextStyle(fontFamily: SettingsSinhala.engFontFamily, color: AppColors.darkPurple),
                 ),
               ],
             ),
@@ -588,12 +588,12 @@ class CreateNewMemberDialog extends StatelessWidget {
                           borderRadius: BorderRadius.circular(12.0),
                           borderSide: const BorderSide(width: 1, color: AppColors.lightGray)),
                       focusedBorder: OutlineInputBorder(
-                        borderSide: const BorderSide(width: 1, color: AppColors.nppPurple),
+                        borderSide: const BorderSide(width: 1, color: AppColors.darkPurple),
                         borderRadius: BorderRadius.circular(12.0),
                       ),
                       contentPadding: const EdgeInsets.symmetric(horizontal: 10),
                       focusedErrorBorder: OutlineInputBorder(
-                        borderSide: const BorderSide(width: 1, color: AppColors.nppPurple),
+                        borderSide: const BorderSide(width: 1, color: AppColors.darkPurple),
                         borderRadius: BorderRadius.circular(12.0),
                       ),
                     ),
@@ -614,7 +614,7 @@ class CreateNewMemberDialog extends StatelessWidget {
                     onChanged: (value) {
                       _secondPhoneAvailabilityNotifier.value = value!;
                     },
-                    activeColor: AppColors.nppPurple,
+                    activeColor: AppColors.darkPurple,
                   );
                 },
               ),
@@ -668,7 +668,7 @@ class CreateNewMemberDialog extends StatelessWidget {
                                   icon: const Icon(
                                     Icons.date_range_outlined,
                                     size: 20.0,
-                                    color: AppColors.nppPurple,
+                                    color: AppColors.darkPurple,
                                   ),
                                   onPressed: () => _pickDateInForm(context),
                                   tooltip: "Èkh f;darkak",//දිනය තෝරන්න
@@ -771,12 +771,12 @@ class CreateNewMemberDialog extends StatelessWidget {
                               borderRadius: BorderRadius.circular(12.0),
                               borderSide: const BorderSide(width: 1, color: AppColors.lightGray)),
                           focusedBorder: OutlineInputBorder(
-                            borderSide: const BorderSide(width: 1, color: AppColors.nppPurple),
+                            borderSide: const BorderSide(width: 1, color: AppColors.darkPurple),
                             borderRadius: BorderRadius.circular(12.0),
                           ),
                           contentPadding: const EdgeInsets.symmetric(horizontal: 10),
                           focusedErrorBorder: OutlineInputBorder(
-                            borderSide: const BorderSide(width: 1, color: AppColors.nppPurple),
+                            borderSide: const BorderSide(width: 1, color: AppColors.darkPurple),
                             borderRadius: BorderRadius.circular(12.0),
                           ),
                         ),
@@ -855,12 +855,12 @@ class CreateNewMemberDialog extends StatelessWidget {
                           borderRadius: BorderRadius.circular(12.0),
                           borderSide: const BorderSide(width: 1, color: AppColors.lightGray)),
                       focusedBorder: OutlineInputBorder(
-                        borderSide: const BorderSide(width: 1, color: AppColors.nppPurple),
+                        borderSide: const BorderSide(width: 1, color: AppColors.darkPurple),
                         borderRadius: BorderRadius.circular(12.0),
                       ),
                       contentPadding: const EdgeInsets.symmetric(horizontal: 10),
                       focusedErrorBorder: OutlineInputBorder(
-                        borderSide: const BorderSide(width: 1, color: AppColors.nppPurple),
+                        borderSide: const BorderSide(width: 1, color: AppColors.darkPurple),
                         borderRadius: BorderRadius.circular(12.0),
                       ),
                     ),
@@ -969,12 +969,12 @@ class CreateNewMemberDialog extends StatelessWidget {
                           borderRadius: BorderRadius.circular(12.0),
                           borderSide: const BorderSide(width: 1, color: AppColors.lightGray)),
                       focusedBorder: OutlineInputBorder(
-                        borderSide: const BorderSide(width: 1, color: AppColors.nppPurple),
+                        borderSide: const BorderSide(width: 1, color: AppColors.darkPurple),
                         borderRadius: BorderRadius.circular(12.0),
                       ),
                       contentPadding: const EdgeInsets.symmetric(horizontal: 10),
                       focusedErrorBorder: OutlineInputBorder(
-                        borderSide: const BorderSide(width: 1, color: AppColors.nppPurple),
+                        borderSide: const BorderSide(width: 1, color: AppColors.darkPurple),
                         borderRadius: BorderRadius.circular(12.0),
                       ),
                     ),
@@ -1051,12 +1051,12 @@ class CreateNewMemberDialog extends StatelessWidget {
                           borderRadius: BorderRadius.circular(12.0),
                           borderSide: const BorderSide(width: 1, color: AppColors.lightGray)),
                       focusedBorder: OutlineInputBorder(
-                        borderSide: const BorderSide(width: 1, color: AppColors.nppPurple),
+                        borderSide: const BorderSide(width: 1, color: AppColors.darkPurple),
                         borderRadius: BorderRadius.circular(12.0),
                       ),
                       contentPadding: const EdgeInsets.symmetric(horizontal: 10),
                       focusedErrorBorder: OutlineInputBorder(
-                        borderSide: const BorderSide(width: 1, color: AppColors.nppPurple),
+                        borderSide: const BorderSide(width: 1, color: AppColors.darkPurple),
                         borderRadius: BorderRadius.circular(12.0),
                       ),
                     ),
@@ -1133,12 +1133,12 @@ class CreateNewMemberDialog extends StatelessWidget {
                           borderRadius: BorderRadius.circular(12.0),
                           borderSide: const BorderSide(width: 1, color: AppColors.lightGray)),
                       focusedBorder: OutlineInputBorder(
-                        borderSide: const BorderSide(width: 1, color: AppColors.nppPurple),
+                        borderSide: const BorderSide(width: 1, color: AppColors.darkPurple),
                         borderRadius: BorderRadius.circular(12.0),
                       ),
                       contentPadding: const EdgeInsets.symmetric(horizontal: 10),
                       focusedErrorBorder: OutlineInputBorder(
-                        borderSide: const BorderSide(width: 1, color: AppColors.nppPurple),
+                        borderSide: const BorderSide(width: 1, color: AppColors.darkPurple),
                         borderRadius: BorderRadius.circular(12.0),
                       ),
                     ),
@@ -1215,12 +1215,12 @@ class CreateNewMemberDialog extends StatelessWidget {
                           borderRadius: BorderRadius.circular(12.0),
                           borderSide: const BorderSide(width: 1, color: AppColors.lightGray)),
                       focusedBorder: OutlineInputBorder(
-                        borderSide: const BorderSide(width: 1, color: AppColors.nppPurple),
+                        borderSide: const BorderSide(width: 1, color: AppColors.darkPurple),
                         borderRadius: BorderRadius.circular(12.0),
                       ),
                       contentPadding: const EdgeInsets.symmetric(horizontal: 10),
                       focusedErrorBorder: OutlineInputBorder(
-                        borderSide: const BorderSide(width: 1, color: AppColors.nppPurple),
+                        borderSide: const BorderSide(width: 1, color: AppColors.darkPurple),
                         borderRadius: BorderRadius.circular(12.0),
                       ),
                     ),
@@ -1262,7 +1262,7 @@ class CreateNewMemberDialog extends StatelessWidget {
         },
         child: const Text(
           "Cancel",
-          style: TextStyle(color: AppColors.nppPurple, fontSize: 14.0, fontFamily: SettingsSinhala.engFontFamily),
+          style: TextStyle(color: AppColors.darkPurple, fontSize: 14.0, fontFamily: SettingsSinhala.engFontFamily),
         ),
       ),
     );
@@ -1289,7 +1289,7 @@ class CreateNewMemberDialog extends StatelessWidget {
         return Theme(
           data: Theme.of(context).copyWith(
             colorScheme: const ColorScheme.light(
-              primary: AppColors.nppPurple,
+              primary: AppColors.darkPurple,
               onPrimary: AppColors.lightGray,
               surface: AppColors.silverPurple,
               onSurface: AppColors.black,

@@ -142,7 +142,7 @@ class _RoomForReservationItemBuilderState extends State<RoomForReservationItemBu
                               Icons.bedroom_parent_outlined,
                               size: 15.0,
                             ),
-                            dropdownColor: AppColors.nppPurple,
+                            dropdownColor: AppColors.darkPurple,
                             value: _roomForReservationModel.roomCountForOrder,
                             isExpanded: false,
                             hint: const Text(
@@ -190,7 +190,7 @@ class _RoomForReservationItemBuilderState extends State<RoomForReservationItemBu
                                 Icons.family_restroom_rounded,
                                 size: 15.0,
                               ),
-                              dropdownColor: AppColors.nppPurple,
+                              dropdownColor: AppColors.darkPurple,
                               value: _roomForReservationModel.noOfGuests,
                               isExpanded: false,
                               hint: const Text(

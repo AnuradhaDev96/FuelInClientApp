@@ -491,7 +491,7 @@ class _ReservationProceedCheckoutDialogState extends State<ReservationProceedChe
         onPressed: proceedPaymentAction,
         child: const Text(
           "Proceed Payment",
-          style: TextStyle(color: AppColors.nppPurple, fontSize: 16.0),
+          style: TextStyle(color: AppColors.darkPurple, fontSize: 16.0),
         ),
       ),
     );

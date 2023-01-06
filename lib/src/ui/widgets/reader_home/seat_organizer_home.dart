@@ -101,7 +101,7 @@ class _SeatOrganizerHomeState extends State<SeatOrganizerHome> {
                                     Icons.menu_rounded,
                                   ),
                                   splashRadius: 25.0,
-                                  color: AppColors.nppPurple,
+                                  color: AppColors.darkPurple,
                                   // hoverColor: AppColors.appBarColor,
                                 ),
                                 Expanded(

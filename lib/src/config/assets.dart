@@ -22,5 +22,7 @@ class Assets {
   //logos
   static const String triLanguageLogo = 'assets/images/logos/NPP-LOGO-NEW.png';
   static const String nppGroupCircle = 'assets/images/logos/tab_logo.jpg';
+  static const String lockHoodLogo = 'assets/images/logos/lock_hood_logo.png';
+
 
 }

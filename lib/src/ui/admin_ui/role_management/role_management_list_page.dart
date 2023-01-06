@@ -52,7 +52,7 @@ class RoleManagementListPage extends StatelessWidget {
           ],
         ),
         const SizedBox(height: 5.0),
-        Container(color: AppColors.nppPurple,height: 2.0,),
+        Container(color: AppColors.darkPurple,height: 2.0,),
         const SizedBox(height: 8.0),
         StreamBuilder(
           stream: _authService.getUsersForAdminStream(),
@@ -66,7 +66,7 @@ class RoleManagementListPage extends StatelessWidget {
                       height: 40,
                       child: CircularProgressIndicator(
                         strokeWidth: 5,
-                        color: AppColors.nppPurple,
+                        color: AppColors.darkPurple,
                       ),
                     )),
               );
@@ -152,7 +152,7 @@ class RoleManagementListPage extends StatelessWidget {
               onPressed: () {},
               child: const Text(
                 "bj;alrkak",//ඉවත්කරන්න
-                style: TextStyle(color: AppColors.nppPurple, fontSize: 14.0),
+                style: TextStyle(color: AppColors.darkPurple, fontSize: 14.0),
               ),
             ),
           ],
@@ -173,7 +173,7 @@ class RoleManagementListPage extends StatelessWidget {
           children: [
             ElevatedButton(
               style: Theme.of(context).elevatedButtonTheme.style!.copyWith(
-                backgroundColor: MaterialStateProperty.all(AppColors.nppPurple),
+                backgroundColor: MaterialStateProperty.all(AppColors.darkPurple),
               ),
               // onPressed: () => _selectReservationToAssignRooms(context, reservation),
               onPressed: () => _navigateToPermissionsPage(context, systemUser),

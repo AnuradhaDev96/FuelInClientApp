@@ -43,7 +43,7 @@ class AccommodationList extends StatelessWidget {
               child: Text(
                 accommodation.roomName ?? "-",
                 style: const TextStyle(
-                    color: AppColors.nppPurple
+                    color: AppColors.darkPurple
                 ),
               ),
             ),

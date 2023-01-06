@@ -75,7 +75,7 @@ class _VerifyEmailPageState extends State<VerifyEmailPage> {
                   end: Alignment.bottomRight,
                   colors: [
                     AppColors.nppPurpleLight,
-                    AppColors.nppPurple,
+                    AppColors.darkPurple,
                     AppColors.nppPurpleDark,
                   ]
                 )
@@ -106,7 +106,7 @@ class _VerifyEmailPageState extends State<VerifyEmailPage> {
                                       fontFamily: 'DL-Paras',
                                       fontWeight: FontWeight.w500,
                                       fontSize: 18.0,
-                                      color: AppColors.nppPurple)),
+                                      color: AppColors.darkPurple)),
                                 ),
                             onPressed: () => _sendVerificationEmail(),
                             child: const Text(
@@ -150,7 +150,7 @@ class _VerifyEmailPageState extends State<VerifyEmailPage> {
                           fontFamily: 'DL-Paras',
                           fontWeight: FontWeight.w500,
                           fontSize: 18.0,
-                          color: AppColors.nppPurple
+                          color: AppColors.darkPurple
                         )),
                       ),
                       onPressed: () => _logOutAction(context),
