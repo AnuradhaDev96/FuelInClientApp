@@ -2,7 +2,7 @@ import 'package:hive/hive.dart';
 
 import '../enums/user_types.dart';
 
-part '../hive_generated/authenticated_user.g.dart';
+part 'authenticated_user.g.dart';
 
 
 @HiveType(typeId: 0)

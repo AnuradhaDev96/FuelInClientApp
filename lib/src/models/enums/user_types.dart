@@ -1,6 +1,6 @@
 import 'package:hive/hive.dart';
 
-part '../hive_generated/user_types.g.dart';
+part 'user_types.g.dart';
 
 @HiveType(typeId: 1)
 enum UserTypes {
