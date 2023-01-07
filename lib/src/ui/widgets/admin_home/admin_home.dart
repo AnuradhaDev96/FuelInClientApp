@@ -35,8 +35,8 @@ class AdminHome extends StatefulWidget {
 class _AdminHomeState extends State<AdminHome> {
   late final SideDrawerNotifier _sideDrawerNotifier;
   final PageStorageBucket screenBucket = PageStorageBucket();
-  AdminScreenBuckets _selectedPageIndex = AdminScreenBuckets.systemAccessRequests;
-  String _selectedPageTitle = AdminScreenBuckets.systemAccessRequests.toDisplayString();
+  AdminScreenBuckets _selectedPageIndex = AdminScreenBuckets.overview;
+  String _selectedPageTitle = AdminScreenBuckets.overview.toDisplayString();
 
   @override
   void initState() {
@@ -45,7 +45,7 @@ class _AdminHomeState extends State<AdminHome> {
     _sideDrawerNotifier.addListener(() {
       if(mounted) {
         setState(() {
-          _selectedPageIndex = _sideDrawerNotifier.selectedPageTypeByAdmin ?? AdminScreenBuckets.systemAccessRequests;
+          _selectedPageIndex = _sideDrawerNotifier.selectedPageTypeByAdmin ?? AdminScreenBuckets.overview;
           _selectedPageTitle = _sideDrawerNotifier.selectedPageTitleByAdmin();
         });
       }
@@ -57,6 +57,7 @@ class _AdminHomeState extends State<AdminHome> {
   Widget build(BuildContext context) {
     return Scaffold(
       key: _sideDrawerNotifier.adminScaffoldKey,
+      backgroundColor: AppColors.lightPurpleBackground,
       drawer: AdminSideDrawer(),
       body: Row(
         crossAxisAlignment: CrossAxisAlignment.start,
@@ -171,11 +172,11 @@ class _AdminHomeState extends State<AdminHome> {
 
   Widget buildPages() {
     switch (_selectedPageIndex) {
-      case AdminScreenBuckets.systemAccessRequests:
+      case AdminScreenBuckets.overview:
         return const AccessRequestPageView();
-      case AdminScreenBuckets.systemRoleManagement:
+      case AdminScreenBuckets.inventory:
         return const RoleManagementPageView();
-      case AdminScreenBuckets.administrativeUnitManagement:
+      case AdminScreenBuckets.workMonitoring:
         return const AdministrativeUnitsPageView();
       default:
         return const SizedBox(width: 0, height: 0);

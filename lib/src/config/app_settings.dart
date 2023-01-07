@@ -1,3 +1,4 @@
+import '../models/enums/kanban_status.dart';
 import '../models/enums/user_types.dart';
 
 class AppSettings {
@@ -45,6 +46,16 @@ class AppSettings {
       case 3: return UserTypes.lowLevel;
       case 4: return UserTypes.labourer;
       default: return UserTypes.labourer;
+    }
+  }
+
+  static KanBanStatus getKanBanTaskStatusEnumValueForInteger(int? value) {
+    switch (value) {
+      case 0: return KanBanStatus.newTask;
+      case 1: return KanBanStatus.inProgress;
+      case 2: return KanBanStatus.onHold;
+      case 3: return KanBanStatus.completed;
+      default: return KanBanStatus.newTask;
     }
   }
 }
