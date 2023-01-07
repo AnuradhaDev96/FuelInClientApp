@@ -63,7 +63,7 @@ class RegisterUserForAccessRequestPage extends StatelessWidget {
                       // iconSize: 15.0,
                       // color: AppColors.nppPurple,
                       // padding: const EdgeInsets.all(5.0),
-                      fillColor: AppColors.nppPurple,
+                      fillColor: AppColors.darkPurple,
                       shape: const RoundedRectangleBorder(borderRadius: BorderRadius.all(Radius.circular(5.0))),
                       child: const Icon(Icons.keyboard_backspace_outlined, size: 25.0, color: AppColors.white,),
 
@@ -74,7 +74,7 @@ class RegisterUserForAccessRequestPage extends StatelessWidget {
               ],
             ),
             const SizedBox(height: 5.0),
-            Container(color: AppColors.nppPurple,height: 2.0,),
+            Container(color: AppColors.darkPurple,height: 2.0,),
             const SizedBox(height: 8.0),
             Scrollbar(
               controller: _horizontalScrollController,
@@ -114,7 +114,7 @@ class RegisterUserForAccessRequestPage extends StatelessWidget {
                     DataRow(cells: [
                       DataCell(Text(requestAccessModel.fullName)),
                       DataCell(Text(requestAccessModel.email)),
-                      DataCell(Text("${requestAccessModel.waPhoneNumber}")),
+                      DataCell(Text("${requestAccessModel.phoneNumber}")),
                       DataCell(Text(
                         "${requestAccessModel.userType?.toDisplaySinhalaString()}",
                         style: const TextStyle(fontFamily: 'DL-Paras'),

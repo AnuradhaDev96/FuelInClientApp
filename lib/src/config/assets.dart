@@ -22,5 +22,16 @@ class Assets {
   //logos
   static const String triLanguageLogo = 'assets/images/logos/NPP-LOGO-NEW.png';
   static const String nppGroupCircle = 'assets/images/logos/tab_logo.jpg';
+  static const String lockHoodLogo = 'assets/images/logos/lock_hood_logo.png';
+  static const String lockHoodLogoSvg = 'assets/images/logos/lock_hood_logo.svg';
+
+  //svgs
+  static const String lockIconSvg = 'assets/images/svgs/lock_svg.svg';
+  static const String drawerLogoSvg = 'assets/images/svgs/drawer_logo.svg';
+  static const String inventoryLogoSvg = 'assets/images/svgs/inventory_icon.svg';
+  static const String overviewLogoSvg = 'assets/images/svgs/overview_icon.svg';
+  static const String workMonitoringLogoSvg = 'assets/images/svgs/work_monitor_icon.svg';
+  static const String scheduleTaskLogoSvg = 'assets/images/svgs/schedule_task_icon.svg';
+  static const String reportingArenaLogoSvg = 'assets/images/svgs/reporting_arena_icon.svg';
 
 }

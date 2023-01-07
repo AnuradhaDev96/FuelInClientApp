@@ -8,6 +8,8 @@ import 'package:matara_division_system/src/models/authentication/request_access_
 import 'package:matara_division_system/src/models/enums/access_request_status.dart';
 import 'package:matara_division_system/src/utils/common_utils.dart';
 import 'package:matara_division_system/src/utils/local_storage_utils.dart';
+import '../api_providers/main_api_provider.dart';
+import '../models/authentication/lock_hood_user.dart';
 import '../utils/firebase_options.dart';
 import '../config/firestore_collections.dart';
 
@@ -31,36 +33,44 @@ class AuthService {
     final loggedUser = await _firebaseAuthWeb.signInWithEmailAndPassword(username, password);
     print(loggedUser);
 
-    final QuerySnapshot result = await _firebaseFirestore
-      .collection(FirestoreCollections.userCollection)
-      .where('email', isEqualTo: loggedUser.user?.email)
-      .limit(1)
-      .get();
+    // final QuerySnapshot result = await _firebaseFirestore
+    //   .collection(FirestoreCollections.userCollection)
+    //   .where('email', isEqualTo: loggedUser.user?.email)
+    //   .limit(1)
+    //   .get();
 
-    final List<DocumentSnapshot> documents = result.docs;
+    // final List<DocumentSnapshot> documents = result.docs;
     AuthenticatedUser? authenticatedUser;
 
-    if (documents.length == 1) {
-      SystemUser element = SystemUser.fromSnapshot(documents[0]);
-      print(element.authPermissions);
+    LockHoodUser? lockHoodUser = await GetIt.I<MainApiProvider>().getLockHoodUser(loggedUser.user?.email);
+    print("###TestSigin: ${lockHoodUser}");
+    if (lockHoodUser != null) {
+      // SystemUser element = SystemUser.fromSnapshot(lockHoodUser);
+      // print(element.authPermissions);
 
-      if (element.type == UserTypes.systemAdmin.toDBValue()) {
-        authenticatedUser = AuthenticatedUser(
-            displayName: element.fullName ?? "",
-            email: loggedUser.user?.email ?? "",
-            token: loggedUser.credential?.token ?? 0,
-            userType: UserTypes.systemAdmin,
-        );
-
-      } else if (element.type == UserTypes.seatOrganizer.toDBValue()) {
-        authenticatedUser = AuthenticatedUser(
-            displayName: element.fullName ?? "",
-            email: loggedUser.user?.email ?? "",
-            token: loggedUser.credential?.token ?? 0,
-            userType: UserTypes.seatOrganizer);
-      } else {
-        throw Exception("Invalid user type.");
-      }
+      authenticatedUser = AuthenticatedUser(
+        displayName: lockHoodUser.fullName ?? "",
+        email: loggedUser.user?.email ?? "",
+        token: loggedUser.credential?.token ?? 0,
+        userType: UserTypes.systemAdmin,
+      );
+      // if (element.type == UserTypes.systemAdmin.toDBValue()) {
+      //   authenticatedUser = AuthenticatedUser(
+      //       displayName: element.fullName ?? "",
+      //       email: loggedUser.user?.email ?? "",
+      //       token: loggedUser.credential?.token ?? 0,
+      //       userType: UserTypes.systemAdmin,
+      //   );
+      //
+      // } else if (element.type == UserTypes.seatOrganizer.toDBValue()) {
+      //   authenticatedUser = AuthenticatedUser(
+      //       displayName: element.fullName ?? "",
+      //       email: loggedUser.user?.email ?? "",
+      //       token: loggedUser.credential?.token ?? 0,
+      //       userType: UserTypes.seatOrganizer);
+      // } else {
+      //   throw Exception("Invalid user type.");
+      // }
 
     } else {
       throw Exception("User cannot be found in db.");

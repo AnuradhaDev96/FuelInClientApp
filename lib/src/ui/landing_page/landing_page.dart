@@ -4,6 +4,7 @@ import 'package:flutter/services.dart';
 import 'package:get_it/get_it.dart';
 import 'package:matara_division_system/src/ui/landing_page/request_access_form.dart';
 import 'package:provider/provider.dart';
+import 'package:flutter_svg/flutter_svg.dart';
 
 import '../../config/app_colors.dart';
 import '../../config/assets.dart';
@@ -14,6 +15,8 @@ import '../../models/enums/user_types.dart';
 import '../../services/auth_service.dart';
 import '../../utils/common_utils.dart';
 import '../../utils/message_utils.dart';
+import '../../utils/navigation_utils.dart';
+import '../../utils/web_router.dart';
 
 class LandingPage extends StatefulWidget {
   const LandingPage({Key? key}) : super(key: key);
@@ -45,141 +48,231 @@ class _LandingPageState extends State<LandingPage> {
     return Scaffold(
       key: _landingScaffoldKey,
       resizeToAvoidBottomInset: true,
-      appBar: PreferredSize(
-        preferredSize: Size(MediaQuery.of(context).size.width, 80),
-        child: AppBar(
-            backgroundColor: AppColors.appBarColor,
-            leading: Padding(
-              padding: const EdgeInsets.fromLTRB(10.0, 10.0, 0, 0),
-              child: ClipOval(
-                // height: 25.0,
-                // width: 25.0,
-                child: Image.asset(Assets.nppGroupCircle, fit: BoxFit.fill),
+      // appBar: PreferredSize(
+      //   preferredSize: Size(MediaQuery.of(context).size.width, 80),
+      //   child: AppBar(
+      //       backgroundColor: AppColors.appBarColor,
+      //       leading: Padding(
+      //         padding: const EdgeInsets.fromLTRB(10.0, 10.0, 0, 0),
+      //         child: ClipOval(
+      //           // height: 25.0,
+      //           // width: 25.0,
+      //           child: Image.asset(Assets.nppGroupCircle, fit: BoxFit.fill),
+      //         ),
+      //       ),
+      //       elevation: 8.0,
+      //       title: Padding(
+      //         padding: const EdgeInsets.only(top: 8.0),
+      //         child: RichText(
+      //           text: const TextSpan(
+      //               style: TextStyle(
+      //                 color: AppColors.white,
+      //               ),
+      //               children: [
+      //                 TextSpan(
+      //                   text: 'NPP  ',
+      //                   style: TextStyle(
+      //                     fontFamily: 'Oswald',
+      //                     fontWeight: FontWeight.bold,
+      //                     fontSize: 16.0,
+      //                   ),
+      //                 ),
+      //                 TextSpan(
+      //                   text: SettingsSinhala.webTitle,
+      //                   style: TextStyle(
+      //                     fontFamily: 'DL-Paras',
+      //                     fontWeight: FontWeight.w500,
+      //                     fontSize: 20.0,
+      //                   ),
+      //                 )
+      //               ]),
+      //         ),
+      //       ),
+      //       // bottom: PreferredSize(
+      //       //   preferredSize: Size(MediaQuery.of(context).size.width, 100), child: Container(
+      //       //   child: Flex(
+      //       //     direction: Axis.vertical,
+      //       //     children: [
+      //       //       Image.asset(Assets.triLanguageLogo,),
+      //       //     ]
+      //       //   ),
+      //       // ),
+      //       // ),
+      //     ),
+      // ),
+      // body: (CommonUtils.isMobileUI(context))
+      //     ? _buildMobileContent()
+      //     : Row(
+      //         mainAxisAlignment: MainAxisAlignment.start,
+      //         crossAxisAlignment: CrossAxisAlignment.start,
+      //         children: [
+      //           Column(
+      //             children: [
+      //               Expanded(
+      //                 child: Container(
+      //                   width: MediaQuery.of(context).size.width * 0.28,
+      //                   // height: double.infinity,
+      //                   color: AppColors.darkPurple,
+      //                   padding: const EdgeInsets.all(8.0),
+      //                   child: _signInSection(),
+      //                 ),
+      //               ),
+      //             ],
+      //           ),
+      //           Expanded(
+      //             child: RequestAccessForm(),
+      //           )
+      //         ],
+      //       ),
+      body: _buildStack(),
+    );
+  }
+
+  Widget _buildStack() {
+    return Stack(
+      // fit: StackFit.,
+      children: [
+        Row(
+          mainAxisAlignment: MainAxisAlignment.center,
+          crossAxisAlignment: CrossAxisAlignment.start,
+          children: [
+            Container(
+              width: MediaQuery.of(context).size.width * 0.5,
+              height: MediaQuery.of(context).size.height,
+              color: AppColors.darkPurple,
+            ),
+            Container(
+              width: MediaQuery.of(context).size.width * 0.5,
+              height: MediaQuery.of(context).size.height,
+              color: AppColors.themeGrey,
+            ),
+          ],
+        ),
+        Padding(
+          padding: const EdgeInsets.symmetric(vertical: 56.5, horizontal: 51.0),
+          child: Material(
+            elevation: 2.0,
+            shadowColor: Colors.black45,
+            color: Colors.transparent,
+            shape: RoundedRectangleBorder(
+              borderRadius: const BorderRadius.all(Radius.circular(25.0)),
+              side: BorderSide(
+                color: AppColors.themeGrey.withOpacity(0.2),
+                width: 12.0,
               ),
             ),
-            elevation: 8.0,
-            title: Padding(
-              padding: const EdgeInsets.only(top: 8.0),
-              child: RichText(
-                text: const TextSpan(
-                    style: TextStyle(
-                      color: AppColors.white,
+            child: Padding(
+              padding: const EdgeInsets.symmetric(horizontal: 30.0, vertical: 35.0),
+              child: Column(
+                mainAxisAlignment: MainAxisAlignment.start,
+                children: [
+                  Padding(
+                    padding: const EdgeInsets.only(left: 50.0, top: 18.0),
+                    child: Row(
+                      mainAxisAlignment: MainAxisAlignment.start,
+                      children: [
+                        SvgPicture.asset(
+                          Assets.lockHoodLogoSvg,
+                          width: 245 * 0.75,
+                          height: 36 * 0.75,
+                        ),
+                      ],
                     ),
+                  ),
+                  const SizedBox(height: 35.0),
+                  Row(
+                    mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                    crossAxisAlignment: CrossAxisAlignment.center,
                     children: [
-                      TextSpan(
-                        text: 'NPP  ',
-                        style: TextStyle(
-                          fontFamily: 'Oswald',
-                          fontWeight: FontWeight.bold,
-                          fontSize: 16.0,
+                      Padding(
+                        padding: const EdgeInsets.only(left: 120.0),
+                        child: Column(
+                          crossAxisAlignment: CrossAxisAlignment.center,
+                          mainAxisAlignment: MainAxisAlignment.start,
+                          children: [
+                            SvgPicture.asset(
+                              Assets.lockIconSvg,
+                              width: 397 * 0.5,
+                              height: 397 * 0.5,
+                            ),
+                            const SizedBox(height: 35.0),
+                            const Text(
+                              "We protect your home,\nfamily and company.",
+                              style: TextStyle(
+                                fontSize: 25.0,
+                                fontWeight: FontWeight.w400,
+                                color: Colors.white,
+                              ),
+                            ),
+                          ],
                         ),
                       ),
-                      TextSpan(
-                        text: SettingsSinhala.webTitle,
-                        style: TextStyle(
-                          fontFamily: 'DL-Paras',
-                          fontWeight: FontWeight.w500,
-                          fontSize: 20.0,
+                      // const SizedBox(width: 60.0),
+                      Padding(
+                        padding: const EdgeInsets.only(right: 10.0),
+                        child: Column(
+                          crossAxisAlignment: CrossAxisAlignment.start,
+                          mainAxisAlignment: MainAxisAlignment.start,
+                          children: [
+                            const Text(
+                              "Login to your LockHood Account",
+                              style: TextStyle(
+                                fontSize: 25.0,
+                                fontWeight: FontWeight.w400,
+                              ),
+                            ),
+                            const SizedBox(height: 20.0),
+                            Form(
+                              key: _signInFormKey,
+                              child: Column(
+                                // shrinkWrap: true,
+                                // padding: const EdgeInsets.all(2.0),
+                                children: [
+
+                                  // const SizedBox(height: 5.0),
+                                  _buildAuthEmailField(),
+                                  _buildAuthPasswordField(),
+                                  // const SizedBox(height: 5.0),
+                                  _buildSignInButton(),
+                                ],
+                              ),
+                            ),
+                            Padding(
+                              padding: const EdgeInsets.only(left: 25.0),
+                              child: Row(
+                                mainAxisAlignment: MainAxisAlignment.center,
+                                children: [
+                                  Container(
+                                    height: 1.0,
+                                    width: 220.0,
+                                    color: Colors.grey,
+                                  ),
+                                  const SizedBox(width: 8.0),
+                                  const Text(
+                                    "or",
+                                    style: TextStyle(
+                                      fontSize: 16.0,
+                                      fontWeight: FontWeight.w600,
+                                      color: Colors.grey,
+                                    ),
+                                  ),
+                                  const SizedBox(width: 8.0),
+                                  Container(
+                                    height: 1.0,
+                                    width: 220.0,
+                                    color: Colors.grey,
+                                  ),
+                                ],
+                              ),
+                            ),
+                            _buildCreateAccountButton(),
+                          ],
                         ),
                       )
-                    ]),
+                    ],
+                  )
+                ],
               ),
-            ),
-            // bottom: PreferredSize(
-            //   preferredSize: Size(MediaQuery.of(context).size.width, 100), child: Container(
-            //   child: Flex(
-            //     direction: Axis.vertical,
-            //     children: [
-            //       Image.asset(Assets.triLanguageLogo,),
-            //     ]
-            //   ),
-            // ),
-            // ),
-          ),
-      ),
-      body: (CommonUtils.isMobileUI(context))
-          ? _buildMobileContent()
-          : Row(
-              mainAxisAlignment: MainAxisAlignment.start,
-              crossAxisAlignment: CrossAxisAlignment.start,
-              children: [
-                Column(
-                  children: [
-                    Expanded(
-                      child: Container(
-                        width: MediaQuery.of(context).size.width * 0.28,
-                        // height: double.infinity,
-                        color: AppColors.nppPurple,
-                        padding: const EdgeInsets.all(8.0),
-                        child: _signInSection(),
-                      ),
-                    ),
-                  ],
-                ),
-                Expanded(
-                  child: RequestAccessForm(),
-                )
-              ],
-            ),
-    );
-  }
-
-  Widget _buildMobileContent() {
-    return ListView(
-      children: [
-        Container(
-          width: MediaQuery.of(context).size.width,
-          // height: double.infinity,
-          color: AppColors.nppPurple,
-          padding: const EdgeInsets.all(8.0),
-          child: _signInSectionMobile(),
-        ),
-        RequestAccessForm(),
-      ],
-    );
-  }
-
-  Widget _signInSectionMobile() {
-    return ExpansionPanelList(
-      elevation: 0,
-      expansionCallback: (int panelIndex, bool isExpanded) {
-        setState(() {
-          _mobileLoginPanelExpandStatus[panelIndex] = !_mobileLoginPanelExpandStatus[panelIndex];
-        });
-      },
-      children: [
-        ExpansionPanel(
-          backgroundColor: AppColors.nppPurple,
-          canTapOnHeader: true,
-          isExpanded: _mobileLoginPanelExpandStatus[0],
-          headerBuilder: (BuildContext context, bool isExpanded) {
-            return Row(
-              mainAxisAlignment: MainAxisAlignment.center,
-              children: const [
-                Text(
-                  'Log In',
-                  style: TextStyle(
-                    fontFamily: SettingsSinhala.engFontFamily,
-                    fontSize: 25.0,
-                    color: AppColors.silverPurple,
-                  ),
-                ),
-              ],
-            );
-          },
-          body: Form(
-            key: _signInFormKey,
-            child: ListView(
-              shrinkWrap: (CommonUtils.isMobileUI(context)) ? true : false,
-              padding: const EdgeInsets.all(2.0),
-              children: [
-
-                // const SizedBox(height: 5.0),
-                _buildAuthEmailField(),
-                _buildAuthPasswordField(),
-                // const SizedBox(height: 5.0),
-                _buildSignInButton(),
-              ],
             ),
           ),
         )
@@ -187,35 +280,100 @@ class _LandingPageState extends State<LandingPage> {
     );
   }
 
-  Widget _signInSection() {
-    return Form(
-      key: _signInFormKey,
-      child: ListView(
-        shrinkWrap: (CommonUtils.isMobileUI(context)) ? true : false,
-        padding: const EdgeInsets.all(2.0),
-        children: [
-          Row(
-            mainAxisAlignment: MainAxisAlignment.center,
-            children: const [
-              Text(
-                'Log In',
-                style: TextStyle(
-                  fontFamily: SettingsSinhala.engFontFamily,
-                  fontSize: 25.0,
-                  color: AppColors.silverPurple,
-                ),
-              ),
-            ],
-          ),
-          // const SizedBox(height: 5.0),
-          _buildAuthEmailField(),
-          _buildAuthPasswordField(),
-          // const SizedBox(height: 5.0),
-          _buildSignInButton(),
-        ],
-      ),
-    );
-  }
+
+
+  // Widget _buildMobileContent() {
+  //   return ListView(
+  //     children: [
+  //       Container(
+  //         width: MediaQuery.of(context).size.width,
+  //         // height: double.infinity,
+  //         color: AppColors.darkPurple,
+  //         padding: const EdgeInsets.all(8.0),
+  //         child: _signInSectionMobile(),
+  //       ),
+  //       RequestAccessForm(),
+  //     ],
+  //   );
+  // }
+
+  // Widget _signInSectionMobile() {
+  //   return ExpansionPanelList(
+  //     elevation: 0,
+  //     expansionCallback: (int panelIndex, bool isExpanded) {
+  //       setState(() {
+  //         _mobileLoginPanelExpandStatus[panelIndex] = !_mobileLoginPanelExpandStatus[panelIndex];
+  //       });
+  //     },
+  //     children: [
+  //       ExpansionPanel(
+  //         backgroundColor: AppColors.darkPurple,
+  //         canTapOnHeader: true,
+  //         isExpanded: _mobileLoginPanelExpandStatus[0],
+  //         headerBuilder: (BuildContext context, bool isExpanded) {
+  //           return Row(
+  //             mainAxisAlignment: MainAxisAlignment.center,
+  //             children: const [
+  //               Text(
+  //                 'Log In',
+  //                 style: TextStyle(
+  //                   fontFamily: SettingsSinhala.engFontFamily,
+  //                   fontSize: 25.0,
+  //                   color: AppColors.silverPurple,
+  //                 ),
+  //               ),
+  //             ],
+  //           );
+  //         },
+  //         body: Form(
+  //           key: _signInFormKey,
+  //           child: ListView(
+  //             shrinkWrap: (CommonUtils.isMobileUI(context)) ? true : false,
+  //             padding: const EdgeInsets.all(2.0),
+  //             children: [
+  //
+  //               // const SizedBox(height: 5.0),
+  //               _buildAuthEmailField(),
+  //               _buildAuthPasswordField(),
+  //               // const SizedBox(height: 5.0),
+  //               _buildSignInButton(),
+  //             ],
+  //           ),
+  //         ),
+  //       )
+  //     ],
+  //   );
+  // }
+
+  // Widget _signInSection() {
+  //   return Form(
+  //     key: _signInFormKey,
+  //     child: ListView(
+  //       shrinkWrap: (CommonUtils.isMobileUI(context)) ? true : false,
+  //       padding: const EdgeInsets.all(2.0),
+  //       children: [
+  //         Row(
+  //           mainAxisAlignment: MainAxisAlignment.center,
+  //           children: const [
+  //             Text(
+  //               'Log In',
+  //               style: TextStyle(
+  //                 fontFamily: SettingsSinhala.engFontFamily,
+  //                 fontSize: 25.0,
+  //                 color: AppColors.silverPurple,
+  //               ),
+  //             ),
+  //           ],
+  //         ),
+  //         // const SizedBox(height: 5.0),
+  //         _buildAuthEmailField(),
+  //         _buildAuthPasswordField(),
+  //         // const SizedBox(height: 5.0),
+  //         _buildSignInButton(),
+  //       ],
+  //     ),
+  //   );
+  // }
 
   Widget _buildAuthEmailField() {
     return Padding(
@@ -224,68 +382,66 @@ class _LandingPageState extends State<LandingPage> {
         crossAxisAlignment: CrossAxisAlignment.start,
         children: [
           const Text(
-            "Bfï,a ,smskh(",
+            "USER NAME",
             style: TextStyle(
               fontSize: 14.0,
-              color: AppColors.white,
+              color: AppColors.black,
             ),
           ),
           const SizedBox(height: 6.0),
           SizedBox(
-            // width: 100.0,
-            height: 80.0,
-            child: RawKeyboardListener(
-              focusNode: _authEmailFieldFocusNode,
-              onKey: (event) {
-                if (event.logicalKey == LogicalKeyboardKey.tab) {
-                  _authEmailFieldFocusNode.nextFocus();
+            width: 500.0,
+            height: 40.0,
+            child: TextFormField(
+              controller: _authEmailAddressController,
+              validator: (value) {
+                if (value == null || value.isEmpty) {
+                  return 'Email cannot be empty';
                 }
+                if (!EmailValidator.validate(value)) {
+                  return "Enter valid email";
+                }
+                return null;
               },
-              child: TextFormField(
-                controller: _authEmailAddressController,
-                validator: (value) {
-                  if (value == null || value.isEmpty) {
-                    return 'Bfï,a ,smskh we;=,;a lrkak';
-                  }
-                  if (!EmailValidator.validate(value)) {
-                    return "ksjerÈ Bfï,a ,smskh we;=,;a lrkak";
-                  }
-                  return null;
-                },
-                style: const TextStyle(
-                  fontSize: 14.0,
-                  fontFamily: SettingsSinhala.engFontFamily,
-                  color: AppColors.white,
-                ),
-                keyboardType: TextInputType.emailAddress,
-                // textCapitalization: TextCapitalization.words,
-                decoration: InputDecoration(
-                  prefixIcon: const Icon(Icons.mail, size: 20.0,),
-                  border: OutlineInputBorder(
-                      borderRadius: BorderRadius.circular(12.0),
-                      borderSide: const BorderSide(width: 1, color: AppColors.lightGray)),
-                  focusedBorder: OutlineInputBorder(
-                    borderSide: const BorderSide(width: 1, color: AppColors.silverPurple),
-                    borderRadius: BorderRadius.circular(12.0),
-                  ),
-                  contentPadding: const EdgeInsets.symmetric(horizontal: 10),
-                  focusedErrorBorder: OutlineInputBorder(
-                    borderSide: const BorderSide(width: 1, color: AppColors.silverPurple),
-                    borderRadius: BorderRadius.circular(12.0),
-                  ),
-                  errorBorder: OutlineInputBorder(
-                    borderSide: const BorderSide(width: 1, color: Colors.amber),
-                    borderRadius: BorderRadius.circular(12.0),
-                  ),
-                  errorStyle: const TextStyle(
-                    color: Colors.amber,
-                  )
-                ),
-                // textInputAction: TextInputAction.next,
-                onFieldSubmitted: (String value) {
-                  _authPasswordFieldFocusNode.requestFocus();
-                },
+              style: const TextStyle(
+                fontSize: 14.0,
+                color: AppColors.black,
               ),
+              keyboardType: TextInputType.emailAddress,
+              // textCapitalization: TextCapitalization.words,
+              decoration: InputDecoration(
+                fillColor: Colors.white,
+                filled: true,
+                hintText: "User Name",
+                hintStyle: const TextStyle(
+                  color: AppColors.hintTextBlue,
+                  fontSize: 14.0,
+                ),
+                // prefixIcon: const Icon(Icons.mail, size: 20.0,),
+                border: OutlineInputBorder(
+                    borderRadius: BorderRadius.circular(12.0),
+                    borderSide: const BorderSide(width: 1, color: AppColors.lightGray)),
+                focusedBorder: OutlineInputBorder(
+                  borderSide: const BorderSide(width: 1, color: AppColors.silverPurple),
+                  borderRadius: BorderRadius.circular(12.0),
+                ),
+                contentPadding: const EdgeInsets.symmetric(horizontal: 10),
+                focusedErrorBorder: OutlineInputBorder(
+                  borderSide: const BorderSide(width: 1, color: AppColors.silverPurple),
+                  borderRadius: BorderRadius.circular(12.0),
+                ),
+                errorBorder: OutlineInputBorder(
+                  borderSide: const BorderSide(width: 1, color: AppColors.hintTextBlue),
+                  borderRadius: BorderRadius.circular(12.0),
+                ),
+                errorStyle: const TextStyle(
+                  color: AppColors.hintTextBlue,
+                )
+              ),
+              // textInputAction: TextInputAction.next,
+              onFieldSubmitted: (String value) {
+                // _authPasswordFieldFocusNode.requestFocus();
+              },
             ),
           ),
         ],
@@ -300,16 +456,16 @@ class _LandingPageState extends State<LandingPage> {
         crossAxisAlignment: CrossAxisAlignment.start,
         children: [
           const Text(
-            "uqrmoh(",
+            "PASSWORD",
             style: TextStyle(
               fontSize: 14.0,
-              color: AppColors.white,
+              color: AppColors.black,
             ),
           ),
           const SizedBox(height: 6.0),
           SizedBox(
-            // width: 100.0,
-            height: 80.0,
+            width: 500.0,
+            height: 40.0,
             child: ValueListenableBuilder(
               valueListenable: _isPasswordTextHidden,
               builder: (context, snapshot, child) {
@@ -318,21 +474,22 @@ class _LandingPageState extends State<LandingPage> {
                   focusNode: _authPasswordFieldFocusNode,
                   validator: (value) {
                     if (value == null || value.isEmpty) {
-                      return 'uqrmoh we;=,;a lrkak';
+                      return 'Password cannot be empty';
                     }
                     return null;
                   },
                   // autofocus: true,
                   style: const TextStyle(
                     fontSize: 14.0,
-                    fontFamily: SettingsSinhala.engFontFamily,
-                    color: AppColors.white,
+                    color: AppColors.black,
                   ),
                   obscureText: _isPasswordTextHidden.value,
                   keyboardType: TextInputType.text,
                   // textCapitalization: TextCapitalization.words,
                   decoration: InputDecoration(
-                    prefixIcon: const Icon(Icons.key, size: 20.0,),
+                    // prefixIcon: const Icon(Icons.key, size: 20.0,),
+                    fillColor: Colors.white,
+                    filled: true,
                     suffixIcon: MouseRegion(
                       cursor: SystemMouseCursors.click,
                       child: GestureDetector(
@@ -358,11 +515,16 @@ class _LandingPageState extends State<LandingPage> {
                       borderRadius: BorderRadius.circular(12.0),
                     ),
                     errorBorder: OutlineInputBorder(
-                      borderSide: const BorderSide(width: 1, color: Colors.amber),
+                      borderSide: const BorderSide(width: 1, color: AppColors.hintTextBlue),
                       borderRadius: BorderRadius.circular(12.0),
                     ),
                     errorStyle: const TextStyle(
-                      color: Colors.amber,
+                      color: AppColors.hintTextBlue,
+                    ),
+                    hintText: "Password",
+                    hintStyle: const TextStyle(
+                      color: AppColors.hintTextBlue,
+                      fontSize: 14.0,
                     ),
                   ),
                   onFieldSubmitted: (String value) => _signInAction(),
@@ -378,21 +540,57 @@ class _LandingPageState extends State<LandingPage> {
   Widget _buildSignInButton() {
     return Padding(
       padding: const EdgeInsets.all(8.0),
-      child: ElevatedButton(
-        style: Theme.of(context).elevatedButtonTheme.style!.copyWith(
-          backgroundColor: MaterialStateProperty.all(
-              AppColors.appBarColor
-          ),
-          textStyle: MaterialStateProperty.all(const TextStyle(
-                fontFamily: 'DL-Paras',
-                fontWeight: FontWeight.w500,
-                fontSize: 18.0,
-              )),
+      child: SizedBox(
+        width: 500,
+        height: 35,
+        child: ElevatedButton(
+          style: Theme.of(context).elevatedButtonTheme.style!.copyWith(
+            backgroundColor: MaterialStateProperty.all(
+                AppColors.darkPurple
             ),
-        onPressed: _signInAction,
-        child: const Text(
-          "msúfikak",
-          // style: const TextStyle(color: AppColors.nppPurple, fontSize: 14.0),
+            // textStyle: MaterialStateProperty.all(const TextStyle(
+            //       fontFamily: 'DL-Paras',
+            //       fontWeight: FontWeight.w500,
+            //       fontSize: 18.0,
+            //     )),
+              ),
+          onPressed: _signInAction,
+          child: const Text(
+            "LOG IN",
+            // style: const TextStyle(color: AppColors.nppPurple, fontSize: 14.0),
+          ),
+        ),
+      ),
+    );
+  }
+
+  Widget _buildCreateAccountButton() {
+    return Padding(
+      padding: const EdgeInsets.all(8.0),
+      child: SizedBox(
+        width: 180,
+        height: 30,
+        child: ElevatedButton(
+          style: Theme.of(context).elevatedButtonTheme.style!.copyWith(
+            backgroundColor: MaterialStateProperty.all(
+                AppColors.darkPurple
+            ),
+            shape: MaterialStateProperty.all(
+                const RoundedRectangleBorder(
+                  borderRadius: BorderRadius.all(Radius.circular(25.0))
+                )
+            ),
+            // textStyle: MaterialStateProperty.all(const TextStyle(
+            //       fontFamily: 'DL-Paras',
+            //       fontWeight: FontWeight.w500,
+            //       fontSize: 18.0,
+            //     )),
+          ),
+          onPressed: _onTapCreateAccount,
+          child: const Text(
+            "Create Account",
+            style: TextStyle(fontSize: 12.0),
+          ),
         ),
       ),
     );
@@ -402,6 +600,12 @@ class _LandingPageState extends State<LandingPage> {
     Provider.of<ApplicationAuthNotifier>(context, listen: false).setAppAuthenticated(authenticatedUser);
   }
 
+  void _onTapCreateAccount() {
+    GetIt.I<NavigationUtils>().pushNamed(
+      WebRouter.createAccountPage,
+    );
+  }
+
   void _signInAction() async {
     if (_signInFormKey.currentState!.validate()) {
       _signInFormKey.currentState!.save();
@@ -409,19 +613,16 @@ class _LandingPageState extends State<LandingPage> {
       try {
         AuthenticatedUser? authenticatedUser = await GetIt.I<AuthService>().passwordLogin(_authEmailAddressController.text, _authPasswordController.text);
         if (authenticatedUser != null) {
-          print("####${authenticatedUser.userType}");
           if (authenticatedUser.userType == UserTypes.systemAdmin) {
-            print("Logged inSuzzessfully as admin");
             notifyAppIsAuthenticated(authenticatedUser);
-          } else if (authenticatedUser.userType == UserTypes.seatOrganizer) {
+          } else if (authenticatedUser.userType == UserTypes.topLevel) {
             notifyAppIsAuthenticated(authenticatedUser);
           } else {
             return;
           }
         }
       } catch (e) {
-        if (mounted) MessageUtils.showErrorInFlushBar(context, "Bfï,a ,smskh fyda uqrmoh jerÈ neúka msúiSug fkdyel'", appearFromTop: false, duration: 4);
-        //ඊමේල් ලිපිනය හෝ මුරපදය වැරදි බැවින් පිවිසීමට නොහැක.
+        if (mounted) MessageUtils.showErrorInFlushBar(context, "Email or password is incorrect", appearFromTop: false, duration: 4);
       }
     }
     if (_authEmailFieldFocusNode.hasFocus) _authEmailFieldFocusNode.unfocus();

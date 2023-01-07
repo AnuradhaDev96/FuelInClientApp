@@ -134,12 +134,12 @@ class CreateGramaNiladariDivisionDialog extends StatelessWidget {
                           borderRadius: BorderRadius.circular(12.0),
                           borderSide: const BorderSide(width: 1, color: AppColors.lightGray)),
                       focusedBorder: OutlineInputBorder(
-                        borderSide: const BorderSide(width: 1, color: AppColors.nppPurple),
+                        borderSide: const BorderSide(width: 1, color: AppColors.darkPurple),
                         borderRadius: BorderRadius.circular(12.0),
                       ),
                       contentPadding: const EdgeInsets.symmetric(horizontal: 10),
                       focusedErrorBorder: OutlineInputBorder(
-                        borderSide: const BorderSide(width: 1, color: AppColors.nppPurple),
+                        borderSide: const BorderSide(width: 1, color: AppColors.darkPurple),
                         borderRadius: BorderRadius.circular(12.0),
                       ),
                     ),
@@ -217,12 +217,12 @@ class CreateGramaNiladariDivisionDialog extends StatelessWidget {
                           borderRadius: BorderRadius.circular(12.0),
                           borderSide: const BorderSide(width: 1, color: AppColors.lightGray)),
                       focusedBorder: OutlineInputBorder(
-                        borderSide: const BorderSide(width: 1, color: AppColors.nppPurple),
+                        borderSide: const BorderSide(width: 1, color: AppColors.darkPurple),
                         borderRadius: BorderRadius.circular(12.0),
                       ),
                       contentPadding: const EdgeInsets.symmetric(horizontal: 10),
                       focusedErrorBorder: OutlineInputBorder(
-                        borderSide: const BorderSide(width: 1, color: AppColors.nppPurple),
+                        borderSide: const BorderSide(width: 1, color: AppColors.darkPurple),
                         borderRadius: BorderRadius.circular(12.0),
                       ),
                     ),
@@ -261,7 +261,7 @@ class CreateGramaNiladariDivisionDialog extends StatelessWidget {
         },
         child: const Text(
           "Cancel",
-          style: TextStyle(color: AppColors.nppPurple, fontSize: 14.0, fontFamily: SettingsSinhala.engFontFamily),
+          style: TextStyle(color: AppColors.darkPurple, fontSize: 14.0, fontFamily: SettingsSinhala.engFontFamily),
         ),
       ),
     );

@@ -15,7 +15,7 @@ class SideDrawerNotifier extends ChangeNotifier {
   ScreenBuckets? get selectedPageType => _selectedPageType;
 
   // admin properties
-  AdminScreenBuckets? _selectedPageTypeByAdmin = AdminScreenBuckets.systemAccessRequests;
+  AdminScreenBuckets? _selectedPageTypeByAdmin = AdminScreenBuckets.overview;
   AdminScreenBuckets? get selectedPageTypeByAdmin => _selectedPageTypeByAdmin;
 
   String selectedPageTitle() {

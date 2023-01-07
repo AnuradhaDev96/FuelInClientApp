@@ -118,7 +118,7 @@ class MembershipListPage extends StatelessWidget {
                                             size: 32.0,
                                           ),
                                           splashRadius: 6.0,
-                                          color: AppColors.nppPurple,
+                                          color: AppColors.darkPurple,
                                           tooltip: "kj iduðlfhla", //නව සාමජිකයෙක්
                                         )
                                       : const SizedBox(width: 0, height: 0);
@@ -128,7 +128,7 @@ class MembershipListPage extends StatelessWidget {
                               RawMaterialButton(
                                 // onPressed: _createNewDivisionalSecretariatRecord,
                                   onPressed: () => _navigateToAdministrativeUnitsPage(context),
-                                  fillColor: AppColors.nppPurple,
+                                  fillColor: AppColors.darkPurple,
                                   shape: const RoundedRectangleBorder(
                                       borderRadius: BorderRadius.all(Radius.circular(5.0))),
                                   child: const Icon(
@@ -142,7 +142,7 @@ class MembershipListPage extends StatelessWidget {
                       ],
                     ),
                     const SizedBox(height: 5.0),
-                    Container(color: AppColors.nppPurple, height: 2.0,),
+                    Container(color: AppColors.darkPurple, height: 2.0,),
                     const SizedBox(height: 8.0),
                     StreamBuilder(
                       stream: _membershipService.getDivisionalSecretariatsStream(
@@ -158,7 +158,7 @@ class MembershipListPage extends StatelessWidget {
                                   height: 40,
                                   child: CircularProgressIndicator(
                                     strokeWidth: 5,
-                                    color: AppColors.nppPurple,
+                                    color: AppColors.darkPurple,
                                   ),
                                 )),
                           );

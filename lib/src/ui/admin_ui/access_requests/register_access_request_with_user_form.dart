@@ -94,12 +94,12 @@ class RegisterAccessRequestWithUserForm extends StatelessWidget {
                         borderRadius: BorderRadius.circular(12.0),
                         borderSide: const BorderSide(width: 1, color: AppColors.lightGray)),
                     focusedBorder: OutlineInputBorder(
-                      borderSide: const BorderSide(width: 1, color: AppColors.nppPurple),
+                      borderSide: const BorderSide(width: 1, color: AppColors.darkPurple),
                       borderRadius: BorderRadius.circular(12.0),
                     ),
                     contentPadding: const EdgeInsets.symmetric(horizontal: 10),
                     focusedErrorBorder: OutlineInputBorder(
-                      borderSide: const BorderSide(width: 1, color: AppColors.nppPurple),
+                      borderSide: const BorderSide(width: 1, color: AppColors.darkPurple),
                       borderRadius: BorderRadius.circular(12.0),
                     ),
                   ),
@@ -117,7 +117,7 @@ class RegisterAccessRequestWithUserForm extends StatelessWidget {
                 ),
                 child: IconButton(
                   splashRadius: 5,
-                  color: AppColors.nppPurple,
+                  color: AppColors.darkPurple,
                   icon: const Icon(Icons.refresh, size: 18.0, color: AppColors.white,),
                   onPressed: () {
                     String x = CommonUtils.generatePasswordForAuth();

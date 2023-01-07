@@ -6,7 +6,7 @@ import 'package:provider/provider.dart';
 import '../../../models/change_notifiers/role_management_notifier.dart';
 import 'permission_management_page.dart';
 import 'role_management_list_page.dart';
-
+// inventory
 class RoleManagementPageView extends StatelessWidget {
   const RoleManagementPageView({Key? key}) : super(key: key);
 

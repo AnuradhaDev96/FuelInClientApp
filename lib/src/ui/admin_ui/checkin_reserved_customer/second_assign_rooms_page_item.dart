@@ -30,7 +30,7 @@ class SecondAssignRoomsPageItem extends StatelessWidget {
               },
               child: const Text(
                 "Back to Reservations Page",
-                style: TextStyle(color: AppColors.nppPurple, fontSize: 14.0),
+                style: TextStyle(color: AppColors.darkPurple, fontSize: 14.0),
               ),
             ),
           ],

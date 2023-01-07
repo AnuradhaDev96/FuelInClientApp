@@ -98,7 +98,7 @@ class FirstReservationListPageItem extends StatelessWidget {
           onPressed: () => _selectReservationToAssignRooms(context, reservation),
           child: const Text(
             "Select",
-            style: TextStyle(color: AppColors.nppPurple, fontSize: 14.0),
+            style: TextStyle(color: AppColors.darkPurple, fontSize: 14.0),
           ),
         ),
       ),

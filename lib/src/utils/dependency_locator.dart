@@ -1,5 +1,6 @@
 import 'package:get_it/get_it.dart';
 
+import '../api_providers/main_api_provider.dart';
 import '../models/change_notifiers/access_requests_page_view_notifier.dart';
 import '../models/change_notifiers/accommodation_search_result_notifier.dart';
 import '../models/change_notifiers/administrative_units_change_notifer.dart';
@@ -41,6 +42,8 @@ void injectAppDependencies() {
   GetIt.I.registerLazySingleton(() => AdministrativeUnitsService());
   GetIt.I.registerLazySingleton(() => MembershipService());
 
+  // api providers
+  GetIt.I.registerLazySingleton(() => MainApiProvider());
 
   // Local storage instances
   GetIt.I.registerLazySingleton(() => LocalStorageUtils());

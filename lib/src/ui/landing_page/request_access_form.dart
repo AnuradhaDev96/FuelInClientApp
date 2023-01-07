@@ -28,8 +28,8 @@ class RequestAccessForm extends StatelessWidget {
   final ScrollController _scrollController = ScrollController();
   final ScrollController _formScrollController = ScrollController();
 
-  final UserTypes _defaultUserType = UserTypes.seatOrganizer;
-  static final ValueNotifier<UserTypes> _selectedUserType = ValueNotifier<UserTypes>(UserTypes.seatOrganizer);
+  final UserTypes _defaultUserType = UserTypes.topLevel;
+  static final ValueNotifier<UserTypes> _selectedUserType = ValueNotifier<UserTypes>(UserTypes.topLevel);
   final AuthService _authService = GetIt.I<AuthService>();
 
   @override
@@ -53,7 +53,7 @@ class RequestAccessForm extends StatelessWidget {
             const Text("Request Access to System",
                 textAlign: TextAlign.center,
                 style: TextStyle(
-                    color: AppColors.nppPurple,
+                    color: AppColors.darkPurple,
                     fontSize: 25.0,
                     fontWeight: FontWeight.bold,
                     fontFamily: SettingsSinhala.engFontFamily),
@@ -148,12 +148,12 @@ class RequestAccessForm extends StatelessWidget {
                     borderRadius: BorderRadius.circular(12.0),
                     borderSide: const BorderSide(width: 1, color: AppColors.lightGray)),
                 focusedBorder: OutlineInputBorder(
-                  borderSide: const BorderSide(width: 1, color: AppColors.nppPurple),
+                  borderSide: const BorderSide(width: 1, color: AppColors.darkPurple),
                   borderRadius: BorderRadius.circular(12.0),
                 ),
                 contentPadding: const EdgeInsets.symmetric(horizontal: 10),
                 focusedErrorBorder: OutlineInputBorder(
-                  borderSide: const BorderSide(width: 1, color: AppColors.nppPurple),
+                  borderSide: const BorderSide(width: 1, color: AppColors.darkPurple),
                   borderRadius: BorderRadius.circular(12.0),
                 ),
               ),
@@ -232,12 +232,12 @@ class RequestAccessForm extends StatelessWidget {
                     borderRadius: BorderRadius.circular(12.0),
                     borderSide: const BorderSide(width: 1, color: AppColors.lightGray)),
                 focusedBorder: OutlineInputBorder(
-                  borderSide: const BorderSide(width: 1, color: AppColors.nppPurple),
+                  borderSide: const BorderSide(width: 1, color: AppColors.darkPurple),
                   borderRadius: BorderRadius.circular(12.0),
                 ),
                 contentPadding: const EdgeInsets.symmetric(horizontal: 10),
                 focusedErrorBorder: OutlineInputBorder(
-                  borderSide: const BorderSide(width: 1, color: AppColors.nppPurple),
+                  borderSide: const BorderSide(width: 1, color: AppColors.darkPurple),
                   borderRadius: BorderRadius.circular(12.0),
                 ),
               ),
@@ -295,12 +295,12 @@ class RequestAccessForm extends StatelessWidget {
                       borderRadius: BorderRadius.circular(12.0),
                       borderSide: const BorderSide(width: 1, color: AppColors.lightGray)),
                   focusedBorder: OutlineInputBorder(
-                    borderSide: const BorderSide(width: 1, color: AppColors.nppPurple),
+                    borderSide: const BorderSide(width: 1, color: AppColors.darkPurple),
                     borderRadius: BorderRadius.circular(12.0),
                   ),
                   contentPadding: const EdgeInsets.symmetric(horizontal: 10),
                   focusedErrorBorder: OutlineInputBorder(
-                    borderSide: const BorderSide(width: 1, color: AppColors.nppPurple),
+                    borderSide: const BorderSide(width: 1, color: AppColors.darkPurple),
                     borderRadius: BorderRadius.circular(12.0),
                   ),
 
@@ -336,7 +336,7 @@ class RequestAccessForm extends StatelessWidget {
                 isExpanded: false,
                 elevation: 3,
                 borderRadius: BorderRadius.circular(12.0),
-                dropdownColor: AppColors.nppPurple,
+                dropdownColor: AppColors.darkPurple,
                 hint: const Text(
                   'Select User Type',
                 ),
@@ -360,7 +360,7 @@ class RequestAccessForm extends StatelessWidget {
                       borderRadius: BorderRadius.circular(12.0),
                       borderSide: const BorderSide(width: 1, color: AppColors.lightGray)),
                   focusedBorder: OutlineInputBorder(
-                    borderSide: const BorderSide(width: 1, color: AppColors.nppPurple),
+                    borderSide: const BorderSide(width: 1, color: AppColors.darkPurple),
                     borderRadius: BorderRadius.circular(12.0),
                   ),
                   // contentPadding: const EdgeInsets.symmetric(horizontal: 10),
@@ -396,7 +396,8 @@ class RequestAccessForm extends StatelessWidget {
       RequestAccessModel requestAccessModel = RequestAccessModel(
           fullName: _fullNameController.text,
           email: _personalEmailController.text,
-          waPhoneNumber: int.tryParse(_waPhoneNoController.text) ?? 0,
+          designation: "",
+          phoneNumber: int.tryParse(_waPhoneNoController.text) ?? 0,
           userType: _selectedUserType.value,
       );
 

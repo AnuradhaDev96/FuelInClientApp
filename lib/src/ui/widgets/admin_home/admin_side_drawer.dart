@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import 'package:flutter_svg/flutter_svg.dart';
 import 'package:get_it/get_it.dart';
 import 'package:provider/provider.dart';
 
@@ -32,92 +33,187 @@ class _AdminSideDrawerState extends State<AdminSideDrawer> {
   @override
   Widget build(BuildContext context) {
     return Container(
+      clipBehavior: Clip.hardEdge,
+      margin: const EdgeInsets.symmetric(vertical: 15.0, horizontal: 12.0),
       decoration: const BoxDecoration(
-          borderRadius: BorderRadius.only(topRight: Radius.circular(25.0), bottomRight: Radius.circular(25.0)),
-          boxShadow: [
-            BoxShadow(
-              color: AppColors.grayForPrimaryDark,
-              blurRadius: 12.0,
-            ),
-          ]
+        color: AppColors.darkPurple,
+          borderRadius: BorderRadius.all(Radius.circular(30.0))
+          // boxShadow: [
+          //   BoxShadow(
+          //     color: AppColors.grayForPrimaryDark,
+          //     blurRadius: 12.0,
+          //   ),
+          // ]
       ),
       child: Drawer(
-        backgroundColor: AppColors.appBarColor,
+        backgroundColor: AppColors.darkPurple,
         child: Column(
           mainAxisAlignment: MainAxisAlignment.spaceBetween,
           children: [
             Column(
               children: [
                 Padding(
-                  padding: const EdgeInsets.symmetric(vertical: 20.0),
-                  child: Column(
-                    children: [
-                      // Text(
-                      //     lang_settings.SettingsEnglish.hotelNameText,
-                      //     style: TextStyle(
-                      //         fontSize: 20.0
-                      //     )
-                      // ),
-                      SizedBox(
-                        width: 150,
-                        height: 50,
-                        child: Image.asset(Assets.triLanguageLogo, fit: BoxFit.fill, color: AppColors.white,),
-                      ),
-                      const SizedBox(height: 8.0),
-                      const Text(
-                        "moaO;s m%OdkS",// පද්ධති ප්‍රධානී
+                  padding: const EdgeInsets.only(top: 20.0),
+                  child: SvgPicture.asset(
+                    Assets.drawerLogoSvg,
+                    width: 310 * 0.6,
+                    height: 64 * 0.6,
+                  ),
+                ),
+                const Padding(
+                  padding: EdgeInsets.only(top: 25.0, bottom: 8.0),
+                  child: Text(
+                    "Admin Tools",
+                    style: TextStyle(
+                      fontSize: 14.0,
+                      fontWeight: FontWeight.w600,
+                      color: AppColors.silverPurple
+                    ),
+                  )
+                ),
+                Padding(
+                  padding: const EdgeInsets.symmetric(horizontal: 8.0, vertical: 6.0),
+                  child: ListTile(
+                    shape: const RoundedRectangleBorder(borderRadius: BorderRadius.all(Radius.circular(10.0))),
+                    // hoverColor: Colors.red,
+                    tileColor: _sideDrawerNotifier.selectedPageTypeByAdmin == AdminScreenBuckets.overview
+                        ? AppColors.white
+                        : AppColors.darkPurple,
+                    title: Row(
+                      mainAxisAlignment: MainAxisAlignment.start,
+                      children: [
+                        SvgPicture.asset(
+                          Assets.overviewLogoSvg,
+                          width: 25 * 0.8,
+                          height: 24 * 0.8,
+                          color: _sideDrawerNotifier.selectedPageTypeByAdmin == AdminScreenBuckets.overview
+                              ? AppColors.darkPurple
+                              : AppColors.white,
+                        ),
+                        const SizedBox(width: 10.0),
+                        Text(
+                          "Overview",
                           style: TextStyle(
-                            fontSize: 18.0,
-                            fontWeight: FontWeight.w500,
-                            color: AppColors.white,
-                          )
-                      )
-                    ],
+                              color: _sideDrawerNotifier.selectedPageTypeByAdmin == AdminScreenBuckets.overview
+                                  ? AppColors.black
+                                  : AppColors.white,
+                              fontWeight: FontWeight.w600,
+                              fontSize: 14.0),
+                        ),
+                      ],
+                    ),
+                    onTap: () {
+                      _sideDrawerNotifier.selectedPageTypeByAdmin = AdminScreenBuckets.overview;
+                    },
                   ),
                 ),
-                ListTile(
-                  shape: const RoundedRectangleBorder(
-                      borderRadius: BorderRadius.only(topRight: Radius.circular(15.0), bottomRight: Radius.circular(15.0))
+                Padding(
+                  padding: const EdgeInsets.symmetric(horizontal: 8.0, vertical: 6.0),
+                  child: ListTile(
+                    shape: const RoundedRectangleBorder(borderRadius: BorderRadius.all(Radius.circular(10.0))),
+                    // hoverColor: Colors.red,
+                    tileColor: _sideDrawerNotifier.selectedPageTypeByAdmin == AdminScreenBuckets.inventory
+                        ? AppColors.white
+                        : AppColors.darkPurple,
+                    title: Row(
+                      mainAxisAlignment: MainAxisAlignment.start,
+                      children: [
+                        SvgPicture.asset(
+                          Assets.inventoryLogoSvg,
+                          width: 25 * 0.8,
+                          height: 24 * 0.8,
+                          color: _sideDrawerNotifier.selectedPageTypeByAdmin == AdminScreenBuckets.inventory
+                              ? AppColors.darkPurple
+                              : AppColors.white,
+                        ),
+                        const SizedBox(width: 10.0),
+                        Text(
+                          "Inventory",
+                          style: TextStyle(
+                              color: _sideDrawerNotifier.selectedPageTypeByAdmin == AdminScreenBuckets.inventory
+                                  ? AppColors.black
+                                  : AppColors.white,
+                              fontWeight: FontWeight.w600,
+                              fontSize: 14.0),
+                        ),
+                      ],
+                    ),
+                    onTap: () {
+                      _sideDrawerNotifier.selectedPageTypeByAdmin = AdminScreenBuckets.inventory;
+                    },
                   ),
-                  // hoverColor: Colors.red,
-                  tileColor: _sideDrawerNotifier.selectedPageTypeByAdmin == AdminScreenBuckets.systemAccessRequests ? AppColors.nppPurple : null,
-                  title: Text(
-                    AdminScreenBuckets.systemAccessRequests.toDisplayString(),
-                    style: const TextStyle(color: AppColors.white),
-                  ),
-                  onTap: () {
-                    _sideDrawerNotifier.selectedPageTypeByAdmin = AdminScreenBuckets.systemAccessRequests;
-                  },
                 ),
-                ListTile(
-                  shape: const RoundedRectangleBorder(
-                      borderRadius: BorderRadius.only(topRight: Radius.circular(15.0), bottomRight: Radius.circular(15.0))
+                Padding(
+                  padding: const EdgeInsets.symmetric(horizontal: 8.0, vertical: 6.0),
+                  child: ListTile(
+                    shape: const RoundedRectangleBorder(borderRadius: BorderRadius.all(Radius.circular(10.0))),
+                    // hoverColor: Colors.red,
+                    tileColor: _sideDrawerNotifier.selectedPageTypeByAdmin == AdminScreenBuckets.workMonitoring
+                        ? AppColors.white
+                        : AppColors.darkPurple,
+                    title: Row(
+                      mainAxisAlignment: MainAxisAlignment.start,
+                      children: [
+                        SvgPicture.asset(
+                          Assets.workMonitoringLogoSvg,
+                          width: 25 * 0.8,
+                          height: 24 * 0.8,
+                          color: _sideDrawerNotifier.selectedPageTypeByAdmin == AdminScreenBuckets.workMonitoring
+                              ? AppColors.darkPurple
+                              : AppColors.white,
+                        ),
+                        const SizedBox(width: 10.0),
+                        Text(
+                          "Work Monitoring",
+                          style: TextStyle(
+                              color: _sideDrawerNotifier.selectedPageTypeByAdmin == AdminScreenBuckets.workMonitoring
+                                  ? AppColors.black
+                                  : AppColors.white,
+                              fontWeight: FontWeight.w600,
+                              fontSize: 14.0),
+                        ),
+                      ],
+                    ),
+                    onTap: () {
+                      _sideDrawerNotifier.selectedPageTypeByAdmin = AdminScreenBuckets.workMonitoring;
+                    },
                   ),
-                  // hoverColor: Colors.red,
-                  tileColor: _sideDrawerNotifier.selectedPageTypeByAdmin == AdminScreenBuckets.systemRoleManagement ? AppColors.nppPurple : null,
-                  title: Text(
-                    AdminScreenBuckets.systemRoleManagement.toDisplayString(),
-                    style: const TextStyle(color: AppColors.white),
-                  ),
-                  onTap: () {
-                    _sideDrawerNotifier.selectedPageTypeByAdmin = AdminScreenBuckets.systemRoleManagement;
-                  },
                 ),
-                ListTile(
-                  shape: const RoundedRectangleBorder(
-                      borderRadius: BorderRadius.only(topRight: Radius.circular(15.0), bottomRight: Radius.circular(15.0))
+                Padding(
+                  padding: const EdgeInsets.symmetric(horizontal: 8.0, vertical: 6.0),
+                  child: ListTile(
+                    shape: const RoundedRectangleBorder(borderRadius: BorderRadius.all(Radius.circular(10.0))),
+                    // hoverColor: Colors.red,
+                    tileColor: _sideDrawerNotifier.selectedPageTypeByAdmin == AdminScreenBuckets.workMonitoring
+                        ? AppColors.white
+                        : AppColors.darkPurple,
+                    title: Row(
+                      mainAxisAlignment: MainAxisAlignment.start,
+                      children: [
+                        SvgPicture.asset(
+                          Assets.scheduleTaskLogoSvg,
+                          width: 25 * 0.8,
+                          height: 24 * 0.8,
+                          color: _sideDrawerNotifier.selectedPageTypeByAdmin == AdminScreenBuckets.workMonitoring
+                              ? AppColors.darkPurple
+                              : AppColors.white,
+                        ),
+                        const SizedBox(width: 10.0),
+                        Text(
+                          "Scheduling Tasks",
+                          style: TextStyle(
+                              color: _sideDrawerNotifier.selectedPageTypeByAdmin == AdminScreenBuckets.workMonitoring
+                                  ? AppColors.black
+                                  : AppColors.white,
+                              fontWeight: FontWeight.w600,
+                              fontSize: 14.0),
+                        ),
+                      ],
+                    ),
+                    onTap: () {
+                      _sideDrawerNotifier.selectedPageTypeByAdmin = AdminScreenBuckets.workMonitoring;
+                    },
                   ),
-                  title: Text(
-                    AdminScreenBuckets.administrativeUnitManagement.toDisplayString(),
-                    style: const TextStyle(color: AppColors.white),
-                  ),
-                  tileColor:
-                      _sideDrawerNotifier.selectedPageTypeByAdmin == AdminScreenBuckets.administrativeUnitManagement
-                          ? AppColors.nppPurple
-                          : null,
-                  onTap: () {
-                    _sideDrawerNotifier.selectedPageTypeByAdmin = AdminScreenBuckets.administrativeUnitManagement;
-                  },
                 ),
               ],
             ),

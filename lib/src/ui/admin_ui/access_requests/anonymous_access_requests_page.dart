@@ -129,7 +129,7 @@ class _AnonymousAccessRequestsPageState extends State<AnonymousAccessRequestsPag
           ],
         ),
         const SizedBox(height: 5.0),
-        Container(color: AppColors.nppPurple,height: 2.0,),
+        Container(color: AppColors.darkPurple,height: 2.0,),
         const SizedBox(height: 8.0),
         StreamBuilder(
           stream: _authService.getRequestAccessForAdminStream(),
@@ -143,7 +143,7 @@ class _AnonymousAccessRequestsPageState extends State<AnonymousAccessRequestsPag
                       height: 40,
                       child: CircularProgressIndicator(
                         strokeWidth: 5,
-                        color: AppColors.nppPurple,
+                        color: AppColors.darkPurple,
                       ),
                     )),
               );
@@ -416,7 +416,7 @@ class _AnonymousAccessRequestsPageState extends State<AnonymousAccessRequestsPag
         onPressed: _isUpdateMode ? editEmployee : registerEmployee,
         child: Text(
           _isUpdateMode ? "Edit Employee" : "Submit Employee",
-          style: const TextStyle(color: AppColors.nppPurple, fontSize: 14.0),
+          style: const TextStyle(color: AppColors.darkPurple, fontSize: 14.0),
         ),
       ),
     );
@@ -445,7 +445,7 @@ class _AnonymousAccessRequestsPageState extends State<AnonymousAccessRequestsPag
         },
         child: const Text(
           "Reset",
-          style: TextStyle(color: AppColors.nppPurple, fontSize: 14.0),
+          style: TextStyle(color: AppColors.darkPurple, fontSize: 14.0),
         ),
       ),
     );
@@ -563,7 +563,7 @@ class _AnonymousAccessRequestsPageState extends State<AnonymousAccessRequestsPag
               onPressed: () {},
               child: const Text(
                 "bj;alrkak",//ඉවත්කරන්න
-                style: TextStyle(color: AppColors.nppPurple, fontSize: 14.0),
+                style: TextStyle(color: AppColors.darkPurple, fontSize: 14.0),
               ),
             ),
           ],
@@ -571,7 +571,7 @@ class _AnonymousAccessRequestsPageState extends State<AnonymousAccessRequestsPag
       ),
       DataCell(Text(accessRequest.fullName)),
       DataCell(Text(accessRequest.email)),
-      DataCell(Text("${accessRequest.waPhoneNumber}")),
+      DataCell(Text("${accessRequest.phoneNumber}")),
       // DataCell(Text(DateFormat('yyyy-MM-dd').format(reservation.checkIn!))),
       // DataCell(Text(DateFormat('yyyy-MM-dd').format(reservation.checkOut!))),
       DataCell(Text(

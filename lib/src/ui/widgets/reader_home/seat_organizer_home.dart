@@ -38,7 +38,7 @@ class _SeatOrganizerHomeState extends State<SeatOrganizerHome> {
   late final SideDrawerNotifier _sideDrawerNotifier;
   final PageStorageBucket screenBucket = PageStorageBucket();
   ScreenBuckets _selectedPageIndex = ScreenBuckets.membersManagement;
-  String _selectedPageTitle = AdminScreenBuckets.systemAccessRequests.toDisplayString();
+  String _selectedPageTitle = AdminScreenBuckets.overview.toDisplayString();
 
   @override
   void initState() {
@@ -101,7 +101,7 @@ class _SeatOrganizerHomeState extends State<SeatOrganizerHome> {
                                     Icons.menu_rounded,
                                   ),
                                   splashRadius: 25.0,
-                                  color: AppColors.nppPurple,
+                                  color: AppColors.darkPurple,
                                   // hoverColor: AppColors.appBarColor,
                                 ),
                                 Expanded(

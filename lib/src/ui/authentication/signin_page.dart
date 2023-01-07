@@ -43,7 +43,7 @@ class _SignInPageState extends State<SignInPage> {
                         children: [
                           Container(
                             decoration: const BoxDecoration(
-                              color: AppColors.nppPurple,
+                              color: AppColors.darkPurple,
                               shape: BoxShape.circle,
                             ),
                             height: 40,
@@ -122,7 +122,7 @@ class _SignInPageState extends State<SignInPage> {
                                   ),
                                   Container(
                                     decoration: const BoxDecoration(
-                                      color: AppColors.nppPurple,
+                                      color: AppColors.darkPurple,
                                       shape: BoxShape.circle,
                                     ),
                                     height: 10,
@@ -149,7 +149,7 @@ class _SignInPageState extends State<SignInPage> {
                                   Text(
                                     'Not A member ?',
                                     style: TextStyle(
-                                      color: AppColors.nppPurple,
+                                      color: AppColors.darkPurple,
                                       fontSize: 18.0,
                                       fontWeight: FontWeight.bold,
                                       decoration: TextDecoration.none,
@@ -210,7 +210,7 @@ class _SignInPageState extends State<SignInPage> {
                                 buttonTitle: 'Login to my account',
                                 width: 0.32,
                                 height: 0.05,
-                                borderColor: AppColors.nppPurple,
+                                borderColor: AppColors.darkPurple,
                                 borderRadius: 25,
                                 fontSize: 12,
                                 fontWeight: FontWeight.bold,

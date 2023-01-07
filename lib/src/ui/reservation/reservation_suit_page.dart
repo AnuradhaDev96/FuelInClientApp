@@ -185,7 +185,7 @@ class ReservationSuitePage extends StatelessWidget {
       onPressed: () => proceedToCheckoutReservation(context, subscriptionType),
       child: const Text(
         "Subscribe Now",
-        style: TextStyle(color: AppColors.nppPurple, fontSize: 14.0),
+        style: TextStyle(color: AppColors.darkPurple, fontSize: 14.0),
       ),
     );
   }
