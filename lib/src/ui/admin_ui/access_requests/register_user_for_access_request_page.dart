@@ -114,7 +114,7 @@ class RegisterUserForAccessRequestPage extends StatelessWidget {
                     DataRow(cells: [
                       DataCell(Text(requestAccessModel.fullName)),
                       DataCell(Text(requestAccessModel.email)),
-                      DataCell(Text("${requestAccessModel.waPhoneNumber}")),
+                      DataCell(Text("${requestAccessModel.phoneNumber}")),
                       DataCell(Text(
                         "${requestAccessModel.userType?.toDisplaySinhalaString()}",
                         style: const TextStyle(fontFamily: 'DL-Paras'),

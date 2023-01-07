@@ -28,8 +28,8 @@ class RequestAccessForm extends StatelessWidget {
   final ScrollController _scrollController = ScrollController();
   final ScrollController _formScrollController = ScrollController();
 
-  final UserTypes _defaultUserType = UserTypes.seatOrganizer;
-  static final ValueNotifier<UserTypes> _selectedUserType = ValueNotifier<UserTypes>(UserTypes.seatOrganizer);
+  final UserTypes _defaultUserType = UserTypes.topLevel;
+  static final ValueNotifier<UserTypes> _selectedUserType = ValueNotifier<UserTypes>(UserTypes.topLevel);
   final AuthService _authService = GetIt.I<AuthService>();
 
   @override
@@ -396,7 +396,8 @@ class RequestAccessForm extends StatelessWidget {
       RequestAccessModel requestAccessModel = RequestAccessModel(
           fullName: _fullNameController.text,
           email: _personalEmailController.text,
-          waPhoneNumber: int.tryParse(_waPhoneNoController.text) ?? 0,
+          designation: "",
+          phoneNumber: int.tryParse(_waPhoneNoController.text) ?? 0,
           userType: _selectedUserType.value,
       );
 

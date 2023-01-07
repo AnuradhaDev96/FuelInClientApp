@@ -6,8 +6,9 @@ import '../enums/access_request_status.dart';
 import '../enums/user_types.dart';
 
 class RequestAccessModel {
-  String fullName, email;
-  int waPhoneNumber;
+  String fullName, email, designation;
+  int phoneNumber;
+
   AccessRequestStatus? accessRequestStatus;
   DateTime? requestedDate;
   DateTime? lastUpdatedDate;
@@ -25,8 +26,9 @@ class RequestAccessModel {
   RequestAccessModel({
     required this.fullName,
     required this.email,
-    required this.waPhoneNumber,
+    required this.phoneNumber,
     required this.userType,
+    required this.designation,
     this.accessRequestStatus = AccessRequestStatus.pendingApproval,
     this.requestedDate,
     this.lastUpdatedDate,
@@ -37,7 +39,7 @@ class RequestAccessModel {
     return {
       'fullName': fullName,
       'email': email,
-      'waPhoneNumber': waPhoneNumber,
+      'waPhoneNumber': phoneNumber,
       'userType': userType?.toDBValue(),
       'accessRequestStatus': accessRequestStatus?.toDbValue(),
       'requestedDate': requestedDate,
@@ -48,7 +50,8 @@ class RequestAccessModel {
 
   RequestAccessModel.fromMap(Map<String, dynamic> map, {required this.email}):
         fullName = map["fullName"],
-        waPhoneNumber = map["waPhoneNumber"],
+        phoneNumber = map["waPhoneNumber"],
+        designation = map["designation"],
         userType = AppSettings.getEnumValueFromEnglishValue(map["userType"]),
         accessRequestStatus = map["accessRequestStatus"] == null
             ? AccessRequestStatus.pendingApproval

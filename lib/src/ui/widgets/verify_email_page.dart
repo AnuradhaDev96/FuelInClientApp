@@ -87,7 +87,7 @@ class _VerifyEmailPageState extends State<VerifyEmailPage> {
                   const Padding(
                     padding: EdgeInsets.symmetric(vertical: 10.0,  horizontal: 30.0),
                     child: Text(
-                      "fuu .sKqu i;Hdmkh lsÍu i|yd Tnf.a Bfï,a bkafndlaia fyda iamEï f*da,avrfha we;s ,skala tlg fhduq jkak'",//මෙම ගිණුම සත්‍යාපනය කිරීම සඳහා ඔබගේ ඊමේල් ඉන්බොක්ස් හෝ ස්පෑම් ෆෝල්ඩරයේ ඇති ලින්ක් එකට යොමු වන්න.
+                      "Please verify the link sent to your inbox or spam folder of the email provided.",
                       style: TextStyle(
                         fontSize: 20.0,
                         color: AppColors.white

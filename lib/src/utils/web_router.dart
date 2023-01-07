@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import '../ui/authentication/create_account_page.dart';
 import '../ui/authentication/signin_page.dart';
 import '../ui/landing_page/landing_page.dart';
 
@@ -12,6 +13,11 @@ class WebRouter {
         return MaterialPageRoute(
           settings: RouteSettings(name: settings.name),
           builder: (_) => const LandingPage(),
+        );
+      case createAccountPage:
+        return MaterialPageRoute(
+          settings: RouteSettings(name: settings.name),
+          builder: (_) => const CreateAccountPage(),
         );
       default:
         return MaterialPageRoute(

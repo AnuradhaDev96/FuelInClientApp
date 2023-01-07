@@ -282,98 +282,98 @@ class _LandingPageState extends State<LandingPage> {
 
 
 
-  Widget _buildMobileContent() {
-    return ListView(
-      children: [
-        Container(
-          width: MediaQuery.of(context).size.width,
-          // height: double.infinity,
-          color: AppColors.darkPurple,
-          padding: const EdgeInsets.all(8.0),
-          child: _signInSectionMobile(),
-        ),
-        RequestAccessForm(),
-      ],
-    );
-  }
+  // Widget _buildMobileContent() {
+  //   return ListView(
+  //     children: [
+  //       Container(
+  //         width: MediaQuery.of(context).size.width,
+  //         // height: double.infinity,
+  //         color: AppColors.darkPurple,
+  //         padding: const EdgeInsets.all(8.0),
+  //         child: _signInSectionMobile(),
+  //       ),
+  //       RequestAccessForm(),
+  //     ],
+  //   );
+  // }
 
-  Widget _signInSectionMobile() {
-    return ExpansionPanelList(
-      elevation: 0,
-      expansionCallback: (int panelIndex, bool isExpanded) {
-        setState(() {
-          _mobileLoginPanelExpandStatus[panelIndex] = !_mobileLoginPanelExpandStatus[panelIndex];
-        });
-      },
-      children: [
-        ExpansionPanel(
-          backgroundColor: AppColors.darkPurple,
-          canTapOnHeader: true,
-          isExpanded: _mobileLoginPanelExpandStatus[0],
-          headerBuilder: (BuildContext context, bool isExpanded) {
-            return Row(
-              mainAxisAlignment: MainAxisAlignment.center,
-              children: const [
-                Text(
-                  'Log In',
-                  style: TextStyle(
-                    fontFamily: SettingsSinhala.engFontFamily,
-                    fontSize: 25.0,
-                    color: AppColors.silverPurple,
-                  ),
-                ),
-              ],
-            );
-          },
-          body: Form(
-            key: _signInFormKey,
-            child: ListView(
-              shrinkWrap: (CommonUtils.isMobileUI(context)) ? true : false,
-              padding: const EdgeInsets.all(2.0),
-              children: [
+  // Widget _signInSectionMobile() {
+  //   return ExpansionPanelList(
+  //     elevation: 0,
+  //     expansionCallback: (int panelIndex, bool isExpanded) {
+  //       setState(() {
+  //         _mobileLoginPanelExpandStatus[panelIndex] = !_mobileLoginPanelExpandStatus[panelIndex];
+  //       });
+  //     },
+  //     children: [
+  //       ExpansionPanel(
+  //         backgroundColor: AppColors.darkPurple,
+  //         canTapOnHeader: true,
+  //         isExpanded: _mobileLoginPanelExpandStatus[0],
+  //         headerBuilder: (BuildContext context, bool isExpanded) {
+  //           return Row(
+  //             mainAxisAlignment: MainAxisAlignment.center,
+  //             children: const [
+  //               Text(
+  //                 'Log In',
+  //                 style: TextStyle(
+  //                   fontFamily: SettingsSinhala.engFontFamily,
+  //                   fontSize: 25.0,
+  //                   color: AppColors.silverPurple,
+  //                 ),
+  //               ),
+  //             ],
+  //           );
+  //         },
+  //         body: Form(
+  //           key: _signInFormKey,
+  //           child: ListView(
+  //             shrinkWrap: (CommonUtils.isMobileUI(context)) ? true : false,
+  //             padding: const EdgeInsets.all(2.0),
+  //             children: [
+  //
+  //               // const SizedBox(height: 5.0),
+  //               _buildAuthEmailField(),
+  //               _buildAuthPasswordField(),
+  //               // const SizedBox(height: 5.0),
+  //               _buildSignInButton(),
+  //             ],
+  //           ),
+  //         ),
+  //       )
+  //     ],
+  //   );
+  // }
 
-                // const SizedBox(height: 5.0),
-                _buildAuthEmailField(),
-                _buildAuthPasswordField(),
-                // const SizedBox(height: 5.0),
-                _buildSignInButton(),
-              ],
-            ),
-          ),
-        )
-      ],
-    );
-  }
-
-  Widget _signInSection() {
-    return Form(
-      key: _signInFormKey,
-      child: ListView(
-        shrinkWrap: (CommonUtils.isMobileUI(context)) ? true : false,
-        padding: const EdgeInsets.all(2.0),
-        children: [
-          Row(
-            mainAxisAlignment: MainAxisAlignment.center,
-            children: const [
-              Text(
-                'Log In',
-                style: TextStyle(
-                  fontFamily: SettingsSinhala.engFontFamily,
-                  fontSize: 25.0,
-                  color: AppColors.silverPurple,
-                ),
-              ),
-            ],
-          ),
-          // const SizedBox(height: 5.0),
-          _buildAuthEmailField(),
-          _buildAuthPasswordField(),
-          // const SizedBox(height: 5.0),
-          _buildSignInButton(),
-        ],
-      ),
-    );
-  }
+  // Widget _signInSection() {
+  //   return Form(
+  //     key: _signInFormKey,
+  //     child: ListView(
+  //       shrinkWrap: (CommonUtils.isMobileUI(context)) ? true : false,
+  //       padding: const EdgeInsets.all(2.0),
+  //       children: [
+  //         Row(
+  //           mainAxisAlignment: MainAxisAlignment.center,
+  //           children: const [
+  //             Text(
+  //               'Log In',
+  //               style: TextStyle(
+  //                 fontFamily: SettingsSinhala.engFontFamily,
+  //                 fontSize: 25.0,
+  //                 color: AppColors.silverPurple,
+  //               ),
+  //             ),
+  //           ],
+  //         ),
+  //         // const SizedBox(height: 5.0),
+  //         _buildAuthEmailField(),
+  //         _buildAuthPasswordField(),
+  //         // const SizedBox(height: 5.0),
+  //         _buildSignInButton(),
+  //       ],
+  //     ),
+  //   );
+  // }
 
   Widget _buildAuthEmailField() {
     return Padding(
@@ -405,7 +405,6 @@ class _LandingPageState extends State<LandingPage> {
               },
               style: const TextStyle(
                 fontSize: 14.0,
-                fontFamily: SettingsSinhala.engFontFamily,
                 color: AppColors.black,
               ),
               keyboardType: TextInputType.emailAddress,
@@ -482,7 +481,6 @@ class _LandingPageState extends State<LandingPage> {
                   // autofocus: true,
                   style: const TextStyle(
                     fontSize: 14.0,
-                    fontFamily: SettingsSinhala.engFontFamily,
                     color: AppColors.black,
                   ),
                   obscureText: _isPasswordTextHidden.value,
@@ -615,19 +613,16 @@ class _LandingPageState extends State<LandingPage> {
       try {
         AuthenticatedUser? authenticatedUser = await GetIt.I<AuthService>().passwordLogin(_authEmailAddressController.text, _authPasswordController.text);
         if (authenticatedUser != null) {
-          print("####${authenticatedUser.userType}");
           if (authenticatedUser.userType == UserTypes.systemAdmin) {
-            print("Logged inSuzzessfully as admin");
             notifyAppIsAuthenticated(authenticatedUser);
-          } else if (authenticatedUser.userType == UserTypes.seatOrganizer) {
+          } else if (authenticatedUser.userType == UserTypes.topLevel) {
             notifyAppIsAuthenticated(authenticatedUser);
           } else {
             return;
           }
         }
       } catch (e) {
-        if (mounted) MessageUtils.showErrorInFlushBar(context, "Bfï,a ,smskh fyda uqrmoh jerÈ neúka msúiSug fkdyel'", appearFromTop: false, duration: 4);
-        //ඊමේල් ලිපිනය හෝ මුරපදය වැරදි බැවින් පිවිසීමට නොහැක.
+        if (mounted) MessageUtils.showErrorInFlushBar(context, "Email or password is incorrect", appearFromTop: false, duration: 4);
       }
     }
     if (_authEmailFieldFocusNode.hasFocus) _authEmailFieldFocusNode.unfocus();

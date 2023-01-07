@@ -7,6 +7,9 @@ import 'package:matara_division_system/src/models/enums/user_types.dart';
 import 'package:matara_division_system/src/ui/widgets/reader_home/seat_organizer_home.dart';
 import 'package:matara_division_system/src/ui/widgets/verify_email_page.dart';
 
+import '../../api_providers/main_api_provider.dart';
+import '../../config/app_settings.dart';
+import '../../models/authentication/lock_hood_user.dart';
 import '../../models/authentication/system_user.dart';
 import '../../services/auth_service.dart';
 import 'admin_home/admin_home.dart';
@@ -64,16 +67,17 @@ class _AuthenticatedScreenProviderState extends State<AuthenticatedScreenProvide
       return VerifyEmailPage();
     } else {
       return FutureBuilder(
-        future: GetIt.I<AuthService>().permissionsListForUser(),
-        builder: (BuildContext context, AsyncSnapshot<SystemUser?> snapshot) {
+        future: GetIt.I<MainApiProvider>().getPermissionsForUser(),
+        builder: (BuildContext context, AsyncSnapshot<LockHoodUser?> snapshot) {
           if (snapshot.connectionState == ConnectionState.waiting) {
             return const SplashWebScreen();
           } else if (snapshot.hasError || !snapshot.hasData || snapshot.data == null) {
             return const SplashWebScreen();
           } else if (snapshot.hasData) {
-            if (snapshot.data!.type == UserTypes.systemAdmin.toDBValue()) {
+            UserTypes managementType = AppSettings.getManagementLevelEnumValueForInteger(snapshot.data!.managementType);
+            if (managementType == UserTypes.systemAdmin) {
               return const AdminHome();
-            } else if (snapshot.data!.type == UserTypes.seatOrganizer.toDBValue()) {
+            } else if (managementType == UserTypes.topLevel) {
               return const SeatOrganizerHome();
             } else {
               return const SplashWebScreen();

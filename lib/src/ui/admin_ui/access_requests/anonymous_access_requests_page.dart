@@ -571,7 +571,7 @@ class _AnonymousAccessRequestsPageState extends State<AnonymousAccessRequestsPag
       ),
       DataCell(Text(accessRequest.fullName)),
       DataCell(Text(accessRequest.email)),
-      DataCell(Text("${accessRequest.waPhoneNumber}")),
+      DataCell(Text("${accessRequest.phoneNumber}")),
       // DataCell(Text(DateFormat('yyyy-MM-dd').format(reservation.checkIn!))),
       // DataCell(Text(DateFormat('yyyy-MM-dd').format(reservation.checkOut!))),
       DataCell(Text(
