@@ -7,6 +7,8 @@ import '../config/app_settings.dart';
 import '../models/authentication/lock_hood_user.dart';
 import '../models/lock_hood_models/inventory_items.dart';
 import '../models/lock_hood_models/kanban_task.dart';
+import '../models/lock_hood_models/response_dto/task_allocated_resource_dto.dart';
+import '../models/lock_hood_models/task_allocated_resource.dart';
 
 class MainApiProvider {
   final FirebaseAuthWeb _firebaseAuthWeb = FirebaseAuthWeb.instance;
@@ -78,6 +80,28 @@ class MainApiProvider {
     return null;
   }
 
+  Future<List<InventoryItems>?> getInventoryItemsByProductBatchId(int batchId) async {
+    var url = Uri.parse('${AppSettings.webApiUrl}HumanResource/KanBanTasks/InventoryItemsByBatch/$batchId');
+    // var url1;
+    print(url);
+    var response = await http.get(
+      url,
+      headers: {
+        "Access-Control-Allow-Origin": "*",
+        'Accept': '*/*'
+      },
+    );
+    if (response.statusCode == 200) {
+
+      var list = List<InventoryItems>.from(
+          jsonDecode(response.body).map((it) => InventoryItems.fromMap(it)));
+
+      return list;
+
+    }
+    return null;
+  }
+
   Future<List<KanBanTask>?> getAllKanBanTasks() async {
     var url = Uri.parse('${AppSettings.webApiUrl}HumanResource/KanBanTasks/all');
 
@@ -101,5 +125,61 @@ class MainApiProvider {
 
     }
     return null;
+  }
+
+  Future<List<TaskAllocatedResource>?> getAllocatedResourcesByTaskId(int taskId) async {
+    var url = Uri.parse('${AppSettings.webApiUrl}HumanResource/KanBanTasks/AllocateResource/$taskId');
+    print(url);
+    var response = await http.get(
+      url,
+      headers: {
+        "Access-Control-Allow-Origin": "*",
+        'Accept': '*/*'
+      },
+    );
+    print("###code: ${response.statusCode}");
+    if (response.statusCode == 200) {
+      print("###suceses");
+      var list = List<TaskAllocatedResource>.from(
+          jsonDecode(response.body).map((it) => TaskAllocatedResource.fromMap(it)));
+      // var returnBody = jsonDecode(response.body);
+      // var list = returnBody.
+      // returnBody.map((key, value) => null)
+
+      // var lockHoodUser = LockHoodUser.fromMap(returnBody);
+      print("####arCount: ${list.length}");
+      return list;
+
+    }
+    return null;
+  }
+
+  Future<TaskAllocatedResourceDto> createAllocatedResourceForTask(TaskAllocatedResource data) async{
+    var url = Uri.parse('${AppSettings.webApiUrl}HumanResource/KanBanTasks/AllocateResource');
+
+    var response = await http.post(
+        url,
+        headers: {
+          "Content-Type": "application/json",
+        },
+        body: jsonEncode(data.toMap()),
+    );
+
+    if (response.statusCode == 200) {
+
+      // var list = List<KanBanTask>.from(
+      //     jsonDecode(response.body).map((it) => KanBanTask.fromMap(it)));
+      var returnBody = jsonDecode(response.body);
+      // var list = returnBody.
+      // returnBody.map((key, value) => null)
+      var taskAllocatedResourceDto = TaskAllocatedResourceDto.fromMap(returnBody);
+      taskAllocatedResourceDto.statusCode = response.statusCode;
+
+      return taskAllocatedResourceDto;
+
+    }
+
+    TaskAllocatedResourceDto errorResponse = TaskAllocatedResourceDto(statusCode: response.statusCode);
+    return errorResponse;
   }
 }

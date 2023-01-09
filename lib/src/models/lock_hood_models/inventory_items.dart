@@ -11,7 +11,7 @@ class InventoryItems {
         inventoryId = map["inventoryId"],
         name = map["name"],
         alertMargin = map["alertMargin"],
-        availableQuantity = map["availableQuantity"];
+        availableQuantity = map["availableQuantity"] ?? 0;
 
   Map<String, dynamic> toMap(){
     return {

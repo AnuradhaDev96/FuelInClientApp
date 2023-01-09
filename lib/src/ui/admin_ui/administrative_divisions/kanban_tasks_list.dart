@@ -7,6 +7,8 @@ import '../../../api_providers/main_api_provider.dart';
 import '../../../config/app_colors.dart';
 import '../../../config/app_settings.dart';
 import '../../../models/lock_hood_models/kanban_task.dart';
+import '../../../utils/general_dialog_utils.dart';
+import 'kanban_task_allocate_resources_dialog.dart';
 
 class KanBanTaskListPage extends StatelessWidget {
   KanBanTaskListPage({Key? key}) : super(key: key);
@@ -134,10 +136,10 @@ class KanBanTaskListPage extends StatelessWidget {
                 backgroundColor: MaterialStateProperty.all(AppColors.silverPurple),
               ),
               // onPressed: () => _selectReservationToAssignRooms(context, reservation),
-              onPressed: () {},
+              onPressed: () => _openAllocateResourceDialog(context, data.batchId ?? -1, data.id ?? -1),
               child: const Text(
-                "Delete",
-                style: TextStyle(color: AppColors.darkPurple, fontSize: 14.0),
+                "Allocate/View Resource",
+                style: TextStyle(color: AppColors.darkPurple, fontSize: 12.0),
               ),
             ),
           ],
@@ -203,6 +205,14 @@ class KanBanTaskListPage extends StatelessWidget {
       // DataCell(Text("${reservation.noOfNightsReserved ?? 0}")),
       // DataCell(Text("${reservation.totalCostOfReservation ?? 0}")),
     ]);
+  }
+
+  void _openAllocateResourceDialog(BuildContext context, int batchId, int kanbanTaskId) async {
+    bool isProcessSuccessful = await GeneralDialogUtils().showCustomGeneralDialog(
+      context: context,
+      child: KanBanTaskAllocateResourcesDialog(productionBatchId: batchId, kanbantaskId: kanbanTaskId,),
+      title: "Allocate Resource to Task",
+    );
   }
 
   Widget _headerPanel(BuildContext context) {
