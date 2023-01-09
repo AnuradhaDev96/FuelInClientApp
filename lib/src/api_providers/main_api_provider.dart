@@ -7,6 +7,7 @@ import '../config/app_settings.dart';
 import '../models/authentication/lock_hood_user.dart';
 import '../models/lock_hood_models/inventory_items.dart';
 import '../models/lock_hood_models/kanban_task.dart';
+import '../models/lock_hood_models/production_batch.dart';
 import '../models/lock_hood_models/response_dto/task_allocated_resource_dto.dart';
 import '../models/lock_hood_models/task_allocated_resource.dart';
 
@@ -181,5 +182,55 @@ class MainApiProvider {
 
     TaskAllocatedResourceDto errorResponse = TaskAllocatedResourceDto(statusCode: response.statusCode);
     return errorResponse;
+  }
+
+  Future<bool> updateTestInformationOfProductionBatch(ProductionBatch data) async{
+    var url = Uri.parse('${AppSettings.webApiUrl}HumanResource/ProductionBatches/UpdateTestInformation');
+
+    var response = await http.put(
+        url,
+        headers: {
+          "Content-Type": "application/json",
+        },
+        body: jsonEncode(data.toUpdateMap()),
+    );
+
+    if (response.statusCode == 204) {
+
+      // var list = List<KanBanTask>.from(
+      //     jsonDecode(response.body).map((it) => KanBanTask.fromMap(it)));
+      // var returnBody = jsonDecode(response.body);
+      // var list = returnBody.
+      // returnBody.map((key, value) => null)
+      // var taskAllocatedResourceDto = TaskAllocatedResourceDto.fromMap(returnBody);
+      // taskAllocatedResourceDto.statusCode = response.statusCode;
+
+      return true;
+
+    }
+    return false;
+  }
+
+  Future<List<ProductionBatch>?> getAllProductionBatches() async {
+    var url = Uri.parse('${AppSettings.webApiUrl}HumanResource/ProductionBatches');
+    // var url1;
+    print(url);
+    var response = await http.get(
+      url,
+      headers: {
+        "Access-Control-Allow-Origin": "*",
+        'Accept': '*/*'
+      },
+    );
+    print("##prodB: ${response.statusCode}");
+    if (response.statusCode == 200) {
+
+      var list = List<ProductionBatch>.from(
+          jsonDecode(response.body).map((it) => ProductionBatch.fromMap(it)));
+      print(list[0].toMap());
+      return list;
+
+    }
+    return null;
   }
 }

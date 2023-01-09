@@ -10,6 +10,7 @@ import 'src/models/change_notifiers/role_management_notifier.dart';
 import 'src/models/change_notifiers/administrative_units_change_notifer.dart';
 import 'package:provider/provider.dart';
 
+import 'src/models/change_notifiers/schedule_task_page_notifier.dart';
 import 'src/utils/firebase_options.dart';
 import 'src/config/app_colors.dart';
 import 'src/config/app_settings.dart';
@@ -93,6 +94,8 @@ class MyApp extends StatelessWidget {
             create: (context) => AdministrativeUnitsChangeNotifier(),
         ),ChangeNotifierProvider(
             create: (context) => RoleManagementNotifier(),
+        ),ChangeNotifierProvider(
+            create: (context) => ScheduleTaskPageViewNotifier(),
         ),
       ],
       child: MaterialApp(

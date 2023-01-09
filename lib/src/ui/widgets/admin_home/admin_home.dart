@@ -15,6 +15,7 @@ import '../../admin_ui/administrative_divisions/administrative_divisions_list.da
 import '../../admin_ui/administrative_divisions/administrative_units_page_view.dart';
 import '../../admin_ui/role_management/role_management_list_page.dart';
 import '../../admin_ui/role_management/role_management_page_view.dart';
+import '../../admin_ui/schedule_task_for_production_batch/schedule_task_module_page_view.dart';
 import 'admin_side_drawer.dart';
 import '../reader_home/side_drawer.dart';
 import '../../accommodation/accommodation_list.dart';
@@ -103,11 +104,11 @@ class _AdminHomeState extends State<AdminHome> {
                                   color: AppColors.darkPurple,
                                   // hoverColor: AppColors.appBarColor,
                                 ),
-                                Expanded(
+                                const Expanded(
                                   child: Center(
                                     child: Text(
-                                      _selectedPageTitle,
-                                      style: const TextStyle(
+                                      "",
+                                      style: TextStyle(
                                         fontSize: 20.0,
                                         fontWeight: FontWeight.bold,
                                       ),
@@ -116,9 +117,9 @@ class _AdminHomeState extends State<AdminHome> {
                                 ),
                               ],
                             )
-                          : Text(
-                              _selectedPageTitle,
-                              style: const TextStyle(
+                          : const Text(
+                              "",
+                              style: TextStyle(
                                 fontSize: 20.0,
                                 fontWeight: FontWeight.bold,
                               ),
@@ -178,6 +179,8 @@ class _AdminHomeState extends State<AdminHome> {
         return const RoleManagementPageView();
       case AdminScreenBuckets.workMonitoring:
         return const AdministrativeUnitsPageView();
+      case AdminScreenBuckets.scheduleTasks:
+        return const ScheduleTaskModulePageView();
       default:
         return const SizedBox(width: 0, height: 0);
     }
