@@ -10,6 +10,7 @@ import '../../../config/app_settings.dart';
 import '../../../models/lock_hood_models/kanban_task.dart';
 import '../../../models/lock_hood_models/production_batch.dart';
 import '../../../utils/general_dialog_utils.dart';
+import 'schedule_task_based_on_oee_dialog.dart';
 import 'update_test_info_of_batch_dialog.dart';
 
 class ProductionBatchListPage extends StatelessWidget {
@@ -139,8 +140,8 @@ class ProductionBatchListPage extends StatelessWidget {
               style: Theme.of(context).elevatedButtonTheme.style!.copyWith(
                 backgroundColor: MaterialStateProperty.all(AppColors.silverPurple),
               ),
-              onPressed: () => {},
-              // onPressed: () => _openAllocateResourceDialog(context, data.batchId ?? -1, data.id ?? -1),
+              // onPressed: () => {},
+              onPressed: () => _scheduleDeadlineBasedOnOEE(context, data.id ?? -1),
               child: const Text(
                 "Evaluate Production",
                 style: TextStyle(color: AppColors.darkPurple, fontSize: 12.0),
@@ -236,6 +237,14 @@ class ProductionBatchListPage extends StatelessWidget {
       context: context,
       child: UpdateTestInfoOfBatchDialog(batchId: batchId, testedAmount: testedAmount, passedAmount: passedAmount),
       title: "Update Test Information of Batch Id: $batchId",
+    );
+  }
+
+  void _scheduleDeadlineBasedOnOEE(BuildContext context, int batchId) async {
+    bool isProcessSuccessful = await GeneralDialogUtils().showCustomGeneralDialog(
+      context: context,
+      child: ScheduleTaskBasedOnOEEDialog(batchId: batchId),
+      title: "Schedule Deadline Based on Overall Equipment Effectiveness",
     );
   }
 

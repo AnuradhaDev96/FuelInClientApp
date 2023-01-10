@@ -211,6 +211,32 @@ class MainApiProvider {
     return false;
   }
 
+  Future<bool> scheduleNewDateBasedOnOEEForProductionBatch(int batchId) async{
+    var url = Uri.parse('${AppSettings.webApiUrl}HumanResource/ProductionBatches/ScheduleNewDateBasedOnOEE/$batchId');
+
+    var response = await http.put(
+        url,
+        headers: {
+          "Content-Type": "application/json",
+        },
+    );
+
+    if (response.statusCode == 204) {
+
+      // var list = List<KanBanTask>.from(
+      //     jsonDecode(response.body).map((it) => KanBanTask.fromMap(it)));
+      // var returnBody = jsonDecode(response.body);
+      // var list = returnBody.
+      // returnBody.map((key, value) => null)
+      // var taskAllocatedResourceDto = TaskAllocatedResourceDto.fromMap(returnBody);
+      // taskAllocatedResourceDto.statusCode = response.statusCode;
+
+      return true;
+
+    }
+    return false;
+  }
+
   Future<List<ProductionBatch>?> getAllProductionBatches() async {
     var url = Uri.parse('${AppSettings.webApiUrl}HumanResource/ProductionBatches');
     // var url1;
