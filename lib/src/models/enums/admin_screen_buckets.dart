@@ -2,7 +2,7 @@ enum AdminScreenBuckets {
   overview,
   inventory,
   workMonitoring,
-  membersManagement,
+  scheduleTasks,
 }
 
 extension ToString on AdminScreenBuckets {
@@ -12,7 +12,7 @@ extension ToString on AdminScreenBuckets {
         return "m%fõYùug b,a,Sï";//ප්‍රවේශවීමට ඉල්ලීම්
       case AdminScreenBuckets.inventory:
         return ";k;=re l<uKdlrKh";//තනතුරු කළමණාකරණය
-      case AdminScreenBuckets.membersManagement:
+      case AdminScreenBuckets.scheduleTasks:
         return "iudðlhska l<uKdlrKh";//සමාජිකයින් කළමණාකරණය
       case AdminScreenBuckets.workMonitoring:
         return "mßmd,k tAll l<uKdlrKh";//පරිපාලන ඒකක කළමණාකරණය

@@ -184,7 +184,7 @@ class _AdminSideDrawerState extends State<AdminSideDrawer> {
                   child: ListTile(
                     shape: const RoundedRectangleBorder(borderRadius: BorderRadius.all(Radius.circular(10.0))),
                     // hoverColor: Colors.red,
-                    tileColor: _sideDrawerNotifier.selectedPageTypeByAdmin == AdminScreenBuckets.workMonitoring
+                    tileColor: _sideDrawerNotifier.selectedPageTypeByAdmin == AdminScreenBuckets.scheduleTasks
                         ? AppColors.white
                         : AppColors.darkPurple,
                     title: Row(
@@ -194,7 +194,7 @@ class _AdminSideDrawerState extends State<AdminSideDrawer> {
                           Assets.scheduleTaskLogoSvg,
                           width: 25 * 0.8,
                           height: 24 * 0.8,
-                          color: _sideDrawerNotifier.selectedPageTypeByAdmin == AdminScreenBuckets.workMonitoring
+                          color: _sideDrawerNotifier.selectedPageTypeByAdmin == AdminScreenBuckets.scheduleTasks
                               ? AppColors.darkPurple
                               : AppColors.white,
                         ),
@@ -202,7 +202,7 @@ class _AdminSideDrawerState extends State<AdminSideDrawer> {
                         Text(
                           "Scheduling Tasks",
                           style: TextStyle(
-                              color: _sideDrawerNotifier.selectedPageTypeByAdmin == AdminScreenBuckets.workMonitoring
+                              color: _sideDrawerNotifier.selectedPageTypeByAdmin == AdminScreenBuckets.scheduleTasks
                                   ? AppColors.black
                                   : AppColors.white,
                               fontWeight: FontWeight.w600,
@@ -211,7 +211,7 @@ class _AdminSideDrawerState extends State<AdminSideDrawer> {
                       ],
                     ),
                     onTap: () {
-                      _sideDrawerNotifier.selectedPageTypeByAdmin = AdminScreenBuckets.workMonitoring;
+                      _sideDrawerNotifier.selectedPageTypeByAdmin = AdminScreenBuckets.scheduleTasks;
                     },
                   ),
                 ),
