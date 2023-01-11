@@ -19,6 +19,9 @@ class Assets {
   static const String weddings2 = 'assets/images/weddings/2.jpeg';
   static const String weddings3 = 'assets/images/weddings/3.jpeg';
 
+  // pngs
+  static const String overviewDesign = 'assets/images/overview_page.png';
+
   //logos
   static const String triLanguageLogo = 'assets/images/logos/NPP-LOGO-NEW.png';
   static const String nppGroupCircle = 'assets/images/logos/tab_logo.jpg';
@@ -33,5 +36,6 @@ class Assets {
   static const String workMonitoringLogoSvg = 'assets/images/svgs/work_monitor_icon.svg';
   static const String scheduleTaskLogoSvg = 'assets/images/svgs/schedule_task_icon.svg';
   static const String reportingArenaLogoSvg = 'assets/images/svgs/reporting_arena_icon.svg';
+  static const String newTasksIconSvg = 'assets/images/svgs/new_tasks_svg.svg';
 
 }

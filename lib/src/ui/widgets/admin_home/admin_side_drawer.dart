@@ -215,6 +215,42 @@ class _AdminSideDrawerState extends State<AdminSideDrawer> {
                     },
                   ),
                 ),
+                Padding(
+                  padding: const EdgeInsets.symmetric(horizontal: 8.0, vertical: 6.0),
+                  child: ListTile(
+                    shape: const RoundedRectangleBorder(borderRadius: BorderRadius.all(Radius.circular(10.0))),
+                    // hoverColor: Colors.red,
+                    tileColor: _sideDrawerNotifier.selectedPageTypeByAdmin == AdminScreenBuckets.reportingArena
+                        ? AppColors.white
+                        : AppColors.darkPurple,
+                    title: Row(
+                      mainAxisAlignment: MainAxisAlignment.start,
+                      children: [
+                        SvgPicture.asset(
+                          Assets.reportingArenaLogoSvg,
+                          width: 25 * 0.8,
+                          height: 24 * 0.8,
+                          color: _sideDrawerNotifier.selectedPageTypeByAdmin == AdminScreenBuckets.reportingArena
+                              ? AppColors.darkPurple
+                              : AppColors.white,
+                        ),
+                        const SizedBox(width: 10.0),
+                        Text(
+                          "Reporting Arena",
+                          style: TextStyle(
+                              color: _sideDrawerNotifier.selectedPageTypeByAdmin == AdminScreenBuckets.reportingArena
+                                  ? AppColors.black
+                                  : AppColors.white,
+                              fontWeight: FontWeight.w600,
+                              fontSize: 14.0),
+                        ),
+                      ],
+                    ),
+                    onTap: () {
+                      _sideDrawerNotifier.selectedPageTypeByAdmin = AdminScreenBuckets.reportingArena;
+                    },
+                  ),
+                ),
               ],
             ),
             Padding(

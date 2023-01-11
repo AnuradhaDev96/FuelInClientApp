@@ -3,6 +3,7 @@ enum AdminScreenBuckets {
   inventory,
   workMonitoring,
   scheduleTasks,
+  reportingArena,
 }
 
 extension ToString on AdminScreenBuckets {
@@ -16,6 +17,8 @@ extension ToString on AdminScreenBuckets {
         return "iudðlhska l<uKdlrKh";//සමාජිකයින් කළමණාකරණය
       case AdminScreenBuckets.workMonitoring:
         return "mßmd,k tAll l<uKdlrKh";//පරිපාලන ඒකක කළමණාකරණය
+      case AdminScreenBuckets.reportingArena:
+        return "";
     }
   }
 }

@@ -13,6 +13,7 @@ import '../../../models/change_notifiers/side_drawer_notifier.dart';
 import '../../../models/enums/admin_screen_buckets.dart';
 import '../../admin_ui/administrative_divisions/administrative_divisions_list.dart';
 import '../../admin_ui/administrative_divisions/administrative_units_page_view.dart';
+import '../../admin_ui/reporting_arena/reporting_arena_menu_page.dart';
 import '../../admin_ui/role_management/role_management_list_page.dart';
 import '../../admin_ui/role_management/role_management_page_view.dart';
 import '../../admin_ui/schedule_task_for_production_batch/schedule_task_module_page_view.dart';
@@ -181,6 +182,8 @@ class _AdminHomeState extends State<AdminHome> {
         return const AdministrativeUnitsPageView();
       case AdminScreenBuckets.scheduleTasks:
         return const ScheduleTaskModulePageView();
+      case AdminScreenBuckets.reportingArena:
+        return const ReportingArenaMenuPage();
       default:
         return const SizedBox(width: 0, height: 0);
     }

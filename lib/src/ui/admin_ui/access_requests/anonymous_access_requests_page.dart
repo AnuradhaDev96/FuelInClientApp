@@ -8,6 +8,7 @@ import 'package:matara_division_system/src/models/enums/access_request_status.da
 import 'package:matara_division_system/src/models/enums/user_types.dart';
 import 'package:matara_division_system/src/services/auth_service.dart';
 import 'package:provider/provider.dart';
+import '../../../config/assets.dart';
 import '../../../models/authentication/request_access_model.dart';
 import '../../../models/employee/employee_model.dart';
 import '../../../services/employee_service.dart';
@@ -55,6 +56,10 @@ class _AnonymousAccessRequestsPageState extends State<AnonymousAccessRequestsPag
   Widget build(BuildContext context) {
     return ListView(
       children: [
+        SizedBox(
+          width: MediaQuery.of(context).size.width * 0.65,
+          child: Image.asset(Assets.overviewDesign, fit: BoxFit.fitWidth,),
+        ),
         // Material(
         //   elevation: 3,
         //   shape: RoundedRectangleBorder(
@@ -113,108 +118,108 @@ class _AnonymousAccessRequestsPageState extends State<AnonymousAccessRequestsPag
         //     ),
         //   ),
         // ),
-        Row(
-          mainAxisAlignment: MainAxisAlignment.start,
-          children: const [
-            Padding(
-              padding: EdgeInsets.only(left: 8.0, top: 15.0),
-              child: Text(
-                'm%fõY b,a,Sï l<uKdlrKh',//ප්‍රවේශ ඉල්ලීම් කළමණාකරණය
-                style: TextStyle(
-                  fontWeight: FontWeight.bold,
-                  fontSize: 16.0,
-                ),
-              ),
-            ),
-          ],
-        ),
-        const SizedBox(height: 5.0),
-        Container(color: AppColors.darkPurple,height: 2.0,),
-        const SizedBox(height: 8.0),
-        StreamBuilder(
-          stream: _authService.getRequestAccessForAdminStream(),
-          builder: (context, AsyncSnapshot<QuerySnapshot<Map<String, dynamic>>> snapshot) {
-            if (snapshot.connectionState == ConnectionState.waiting) {
-              return const Center(
-                child: Padding(
-                    padding: EdgeInsets.all(8.0),
-                    child: SizedBox(
-                      width: 40,
-                      height: 40,
-                      child: CircularProgressIndicator(
-                        strokeWidth: 5,
-                        color: AppColors.darkPurple,
-                      ),
-                    )),
-              );
-            } else if (snapshot.hasError || !snapshot.hasData || snapshot.data == null) {
-              return const Text("m%fõY b,a,Sï lsisjla fkdue;"); //ප්‍රවේශ ඉල්ලීම් කිසිවක් නොමැත
-            }
-            else if (snapshot.hasData) {
-              // employeeList = snapshot.data ?? <EmployeeModel>[];
-              // return ListView(
-              //   shrinkWrap: true,
-              //   children: snapshot.data!.docs.map((data) => accessItemBuilder(context, data)).toList(),
-              // );
-              // return Text("Error: ${snapshot.error}");
-              return Scrollbar(
-                controller: _verticalScrollController,
-                scrollbarOrientation: ScrollbarOrientation.right,
-                thumbVisibility: true,
-                trackVisibility: true,
-                child: SingleChildScrollView(
-                  controller: _verticalScrollController,
-                  scrollDirection: Axis.vertical,
-                  physics: const ClampingScrollPhysics(),
-                  child: Scrollbar(
-                    controller: _horizontalScrollController,
-                    scrollbarOrientation: ScrollbarOrientation.top,
-                    thumbVisibility: true,
-                    trackVisibility: true,
-                    child: SingleChildScrollView(
-                      scrollDirection: Axis.horizontal,
-                      controller: _horizontalScrollController,
-                      child: DataTable(
-                        headingTextStyle: const TextStyle(
-                            fontSize: 14.0,
-                            fontWeight: FontWeight.bold,
-                            fontFamily: SettingsSinhala.legacySinhalaFontFamily,
-                            color: AppColors.black),
-                        dataTextStyle: const TextStyle(
-                            fontSize: 12.0, fontFamily: SettingsSinhala.engFontFamily, color: AppColors.black),
-                        headingRowColor: MaterialStateProperty.all(AppColors.silverPurple),
-                        columns: const [
-                          DataColumn(label: Text(';SrKh')),//තීරණය
-                          DataColumn(label: Text('iïmQ¾K ku')),//සම්පූර්ණ නම
-                          DataColumn(label: Text('Bfï,a ,smskh')),//ඊමේල් ලිපිනය
-                          DataColumn(label: Text('ÿ\'l\' wxlh')),//දු.ක. අංකය
-                          DataColumn(label: Text('b,a,Sï lrk ;k;=r')),//ඉල්ලීම් කරන තනතුර
-                          DataColumn(
-                            label: Text(
-                              "Status",
-                              style: TextStyle(
-                                fontFamily: SettingsSinhala.engFontFamily
-                              ),
-                            ),
-                          ),
-                          DataColumn(label: Text('b,a¨ï l< Èkh')),//ඉල්ලුම් කළ දිනය
-                          DataColumn(label: Text('wjidk jrg\nfjkia l< Èkh')),//අවසාන වරට වෙනස් කළ දිනය
-                          // DataColumn(label: Text('Check In')),
-                          // DataColumn(label: Text('Check Out')),
-                          // DataColumn(label: Text('Room Count')),
-                          // DataColumn(label: Text('No of Nights')),
-                          // DataColumn(label: Text('Total Cost')),
-                        ],
-                        rows: snapshot.data!.docs.map((data) => accessItemBuilder(context, data)).toList(),
-                      ),
-                    ),
-                  ),
-                ),
-              );
-            }
-            return const Text("m%fõY b,a,Sï lsisjla fkdue;"); //ප්‍රවේශ ඉල්ලීම් කිසිවක් නොමැත
-          },
-        ),
+        // Row(
+        //   mainAxisAlignment: MainAxisAlignment.start,
+        //   children: const [
+        //     Padding(
+        //       padding: EdgeInsets.only(left: 8.0, top: 15.0),
+        //       child: Text(
+        //         'm%fõY b,a,Sï l<uKdlrKh',//ප්‍රවේශ ඉල්ලීම් කළමණාකරණය
+        //         style: TextStyle(
+        //           fontWeight: FontWeight.bold,
+        //           fontSize: 16.0,
+        //         ),
+        //       ),
+        //     ),
+        //   ],
+        // ),
+        // const SizedBox(height: 5.0),
+        // Container(color: AppColors.darkPurple,height: 2.0,),
+        // const SizedBox(height: 8.0),
+        // StreamBuilder(
+        //   stream: _authService.getRequestAccessForAdminStream(),
+        //   builder: (context, AsyncSnapshot<QuerySnapshot<Map<String, dynamic>>> snapshot) {
+        //     if (snapshot.connectionState == ConnectionState.waiting) {
+        //       return const Center(
+        //         child: Padding(
+        //             padding: EdgeInsets.all(8.0),
+        //             child: SizedBox(
+        //               width: 40,
+        //               height: 40,
+        //               child: CircularProgressIndicator(
+        //                 strokeWidth: 5,
+        //                 color: AppColors.darkPurple,
+        //               ),
+        //             )),
+        //       );
+        //     } else if (snapshot.hasError || !snapshot.hasData || snapshot.data == null) {
+        //       return const Text("m%fõY b,a,Sï lsisjla fkdue;"); //ප්‍රවේශ ඉල්ලීම් කිසිවක් නොමැත
+        //     }
+        //     else if (snapshot.hasData) {
+        //       // employeeList = snapshot.data ?? <EmployeeModel>[];
+        //       // return ListView(
+        //       //   shrinkWrap: true,
+        //       //   children: snapshot.data!.docs.map((data) => accessItemBuilder(context, data)).toList(),
+        //       // );
+        //       // return Text("Error: ${snapshot.error}");
+        //       return Scrollbar(
+        //         controller: _verticalScrollController,
+        //         scrollbarOrientation: ScrollbarOrientation.right,
+        //         thumbVisibility: true,
+        //         trackVisibility: true,
+        //         child: SingleChildScrollView(
+        //           controller: _verticalScrollController,
+        //           scrollDirection: Axis.vertical,
+        //           physics: const ClampingScrollPhysics(),
+        //           child: Scrollbar(
+        //             controller: _horizontalScrollController,
+        //             scrollbarOrientation: ScrollbarOrientation.top,
+        //             thumbVisibility: true,
+        //             trackVisibility: true,
+        //             child: SingleChildScrollView(
+        //               scrollDirection: Axis.horizontal,
+        //               controller: _horizontalScrollController,
+        //               child: DataTable(
+        //                 headingTextStyle: const TextStyle(
+        //                     fontSize: 14.0,
+        //                     fontWeight: FontWeight.bold,
+        //                     fontFamily: SettingsSinhala.legacySinhalaFontFamily,
+        //                     color: AppColors.black),
+        //                 dataTextStyle: const TextStyle(
+        //                     fontSize: 12.0, fontFamily: SettingsSinhala.engFontFamily, color: AppColors.black),
+        //                 headingRowColor: MaterialStateProperty.all(AppColors.silverPurple),
+        //                 columns: const [
+        //                   DataColumn(label: Text(';SrKh')),//තීරණය
+        //                   DataColumn(label: Text('iïmQ¾K ku')),//සම්පූර්ණ නම
+        //                   DataColumn(label: Text('Bfï,a ,smskh')),//ඊමේල් ලිපිනය
+        //                   DataColumn(label: Text('ÿ\'l\' wxlh')),//දු.ක. අංකය
+        //                   DataColumn(label: Text('b,a,Sï lrk ;k;=r')),//ඉල්ලීම් කරන තනතුර
+        //                   DataColumn(
+        //                     label: Text(
+        //                       "Status",
+        //                       style: TextStyle(
+        //                         fontFamily: SettingsSinhala.engFontFamily
+        //                       ),
+        //                     ),
+        //                   ),
+        //                   DataColumn(label: Text('b,a¨ï l< Èkh')),//ඉල්ලුම් කළ දිනය
+        //                   DataColumn(label: Text('wjidk jrg\nfjkia l< Èkh')),//අවසාන වරට වෙනස් කළ දිනය
+        //                   // DataColumn(label: Text('Check In')),
+        //                   // DataColumn(label: Text('Check Out')),
+        //                   // DataColumn(label: Text('Room Count')),
+        //                   // DataColumn(label: Text('No of Nights')),
+        //                   // DataColumn(label: Text('Total Cost')),
+        //                 ],
+        //                 rows: snapshot.data!.docs.map((data) => accessItemBuilder(context, data)).toList(),
+        //               ),
+        //             ),
+        //           ),
+        //         ),
+        //       );
+        //     }
+        //     return const Text("m%fõY b,a,Sï lsisjla fkdue;"); //ප්‍රවේශ ඉල්ලීම් කිසිවක් නොමැත
+        //   },
+        // ),
         // FutureBuilder(
         //   future: _employeeService.getEmployeesList(),
         //     builder: (BuildContext context, AsyncSnapshot<List<EmployeeModel>> snapshot) {
