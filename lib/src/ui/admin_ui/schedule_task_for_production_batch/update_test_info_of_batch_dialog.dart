@@ -31,33 +31,6 @@ class UpdateTestInfoOfBatchDialog extends StatelessWidget {
           child: Column(
             crossAxisAlignment: CrossAxisAlignment.start,
             children: [
-              Padding(
-                padding: const EdgeInsets.only(top: 10.0, left: 8.0, bottom: 8.0),
-                child: ValueListenableBuilder<String>(
-                  valueListenable: _divisionCodeNotifier,
-                  builder: (context, snapshot, child) {
-                    return RichText(
-                      text: TextSpan(
-                        style: const TextStyle(color: AppColors.black),
-                        children: [
-                          const TextSpan(
-                            text: "fla;h( ", //කේතය:
-                            style: TextStyle(
-                              fontFamily: SettingsSinhala.legacySinhalaFontFamily,
-                              fontWeight: FontWeight.bold,
-                              fontSize: 20.0,
-                            ),
-                          ),
-                          TextSpan(
-                            text: snapshot,
-                            style: const TextStyle(fontFamily: SettingsSinhala.engFontFamily),
-                          )
-                        ],
-                      ),
-                    );
-                  },
-                ),
-              ),
               _buildTestedAmountField(),
               _buildPassedAmountField(),
               Row(

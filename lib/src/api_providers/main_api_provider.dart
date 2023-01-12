@@ -8,6 +8,8 @@ import '../models/authentication/lock_hood_user.dart';
 import '../models/lock_hood_models/inventory_items.dart';
 import '../models/lock_hood_models/kanban_task.dart';
 import '../models/lock_hood_models/production_batch.dart';
+import '../models/lock_hood_models/response_dto/summary_production_batch_dto.dart';
+import '../models/lock_hood_models/response_dto/summary_task_dto.dart';
 import '../models/lock_hood_models/response_dto/task_allocated_resource_dto.dart';
 import '../models/lock_hood_models/task_allocated_resource.dart';
 
@@ -255,6 +257,47 @@ class MainApiProvider {
           jsonDecode(response.body).map((it) => ProductionBatch.fromMap(it)));
       print(list[0].toMap());
       return list;
+
+    }
+    return null;
+  }
+
+  // Report Management
+  Future<SummaryTaskDto?> getNewTasksSummaryReport() async {
+    var url = Uri.parse('${AppSettings.webApiUrl}ReportArena/KanBanTasksSummary/NewTasks');
+    // var url1;
+    var response = await http.get(
+      url,
+      headers: {
+        "Access-Control-Allow-Origin": "*",
+        'Accept': '*/*'
+      },
+    );
+    if (response.statusCode == 200) {
+      var returnBody = jsonDecode(response.body);
+
+      var summary = SummaryTaskDto.fromMap(returnBody);
+      return summary;
+
+    }
+    return null;
+  }
+
+  Future<SummaryProductionBatchDto?> getProductionBatchSummaryReport() async {
+    var url = Uri.parse('${AppSettings.webApiUrl}ReportArena/ProductionBatchSummary/Overview');
+    // var url1;
+    var response = await http.get(
+      url,
+      headers: {
+        "Access-Control-Allow-Origin": "*",
+        'Accept': '*/*'
+      },
+    );
+    if (response.statusCode == 200) {
+      var returnBody = jsonDecode(response.body);
+
+      var summary = SummaryProductionBatchDto.fromMap(returnBody);
+      return summary;
 
     }
     return null;
