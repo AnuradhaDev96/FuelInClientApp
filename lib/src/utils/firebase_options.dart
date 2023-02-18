@@ -49,14 +49,12 @@ class DefaultFirebaseOptions {
   }
 
   static const FirebaseOptions webOptions = FirebaseOptions(
-      apiKey: "AIzaSyBRfGMOOmF71GzvekdaCoCthQPbszKp-Sw",
-      authDomain: "lockhoodmanagement.firebaseapp.com",
-      projectId: "lockhoodmanagement",
-      storageBucket: "lockhoodmanagement.appspot.com",
-      messagingSenderId: "514494598039",
-      appId: "1:514494598039:web:ca0f18485bdbb1083192d2",
-      measurementId: "G-YFFQ15CGLT"
-    // databaseURL: "https://bakery-delivery-bc6b9-default-rtdb.firebaseio.com",
+      apiKey: "AIzaSyDG6apjwNuHkgtDthFDamN6VKm4bzVb96U",
+      authDomain: "fuelinapp-b0aca.firebaseapp.com",
+      projectId: "fuelinapp-b0aca",
+      storageBucket: "fuelinapp-b0aca.appspot.com",
+      messagingSenderId: "487103775713",
+      appId: "1:487103775713:web:2ee2023359ed13cc42c8a0"
   );
 
   static ActionCodeSettings get actionCodeSettings {

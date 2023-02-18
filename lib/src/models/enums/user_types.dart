@@ -7,13 +7,13 @@ enum UserTypes {
   @HiveField(0)
   systemAdmin,
   @HiveField(1)
-  topLevel,
+  fuelStationManager,
   @HiveField(2)
-  middleLevel,
+  fuelStationAuditManager,
   @HiveField(3)
-  lowLevel,
+  driver,
   @HiveField(4)
-  labourer,
+  headOfficeManager,
 }
 
 extension ToString on UserTypes {
@@ -21,7 +21,7 @@ extension ToString on UserTypes {
     switch (this) {
       case UserTypes.systemAdmin:
         return "moaO;s m%OdkS"; //පද්ධති ප්‍රධානී
-      case UserTypes.topLevel:
+      case UserTypes.fuelStationManager:
         return "wdik ixúOdhl"; //ආසන සංවිධායක
       default:
         return "jHdc ;k;=rla"; //ව්‍යාජ තනතුරක්
@@ -31,9 +31,9 @@ extension ToString on UserTypes {
   String? toDBValue() {
     switch (this) {
       case UserTypes.systemAdmin:
-        return "sys_admin"; //පද්ධති ප්‍රධානී
-      case UserTypes.topLevel:
-        return "seat_organizer"; //ආසන සංවිධායක
+        return "SystemAdmin"; //පද්ධති ප්‍රධානී
+      case UserTypes.fuelStationManager:
+        return "FuelStationManager"; //ආසන සංවිධායක
       default:
         return null;
     }
@@ -46,13 +46,13 @@ extension ToInteger on UserTypes {
     switch (this) {
       case UserTypes.systemAdmin:
         return 0;
-      case UserTypes.topLevel:
+      case UserTypes.fuelStationManager:
         return 1;
-      case UserTypes.middleLevel:
+      case UserTypes.fuelStationAuditManager:
         return 2;
-      case UserTypes.lowLevel:
+      case UserTypes.driver:
         return 3;
-      case UserTypes.labourer:
+      case UserTypes.headOfficeManager:
         return 4;
       default:
         return -1;

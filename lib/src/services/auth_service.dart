@@ -9,6 +9,7 @@ import 'package:matara_division_system/src/models/enums/access_request_status.da
 import 'package:matara_division_system/src/utils/common_utils.dart';
 import 'package:matara_division_system/src/utils/local_storage_utils.dart';
 import '../api_providers/main_api_provider.dart';
+import '../models/authentication/fuel_in_user.dart';
 import '../models/authentication/lock_hood_user.dart';
 import '../utils/firebase_options.dart';
 import '../config/firestore_collections.dart';
@@ -29,27 +30,19 @@ class AuthService {
       await _firebaseAuthWeb.setPersistence(Persistence.LOCAL);
     }
 
-    // final loggedUser = await _firebaseAuthWeb.signInWithEmailAndPassword("anusampath9470@gmail.com", "admin_z123");
     final loggedUser = await _firebaseAuthWeb.signInWithEmailAndPassword(username, password);
     print(loggedUser);
 
-    // final QuerySnapshot result = await _firebaseFirestore
-    //   .collection(FirestoreCollections.userCollection)
-    //   .where('email', isEqualTo: loggedUser.user?.email)
-    //   .limit(1)
-    //   .get();
-
-    // final List<DocumentSnapshot> documents = result.docs;
     AuthenticatedUser? authenticatedUser;
 
-    LockHoodUser? lockHoodUser = await GetIt.I<MainApiProvider>().getLockHoodUser(loggedUser.user?.email);
-    print("###TestSigin: ${lockHoodUser}");
-    if (lockHoodUser != null) {
+    FuelInUser? fuelInUser = await GetIt.I<MainApiProvider>().getFuelInUser(loggedUser.user?.email);
+    print("###TestSigin: ${fuelInUser}");
+    if (fuelInUser != null) {
       // SystemUser element = SystemUser.fromSnapshot(lockHoodUser);
       // print(element.authPermissions);
 
       authenticatedUser = AuthenticatedUser(
-        displayName: lockHoodUser.fullName ?? "",
+        displayName: fuelInUser.fullName ?? "",
         email: loggedUser.user?.email ?? "",
         token: loggedUser.credential?.token ?? 0,
         userType: UserTypes.systemAdmin,

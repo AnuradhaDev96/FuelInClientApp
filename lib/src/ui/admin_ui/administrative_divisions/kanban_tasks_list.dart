@@ -21,7 +21,7 @@ class KanBanTaskListPage extends StatelessWidget {
   Widget build(BuildContext context) {
     return ListView(
       children: [
-        // _headerPanel(context),
+        _headerPanel(context),
         FutureBuilder(
             future: GetIt.I<MainApiProvider>().getAllKanBanTasks(),
             builder: (BuildContext context, AsyncSnapshot<List<KanBanTask>?> snapshot) {

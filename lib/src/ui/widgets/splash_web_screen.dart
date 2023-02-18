@@ -13,7 +13,7 @@ class SplashWebScreen extends StatelessWidget {
       color: AppColors.silverPurple,
       child: Center(
         child: SvgPicture.asset(
-          Assets.lockHoodLogoSvg,
+          Assets.fuelInLogoSvg,
           width: 245 * 0.75,
           height: 36 * 0.75,
         ),

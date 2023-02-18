@@ -8,7 +8,7 @@ class AppSettings {
   static const String debugWebUrl = "http://localhost:3404/#/";
   static const String prodWebUrl = "https://nppmataradivision.web.app/";
 
-  static const String webApiUrl = "https://localhost:7277/api/";
+  static const String webApiUrl = "https://localhost:7175/api/";
 
   static List<String> getSinhalaValuesOfUserTypes() {
     // var us = UserTypes.values.map((type) => type.toString()).toList();
@@ -21,18 +21,24 @@ class AppSettings {
       case "moaO;s m%OdkS":
         return UserTypes.systemAdmin;
       case "wdik ixúOdhl":
-        return UserTypes.topLevel;
+        return UserTypes.fuelStationManager;
       default:
-        return UserTypes.topLevel;
+        return UserTypes.fuelStationManager;
     }
   }
 
   static UserTypes? getEnumValueFromEnglishValue(String? value) {
     switch(value) {
-      case "sys_admin":
+      case "SystemAdmin":
         return UserTypes.systemAdmin;
-      case "seat_organizer":
-        return UserTypes.topLevel;
+      case "FuelStationManager":
+        return UserTypes.fuelStationManager;
+      case "FuelStationAuditManager":
+        return UserTypes.fuelStationAuditManager;
+      case "Driver":
+        return UserTypes.driver;
+      case "HeadOfficeManager":
+        return UserTypes.headOfficeManager;
       default:
         return null;
     }
@@ -41,11 +47,11 @@ class AppSettings {
   static UserTypes getManagementLevelEnumValueForInteger(int? value) {
     switch (value) {
       case 0: return UserTypes.systemAdmin;
-      case 1: return UserTypes.topLevel;
-      case 2: return UserTypes.middleLevel;
-      case 3: return UserTypes.lowLevel;
-      case 4: return UserTypes.labourer;
-      default: return UserTypes.labourer;
+      case 1: return UserTypes.fuelStationManager;
+      case 2: return UserTypes.fuelStationAuditManager;
+      case 3: return UserTypes.driver;
+      case 4: return UserTypes.headOfficeManager;
+      default: return UserTypes.headOfficeManager;
     }
   }
 

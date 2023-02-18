@@ -4,6 +4,7 @@ import 'package:firebase_auth_web/firebase_auth_web.dart';
 import 'package:http/http.dart' as http;
 
 import '../config/app_settings.dart';
+import '../models/authentication/fuel_in_user.dart';
 import '../models/authentication/lock_hood_user.dart';
 import '../models/lock_hood_models/inventory_items.dart';
 import '../models/lock_hood_models/kanban_task.dart';
@@ -16,8 +17,8 @@ import '../models/lock_hood_models/task_allocated_resource.dart';
 class MainApiProvider {
   final FirebaseAuthWeb _firebaseAuthWeb = FirebaseAuthWeb.instance;
 
-  Future<LockHoodUser?> getLockHoodUser(String? email) async {
-    var url = Uri.parse('${AppSettings.webApiUrl}HumanResource/Employees/GetUser/$email');
+  Future<FuelInUser?> getFuelInUser(String? email) async {
+    var url = Uri.parse('${AppSettings.webApiUrl}UserManagement/Users/GetUser/$email');
     // var url1;
     print(url);
     var response = await http.get(
@@ -30,15 +31,15 @@ class MainApiProvider {
     if (response.statusCode == 200) {
       var returnBody = jsonDecode(response.body);
 
-      var lockHoodUser = LockHoodUser.fromMap(returnBody);
+      var lockHoodUser = FuelInUser.fromMap(returnBody);
       return lockHoodUser;
 
     }
     return null;
   }
 
-  Future<LockHoodUser?> getPermissionsForUser() async {
-    var url = Uri.parse('${AppSettings.webApiUrl}HumanResource/Employees/GetUser/${_firebaseAuthWeb.currentUser!.email}');
+  Future<FuelInUser?> getPermissionsForUser() async {
+    var url = Uri.parse('${AppSettings.webApiUrl}UserManagement/Users/GetUser/${_firebaseAuthWeb.currentUser!.email}');
     // var url1;
     var response = await http.get(
       url,
@@ -50,7 +51,7 @@ class MainApiProvider {
     if (response.statusCode == 200) {
       var returnBody = jsonDecode(response.body);
 
-      var lockHoodUser = LockHoodUser.fromMap(returnBody);
+      var lockHoodUser = FuelInUser.fromMap(returnBody);
       return lockHoodUser;
 
     }

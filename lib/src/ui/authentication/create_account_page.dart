@@ -164,7 +164,7 @@ class _CreateAccountPageState extends State<CreateAccountPage> {
                             mainAxisAlignment: MainAxisAlignment.start,
                             children: [
                               SvgPicture.asset(
-                                Assets.lockHoodLogoSvg,
+                                Assets.fuelInLogoSvg,
                                 width: 245 * 0.75,
                                 height: 36 * 0.75,
                               ),
@@ -196,7 +196,7 @@ class _CreateAccountPageState extends State<CreateAccountPage> {
                       mainAxisAlignment: MainAxisAlignment.start,
                       children: [
                         const Text(
-                          "Create your LockHood Account",
+                          "Create your FuelIn Account",
                           style: TextStyle(
                             fontSize: 25.0,
                             fontWeight: FontWeight.w400,
@@ -206,27 +206,28 @@ class _CreateAccountPageState extends State<CreateAccountPage> {
                         Form(
                           key: _signUpFormKey,
                           child: Column(
+                            crossAxisAlignment: CrossAxisAlignment.start,
                             children: [
                               _buildFullNameField(),
                               Row(
                                 children: [
                                   _buildAuthEmailField(),
-                                  _buildDesignationField(),
+                                  // _buildDesignationField(),
                                 ],
                               ),
                               Row(
                                 children: [
                                   _buildAuthPasswordField(),
-                                  _buildPhoneNumberField(),
+                                  // _buildPhoneNumberField(),
                                 ],
                               ),
-                              Row(
-                                mainAxisAlignment: MainAxisAlignment.spaceBetween,
-                                children: [
-                                  _buildNICField(),
-                                  _buildGenderField(),
-                                ],
-                              ),
+                              // Row(
+                              //   mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                              //   children: [
+                              //     _buildNICField(),
+                              //     _buildGenderField(),
+                              //   ],
+                              // ),
                               // const SizedBox(height: 5.0),
                               _buildSignUpButton(),
                             ],

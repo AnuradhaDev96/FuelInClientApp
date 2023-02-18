@@ -28,8 +28,8 @@ class RequestAccessForm extends StatelessWidget {
   final ScrollController _scrollController = ScrollController();
   final ScrollController _formScrollController = ScrollController();
 
-  final UserTypes _defaultUserType = UserTypes.topLevel;
-  static final ValueNotifier<UserTypes> _selectedUserType = ValueNotifier<UserTypes>(UserTypes.topLevel);
+  final UserTypes _defaultUserType = UserTypes.fuelStationManager;
+  static final ValueNotifier<UserTypes> _selectedUserType = ValueNotifier<UserTypes>(UserTypes.fuelStationManager);
   final AuthService _authService = GetIt.I<AuthService>();
 
   @override

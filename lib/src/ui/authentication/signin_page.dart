@@ -21,7 +21,7 @@ class _SignInPageState extends State<SignInPage> {
 
   @override
   Widget build(BuildContext context) {
-    userNameController.text = "anuradhass@gmail.com";
+    userNameController.text = "anuradhas@gmail.com";
     passwordController.text = "admin_z";
 
     var screenSize = MediaQuery.of(context).size;

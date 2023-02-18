@@ -172,7 +172,7 @@ class _LandingPageState extends State<LandingPage> {
                       mainAxisAlignment: MainAxisAlignment.start,
                       children: [
                         SvgPicture.asset(
-                          Assets.lockHoodLogoSvg,
+                          Assets.fuelInLogoSvg,
                           width: 245 * 0.75,
                           height: 36 * 0.75,
                         ),
@@ -197,7 +197,7 @@ class _LandingPageState extends State<LandingPage> {
                             ),
                             const SizedBox(height: 35.0),
                             const Text(
-                              "We protect your home,\nfamily and company.",
+                              "Waiting in queues,\nis now over.",
                               style: TextStyle(
                                 fontSize: 25.0,
                                 fontWeight: FontWeight.w400,
@@ -215,13 +215,13 @@ class _LandingPageState extends State<LandingPage> {
                           mainAxisAlignment: MainAxisAlignment.start,
                           children: [
                             const Text(
-                              "Login to your LockHood Account",
+                              "Login to your FuelIn Account",
                               style: TextStyle(
                                 fontSize: 25.0,
                                 fontWeight: FontWeight.w400,
                               ),
                             ),
-                            const SizedBox(height: 20.0),
+                            const SizedBox(height: 10.0),
                             Form(
                               key: _signInFormKey,
                               child: Column(
@@ -265,7 +265,13 @@ class _LandingPageState extends State<LandingPage> {
                                 ],
                               ),
                             ),
-                            _buildCreateAccountButton(),
+                            Row(
+                              children: [
+                                _buildCreateAccountButton(),
+                                _registerAsStationOwner(),
+                                _registerAsDriver(),
+                              ],
+                            ),
                           ],
                         ),
                       )
@@ -568,7 +574,7 @@ class _LandingPageState extends State<LandingPage> {
     return Padding(
       padding: const EdgeInsets.all(8.0),
       child: SizedBox(
-        width: 180,
+        width: 130,
         height: 30,
         child: ElevatedButton(
           style: Theme.of(context).elevatedButtonTheme.style!.copyWith(
@@ -596,6 +602,72 @@ class _LandingPageState extends State<LandingPage> {
     );
   }
 
+  Widget _registerAsStationOwner() {
+    return Padding(
+      padding: const EdgeInsets.all(8.0),
+      child: SizedBox(
+        width: 200,
+        height: 35,
+        child: ElevatedButton(
+          style: Theme.of(context).elevatedButtonTheme.style!.copyWith(
+            backgroundColor: MaterialStateProperty.all(
+                AppColors.darkPurple
+            ),
+            shape: MaterialStateProperty.all(
+                const RoundedRectangleBorder(
+                    borderRadius: BorderRadius.all(Radius.circular(25.0))
+                )
+            ),
+            // textStyle: MaterialStateProperty.all(const TextStyle(
+            //       fontFamily: 'DL-Paras',
+            //       fontWeight: FontWeight.w500,
+            //       fontSize: 18.0,
+            //     )),
+          ),
+          onPressed: _onTapCreateAccount,
+          child: const Text(
+            "Register as Fuel Station Owner",
+            style: TextStyle(fontSize: 12.0,),
+            textAlign: TextAlign.center,
+          ),
+        ),
+      ),
+    );
+  }
+
+  Widget _registerAsDriver() {
+    return Padding(
+      padding: const EdgeInsets.all(8.0),
+      child: SizedBox(
+        width: 150,
+        height: 35,
+        child: ElevatedButton(
+          style: Theme.of(context).elevatedButtonTheme.style!.copyWith(
+            backgroundColor: MaterialStateProperty.all(
+                AppColors.darkPurple
+            ),
+            shape: MaterialStateProperty.all(
+                const RoundedRectangleBorder(
+                    borderRadius: BorderRadius.all(Radius.circular(25.0))
+                )
+            ),
+            // textStyle: MaterialStateProperty.all(const TextStyle(
+            //       fontFamily: 'DL-Paras',
+            //       fontWeight: FontWeight.w500,
+            //       fontSize: 18.0,
+            //     )),
+          ),
+          onPressed: _onTapCreateAccount,
+          child: const Text(
+            "Register as Vehicle Owner",
+            style: TextStyle(fontSize: 12.0,),
+            textAlign: TextAlign.center,
+          ),
+        ),
+      ),
+    );
+  }
+
   void notifyAppIsAuthenticated(AuthenticatedUser authenticatedUser) {
     Provider.of<ApplicationAuthNotifier>(context, listen: false).setAppAuthenticated(authenticatedUser);
   }
@@ -615,7 +687,7 @@ class _LandingPageState extends State<LandingPage> {
         if (authenticatedUser != null) {
           if (authenticatedUser.userType == UserTypes.systemAdmin) {
             notifyAppIsAuthenticated(authenticatedUser);
-          } else if (authenticatedUser.userType == UserTypes.topLevel) {
+          } else if (authenticatedUser.userType == UserTypes.fuelStationManager) {
             notifyAppIsAuthenticated(authenticatedUser);
           } else {
             return;

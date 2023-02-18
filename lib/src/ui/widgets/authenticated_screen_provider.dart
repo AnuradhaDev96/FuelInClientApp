@@ -3,6 +3,7 @@ import 'dart:async';
 import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/material.dart';
 import 'package:get_it/get_it.dart';
+import 'package:matara_division_system/src/models/authentication/fuel_in_user.dart';
 import 'package:matara_division_system/src/models/enums/user_types.dart';
 import 'package:matara_division_system/src/ui/widgets/reader_home/seat_organizer_home.dart';
 import 'package:matara_division_system/src/ui/widgets/verify_email_page.dart';
@@ -68,16 +69,16 @@ class _AuthenticatedScreenProviderState extends State<AuthenticatedScreenProvide
     } else {
       return FutureBuilder(
         future: GetIt.I<MainApiProvider>().getPermissionsForUser(),
-        builder: (BuildContext context, AsyncSnapshot<LockHoodUser?> snapshot) {
+        builder: (BuildContext context, AsyncSnapshot<FuelInUser?> snapshot) {
           if (snapshot.connectionState == ConnectionState.waiting) {
             return const SplashWebScreen();
           } else if (snapshot.hasError || !snapshot.hasData || snapshot.data == null) {
             return const SplashWebScreen();
           } else if (snapshot.hasData) {
-            UserTypes managementType = AppSettings.getManagementLevelEnumValueForInteger(snapshot.data!.managementType);
+            UserTypes? managementType = AppSettings.getEnumValueFromEnglishValue(snapshot.data!.role);
             if (managementType == UserTypes.systemAdmin) {
               return const AdminHome();
-            } else if (managementType == UserTypes.topLevel) {
+            } else if (managementType == UserTypes.fuelStationManager) {
               return const SeatOrganizerHome();
             } else {
               return const SplashWebScreen();

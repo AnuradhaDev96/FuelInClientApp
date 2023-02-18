@@ -31,7 +31,7 @@ extension StringToEnum on String {
       case "sys_admin":
         return UserTypes.systemAdmin;
       case "seat_organizer":
-        return UserTypes.topLevel;
+        return UserTypes.fuelStationManager;
       default:
         return null;
     }
