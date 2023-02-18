@@ -1,5 +1,5 @@
 enum ScreenBuckets {
-  membersManagement,
+  myFuelOrders,
   booking,
   accommodation,
   services,
@@ -12,7 +12,7 @@ enum ScreenBuckets {
 extension ToString on ScreenBuckets {
   String toDisplayString() {
     switch (this) {
-      case ScreenBuckets.membersManagement:
+      case ScreenBuckets.myFuelOrders:
         return "iudðlhska l<uKdlrKh";//සමාජිකයින් කළමණාකරණය
       case ScreenBuckets.booking:
         return "Book Now";

@@ -9,6 +9,7 @@ import 'package:matara_division_system/src/models/enums/access_request_status.da
 import 'package:matara_division_system/src/utils/common_utils.dart';
 import 'package:matara_division_system/src/utils/local_storage_utils.dart';
 import '../api_providers/main_api_provider.dart';
+import '../config/app_settings.dart';
 import '../models/authentication/fuel_in_user.dart';
 import '../models/authentication/lock_hood_user.dart';
 import '../utils/firebase_options.dart';
@@ -45,8 +46,12 @@ class AuthService {
         displayName: fuelInUser.fullName ?? "",
         email: loggedUser.user?.email ?? "",
         token: loggedUser.credential?.token ?? 0,
-        userType: UserTypes.systemAdmin,
+        userType: AppSettings.getEnumValueForUserTypeString(fuelInUser.role) ?? UserTypes.driver,
+        userId: fuelInUser.id ?? 0,
       );
+      await GetIt.I<LocalStorageUtils>().hiveDbBox?.put(AppSettings.hiveKeyAuthenticatedUser, authenticatedUser);
+      var das = await GetIt.I<LocalStorageUtils>().hiveDbBox?.get(AppSettings.hiveKeyAuthenticatedUser, defaultValue: null);
+      var x = 0;
       // if (element.type == UserTypes.systemAdmin.toDBValue()) {
       //   authenticatedUser = AuthenticatedUser(
       //       displayName: element.fullName ?? "",

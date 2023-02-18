@@ -42,7 +42,7 @@ class ApplicationAuthNotifier extends ChangeNotifier {
   void setAppAuthenticated(AuthenticatedUser authenticatedUser) {
     print("Setting auth");
     _authenticatedUser = authenticatedUser;
-    // _localStorageUtils.hiveDbBox?.put(AppSettings.hiveKeyAppIsAuthenticated, true);
+    // // _localStorageUtils.hiveDbBox?.put(AppSettings.hiveKeyAppIsAuthenticated, true);
     // _localStorageUtils.hiveDbBox?.put(AppSettings.hiveKeyAuthenticatedUser, authenticatedUser);
     notifyListeners();
   }
@@ -50,7 +50,7 @@ class ApplicationAuthNotifier extends ChangeNotifier {
   void setAppUnAuthenticated() {
     _authenticatedUser = null;
     // _localStorageUtils.hiveDbBox?.put(AppSettings.hiveKeyAppIsAuthenticated, false);
-    // _localStorageUtils.hiveDbBox?.put(AppSettings.hiveKeyAuthenticatedUser, null);
+    _localStorageUtils.hiveDbBox?.put(AppSettings.hiveKeyAuthenticatedUser, null);
 
     // temp
     // bool savedLoggedInValue = _localStorageUtils.hiveDbBox?.get(AppSettings.hiveKeyAppIsAuthenticated, defaultValue: false);

@@ -704,14 +704,15 @@ class _LandingPageState extends State<LandingPage> {
         AuthenticatedUser? authenticatedUser = await GetIt.I<AuthService>().passwordLogin(_authEmailAddressController.text, _authPasswordController.text);
         if (authenticatedUser != null) {
           if (authenticatedUser.userType == UserTypes.systemAdmin) {
-            notifyAppIsAuthenticated(authenticatedUser);
+            // notifyAppIsAuthenticated(authenticatedUser);
           } else if (authenticatedUser.userType == UserTypes.fuelStationManager) {
-            notifyAppIsAuthenticated(authenticatedUser);
+            // notifyAppIsAuthenticated(authenticatedUser);
           } else {
             return;
           }
         }
       } catch (e) {
+        print("hiveException: ${e.toString()}");
         if (mounted) MessageUtils.showErrorInFlushBar(context, "Email or password is incorrect", appearFromTop: false, duration: 4);
       }
     }

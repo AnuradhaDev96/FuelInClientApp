@@ -27,17 +27,17 @@ import '../../gallery/gallery_grid_view.dart';
 import '../../hotel_service/hotel_services_list.dart';
 import '../../reservation/reservation_history.dart';
 
-class SeatOrganizerHome extends StatefulWidget {
-  const SeatOrganizerHome({Key? key}) : super(key: key);
+class FuelStationManagerHome extends StatefulWidget {
+  const FuelStationManagerHome({Key? key}) : super(key: key);
 
   @override
-  State<SeatOrganizerHome> createState() => _SeatOrganizerHomeState();
+  State<FuelStationManagerHome> createState() => _FuelStationManagerHomeState();
 }
 
-class _SeatOrganizerHomeState extends State<SeatOrganizerHome> {
+class _FuelStationManagerHomeState extends State<FuelStationManagerHome> {
   late final SideDrawerNotifier _sideDrawerNotifier;
   final PageStorageBucket screenBucket = PageStorageBucket();
-  ScreenBuckets _selectedPageIndex = ScreenBuckets.membersManagement;
+  ScreenBuckets _selectedPageIndex = ScreenBuckets.myFuelOrders;
   String _selectedPageTitle = AdminScreenBuckets.overview.toDisplayString();
 
   @override
@@ -47,7 +47,7 @@ class _SeatOrganizerHomeState extends State<SeatOrganizerHome> {
     _sideDrawerNotifier.addListener(() {
       if(mounted) {
         setState(() {
-          _selectedPageIndex = _sideDrawerNotifier.selectedPageType ?? ScreenBuckets.membersManagement;
+          _selectedPageIndex = _sideDrawerNotifier.selectedPageType ?? ScreenBuckets.myFuelOrders;
           _selectedPageTitle = _sideDrawerNotifier.selectedPageTitle();
         });
       }
@@ -59,14 +59,14 @@ class _SeatOrganizerHomeState extends State<SeatOrganizerHome> {
   Widget build(BuildContext context) {
     return Scaffold(
       key: _sideDrawerNotifier.mainScaffoldKey,
-      drawer: SeatOrganizerSideDrawer(),
+      drawer: FuelStationManagerSideDrawer(),
       body: Row(
         crossAxisAlignment: CrossAxisAlignment.start,
         children: [
           if (!CommonUtils.isMobileUI(context))
             Expanded(
                 flex: 1,
-                child: SeatOrganizerSideDrawer()
+                child: FuelStationManagerSideDrawer()
             ),
           Expanded(
               flex: 4,
@@ -89,41 +89,41 @@ class _SeatOrganizerHomeState extends State<SeatOrganizerHome> {
                       //   ),
                       // ),
                       // const SizedBox(height: 8.0),
-                      (CommonUtils.isMobileUI(context))
-                          ? Row(
-                              mainAxisAlignment: MainAxisAlignment.start,
-                              children: [
-                                IconButton(
-                                  onPressed: () {
-                                    _sideDrawerNotifier.operateDrawer();
-                                  },
-                                  icon: const Icon(
-                                    Icons.menu_rounded,
-                                  ),
-                                  splashRadius: 25.0,
-                                  color: AppColors.darkPurple,
-                                  // hoverColor: AppColors.appBarColor,
-                                ),
-                                Expanded(
-                                  child: Center(
-                                    child: Text(
-                                      _selectedPageTitle,
-                                      style: const TextStyle(
-                                        fontSize: 20.0,
-                                        fontWeight: FontWeight.bold,
-                                      ),
-                                    ),
-                                  ),
-                                ),
-                              ],
-                            )
-                          : Text(
-                            _selectedPageTitle,
-                            style: const TextStyle(
-                              fontSize: 20.0,
-                              fontWeight: FontWeight.bold,
-                            ),
-                          ),
+                      // (CommonUtils.isMobileUI(context))
+                      //     ? Row(
+                      //         mainAxisAlignment: MainAxisAlignment.start,
+                      //         children: [
+                      //           IconButton(
+                      //             onPressed: () {
+                      //               _sideDrawerNotifier.operateDrawer();
+                      //             },
+                      //             icon: const Icon(
+                      //               Icons.menu_rounded,
+                      //             ),
+                      //             splashRadius: 25.0,
+                      //             color: AppColors.darkPurple,
+                      //             // hoverColor: AppColors.appBarColor,
+                      //           ),
+                      //           Expanded(
+                      //             child: Center(
+                      //               child: Text(
+                      //                 _selectedPageTitle,
+                      //                 style: const TextStyle(
+                      //                   fontSize: 20.0,
+                      //                   fontWeight: FontWeight.bold,
+                      //                 ),
+                      //               ),
+                      //             ),
+                      //           ),
+                      //         ],
+                      //       )
+                      //     : Text(
+                      //       _selectedPageTitle,
+                      //       style: const TextStyle(
+                      //         fontSize: 20.0,
+                      //         fontWeight: FontWeight.bold,
+                      //       ),
+                      //     ),
                       const SizedBox(height: 8.0),
                       Expanded(
                         child: PageStorage(
@@ -173,8 +173,8 @@ class _SeatOrganizerHomeState extends State<SeatOrganizerHome> {
 
   Widget buildPages() {
     switch (_selectedPageIndex) {
-      case ScreenBuckets.membersManagement:
-        return SeatOrgAdministrativeUnitsPageView();
+      case ScreenBuckets.myFuelOrders:
+        return MyFuelOrdersPageView();
       // case ScreenBuckets.systemRoleManagement:
       //   return const RoleManagementPageView();
       // case ScreenBuckets.administrativeUnitManagement:

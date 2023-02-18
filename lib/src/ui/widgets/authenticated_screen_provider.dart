@@ -75,11 +75,12 @@ class _AuthenticatedScreenProviderState extends State<AuthenticatedScreenProvide
           } else if (snapshot.hasError || !snapshot.hasData || snapshot.data == null) {
             return const SplashWebScreen();
           } else if (snapshot.hasData) {
-            UserTypes? managementType = AppSettings.getEnumValueFromEnglishValue(snapshot.data!.role);
+            UserTypes? managementType = AppSettings.getEnumValueForUserTypeString(snapshot.data!.role);
+
             if (managementType == UserTypes.systemAdmin) {
               return const AdminHome();
             } else if (managementType == UserTypes.fuelStationManager) {
-              return const SeatOrganizerHome();
+              return const FuelStationManagerHome();
             } else {
               return const SplashWebScreen();
             }
