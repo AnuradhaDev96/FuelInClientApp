@@ -624,7 +624,7 @@ class _LandingPageState extends State<LandingPage> {
             //       fontSize: 18.0,
             //     )),
           ),
-          onPressed: _onTapCreateAccount,
+          onPressed: _onTapRegisterStationOwner,
           child: const Text(
             "Register as Fuel Station Owner",
             style: TextStyle(fontSize: 12.0,),
@@ -657,7 +657,7 @@ class _LandingPageState extends State<LandingPage> {
             //       fontSize: 18.0,
             //     )),
           ),
-          onPressed: _onTapCreateAccount,
+          onPressed: _onTapRegisterAsDriver,
           child: const Text(
             "Register as Vehicle Owner",
             style: TextStyle(fontSize: 12.0,),
@@ -675,6 +675,24 @@ class _LandingPageState extends State<LandingPage> {
   void _onTapCreateAccount() {
     GetIt.I<NavigationUtils>().pushNamed(
       WebRouter.createAccountPage,
+    );
+  }
+
+  void _onTapRegisterStationOwner() {
+    GetIt.I<NavigationUtils>().pushNamed(
+      WebRouter.createAccountPage,
+      arguments: {
+        'signUpUserType': UserTypes.fuelStationManager,
+      },
+    );
+  }
+
+  void _onTapRegisterAsDriver() {
+    GetIt.I<NavigationUtils>().pushNamed(
+      WebRouter.createAccountPage,
+      arguments: {
+        'signUpUserType': UserTypes.driver,
+      },
     );
   }
 

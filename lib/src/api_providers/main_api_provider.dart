@@ -6,6 +6,10 @@ import 'package:http/http.dart' as http;
 import '../config/app_settings.dart';
 import '../models/authentication/fuel_in_user.dart';
 import '../models/authentication/lock_hood_user.dart';
+import '../models/fuel_in_models/create_driver_account.dart';
+import '../models/fuel_in_models/create_fuel_station_manager_account.dart';
+import '../models/fuel_in_models/fuel_station.dart';
+import '../models/fuel_in_models/general_result_response.dart';
 import '../models/lock_hood_models/inventory_items.dart';
 import '../models/lock_hood_models/kanban_task.dart';
 import '../models/lock_hood_models/production_batch.dart';
@@ -58,8 +62,42 @@ class MainApiProvider {
     return null;
   }
 
-  Future<List<InventoryItems>?> getAllInventoryItems() async {
-    var url = Uri.parse('${AppSettings.webApiUrl}Inventory/items');
+  Future<GeneralResultResponse> registerAsDriver(CreateDriverAccount createDriverAccount) async {
+    var url = Uri.parse('${AppSettings.webApiUrl}UserManagement/FuelInVehicleOwner');
+
+    var response = await http.post(
+      url,
+      headers: {
+        "Content-Type": "application/json",
+      },
+      body: jsonEncode(createDriverAccount.toMap()),
+    );
+
+    GeneralResultResponse generalResultResponse = GeneralResultResponse(
+        statusCode: response.statusCode, responseMessage: response.body);
+
+    return generalResultResponse;
+  }
+
+  Future<GeneralResultResponse> registerAsFuelStationManager(CreateFuelStationManagerAccount createManagerAccount) async {
+    var url = Uri.parse('${AppSettings.webApiUrl}UserManagement/FuelStationManager');
+
+    var response = await http.post(
+      url,
+      headers: {
+        "Content-Type": "application/json",
+      },
+      body: jsonEncode(createManagerAccount.toMap()),
+    );
+
+    GeneralResultResponse generalResultResponse = GeneralResultResponse(
+        statusCode: response.statusCode, responseMessage: response.body);
+
+    return generalResultResponse;
+  }
+
+  Future<List<FuelStation>?> getAllFuelStations() async {
+    var url = Uri.parse('${AppSettings.webApiUrl}FuelStationManagement/FuelStation');
     // var url1;
     print(url);
     var response = await http.get(
@@ -71,8 +109,8 @@ class MainApiProvider {
     );
     if (response.statusCode == 200) {
 
-      var list = List<InventoryItems>.from(
-          jsonDecode(response.body).map((it) => InventoryItems.fromMap(it)));
+      var list = List<FuelStation>.from(
+          jsonDecode(response.body).map((it) => FuelStation.fromMap(it)));
       // var returnBody = jsonDecode(response.body);
       // var list = returnBody.
       // returnBody.map((key, value) => null)

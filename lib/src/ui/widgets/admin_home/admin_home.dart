@@ -177,7 +177,7 @@ class _AdminHomeState extends State<AdminHome> {
       case AdminScreenBuckets.overview:
         return const AccessRequestPageView();
       case AdminScreenBuckets.inventory:
-        return const RoleManagementPageView();
+        return const FuelStationManagementPageView();
       case AdminScreenBuckets.workMonitoring:
         return const AdministrativeUnitsPageView();
       case AdminScreenBuckets.scheduleTasks:

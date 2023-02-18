@@ -1,12 +1,20 @@
 import 'package:email_validator/email_validator.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_svg/flutter_svg.dart';
+import 'package:get_it/get_it.dart';
 
+import '../../api_providers/main_api_provider.dart';
 import '../../config/app_colors.dart';
 import '../../config/assets.dart';
+import '../../models/enums/user_types.dart';
+import '../../models/fuel_in_models/create_driver_account.dart';
+import '../../models/fuel_in_models/create_fuel_station_manager_account.dart';
+import '../../services/auth_service.dart';
+import '../../utils/message_utils.dart';
 
 class CreateAccountPage extends StatefulWidget {
-  const CreateAccountPage({Key? key}) : super(key: key);
+  const CreateAccountPage({Key? key, required this.signUpUserType}) : super(key: key);
+  final UserTypes signUpUserType;
 
   @override
   State<CreateAccountPage> createState() => _CreateAccountPageState();
@@ -24,9 +32,16 @@ class _CreateAccountPageState extends State<CreateAccountPage> {
   final TextEditingController _designationController = TextEditingController();
   final TextEditingController _genderController = TextEditingController();
   final TextEditingController _nicController = TextEditingController();
+  final TextEditingController _driverPlateNumberController = TextEditingController();
+  final TextEditingController _fuelStationLicenseIdController = TextEditingController();
 
   final ValueNotifier<bool> _isPasswordTextHidden = ValueNotifier<bool>(true);
 
+  @override
+  void dispose() {
+    // TODO: implement dispose
+    super.dispose();
+  }
 
   @override
   Widget build(BuildContext context) {
@@ -203,36 +218,7 @@ class _CreateAccountPageState extends State<CreateAccountPage> {
                           ),
                         ),
                         const SizedBox(height: 2.0),
-                        Form(
-                          key: _signUpFormKey,
-                          child: Column(
-                            crossAxisAlignment: CrossAxisAlignment.start,
-                            children: [
-                              _buildFullNameField(),
-                              Row(
-                                children: [
-                                  _buildAuthEmailField(),
-                                  // _buildDesignationField(),
-                                ],
-                              ),
-                              Row(
-                                children: [
-                                  _buildAuthPasswordField(),
-                                  // _buildPhoneNumberField(),
-                                ],
-                              ),
-                              // Row(
-                              //   mainAxisAlignment: MainAxisAlignment.spaceBetween,
-                              //   children: [
-                              //     _buildNICField(),
-                              //     _buildGenderField(),
-                              //   ],
-                              // ),
-                              // const SizedBox(height: 5.0),
-                              _buildSignUpButton(),
-                            ],
-                          ),
-                        ),
+                        _buildFormFieldSection(),
                       ],
                     ),
                   )
@@ -242,6 +228,118 @@ class _CreateAccountPageState extends State<CreateAccountPage> {
           ),
         )
       ],
+    );
+  }
+
+  Widget _buildFormFieldSection() {
+    switch (widget.signUpUserType) {
+      case UserTypes.systemAdmin:
+      case UserTypes.fuelStationAuditManager:
+      case UserTypes.headOfficeManager:
+        return const SizedBox(width: 0, height: 0,);
+      case UserTypes.fuelStationManager:
+        return _getSignUpFormForFuelStationManager();
+      case UserTypes.driver:
+        return _getSignUpFormForDriver();
+      default:
+        return const SizedBox(width: 0, height: 0,);
+    }
+  }
+
+  Widget _getSignUpFormForDriver(){
+    return Form(
+      key: _signUpFormKey,
+      child: Column(
+        crossAxisAlignment: CrossAxisAlignment.start,
+        children: [
+          _buildFullNameField(),
+          Row(
+            children: [
+              _buildAuthEmailField(),
+              // _buildDesignationField(),
+            ],
+          ),
+          Row(
+            children: [
+              _buildAuthPasswordField(),
+              // _buildPhoneNumberField(),
+            ],
+          ),
+          Row(
+            mainAxisAlignment: MainAxisAlignment.spaceBetween,
+            children: [
+              _buildDriverPlateNumberField()
+            ],
+          ),
+          // const SizedBox(height: 5.0),
+          _buildSignUpButton(),
+        ],
+      ),
+    );
+  }
+
+  Widget _getSignUpFormForFuelStationManager(){
+    return Form(
+      key: _signUpFormKey,
+      child: Column(
+        crossAxisAlignment: CrossAxisAlignment.start,
+        children: [
+          _buildFullNameField(),
+          Row(
+            children: [
+              _buildAuthEmailField(),
+              // _buildDesignationField(),
+            ],
+          ),
+          Row(
+            children: [
+              _buildAuthPasswordField(),
+              // _buildPhoneNumberField(),
+            ],
+          ),
+          Row(
+            mainAxisAlignment: MainAxisAlignment.spaceBetween,
+            children: [
+              _buildFuelStationLicenseNumberField()
+            ],
+          ),
+          // const SizedBox(height: 5.0),
+          _buildSignUpButton(),
+        ],
+      ),
+    );
+  }
+
+  Widget _getGeneralForm(){
+    return Form(
+      key: _signUpFormKey,
+      child: Column(
+        crossAxisAlignment: CrossAxisAlignment.start,
+        children: [
+          _buildFullNameField(),
+          Row(
+            children: [
+              _buildAuthEmailField(),
+              // _buildDesignationField(),
+            ],
+          ),
+          Row(
+            children: [
+              _buildAuthPasswordField(),
+              // _buildPhoneNumberField(),
+            ],
+          ),
+          // Row(
+          //   mainAxisAlignment: MainAxisAlignment.spaceBetween,
+          //   children: [
+          //     _buildNICField(),
+          //     _buildGenderField(),
+          //   ],
+          // ),
+          // const SizedBox(height: 5.0),
+          _buildSignUpButton(),
+        ],
+      ),
     );
   }
 
@@ -532,6 +630,148 @@ class _CreateAccountPageState extends State<CreateAccountPage> {
     );
   }
 
+  Widget _buildDriverPlateNumberField() {
+    return Padding(
+      padding: const EdgeInsets.all(8.0),
+      child: Column(
+        crossAxisAlignment: CrossAxisAlignment.start,
+        children: [
+          const Text(
+            "Vehicle Plate Number",
+            style: TextStyle(
+              fontSize: 14.0,
+              color: AppColors.black,
+            ),
+          ),
+          const SizedBox(height: 4.0),
+          SizedBox(
+            width: 240.0,
+            height: 35.0,
+            child: TextFormField(
+              controller: _driverPlateNumberController,
+              validator: (value) {
+                if (value == null || value.isEmpty) {
+                  return 'Field cannot be empty';
+                }
+                return null;
+              },
+              style: const TextStyle(
+                fontSize: 14.0,
+                color: AppColors.black,
+              ),
+              keyboardType: TextInputType.text,
+              // textCapitalization: TextCapitalization.words,
+              decoration: InputDecoration(
+                  fillColor: Colors.white,
+                  filled: true,
+                  hintText: "AAA0000",
+                  hintStyle: const TextStyle(
+                    color: AppColors.hintTextBlue,
+                    fontSize: 14.0,
+                  ),
+                  // prefixIcon: const Icon(Icons.mail, size: 20.0,),
+                  border: OutlineInputBorder(
+                      borderRadius: BorderRadius.circular(12.0),
+                      borderSide: const BorderSide(width: 1, color: AppColors.lightGray)),
+                  focusedBorder: OutlineInputBorder(
+                    borderSide: const BorderSide(width: 1, color: AppColors.silverPurple),
+                    borderRadius: BorderRadius.circular(12.0),
+                  ),
+                  contentPadding: const EdgeInsets.symmetric(horizontal: 10),
+                  focusedErrorBorder: OutlineInputBorder(
+                    borderSide: const BorderSide(width: 1, color: AppColors.silverPurple),
+                    borderRadius: BorderRadius.circular(12.0),
+                  ),
+                  errorBorder: OutlineInputBorder(
+                    borderSide: const BorderSide(width: 1, color: AppColors.hintTextBlue),
+                    borderRadius: BorderRadius.circular(12.0),
+                  ),
+                  errorStyle: const TextStyle(
+                    color: AppColors.hintTextBlue,
+                  )
+              ),
+              // textInputAction: TextInputAction.next,
+              onFieldSubmitted: (String value) {
+                // _authPasswordFieldFocusNode.requestFocus();
+              },
+            ),
+          ),
+        ],
+      ),
+    );
+  }
+
+  Widget _buildFuelStationLicenseNumberField() {
+    return Padding(
+      padding: const EdgeInsets.all(8.0),
+      child: Column(
+        crossAxisAlignment: CrossAxisAlignment.start,
+        children: [
+          const Text(
+            "Fuel Station License Id",
+            style: TextStyle(
+              fontSize: 14.0,
+              color: AppColors.black,
+            ),
+          ),
+          const SizedBox(height: 4.0),
+          SizedBox(
+            width: 240.0,
+            height: 35.0,
+            child: TextFormField(
+              controller: _fuelStationLicenseIdController,
+              validator: (value) {
+                if (value == null || value.isEmpty) {
+                  return 'Field cannot be empty';
+                }
+                return null;
+              },
+              style: const TextStyle(
+                fontSize: 14.0,
+                color: AppColors.black,
+              ),
+              keyboardType: TextInputType.text,
+              // textCapitalization: TextCapitalization.words,
+              decoration: InputDecoration(
+                  fillColor: Colors.white,
+                  filled: true,
+                  hintText: "MAT/2020/300",
+                  hintStyle: const TextStyle(
+                    color: AppColors.hintTextBlue,
+                    fontSize: 14.0,
+                  ),
+                  // prefixIcon: const Icon(Icons.mail, size: 20.0,),
+                  border: OutlineInputBorder(
+                      borderRadius: BorderRadius.circular(12.0),
+                      borderSide: const BorderSide(width: 1, color: AppColors.lightGray)),
+                  focusedBorder: OutlineInputBorder(
+                    borderSide: const BorderSide(width: 1, color: AppColors.silverPurple),
+                    borderRadius: BorderRadius.circular(12.0),
+                  ),
+                  contentPadding: const EdgeInsets.symmetric(horizontal: 10),
+                  focusedErrorBorder: OutlineInputBorder(
+                    borderSide: const BorderSide(width: 1, color: AppColors.silverPurple),
+                    borderRadius: BorderRadius.circular(12.0),
+                  ),
+                  errorBorder: OutlineInputBorder(
+                    borderSide: const BorderSide(width: 1, color: AppColors.hintTextBlue),
+                    borderRadius: BorderRadius.circular(12.0),
+                  ),
+                  errorStyle: const TextStyle(
+                    color: AppColors.hintTextBlue,
+                  )
+              ),
+              // textInputAction: TextInputAction.next,
+              onFieldSubmitted: (String value) {
+                // _authPasswordFieldFocusNode.requestFocus();
+              },
+            ),
+          ),
+        ],
+      ),
+    );
+  }
+
   Widget _buildNICField() {
     return Padding(
       padding: const EdgeInsets.all(8.0),
@@ -762,6 +1002,26 @@ class _CreateAccountPageState extends State<CreateAccountPage> {
   }
 
   Widget _buildSignUpButton() {
+    VoidCallback? onRegisterButtonPressed;
+
+    switch (widget.signUpUserType) {
+      case UserTypes.systemAdmin:
+      case UserTypes.fuelStationAuditManager:
+      case UserTypes.headOfficeManager:
+        onRegisterButtonPressed = null;
+        break;
+      case UserTypes.fuelStationManager:
+        onRegisterButtonPressed = onSignUpAsFuelStationManager;
+        break;
+      case UserTypes.driver:
+        onRegisterButtonPressed = onSignUpAsDriver;
+        break;
+      default:
+        onRegisterButtonPressed = null;
+        break;
+
+    }
+
     return Padding(
       padding: const EdgeInsets.all(8.0),
       child: SizedBox(
@@ -778,7 +1038,7 @@ class _CreateAccountPageState extends State<CreateAccountPage> {
             //       fontSize: 18.0,
             //     )),
           ),
-          onPressed: () {},
+          onPressed: onRegisterButtonPressed,
           child: const Text(
             "REGISTER",
             // style: const TextStyle(color: AppColors.nppPurple, fontSize: 14.0),
@@ -786,5 +1046,81 @@ class _CreateAccountPageState extends State<CreateAccountPage> {
         ),
       ),
     );
+  }
+
+  onSignUpAsDriver() async {
+    if (_signUpFormKey.currentState!.validate()) {
+      _signUpFormKey.currentState!.save();
+      var createData = CreateDriverAccount(
+        fullName: _fullNameController.text,
+        email: _authEmailAddressController.text,
+        plateNumber: _driverPlateNumberController.text,
+      );
+      var result = await GetIt.I<MainApiProvider>().registerAsDriver(createData);
+      if (result.statusCode == 200){
+        var firebaseResult = await GetIt.I<AuthService>()
+            .createFuelInUser(_authEmailAddressController.text, _authPasswordController.text);
+        if (firebaseResult){
+          MessageUtils.showSuccessInFlushBar(
+            context,
+            result.responseMessage ?? "Successfully created",
+            appearFromTop: false,
+            duration: 4,
+          );
+        } else {
+          MessageUtils.showErrorInFlushBar(
+            context,
+            "User already exist with this email in firebase",
+            appearFromTop: false,
+            duration: 4,
+          );
+        }
+      } else {
+        MessageUtils.showErrorInFlushBar(
+          context,
+          result.responseMessage ?? "Something went wrong",
+          appearFromTop: false,
+          duration: 4,
+        );
+      }
+    }
+  }
+
+  onSignUpAsFuelStationManager() async {
+    if (_signUpFormKey.currentState!.validate()) {
+      _signUpFormKey.currentState!.save();
+      var createData = CreateFuelStationManagerAccount(
+        fullName: _fullNameController.text,
+        email: _authEmailAddressController.text,
+        licenseId: _fuelStationLicenseIdController.text,
+      );
+      var result = await GetIt.I<MainApiProvider>().registerAsFuelStationManager(createData);
+      if (result.statusCode == 200){
+        var firebaseResult = await GetIt.I<AuthService>()
+            .createFuelInUser(_authEmailAddressController.text, _authPasswordController.text);
+        if (firebaseResult){
+          MessageUtils.showSuccessInFlushBar(
+            context,
+            result.responseMessage ?? "Successfully created",
+            appearFromTop: false,
+            duration: 4,
+          );
+        } else {
+          MessageUtils.showErrorInFlushBar(
+            context,
+            "User already exist with this email in firebase",
+            appearFromTop: false,
+            duration: 4,
+          );
+        }
+      } else {
+        MessageUtils.showErrorInFlushBar(
+          context,
+          result.responseMessage ?? "Something went wrong",
+          appearFromTop: false,
+          duration: 4,
+        );
+      }
+    }
   }
 }

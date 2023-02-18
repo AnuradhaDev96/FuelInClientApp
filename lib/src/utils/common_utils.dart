@@ -26,6 +26,21 @@ class CommonUtils {
     }).join('');
   }
 
+  static String generateFuelToken() {
+    const length = 8;
+    const letterLowerCase = "abcdefghijklmnopqrstuvwxyz";
+    const number = '0123456789';
+
+    String charsForPassword = "";
+    charsForPassword += letterLowerCase;
+    charsForPassword += number;
+
+    return List.generate(length, (index) {
+      final randomIndex = Random.secure().nextInt(charsForPassword.length);
+      return charsForPassword[randomIndex];
+    }).join('');
+  }
+
   static String getPasswordOnSave(String value) {
     final enc.Key key = enc.Key.fromLength(32);
     final enc.IV iv = enc.IV.fromLength(16);

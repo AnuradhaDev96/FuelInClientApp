@@ -144,6 +144,16 @@ class AuthService {
     }
   }
 
+  Future<bool> createFuelInUser(String email, String password) async {
+    var result = await _firebaseAuthWeb.createUserWithEmailAndPassword(email, password);
+    if (result.user != null) {
+      await result.user?.sendEmailVerification(DefaultFirebaseOptions.actionCodeSettings);
+      return true;
+    } else {
+      return false;
+    }
+  }
+
   Stream<QuerySnapshot<Map<String, dynamic>>> getUsersForAdminStream() {
     final Stream<QuerySnapshot<Map<String, dynamic>>> result =
     _firebaseFirestore.collection(FirestoreCollections.userCollection).snapshots();
