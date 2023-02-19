@@ -10,18 +10,18 @@ import '../../../config/language_settings.dart';
 import '../../../models/change_notifiers/application_auth_notifier.dart';
 import '../../../models/change_notifiers/side_drawer_notifier.dart';
 import '../../../models/enums/admin_screen_buckets.dart';
-import '../../../models/enums/screen_bucket_enum.dart';
+import '../../../models/enums/driver_screen_buckets.dart';
 import '../../../services/auth_service.dart';
 import '../../authentication/signin_page.dart';
 
-class FuelStationManagerSideDrawer extends StatefulWidget {
-  FuelStationManagerSideDrawer({Key? key}) : super(key: key);
+class DriverSideDrawer extends StatefulWidget {
+  DriverSideDrawer({Key? key}) : super(key: key);
 
   @override
-  State<FuelStationManagerSideDrawer> createState() => _FuelStationManagerSideDrawerState();
+  State<DriverSideDrawer> createState() => _DriverSideDrawerState();
 }
 
-class _FuelStationManagerSideDrawerState extends State<FuelStationManagerSideDrawer> {
+class _DriverSideDrawerState extends State<DriverSideDrawer> {
   final List<bool> _expansionPanelExpandStatus = <bool>[true];
   late SideDrawerNotifier _sideDrawerNotifier;
 
@@ -64,7 +64,7 @@ class _FuelStationManagerSideDrawerState extends State<FuelStationManagerSideDra
                 const Padding(
                     padding: EdgeInsets.only(top: 25.0, bottom: 8.0),
                     child: Text(
-                      "Fuel Tools",
+                      "Driver Tools",
                       style: TextStyle(
                           fontSize: 14.0,
                           fontWeight: FontWeight.w600,
@@ -77,7 +77,7 @@ class _FuelStationManagerSideDrawerState extends State<FuelStationManagerSideDra
                   child: ListTile(
                     shape: const RoundedRectangleBorder(borderRadius: BorderRadius.all(Radius.circular(10.0))),
                     // hoverColor: Colors.red,
-                    tileColor: _sideDrawerNotifier.selectedPageType == ScreenBuckets.myFuelOrders
+                    tileColor: _sideDrawerNotifier.selectedPageTypeByDriver == DriverScreenBuckets.fuelRequest
                         ? AppColors.white
                         : AppColors.darkPurple,
                     title: Row(
@@ -87,15 +87,15 @@ class _FuelStationManagerSideDrawerState extends State<FuelStationManagerSideDra
                           Assets.overviewLogoSvg,
                           width: 25 * 0.8,
                           height: 24 * 0.8,
-                          color: _sideDrawerNotifier.selectedPageTypeByAdmin == AdminScreenBuckets.overview
+                          color: _sideDrawerNotifier.selectedPageTypeByDriver == DriverScreenBuckets.fuelRequest
                               ? AppColors.darkPurple
                               : AppColors.white,
                         ),
                         const SizedBox(width: 10.0),
                         Text(
-                          "My Fuel Orders",
+                          "Fuel Request",
                           style: TextStyle(
-                              color: _sideDrawerNotifier.selectedPageTypeByAdmin == AdminScreenBuckets.overview
+                              color: _sideDrawerNotifier.selectedPageTypeByDriver == DriverScreenBuckets.fuelRequest
                                   ? AppColors.black
                                   : AppColors.white,
                               fontWeight: FontWeight.w600,
@@ -104,7 +104,7 @@ class _FuelStationManagerSideDrawerState extends State<FuelStationManagerSideDra
                       ],
                     ),
                     onTap: () {
-                      _sideDrawerNotifier.selectedPageTypeByAdmin = AdminScreenBuckets.overview;
+                      _sideDrawerNotifier.selectedPageTypeByDriver == DriverScreenBuckets.fuelRequest;
                     },
                   ),
                 ),
@@ -280,7 +280,7 @@ class _FuelStationManagerSideDrawerState extends State<FuelStationManagerSideDra
       ),
     );
   }
-  
+
   void _logOutAction() async {
     try {
       await GetIt.I<AuthService>().signOutUser().then((value) => notifyAppIsAuthenticated());
@@ -288,7 +288,7 @@ class _FuelStationManagerSideDrawerState extends State<FuelStationManagerSideDra
       return;
     }
   }
-  
+
   void notifyAppIsAuthenticated() {
     Provider.of<ApplicationAuthNotifier>(context, listen: false).setAppUnAuthenticated();
   }

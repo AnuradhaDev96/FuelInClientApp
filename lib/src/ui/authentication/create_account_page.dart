@@ -193,7 +193,7 @@ class _CreateAccountPageState extends State<CreateAccountPage> {
                         ),
                         const SizedBox(height: 35.0),
                         const Text(
-                          "We protect your home,\nfamily and company.",
+                          "Waiting in queues,\nis now over.",
                           style: TextStyle(
                             fontSize: 25.0,
                             fontWeight: FontWeight.w400,

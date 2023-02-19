@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import '../enums/driver_screen_buckets.dart';
 import '../enums/screen_bucket_enum.dart';
 
 import '../enums/admin_screen_buckets.dart';
@@ -6,9 +7,11 @@ import '../enums/admin_screen_buckets.dart';
 class SideDrawerNotifier extends ChangeNotifier {
   final GlobalKey<ScaffoldState> _scaffoldKey = GlobalKey<ScaffoldState>();
   final GlobalKey<ScaffoldState> _scaffoldKeyForAdmin = GlobalKey<ScaffoldState>();
+  final GlobalKey<ScaffoldState> _scaffoldKeyForDriver= GlobalKey<ScaffoldState>();
 
   GlobalKey<ScaffoldState> get mainScaffoldKey => _scaffoldKey;
   GlobalKey<ScaffoldState> get adminScaffoldKey => _scaffoldKeyForAdmin;
+  GlobalKey<ScaffoldState> get driverScaffoldKey => _scaffoldKeyForDriver;
 
   //general properties
   ScreenBuckets? _selectedPageType = ScreenBuckets.myFuelOrders;
@@ -47,11 +50,20 @@ class SideDrawerNotifier extends ChangeNotifier {
     notifyListeners();
   }
 
+  //driver functions
+  DriverScreenBuckets? _selectedPageTypeByDriver = DriverScreenBuckets.fuelRequest;
+  DriverScreenBuckets? get selectedPageTypeByDriver => _selectedPageTypeByDriver;
+
+
   void operateDrawer() {
     _scaffoldKey.currentState!.openDrawer();
   }
 
   void operateAdminDrawer() {
     _scaffoldKeyForAdmin.currentState!.openDrawer();
+  }
+
+  void operateDriverDrawer() {
+    _scaffoldKeyForDriver.currentState!.openDrawer();
   }
 }
