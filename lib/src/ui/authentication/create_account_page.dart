@@ -350,7 +350,7 @@ class _CreateAccountPageState extends State<CreateAccountPage> {
         crossAxisAlignment: CrossAxisAlignment.start,
         children: [
           const Text(
-            "LockHood email address",
+            "Email address",
             style: TextStyle(
               fontSize: 14.0,
               color: AppColors.black,

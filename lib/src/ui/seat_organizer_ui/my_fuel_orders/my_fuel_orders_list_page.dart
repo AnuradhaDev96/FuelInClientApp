@@ -219,7 +219,7 @@ class _MyFuelOrdersListPageState extends State<MyFuelOrdersListPage> {
     return Column(
       children: [
         Row(
-          mainAxisAlignment: MainAxisAlignment.start,
+          mainAxisAlignment: MainAxisAlignment.spaceBetween,
           children: [
             Padding(
                 padding: const EdgeInsets.only(left: 8.0, top: 15.0),
@@ -228,7 +228,6 @@ class _MyFuelOrdersListPageState extends State<MyFuelOrdersListPage> {
                       style: TextStyle(
                         fontWeight: FontWeight.bold,
                         fontSize: 16.0,
-                        fontFamily: SettingsSinhala.legacySinhalaFontFamily,
                         color: AppColors.black,
                       ),
                       children: [

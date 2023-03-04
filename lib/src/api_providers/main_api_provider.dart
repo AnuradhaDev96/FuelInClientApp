@@ -440,4 +440,38 @@ class MainApiProvider {
     }
     return null;
   }
+
+
+  // Return Status Code and Response Text
+  // Future<Tuple2<int, String>> uploadInvoiceFile({
+  //   required String emailAddress,
+  //   required String fileName,
+  //   required Uint8List fileData,
+  //   required RequestProgressCallback onSendProgress,
+  //   required String requestTransactionId,
+  // }) async {
+  //   String apiPath = ServiceEndPoint.cspServiceRoot + "/ProspectUserManagement/Registrations/$requestTransactionId";
+  //
+  //   final request = MultipartRequestExtent(
+  //     "PUT",
+  //     Uri.parse(apiPath),
+  //     onSendProgress: onSendProgress,
+  //   )
+  //     ..headers["Authorization"] = "Bearer ${GetIt.I<ApplicationBloc>().token}"
+  //     ..fields["EmailAddress"] = emailAddress
+  //     ..files.add(
+  //       new http.MultipartFile.fromBytes(
+  //         "file",
+  //         fileData,
+  //         filename: fileName,
+  //       ),
+  //     );
+  //
+  //   // Send request
+  //   var resp = await request.send();
+  //
+  //   // Read response
+  //   String responseText = await resp.stream.bytesToString();
+  //   return Tuple2(resp.statusCode, responseText);
+  // }
 }
