@@ -100,7 +100,7 @@ class MyApp extends StatelessWidget {
       ],
       child: MaterialApp(
         debugShowCheckedModeBanner: false,
-        title: 'Lock Hood Portal',
+        title: 'FuelIn Portal',
         // navigatorKey: ,
         theme: ThemeData(
           // This is the theme of your application.

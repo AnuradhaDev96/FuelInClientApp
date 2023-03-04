@@ -7,8 +7,8 @@ import '../../../models/change_notifiers/role_management_notifier.dart';
 import 'permission_management_page.dart';
 import 'role_management_list_page.dart';
 // inventory
-class RoleManagementPageView extends StatelessWidget {
-  const RoleManagementPageView({Key? key}) : super(key: key);
+class FuelStationManagementPageView extends StatelessWidget {
+  const FuelStationManagementPageView({Key? key}) : super(key: key);
 
   @override
   Widget build(BuildContext context) {
@@ -23,7 +23,7 @@ class RoleManagementPageView extends StatelessWidget {
               PointerDeviceKind.mouse,
             }),
             children: [
-              RoleManagementListPage(),
+              FuelStationsListPage(),
               PermissionManagementPage(),
             ],
           );

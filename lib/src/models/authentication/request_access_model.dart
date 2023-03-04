@@ -52,7 +52,7 @@ class RequestAccessModel {
         fullName = map["fullName"],
         phoneNumber = map["waPhoneNumber"],
         designation = map["designation"],
-        userType = AppSettings.getEnumValueFromEnglishValue(map["userType"]),
+        userType = AppSettings.getEnumValueForUserTypeString(map["userType"]),
         accessRequestStatus = map["accessRequestStatus"] == null
             ? AccessRequestStatus.pendingApproval
             : (map["accessRequestStatus"] as String).requestStatusEnumValue,

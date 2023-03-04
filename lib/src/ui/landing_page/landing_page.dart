@@ -624,7 +624,7 @@ class _LandingPageState extends State<LandingPage> {
             //       fontSize: 18.0,
             //     )),
           ),
-          onPressed: _onTapCreateAccount,
+          onPressed: _onTapRegisterStationOwner,
           child: const Text(
             "Register as Fuel Station Owner",
             style: TextStyle(fontSize: 12.0,),
@@ -657,7 +657,7 @@ class _LandingPageState extends State<LandingPage> {
             //       fontSize: 18.0,
             //     )),
           ),
-          onPressed: _onTapCreateAccount,
+          onPressed: _onTapRegisterAsDriver,
           child: const Text(
             "Register as Vehicle Owner",
             style: TextStyle(fontSize: 12.0,),
@@ -678,6 +678,24 @@ class _LandingPageState extends State<LandingPage> {
     );
   }
 
+  void _onTapRegisterStationOwner() {
+    GetIt.I<NavigationUtils>().pushNamed(
+      WebRouter.createAccountPage,
+      arguments: {
+        'signUpUserType': UserTypes.fuelStationManager,
+      },
+    );
+  }
+
+  void _onTapRegisterAsDriver() {
+    GetIt.I<NavigationUtils>().pushNamed(
+      WebRouter.createAccountPage,
+      arguments: {
+        'signUpUserType': UserTypes.driver,
+      },
+    );
+  }
+
   void _signInAction() async {
     if (_signInFormKey.currentState!.validate()) {
       _signInFormKey.currentState!.save();
@@ -686,14 +704,15 @@ class _LandingPageState extends State<LandingPage> {
         AuthenticatedUser? authenticatedUser = await GetIt.I<AuthService>().passwordLogin(_authEmailAddressController.text, _authPasswordController.text);
         if (authenticatedUser != null) {
           if (authenticatedUser.userType == UserTypes.systemAdmin) {
-            notifyAppIsAuthenticated(authenticatedUser);
+            // notifyAppIsAuthenticated(authenticatedUser);
           } else if (authenticatedUser.userType == UserTypes.fuelStationManager) {
-            notifyAppIsAuthenticated(authenticatedUser);
+            // notifyAppIsAuthenticated(authenticatedUser);
           } else {
             return;
           }
         }
       } catch (e) {
+        print("hiveException: ${e.toString()}");
         if (mounted) MessageUtils.showErrorInFlushBar(context, "Email or password is incorrect", appearFromTop: false, duration: 4);
       }
     }

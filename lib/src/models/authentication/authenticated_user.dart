@@ -19,11 +19,15 @@ class AuthenticatedUser {
   @HiveField(3)
   UserTypes userType;
 
+  @HiveField(4)
+  int userId;
+
   AuthenticatedUser({
     required this.displayName,
     required this.email,
     required this.token,
     required this.userType,
+    required this.userId
   });
 
   Map<String, dynamic> toMap(){
@@ -39,6 +43,7 @@ class AuthenticatedUser {
         displayName = map["displayName"],
         email = map["email"],
         token = map["token"],
+        userId = map["id"],
         userType = map["userType"];
 
 }

@@ -67,7 +67,7 @@ class _AdminSideDrawerState extends State<AdminSideDrawer> {
                     style: TextStyle(
                       fontSize: 14.0,
                       fontWeight: FontWeight.w600,
-                      color: AppColors.silverPurple
+                      color: AppColors.lightPurpleBackground
                     ),
                   )
                 ),
@@ -128,7 +128,7 @@ class _AdminSideDrawerState extends State<AdminSideDrawer> {
                         ),
                         const SizedBox(width: 10.0),
                         Text(
-                          "Inventory",
+                          "Fuel Stations",
                           style: TextStyle(
                               color: _sideDrawerNotifier.selectedPageTypeByAdmin == AdminScreenBuckets.inventory
                                   ? AppColors.black

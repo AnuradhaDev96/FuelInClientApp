@@ -10,16 +10,17 @@ import 'package:provider/provider.dart';
 import '../../../api_providers/main_api_provider.dart';
 import '../../../config/app_colors.dart';
 import '../../../models/authentication/system_user.dart';
+import '../../../models/fuel_in_models/fuel_station.dart';
 import '../../../models/lock_hood_models/inventory_items.dart';
 import '../../../services/auth_service.dart';
 
-class RoleManagementListPage extends StatelessWidget {
-  RoleManagementListPage({Key? key}) : super(key: key);
+class FuelStationsListPage extends StatelessWidget {
+  FuelStationsListPage({Key? key}) : super(key: key);
   final AuthService _authService = GetIt.I<AuthService>();
   final ScrollController _horizontalScrollController = ScrollController();
   final ScrollController _verticalScrollController = ScrollController();
 
-  final ValueNotifier<List<InventoryItems>> _inventoryItemsList = ValueNotifier<List<InventoryItems>>(<InventoryItems>[]);
+  final ValueNotifier<List<FuelStation>> _inventoryItemsList = ValueNotifier<List<FuelStation>>(<FuelStation>[]);
 
   @override
   Widget build(BuildContext context) {
@@ -27,8 +28,8 @@ class RoleManagementListPage extends StatelessWidget {
       children: [
         // _headerPanel(context),
         FutureBuilder(
-          future: GetIt.I<MainApiProvider>().getAllInventoryItems(),
-          builder: (BuildContext context, AsyncSnapshot<List<InventoryItems>?> snapshot) {
+          future: GetIt.I<MainApiProvider>().getAllFuelStations(),
+          builder: (BuildContext context, AsyncSnapshot<List<FuelStation>?> snapshot) {
             if (snapshot.connectionState == ConnectionState.waiting) {
               return const Center(
                 child: Padding(
@@ -45,7 +46,7 @@ class RoleManagementListPage extends StatelessWidget {
             } else if (snapshot.hasError || !snapshot.hasData || snapshot.data == null) {
               return const Center(child: Text("No data found"));
             } else if (snapshot.hasData) {
-              _inventoryItemsList.value = List<InventoryItems>.from(snapshot.data ?? <InventoryItems>[]);
+              _inventoryItemsList.value = List<FuelStation>.from(snapshot.data ?? <FuelStation>[]);
               // employeeList = snapshot.data ?? <EmployeeModel>[];
               // return ListView(
               //   shrinkWrap: true,
@@ -76,7 +77,7 @@ class RoleManagementListPage extends StatelessWidget {
                       child: SingleChildScrollView(
                         scrollDirection: Axis.horizontal,
                         controller: _horizontalScrollController,
-                        child: ValueListenableBuilder<List<InventoryItems>>(
+                        child: ValueListenableBuilder<List<FuelStation>>(
                           valueListenable: _inventoryItemsList,
                           builder: (context, snapshot, child) {
                             return Padding(
@@ -94,11 +95,12 @@ class RoleManagementListPage extends StatelessWidget {
                                 // ),
                                 columns: const [
                                   DataColumn(label: Text('Action')),
-                                  DataColumn(label: Text('Item Id')),
-                                  DataColumn(label: Text('Item Name')),
-                                  DataColumn(label: Text('Alert Margin')),
-                                  DataColumn(label: Text('Available Quantity')),
-                                  DataColumn(label: Text('Inventory Id')),
+                                  DataColumn(label: Text('Id')),
+                                  DataColumn(label: Text('District')),
+                                  DataColumn(label: Text('Local Authority')),
+                                  DataColumn(label: Text('License Id')),
+                                  DataColumn(label: Text('Address')),
+                                  DataColumn(label: Text('Population Density')),
                                 ],
                                 rows: snapshot.map((data) => _inventoryObjectItemBuilder(context, data)).toList(),
                               ),
@@ -118,7 +120,7 @@ class RoleManagementListPage extends StatelessWidget {
     );
   }
 
-  DataRow _inventoryObjectItemBuilder(BuildContext context, InventoryItems data) {
+  DataRow _inventoryObjectItemBuilder(BuildContext context, FuelStation data) {
     // final systemUser = SystemUser.fromSnapshot(data);
 
     return DataRow(cells: [
@@ -149,12 +151,13 @@ class RoleManagementListPage extends StatelessWidget {
         ),
       ),
       DataCell(Text(data.id == null ? "-" : "${data.id}")),
-      DataCell(Text(data.name ?? "-")),
+      DataCell(Text(data.district ?? "-")),
+      DataCell(Text(data.localAuthority ?? "-")),
+      DataCell(Text(data.licenseId ?? "-")),
+      DataCell(Text(data.address ?? "-")),
       // DataCell(Text(DateFormat('yyyy-MM-dd').format(reservation.checkIn!))),
       // DataCell(Text(DateFormat('yyyy-MM-dd').format(reservation.checkOut!))),
-      DataCell(Text(data.alertMargin == null ? "-" : "${data.alertMargin}")),
-      DataCell(Text(data.availableQuantity == null ? "-" : "${data.alertMargin}")),
-      DataCell(Text(data.inventoryId == null ? "-" : "${data.inventoryId}")),
+      DataCell(Text(data.populationDensity == null ? "-" : "${data.populationDensity}")),
       // DataCell(
       //   Row(
       //     children: [

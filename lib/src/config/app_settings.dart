@@ -1,4 +1,6 @@
+import '../models/enums/fuel_order_status.dart';
 import '../models/enums/kanban_status.dart';
+import '../models/enums/purchase_fuel_type.dart';
 import '../models/enums/user_types.dart';
 
 class AppSettings {
@@ -27,7 +29,7 @@ class AppSettings {
     }
   }
 
-  static UserTypes? getEnumValueFromEnglishValue(String? value) {
+  static UserTypes? getEnumValueForUserTypeString(String? value) {
     switch(value) {
       case "SystemAdmin":
         return UserTypes.systemAdmin;
@@ -62,6 +64,24 @@ class AppSettings {
       case 2: return KanBanStatus.onHold;
       case 3: return KanBanStatus.completed;
       default: return KanBanStatus.newTask;
+    }
+  }
+
+  static PurchaseFuelType? getEnumValueForPurchaseFuelTypeString(String value) {
+    switch (value) {
+      case "Petrol92": return PurchaseFuelType.petrol92;
+      case "Petrol95": return PurchaseFuelType.petrol95;
+      case "AutoDiesel": return PurchaseFuelType.autoDiesel;
+      case "SuperDiesel": return PurchaseFuelType.superDiesel;
+      default: return null;
+    }
+  }
+
+  static FuelOrderStatus? getEnumValueForFuelOrderStatusString(String value) {
+    switch (value) {
+      case "PaymentDone": return FuelOrderStatus.paymentDone;
+      case "DeliveryConfirmed": return FuelOrderStatus.deliveryConfirmed;
+      default: return null;
     }
   }
 }

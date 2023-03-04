@@ -14,6 +14,7 @@ import '../../models/authentication/lock_hood_user.dart';
 import '../../models/authentication/system_user.dart';
 import '../../services/auth_service.dart';
 import 'admin_home/admin_home.dart';
+import 'driver_home/driver_home.dart';
 import 'splash_web_screen.dart';
 
 // import 'admin_home/seat_organizer_home.dart';
@@ -75,11 +76,14 @@ class _AuthenticatedScreenProviderState extends State<AuthenticatedScreenProvide
           } else if (snapshot.hasError || !snapshot.hasData || snapshot.data == null) {
             return const SplashWebScreen();
           } else if (snapshot.hasData) {
-            UserTypes? managementType = AppSettings.getEnumValueFromEnglishValue(snapshot.data!.role);
+            UserTypes? managementType = AppSettings.getEnumValueForUserTypeString(snapshot.data!.role);
+
             if (managementType == UserTypes.systemAdmin) {
               return const AdminHome();
             } else if (managementType == UserTypes.fuelStationManager) {
-              return const SeatOrganizerHome();
+              return const FuelStationManagerHome();
+            } else if (managementType == UserTypes.driver) {
+              return const DriverHome();
             } else {
               return const SplashWebScreen();
             }
